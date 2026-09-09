@@ -1,7 +1,7 @@
 {
   "schema": "chemical-public-release-v2",
   "release_name": "chemical-engineering-skills",
-  "release_version": "0.2.0",
+  "release_version": "0.3.0",
   "scope": "reviewed_headless_offline_tools_and_knowledge",
   "skill_names": [
     "aspen-adaptive-generalization-loop",
@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "423779c9ec0545ec1cc0c1c3eb19bb6b9e71cf94b3a9a9926f07104b357b3063",
-      "bytes": 4312
+      "sha256": "a8920acb12828d9069ae6014e279078df0b8172a7f853ce0aa23fe84fa7f91c7",
+      "bytes": 5587
     },
     {
       "path": "backends/equipment/README.md",
@@ -1010,18 +1010,18 @@
     },
     {
       "path": "docs/使用手册.md",
-      "sha256": "238b68cbaedc61ebcd247d7e58a43348d2a24b710f75bca729c324015a3118e5",
-      "bytes": 13491
+      "sha256": "d6ae69b4b980f639c4597737fa6fc4e702e208fc71f2d0fa4f84cc6db8561c68",
+      "bytes": 22024
     },
     {
       "path": "docs/后台运行与计算说明.md",
-      "sha256": "5983530458088d84bf2939688543acc4fc0523663afd998c0fc87843e10b0ea0",
-      "bytes": 11018
+      "sha256": "ecfc1b77f9e717a7c8ef2e60f4afa68df2632905367d75ec1aaf6603f6dbf04f",
+      "bytes": 11867
     },
     {
       "path": "docs/外部依赖.md",
-      "sha256": "a2d6a14eee996f26d471bebede7b476bfe242098d0b011609d80878cdd605424",
-      "bytes": 4391
+      "sha256": "ea0e4048010b704d23f13273bba6f948627600fb76e19c75eba14bdefac11430",
+      "bytes": 4219
     },
     {
       "path": "docs/文件索引.md",
@@ -1030,13 +1030,18 @@
     },
     {
       "path": "docs/新增后台文件索引.md",
-      "sha256": "2d5d48a7c87ba952b1cae9db0d4776229b0eab1212573cd13f9bc62139d6a683",
-      "bytes": 191068
+      "sha256": "5924d971b757c8c3aee0990bb133b3b0170801e90e5e0714d959475d548f4878",
+      "bytes": 194989
+    },
+    {
+      "path": "docs/来源与许可.md",
+      "sha256": "98db35c0aadc8ae4532baf5c47ddf0288b8b05421366e7cffb2aa088e5962c81",
+      "bytes": 2291
     },
     {
       "path": "docs/模块说明.md",
-      "sha256": "820608f81bfc62344fb4d31975c33bddad593df105ecee45021b6a1d855e36c0",
-      "bytes": 33391
+      "sha256": "08eacd375a6e9cbca05fa1ab4142990b539965815563ba74f138788b4bb37ae1",
+      "bytes": 34808
     },
     {
       "path": "docs/源码与数据边界.md",
@@ -1049,9 +1054,14 @@
       "bytes": 8441
     },
     {
+      "path": "docs/验证记录_0.3.0.json",
+      "sha256": "170cb3f3708d223c2957b440689dbf701c578b42438c925a1c801fac39c973ff",
+      "bytes": 11577
+    },
+    {
       "path": "docs/验证说明.md",
-      "sha256": "32791941f0aa13ecf696a5db8df15e15530819a01ae4728709c6c462a6b87785",
-      "bytes": 7191
+      "sha256": "b59b707227540c74a3d63be4e42d4f4f922c8042e0e9cea3735097fa3a6568b4",
+      "bytes": 10613
     },
     {
       "path": "examples/heat_exchanger_request.json",
@@ -1064,9 +1074,24 @@
       "bytes": 494
     },
     {
+      "path": "examples/prepare_feedback_case.py",
+      "sha256": "7ad2243e140618f75d33b4f43302a28de2619f245246579e386518932d0a1f1d",
+      "bytes": 7441
+    },
+    {
+      "path": "knowledge/MAINTENANCE.md",
+      "sha256": "a285c3fab8675a387cdb6d0a59edfc16b940122ca92d337261c670cf9ae3d702",
+      "bytes": 6285
+    },
+    {
+      "path": "knowledge/OWNER_ROUTES.md",
+      "sha256": "98120bf0b4de0114d82a3da4efaed09e280a68fe76ccccc5df6b4215372d9212",
+      "bytes": 1672
+    },
+    {
       "path": "knowledge/README.md",
-      "sha256": "98fde6b63baba6d8eecf5ce1d9a1bf31a1f9c02d74ced979801e0a0b2b0b43d8",
-      "bytes": 3006
+      "sha256": "16d4e895d56e602180991aaeb1a1b800114e4cf765d3a334ce6307a39ff4c150",
+      "bytes": 3369
     },
     {
       "path": "knowledge/aspen_v10/README.md",
@@ -1085,8 +1110,8 @@
     },
     {
       "path": "knowledge/aspen_v10/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "b99a27281f69694dc8af1a95826569ff28e4013585776b5c72a1eaaed009ef74",
-      "bytes": 1504
+      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d",
+      "bytes": 1744
     },
     {
       "path": "knowledge/aspen_v10/knowledge_graph/chapter_detail_indexes/UG10-CH00_details.md",
@@ -1555,8 +1580,8 @@
     },
     {
       "path": "knowledge/chemical_principles/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "b99a27281f69694dc8af1a95826569ff28e4013585776b5c72a1eaaed009ef74",
-      "bytes": 1504
+      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d",
+      "bytes": 1744
     },
     {
       "path": "knowledge/chemical_principles/knowledge_graph/README.md",
@@ -1720,8 +1745,8 @@
     },
     {
       "path": "knowledge/equipment/00_ERROR_MEMORY.md",
-      "sha256": "9771018d146b12743ec03bddcfa3eb6e8a9df5c5a2973b941a3a7cb5fd34302c",
-      "bytes": 1069
+      "sha256": "3c0956ee8f8b361d3be5483c5ff2b99be630bd8c794b179ebef56e1dbf56d0f2",
+      "bytes": 1023
     },
     {
       "path": "knowledge/equipment/NEW_KNOWLEDGE.md",
@@ -1732,6 +1757,11 @@
       "path": "knowledge/equipment/README.md",
       "sha256": "9692252a00b8ac2140d899ca836d69c2ba86c37958363027e9c7d9e5ff004374",
       "bytes": 601
+    },
+    {
+      "path": "knowledge/learning_owner_contract.json",
+      "sha256": "1bbd67e90fd9ecd2a84838b14fd51d84111d6dacd9700c8b1ce7071a397871c3",
+      "bytes": 980
     },
     {
       "path": "knowledge/legacy-maintenance/README.md",
@@ -2195,8 +2225,8 @@
     },
     {
       "path": "knowledge/manifest.json",
-      "sha256": "16d52e9dccd4fec9b864b53e9890537ebab146d9fef76cf7157a31cb2eb7446e",
-      "bytes": 414233
+      "sha256": "457b0f94e3fad108893d2934bbfa2b1e9cc6d8f44908da273994af46315180e6",
+      "bytes": 424790
     },
     {
       "path": "knowledge/records.jsonl",
@@ -2204,24 +2234,44 @@
       "bytes": 7792070
     },
     {
+      "path": "knowledge/schemas/knowledge_intake_review.schema.json",
+      "sha256": "de0717dfcc537c789108639039af2372aa48a70543e707a501367f7b66746260",
+      "bytes": 2332
+    },
+    {
+      "path": "knowledge/schemas/knowledge_version_intake.schema.json",
+      "sha256": "4dbbc7a7d3cd3f180750522dd72056902592b4a62aa8ca16fed2c0e316594c77",
+      "bytes": 6275
+    },
+    {
       "path": "knowledge/script_source_manifest.json",
       "sha256": "567072053e01ef28c560da67efe703594ef75a11b0e5b51d254f6ffa2dbbb81d",
       "bytes": 201652
     },
     {
+      "path": "knowledge/scripts/build_knowledge_version.py",
+      "sha256": "266335549dd9d754d89b7ac05a9a2a18a292b95c6286207e7b7141bbcc7b8757",
+      "bytes": 25623
+    },
+    {
       "path": "knowledge/scripts/query_knowledge.py",
-      "sha256": "d7b99931488b87ba06dff44d27ed5db50094dee518856cf55f219c3901af1ce0",
-      "bytes": 8460
+      "sha256": "2570adc487bf4a0f76b3093ce935c1a5c2a6174a078aaa2328e9ccf0bbb4fa90",
+      "bytes": 8879
+    },
+    {
+      "path": "knowledge/scripts/resolve_knowledge_owner.py",
+      "sha256": "b83865cf4b87502757cde471e0ce24b9326af5e00b1610f54ed22da57bf2786c",
+      "bytes": 3137
     },
     {
       "path": "knowledge/scripts/vector_adapter.py",
-      "sha256": "84503ea8bbf973b12f81f78134f103535b010bd42a765ee2ce1b34f40d0d4e61",
-      "bytes": 9400
+      "sha256": "19dabf885fbedb427e154117301b03f6cb959fd0821cd79555a7810e1ef01b24",
+      "bytes": 9430
     },
     {
       "path": "knowledge/scripts/verify_knowledge.py",
-      "sha256": "f38b7a436193bf6f3b23c0d9881159a74c698d2de9fd1058b5e2fafed27e2b83",
-      "bytes": 2521
+      "sha256": "d3a0f439c0e9c63229bc58fd70b480632cc734ac9d5c827c712a998ef57b7710",
+      "bytes": 2812
     },
     {
       "path": "knowledge/sun_lanyi/knowledge_graph/00_ERROR_MEMORY.md",
@@ -2230,8 +2280,8 @@
     },
     {
       "path": "knowledge/sun_lanyi/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "b99a27281f69694dc8af1a95826569ff28e4013585776b5c72a1eaaed009ef74",
-      "bytes": 1504
+      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d",
+      "bytes": 1744
     },
     {
       "path": "knowledge/sun_lanyi/knowledge_graph/README.md",
@@ -2290,8 +2340,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/.codex-plugin/plugin.json",
-      "sha256": "1c0e0c109ae41707a3e043ff34cd90c892ef202b171af6a102e892a3fa2ce6f1",
-      "bytes": 951
+      "sha256": "f2ea258371413724918d1945d3aa67278b8940f75f80080f1ad98e4d826cc882",
+      "bytes": 999
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-adaptive-generalization-loop/SKILL.md",
@@ -3195,8 +3245,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/COMMON_SENSE_RAG.md",
-      "sha256": "b8cb7b597f71ef11856824656eda8fe55af0580573d49b16d41431ab2debcd81",
-      "bytes": 5032
+      "sha256": "4adf4c9f1eb2cf83c8794c2a24a8cac4963028afe8130393416a280dc2a6ce42",
+      "bytes": 4986
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ERROR_MEMORY.md",
@@ -3420,8 +3470,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/equipment-design-app/SKILL.md",
-      "sha256": "0e9b02c89a1c20fe38f5491f39ff566b5804cc79bbf66fd5ca120efc4f64a93f",
-      "bytes": 20145
+      "sha256": "a73a1c2b537f6c9e019a20de042a3b09778079ab9ccb7dab59fd8401dd3f278d",
+      "bytes": 20301
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/equipment-design-app/agents/openai.yaml",
@@ -3440,13 +3490,13 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/equipment-design-app/references/app_contract.md",
-      "sha256": "36fbd17efdbe57944f0cbbae07b774a7384a676e04e7583fb4903c3f7372b1eb",
-      "bytes": 15510
+      "sha256": "c6e869314c05ae1a5570dce2cf1185c1e364068f77864fba33b84852b736457f",
+      "bytes": 14550
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/equipment-design-app/references/process_feedback_bridge.md",
-      "sha256": "900906c5a59a6b0da4e82052dd77f4e546b5ec00b5fbf6e31d327ec3bca32231",
-      "bytes": 1767
+      "sha256": "5bd1855c274fa83a58f32547affa8bbe06e4af67d04d93ba0faf641fcd4f3e03",
+      "bytes": 4586
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/equipment-design-app/scripts/launch_app.ps1",
@@ -3855,8 +3905,8 @@
     },
     {
       "path": "tests/test_mcp_offline.py",
-      "sha256": "952d7f4abeeed453edaceb64b7a8da13cc23acb7c7375d71f33f9b0c4a763274",
-      "bytes": 39592
+      "sha256": "50129d15be54c25d1a078ced84e4abc7c1ae84d0757dd2f54f100b15567a60df",
+      "bytes": 41295
     },
     {
       "path": "tests/test_offline_assets.py",
@@ -3879,6 +3929,26 @@
       "bytes": 6161
     },
     {
+      "path": "tests/test_standalone_entrypoints.py",
+      "sha256": "8d0632d133c3ddb5ef7680c53799a2643b374a4373790cc3b3688d55cfaa56f3",
+      "bytes": 21198
+    },
+    {
+      "path": "tests/test_standalone_equipment.py",
+      "sha256": "f72d45afdf559be6a85bac9972d9422c162a30c4c988c354d881a26a9a686f57",
+      "bytes": 15581
+    },
+    {
+      "path": "tests/test_standalone_feedback_example.py",
+      "sha256": "e907cf5ee37919c34bd8eaa79073fd590e530eaddc7408e9b4c817af54b00d77",
+      "bytes": 11505
+    },
+    {
+      "path": "tests/test_standalone_knowledge.py",
+      "sha256": "cbab7e26ebf26d0dd8c6ac486174f6b48e127ea23403b0967a5a7f4026b291ef",
+      "bytes": 18629
+    },
+    {
       "path": "tests/test_tower_portability.py",
       "sha256": "d9ceba54d532b3cd03ed33465092335a38a0159c3aa03af8a0fcd472ba4f6989",
       "bytes": 12702
@@ -3899,14 +3969,19 @@
       "bytes": 14238
     },
     {
+      "path": "tools/equipment_gateway.py",
+      "sha256": "273bdae1ffdc9ab86d80f6b8488052e41fd2fa8fa4180881c8a9cdf9c3b3190c",
+      "bytes": 13955
+    },
+    {
       "path": "tools/expert_cli.py",
-      "sha256": "332502fd747c30885e2cc9997f41d2afea203fba0d1dd74caeae19acc35d9b8d",
-      "bytes": 7927
+      "sha256": "0eed358f4eef68a575db36a3409588a6b42b533e2215b14e2698e1f1212c380f",
+      "bytes": 10219
     },
     {
       "path": "tools/expert_mcp.py",
-      "sha256": "df5145ddb9b9dbbe3483c6adaf977b2d5b4e4962c77db8dab0de6979a417302a",
-      "bytes": 2126
+      "sha256": "20f234326920f2a48be631dd55c15def458f05dbf4b1495fa50f210c24dd9ebe",
+      "bytes": 3514
     },
     {
       "path": "tools/install.py",
@@ -3917,6 +3992,11 @@
       "path": "tools/install_offline_runtime.py",
       "sha256": "9a3cd722f259b2d99e4a2a5253388fbd26e97c24949d2da2107453b0b50008b0",
       "bytes": 14171
+    },
+    {
+      "path": "tools/product_contract.py",
+      "sha256": "af9edbc4312d276d949d466faa144358975d12e623c1b46da827d86f88b2e232",
+      "bytes": 7213
     },
     {
       "path": "tools/test_install.py",
@@ -4494,9 +4574,14 @@
       "bytes": 2795
     },
     {
+      "path": "workspace/CHEMICAL_SKILLS_INSTALLATION.json",
+      "sha256": "e976966904ccfa090a637d68c61012d63d273bbb0c1f6086d00e19e9ce9ad42d",
+      "bytes": 278
+    },
+    {
       "path": "workspace/LOCAL_KNOWLEDGE_GRAPH_LINKS.md",
-      "sha256": "5a71478b47a3e6061a7303762b69f86db5eb43948f7e3028b1ac0ab97e16211c",
-      "bytes": 4989
+      "sha256": "dc5f9c28ff067ba81545c518b5124bd86a9044d21406b3c6909cbae74ff67af6",
+      "bytes": 5009
     },
     {
       "path": "workspace/PROJECT_CHANGE_OFFSET_TABLE_TEMPLATE.md",

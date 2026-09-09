@@ -53,6 +53,8 @@ def load_records(root: Path = ROOT) -> tuple[dict, list[dict]]:
         if identity in seen or record["corpus"] not in CORPORA:
             raise ValueError("Duplicate or invalid knowledge identity")
         seen.add(identity)
+        if record.get('knowledge_layer') not in {'L3','L2','L1','L0'}:
+            raise ValueError('Unsupported knowledge layer')
         if record.get("authority_scope") != "shared" or record.get("project_value_transfer_allowed") is not False:
             raise ValueError("Unsupported project value authority in shared lookup")
         if sha256(record["text"].encode("utf-8")) != record["text_sha256"]:
@@ -84,14 +86,23 @@ def query_terms(query: str) -> list[str]:
     return list(dict.fromkeys(terms))[:24]
 
 
+def determine_mode(query: str, detail: bool = False) -> str:
+    """One intent decision shared by lexical and original hash-vector lookup."""
+    return "detail" if detail or any(term in query for term in ("公式", "计算", "数值", "多少", "kg", "kPa")) else "macro_first"
+
+
+def layer_order(mode: str) -> dict[str, int]:
+    return {layer: index for index, layer in enumerate(("L1", "L2", "L0", "L3") if mode == "detail" else ("L3", "L2", "L1", "L0"))}
+
+
 def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
            limit: int = 5, detail: bool = False, root: Path = ROOT,
            full_text: bool = False) -> dict:
     manifest, records = load_records(root)
     score_text = load_original_scorer(root)
     terms = query_terms(query)
-    mode = "detail" if detail or any(term in query for term in ("公式", "计算", "数值", "多少", "kg", "kPa")) else "macro_first"
-    order = {layer: index for index, layer in enumerate(("L1", "L2", "L0", "L3") if mode == "detail" else ("L3", "L2", "L1", "L0"))}
+    mode = determine_mode(query, detail)
+    order = layer_order(mode)
     ranked = []
     for record in records:
         if corpus != "all" and record["corpus"] != corpus:
@@ -139,7 +150,7 @@ def main(argv=None) -> int:
     try:
         if args.vector and not args.node_id:
             from vector_adapter import query as vector_query
-            result = vector_query(args.query, corpus=args.corpus, limit=args.limit, detail=args.detail)
+            result = vector_query(args.query, corpus=args.corpus, limit=args.limit, detail=args.detail, full_text=args.full_text)
         else:
             result = search(args.query, corpus=args.corpus, node_id=args.node_id, limit=args.limit, detail=args.detail, full_text=args.full_text)
     except (ValueError, OSError, KeyError, ImportError) as exc:

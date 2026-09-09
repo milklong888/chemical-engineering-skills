@@ -14,57 +14,25 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from backends.process.feedback import build_plan, audit_replay
 from backends.process import pressure
+from tools.equipment_gateway import (EquipmentSession, equipment, equipment_batch,
+                                     local_environment, describe_policy)
 
-EQUIPMENT_OPERATIONS = {"schema_get", "capabilities", "catalog", "manual_match", "manual_batch",
-                        "aspen_derive", "knowledge_search", "auto_match", "selftest"}
-
-
-def local_environment():
-    env = dict(os.environ)
-    for key in list(env):
-        if key.startswith("EQUIPMENT_DESIGN_LLM_") or key == "EQUIPMENT_BACKEND_ALLOW_COM":
-            env.pop(key)
-    env.update(PYTHONUTF8="1", PYTHONDONTWRITEBYTECODE="1")
-    return env
-
-
-def reject_remote(value):
-    if isinstance(value, dict):
-        for key, child in value.items():
-            if key.lower().replace("-", "_") in {"api_key", "password", "access_token", "llm_config", "endpoint", "base_url"}:
-                raise ValueError("This local entry does not accept remote model/secret fields")
-            reject_remote(child)
-    elif isinstance(value, list):
-        for child in value:
-            reject_remote(child)
-
-
-def equipment(request):
-    reject_remote(request)
-    if request.get("operation") not in EQUIPMENT_OPERATIONS:
-        raise ValueError("Operation not allowed here; live Aspen import requires the explicit backend --allow-com path")
-    run = subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "backends/equipment/app/equipment_design_agent.py"),
-                          "--request", "-", "--output", "-"],
-                         input=json.dumps(request, ensure_ascii=False, allow_nan=False),
-                         capture_output=True, text=True, encoding="utf-8", timeout=300,
-                         cwd=ROOT, env=local_environment())
-    try:
-        response = json.loads(run.stdout)
-    except ValueError as exc:
-        diagnostic = run.stderr[-2400:]
-        diagnostic = re.sub(r"(?:gh[pousr]_|github_pat_|sk-(?:proj-)?)[A-Za-z0-9_-]{20,}", "[redacted]", diagnostic)
-        raise ValueError(f"Equipment backend returned no JSON (exit {run.returncode}): {diagnostic}") from exc
-    return {"backend_exit_code": run.returncode, "response": response}
-
-
-def search(query, corpus="all", limit=5, vector=False, package_ids=None):
-    if not isinstance(query, str) or not query.strip() or not 1 <= limit <= 50:
-        raise ValueError("Provide a nonempty query and limit 1..50")
-    result = {"query": query, "knowledge": None, "equipment": None}
+def search(query="", corpus="all", limit=5, vector=False, package_ids=None,
+           node_id=None, detail=False, full_text=False, *, equipment_runner=None):
+    if (not isinstance(query, str) or type(limit) is not int or not 1 <= limit <= 50
+            or bool(query.strip()) == bool(node_id)):
+        raise ValueError("Provide exactly one nonempty query or node_id and limit 1..50")
+    if node_id is not None and (not isinstance(node_id, str) or not node_id.strip()
+            or corpus not in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}):
+        raise ValueError("node_id applies to the bundled concept/method/detail knowledge corpora")
+    runner = equipment_runner or equipment
+    result = {"query": query, "node_id": node_id, "knowledge": None, "equipment": None}
     if corpus in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}:
         script = ROOT / "knowledge/scripts/query_knowledge.py"
-        run = subprocess.run([sys.executable, "-X", "utf8", str(script), "--query", query,
-                              "--corpus", corpus, "--limit", str(limit), "--json", *( ["--vector"] if vector else [])],
+        arguments = ["--node-id", node_id] if node_id else ["--query", query]
+        arguments += (["--detail"] if detail else []) + (["--full-text"] if full_text else [])
+        run = subprocess.run([sys.executable, "-X", "utf8", str(script), *arguments,
+                              "--corpus", corpus, "--limit", str(limit), "--json", *(["--vector"] if vector else [])],
                              stdin=subprocess.DEVNULL,
                              capture_output=True, text=True, encoding="utf-8", timeout=90,
                              cwd=ROOT, env=local_environment())
@@ -75,7 +43,7 @@ def search(query, corpus="all", limit=5, vector=False, package_ids=None):
         except ValueError as exc:
             diagnostic = re.sub(r"(?:gh[pousr]_|github_pat_|sk-(?:proj-)?)[A-Za-z0-9_-]{20,}", "[redacted]", run.stderr[-2400:])
             raise ValueError(f"Knowledge query returned no JSON (exit {run.returncode}): {diagnostic}") from exc
-    if corpus in {"all", "equipment", "equipment_standards"}:
+    if not node_id and corpus in {"all", "equipment", "equipment_standards"}:
         if package_ids is not None and (not isinstance(package_ids, list)
                 or not package_ids or any(p not in {"equipment_core", "equipment_model_authority", "design_standards"} for p in package_ids)):
             raise ValueError("Choose registered public equipment packages")
@@ -87,7 +55,7 @@ def search(query, corpus="all", limit=5, vector=False, package_ids=None):
         request_payload = {"query": query, "limit": limit}
         if selected is not None:
             request_payload["package_ids"] = selected
-        result["equipment"] = equipment({"schema": "equipment-design-agent-request-v1",
+        result["equipment"] = runner({"schema": "equipment-design-agent-request-v1",
             "request_id": "EXPERT-KNOWLEDGE", "operation": "knowledge_search",
             "payload": request_payload})
         result["requested_equipment_packages"] = selected or "backend_default_core_and_model"
@@ -97,15 +65,40 @@ def search(query, corpus="all", limit=5, vector=False, package_ids=None):
     return result
 
 
-def execute(request, evidence_root):
+def execute(request, evidence_root, *, equipment_runner=None):
+    if not isinstance(request, dict) or not isinstance(request.get("payload", {}), dict):
+        raise ValueError("Expert request and payload must be JSON objects")
+    runner = equipment_runner or equipment
     operation = request["operation"]
     payload = request.get("payload", {})
     if operation == "search":
-        return search(**payload)
+        if "equipment_runner" in payload:
+            raise ValueError("Internal runner cannot be supplied in a request")
+        return search(**payload, equipment_runner=runner)
     if operation == "equipment":
-        return equipment(payload)
+        return runner(payload)
+    if operation == "equipment_batch":
+        requests = payload.get("requests")
+        if not isinstance(requests, list) or not requests:
+            raise ValueError("equipment_batch requires a nonempty requests array")
+        if equipment_runner is None:
+            results = equipment_batch(requests)
+        else:
+            results = []
+            for item in requests:
+                try:
+                    results.append(runner(item))
+                except (ValueError, OSError, TypeError, TimeoutError) as exc:
+                    results.append({"backend_exit_code": 2, "response": None,
+                                    "gateway_error": {"code": type(exc).__name__, "message": str(exc)}})
+        return {"results": results, "request_count": len(results), "engineering_accepted": False}
+    if operation in {"capabilities", "schema"}:
+        from tools.product_contract import describe, schema
+        return describe(runner) if operation == "capabilities" else schema(payload["schema_id"], runner)
     if operation == "feedback":
-        calculation = equipment(payload["selector_request"])
+        if not all(key in payload for key in ("selector_request", "context")):
+            raise ValueError("feedback requires selector_request and context; use --schema process-feedback and examples/prepare_feedback_case.py")
+        calculation = runner(payload["selector_request"])
         if calculation["backend_exit_code"] != 0:
             return {**calculation, "plan": None, "status": "BACKEND_REQUEST_NOT_COMPLETED"}
         plan = build_plan(calculation["response"], payload["context"], evidence_root)
@@ -126,22 +119,45 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--request", type=Path)
+    entry = parser.add_mutually_exclusive_group(required=True)
+    entry.add_argument("--request", help="Expert JSON request path, or - for stdin")
+    entry.add_argument("--query")
+    entry.add_argument("--node-id")
+    entry.add_argument("--describe", action="store_true", help="Discover actual local operations, schemas and installed paths")
+    entry.add_argument("--schema", help="Product schema ID or an original equipment schema ID")
+    entry.add_argument("--session-jsonl", action="store_true", help="One expert request/response per line; one lazy equipment worker")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--evidence-root", type=Path)
-    parser.add_argument("--query")
     parser.add_argument("--corpus", default="all")
     parser.add_argument("--limit", type=int, default=5)
     parser.add_argument("--vector", action="store_true", help="Use the bundled original hash-vector retrieval adapter")
+    parser.add_argument("--detail", action="store_true")
+    parser.add_argument("--full-text", action="store_true")
     args = parser.parse_args()
     try:
-        if args.query:
-            result = search(args.query, args.corpus, args.limit, args.vector)
+        if args.session_jsonl:
+            if args.output:
+                raise ValueError("JSONL session writes responses to stdout, not --output")
+            with EquipmentSession() as session:
+                for line in sys.stdin:
+                    if not line.strip():
+                        continue
+                    try:
+                        result = execute(json.loads(line), args.evidence_root or Path.cwd(), equipment_runner=session.request)
+                    except (ValueError, OSError, KeyError, TypeError, TimeoutError) as exc:
+                        result = {"status": "NOT_COMPLETED", "error": str(exc)}
+                    print(json.dumps(result, ensure_ascii=False, allow_nan=False), flush=True)
+            return 0
+        if args.query or args.node_id:
+            result = search(args.query or "", args.corpus, args.limit, args.vector,
+                            node_id=args.node_id, detail=args.detail, full_text=args.full_text)
+        elif args.describe or args.schema:
+            result = execute({"operation": "schema" if args.schema else "capabilities",
+                              "payload": {"schema_id": args.schema}}, args.evidence_root or Path.cwd())
         elif args.request:
-            result = execute(json.loads(args.request.read_text(encoding="utf-8-sig")),
-                             args.evidence_root or args.request.resolve().parent)
-        else:
-            parser.error("--request or --query is required")
+            request_path = None if args.request == "-" else Path(args.request)
+            content = sys.stdin.read() if request_path is None else request_path.read_text(encoding="utf-8-sig")
+            result = execute(json.loads(content), args.evidence_root or (request_path.resolve().parent if request_path else Path.cwd()))
         content = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -150,7 +166,7 @@ def main():
         else:
             print(content, end="")
         return 0
-    except (ValueError, OSError, KeyError, TypeError, subprocess.TimeoutExpired) as exc:
+    except (ValueError, OSError, KeyError, TypeError, TimeoutError, subprocess.TimeoutExpired) as exc:
         print(json.dumps({"status": "NOT_COMPLETED", "error": str(exc)}, ensure_ascii=False))
         return 2
 

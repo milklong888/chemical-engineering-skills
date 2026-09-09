@@ -3,12 +3,12 @@ name: equipment-design-app
 description: Run the bundled headless equipment-design backend for parameter derivation, family and type selection, standards lookup, optional isolated Aspen import, deterministic replay and evidence-bound feedback into process design. Preserve original formula and rule provenance; GUI software is not required.
 ---
 
-# Equipment Design App
+# Equipment Calculation and Selection
 
-Use the original deterministic equipment implementation through its headless
-JSON interface. This skill is the workflow adapter; it does not outrank the
-graph, formulas or current-project authority. The name is retained for stable
-routing, not as a requirement to install a desktop application.
+Use this product's deterministic equipment engine through JSON, CLI or MCP.
+The engine, rules, structured database and schemas are included in this
+repository. This workflow does not outrank current-project authority or
+physical constraints. No other repository or desktop application is required.
 
 ## Start
 
@@ -18,9 +18,11 @@ routing, not as a requirement to install a desktop application.
    read its `README.md` and `knowledge_graph/README.md`.
 3. Read [references/ERROR_MEMORY.md](references/ERROR_MEMORY.md), then [references/app_contract.md](references/app_contract.md).
 4. Read [references/NEW_KNOWLEDGE.md](references/NEW_KNOWLEDGE.md) only when recently ingested application knowledge is relevant.
-5. Use `app/equipment_design_agent.py` under that backend root. No GUI/EXE is
-   distributed or required. Inspect `capabilities`, `catalog` and `schema_get`
-   before building a request; keep same-process JSONL sessions for batches.
+5. Use `tools/expert_cli.py --describe` under the runtime root, then discover
+   the original `catalog` and `schema_get` contracts through its `equipment`
+   operation. The bundled `app/equipment_design_agent.py` is the underlying
+   engine, not a separately installed application. Keep one JSONL session or
+   MCP lifespan for repeated requests. No GUI/EXE is distributed or required.
 
 ## Agent-first execution
 
@@ -28,11 +30,11 @@ routing, not as a requirement to install a desktop application.
 
 When checking a built process or changed process parameters/modules, use the
 chemical expert's `references/PROCESS_EQUIPMENT_FEEDBACK.md`. In this workspace,
-the packaged bridge is `tools/expert_cli.py` under the runtime root. Its
-`feedback` operation calls the preserved 2.4.0 backend then builds an
-evidence-bound process plan. Data projections and backend source have separate
-new identities linked to the original source; do not relabel them as unchanged
-upstream binaries. Keep legacy maintenance sources out of default execution.
+the unified entry is `tools/expert_cli.py` under the runtime root. Its
+`feedback` operation calculates equipment, binds same-case inputs and constraints,
+then builds a process revision plan. Data and algorithms have explicit version
+identities; use those identities in the result. Source-maintenance tools are
+separate from routine equipment execution.
 
 Return parameter/formula/rule provenance, attributable capacity or physical
 diagnostics, catalog/evidence gaps, and adjustment-plan hashes to process design.
@@ -43,15 +45,17 @@ changed and rerun; no-match, a default terminal form, or open vendor evidence
 alone must not trigger blind splitting or imply whole-process acceptance.
 See `references/process_feedback_bridge.md` for invocation and return paths.
 
-Create an `equipment-design-agent-request-v1` JSON object, invoke
-`equipment_design_agent.py --request <path> --output <path> --pretty`, and parse
-the `equipment-design-agent-response-v1` result. For repeated calls, start
-`python equipment_design_agent.py --session-jsonl` once and exchange one UTF-8
-request/response object per line. Runtime verification, catalog loading and one
-API instance are reused; retain each response's own exit code. A failed line
-must not stop or contaminate later equipment. Close stdin to finish the session.
+Create an `equipment-design-agent-request-v1` JSON object as the `payload` of
+an expert request with `operation: equipment`; invoke `tools/expert_cli.py
+--request <path>`. The response retains the original
+`equipment-design-agent-response-v1`. `equipment_batch` accepts `requests[]`;
+`tools/expert_cli.py --session-jsonl` accepts one complete expert request per line.
+Runtime verification, catalog loading and one API instance are reused. Retain
+each response's own exit code; a bad request must not erase later valid results.
+Close stdin to finish the session. Direct backend commands remain available
+for its explicitly scoped software/provider interfaces.
 
-Use `capabilities`, `schema_get`, or `catalog` to discover operations, exact JSON contracts, and per-equipment fields before constructing requests. Use `manual_batch` for multiple manual records and `aspen_import` for full block/stream traversal. Preserve the returned request hash, exit code, errors, and artifact paths. For Agent/CLI calls, read API keys only from the fixed `EQUIPMENT_DESIGN_LLM_API_KEY` environment variable and remote compatible endpoints only from `EQUIPMENT_DESIGN_LLM_BASE_URL`; reject request-level endpoint or environment-variable overrides, and never place a key in JSON.
+Use `capabilities`, `schema_get`, or `catalog` to discover operations, exact JSON contracts, and per-equipment fields before constructing requests. Use `manual_batch` for multiple manual records. Preserve the returned request hash, exit code, errors, and artifact paths. The unified local gateway exposes 18 registered local operations; `aspen_import`, `hybrid_run` and legacy `llm_review` are separate, explicitly authorized routes, not automatic dependencies. For an authorized direct provider call, read keys only from `EQUIPMENT_DESIGN_LLM_API_KEY` and endpoints only from `EQUIPMENT_DESIGN_LLM_BASE_URL`; never put credentials in JSON. Local prepare/continue/apply need no provider connection.
 
 For a machine-readable Aspen flowsheet, call `pfd_build` with a read-only
 `aspen-equipment-export-v1` `bundle_path`. Use `pfd_override` with the current
@@ -64,17 +68,13 @@ row in `values`. Omit blank fields to retain Aspen/existing values; use
 changed block, then keep incident streams and immediate upstream/downstream
 blocks stale until they are replayed separately. Never write the mapping or
 parameter layer over the bundle/BKP, and never treat a user type/parameter
-override as mechanical-design or model evidence. Consume the frozen
-compact/standard/detailed display contract: standard is the default canvas and
-compresses equipment ID, source module type, mapped type, and selection state
-into two non-overlapping lines. A pipeline normally shows only its stream ID and
-adds a compact type/model result only when the deterministic result actually
-exists. Open full parameters in the left-click detail surface rather than
-dumping them onto the PFD. Build the right-click type menu from the current
-catalog, keep overrides in a separate layer, and invalidate stale selection
-overlays before recalculation. Every row in the parameter-supplement dialog must
-have a transient `ⓘ` explanation covering its existing value, blank behavior,
-unit, formula consumer, and evidence boundary.
+override as mechanical-design or model evidence. Keep the compact/standard/detailed
+data projections as optional information-density choices. Preserve complete
+parameters in JSON and build permitted type overrides from the current catalog.
+No left-click, right-click, canvas or other GUI operation is part of this Skill's
+execution path. Invalidate stale selection overlays before recalculation. Parameter metadata must explain existing values,
+blank behavior, units, dependent formulas and evidence boundaries. These are
+machine-readable data requirements, not a requirement to operate a dialog.
 
 Route every new model-assisted call through protocol `1.9` rather than the legacy one-shot review path. Its primary model role is calculation assistance and avoidable-stop reduction; output composition and review are secondary:
 
@@ -99,14 +99,14 @@ Enforce this order for every family:
 
 `raw/Aspen values -> normalization -> family -> all closable calculations -> equipment-design-parameter-package-v1 -> checks -> selection_feature_vector -> candidate matching -> evidence promotion`.
 
-Read `设备设计选型工作包/knowledge_graph/equipment_parameter_chain_templates.json` for the 17 family layouts and `equipment_model_recommendation_rules.json` for candidate classes and gates. Require every derived target to appear in `derived_parameters` and the parameter package before selection. Verify that `model_recommendation.selection_execution.context_sha256` equals the package selection-context hash.
+Read `knowledge_graph/equipment_parameter_chain_templates.json` under the resolved backend root for the 17 family layouts and `equipment_model_recommendation_rules.json` for candidate classes and gates. Require every derived target to appear in `derived_parameters` and the parameter package before selection. Verify that `model_recommendation.selection_execution.context_sha256` equals the package selection-context hash.
 
 Partial input must return the known parameter rows, candidate family, minimum missing sets, next fields, and a deterministic most-general model/engineering-specification candidate for every physical equipment record. It may not promote that screening candidate to a catalog/vendor final choice until the candidate feature vector and same-equipment evidence gates are ready. Never map a screening result to a final result: calculated pipe diameter is not selected DN; a GB/T pump marking is not a vendor model; a custom tower or vessel uses an engineering designation rather than an invented commercial model.
 
 ## Route the input
 
 - Aspen file: copy the source, hash it, open the staged copy in an isolated worker, traverse every block/stream, preserve raw paths/units/status/connectivity, generate the deterministic `aspen_pfd_mapping.json`, and pass the export to `aspen_equipment_derivation.py`. Treat `NOT_RUN/NORESULTS` Output zero/blank-unit nodes as unavailable placeholders, not process zeros. Apply deliberately broad non-design hard-sanity ranges to finite Aspen flow, mass-flow, heat-duty, power, area and geometry values; isolate sentinel-scale values and mass/volume/density conflicts as field-local diagnostics before the parameter package, formulas and designation are built. Preserve the physical equipment identity and most-general candidate. Classify exact `FSPLIT`/`MIXER`/`HIERARCHY` blocks as non-equipment simulation logic nodes by default: retain their PFD/connectivity/override surface, but never invent an independent physical device or model, and exclude only those exact records from the equipment-closure aggregate. When run is requested, use only the staged copy, capture and hash the finalized raw `.his` through an isolated SaveAs, and retain REP/SUM/MSG as diagnostics; without clean raw-history evidence the process basis remains provisional. COM is optional; its absence must never block the other routes.
-- Manual input: select the Aspen module or generic equipment family and expose one physical parameter per input box. Run `equipment_design_match.py` without a model or network.
+- Manual input: select the Aspen module or equipment family and provide one explicit physical quantity per JSON field. Run the deterministic matcher without a remote model or network.
 - LLM-assisted calculation/review: require a human-configured endpoint profile/model/key for remote calls. Keep the key outside request artifacts. Use protocol 1.9 first to close simple missing inputs through allowlisted recipes and program recalculation, then to upgrade a visible terminal default through a registered condition/rule and deterministic replay, and finally for semantic extraction, textual conditions, ambiguity handling, graph-retrieval planning, output organization, or audit. Descriptive changes and candidate references remain approval-bound.
 - Knowledge lookup: query the workspace vector index when present; otherwise use the bundled deterministic graph search. Do not invent an unindexed route.
 

@@ -86,8 +86,8 @@ def build(root: Path = ROOT) -> dict:
     return config
 
 
-def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT) -> dict:
-    from query_knowledge import load_records, query_terms
+def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT, full_text=False) -> dict:
+    from query_knowledge import load_records, query_terms, determine_mode, layer_order
     import numpy as np
     if not query.strip():
         raise ValueError("Non-empty query is required")
@@ -131,13 +131,15 @@ def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT)
             continue
         row = dict(by_identity[(doc["corpus"], doc["node_id"])])
         row.update(score=score, provenance_path={"corpus": row["corpus"], "node_id": row["node_id"], "source": row["source"], "public_path": row["public_path"]})
-        row["text_is_excerpt"] = len(row["text"]) > 1600
-        row["text"] = row["text"][:1600]
+        row["text_is_excerpt"] = not full_text and len(row["text"]) > 1600
+        if row['text_is_excerpt']:
+            row["text"] = row["text"][:1600]
         results.append(row)
-    order = {key: i for i, key in enumerate(("L1", "L2", "L0", "L3") if detail else ("L3", "L2", "L1", "L0"))}
+    mode = determine_mode(query, detail)
+    order = layer_order(mode)
     results.sort(key=lambda row: (order[row["knowledge_layer"]], -row["score"], row["node_id"]))
     return {"schema": "offline-knowledge-query-v1", "query": query, "corpus": corpus,
-            "retrieval_method": "existing_workspace_hash_vector_and_routes", "mode": "detail" if detail else "macro_first",
+            "retrieval_method": "existing_workspace_hash_vector_and_routes", "mode": mode,
             "matched_count": len(results), "results": results[:max(1, min(limit, 100))],
             "routes": [route["name"] for route in selected_routes], "remote_payload_available": False,
             "current_project_authority": False, "project_value_transfer_allowed": False, "learning_event": False,

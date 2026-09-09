@@ -12,5 +12,6 @@
 - `learning_event`: false
 - `candidates`: []
 
-中央治理：[进化闭环](../../../plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/EVOLUTION_LOOP.md)、[严格验收与学习](../../../plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md)。先读本图谱既有错误入口，不另造规则 owner。
+中央唯一责任为逻辑 owner `chemical-engineering-expert`；按 [安装无关治理路由](../../OWNER_ROUTES.md) 定位其真实进化/严格验收文件。先读本图谱既有错误入口，不另造规则 owner。
 
+用户明确要求的外部资料增补可以在维护任务中登记X类来源候选，不必等待该资料维护任务结束。逐节点来源、许可和独立review必须覆盖全部变更；仅从任务经验提炼的两通道候选适用上述结束、谱系和质量门。未准入节点不进入默认检索向量，独立候选版本不等于发布或晋升。

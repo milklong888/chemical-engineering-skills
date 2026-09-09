@@ -1,0 +1,7 @@
+{
+  "schema": "chemical-skills-installation-paths-v1",
+  "workspace_root": "{CHEM_WORKSPACE}",
+  "skills_root": "{CHEM_SKILLS}",
+  "runtime_root": "{CHEM_WORKSPACE}/chemical-engineering-runtime",
+  "purpose": "Explicit installation paths, not proof of engineering acceptance"
+}

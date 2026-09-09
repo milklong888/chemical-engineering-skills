@@ -1,0 +1,25 @@
+{
+  "schema": "knowledge-learning-owner-contract-v1",
+  "files": [
+    {
+      "path": "chemical-engineering-expert/scripts/evaluate_learning_eligibility.py",
+      "sha256": "c4e6378026217f12a0ba52e6f1e7606932f14d91ef51c05a7364cdf36c7c700d"
+    },
+    {
+      "path": "chemical-engineering-expert/scripts/assess_evolution_candidate.py",
+      "sha256": "c59c3c12eed6e58cb4b5f575f5fdd137bab3862c421bf624bba2b5d962b85e46"
+    },
+    {
+      "path": "chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md",
+      "sha256": "ad4ccdbb75a3c5dc4686611f7b056cfa89a7a0a86ec2763e5046ed231ad105a7"
+    },
+    {
+      "path": "aspen-document-driven-flowsheet/scripts/learning_admission.py",
+      "sha256": "6fc5c27ba95b8d104e4cdaa7141ef3a64d148a41ee81110b500553eed371129e"
+    },
+    {
+      "path": "aspen-plus-operations/scripts/aspen_evidence.py",
+      "sha256": "a2af20fb4444dde9dbcbd69e343f01d3aa908265bf7efe764d3422505acf7a27"
+    }
+  ]
+}

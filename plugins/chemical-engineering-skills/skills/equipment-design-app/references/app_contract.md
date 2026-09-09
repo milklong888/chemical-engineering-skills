@@ -1,22 +1,24 @@
-# 设备设计应用契约
+# 设备计算、选型与结果协议
 
 ## 权威与包含关系
 
-`设备设计图谱与脚本 -> 知识图谱 + 确定性脚本 -> Windows 应用 / equipment-design-app skill / 其他调用适配器`
+`本Skill的专业工作流 -> 包内设备规则/数据/计算 -> CLI或MCP -> 同版结果与流程反馈`
 
-应用只编排既有版本化规则、设备选型图谱和脚本。大模型没有主匹配权。
+本文件中app/、scripts/、knowledge_graph/等路径均相对于本仓库
+`backends/equipment/`，安装后位于工作区的
+`chemical-engineering-runtime/backends/equipment/`。不需要安装另一个设备产品。
+确定性程序执行版本化规则、参数推导和选择，大模型不替代主匹配计算。
 
 ## Agent 原生控制
 
-- 主入口：`设备设计选型工作包/app/equipment_design_agent.py`。
+- 主入口：`app/equipment_design_agent.py`。
 - 请求/响应：`equipment-design-agent-request-v1` / `equipment-design-agent-response-v1`。
-- 支持 JSON 文件、单请求 stdin/stdout、驻留 `--session-jsonl`、PowerShell 包装器、独立控制台 EXE，以及窗口版 EXE 的文件参数。连续设备请求必须优先复用一个驻留进程：运行资产验签、设备目录和同一 API 实例每进程只加载一次；每行仍有独立响应和 `exit_code`，单行失败不得终止后续设备。
+- 支持JSON文件、单请求stdin/stdout和驻留`--session-jsonl`。统一入口为运行根目录的`tools/expert_cli.py`及`tools/expert_mcp.py`。连续设备请求复用一个驻留进程：运行资产验签、设备目录和同一API实例每进程只加载一次；每行有独立响应和退出状态，单行失败不得终止后续设备。
 - GUI 只是服务层客户端；Agent 的数据输入输出不得依赖鼠标、坐标、OCR 或窗口可见性。
 - 每次响应必须给出请求哈希、操作名、明确状态、引擎版本、结果、工件路径、错误码和进程退出码。
-- 打包版必须在任何操作前校验 `runtime_asset_manifest.json` 的精确路径集合、大小、SHA-256 与标准 SQLite 完整性/表计数；缺失、篡改或额外资产均以退出码 `9` fail closed。源码树明确标为 `NOT_APPLICABLE_SOURCE_TREE`，不得伪装成已校验打包资产。
-- Agent/CLI 的 LLM Key 只从固定 `EQUIPMENT_DESIGN_LLM_API_KEY` 读取；远程兼容端点只从固定 `EQUIPMENT_DESIGN_LLM_BASE_URL` 读取。每个启用的调用配置还必须含有用户可编辑、非空并实际传入请求的 `model_id`（Agent 默认从固定 `EQUIPMENT_DESIGN_LLM_MODEL_ID` 读取，GUI 可在进程内编辑）；不得以代码中的隐藏默认模型代替配置。请求不能选择其他环境变量或携带远程 `base_url`，Key 不得进入请求/响应工件。
+- 本仓库的设备后台在调用前校验自身源与运行资产清单：精确路径集合、大小、SHA-256和标准SQLite完整性/表计数。缺失、篡改或额外必需资产必须失败；不能以旧源码树的非适用标签跳过本包验证。
+- Agent/CLI 的 LLM Key 只从固定 `EQUIPMENT_DESIGN_LLM_API_KEY` 读取；远程兼容端点只从固定 `EQUIPMENT_DESIGN_LLM_BASE_URL` 读取。每个启用的调用配置还必须含有用户可编辑、非空并实际传入请求的 `model_id`（受控远程调用从固定 `EQUIPMENT_DESIGN_LLM_MODEL_ID` 读取）；不得以代码中的隐藏默认模型代替配置。请求不能选择其他环境变量或携带远程 `base_url`，Key 不得进入请求/响应工件。
 - `render_report` 只接收可重放的 `input.operation + input.payload`，先由当前确定性引擎复算，再由展示层输出 `equipment-design-presentation-v1` 和可选 HTML；裸结果/响应被拒绝，展示层自身不得计算或改状态。
-- 窗口版 EXE 的 `render_report` 文件调用可追加 `--report-status <path>`，输出只读的 `equipment-design-report-status-v1`。它仅核对请求/响应身份、确定性展示、非空设备参数内容、报告工件标记与 SHA-256；不得绕过运行时资产验签、确定性计算、批准或证据门。
 - `customer_export` 使用相同重放契约，输出权威总表、族级数据表和证据索引；缺字段必须显式保留，标准参考路线不得写成已采用标准，候选标记不得写成厂家最终型号。
 - `pfd_build` / `aspen.pfd.build` 从只读 `aspen-equipment-export-v1` 文件构建确定性 PFD；`pfd_override` / `aspen.pfd.override` 只接受目录内 selection ID，`AUTO` 清空该模块的类型改写并恢复自动识别。`pfd_recalculate` / `aspen.pfd.recalculate` 至少接收 `bundle_path + block_id`，调用方必须传回上次响应的完整 `parameter_overrides` 状态，本次非空补录放入 `values`；`clear=true` 清空该设备的参数补录。三者不得覆盖 bundle/BKP，也不得把改型或补录当机械设计、厂家证据或型号证据。
 
@@ -29,22 +31,20 @@
 不得生成专用 selection ID。
 
 精确 `FSPLIT`、`MIXER`、`HIERARCHY` 是默认模拟拓扑节点，必须标为
-`NOT_APPLICABLE_SIMULATION_LOGIC_NODE` 并保留 PFD、连接、左键参数和右键
-override；不得推断独立物理设备或型号。仅这类精确且未被用户改型的记录可从
+`NOT_APPLICABLE_SIMULATION_LOGIC_NODE`并保留PFD、连接、参数及独立override
+数据；不得推断独立物理设备或型号。仅这类精确且未被用户改型的记录可从
 设备闭合聚合门排除，其他未匹配模块仍阻断正式流程基础。
 
 参数补录层按 `block_id` 独立保存，留空字段不写入 `values`，继续沿用 Aspen/
 已有值。确定性重放只把当前设备标为已重算；关联流股和直接上下游继续标为
-`stale`，等各自重放后才恢复。补录窗口每一行必须有 `ⓘ` 临时说明，明确已有
-值、留空行为、单位、公式消费者和“补录本身不是正式证据”的边界。
+`stale`，等各自重放后才恢复。参数字段应携带已有值、空值语义、单位、公式
+消费者和证据边界；说明随结构化数据传递，不依赖弹窗。
 
-PFD 机器协议保留 `compact`、`standard`、`detailed` 三级显示。默认
-`standard` 将设备 ID、源模块类别、映射类型和选型状态压成两条不重叠的工程
-标签；流股作为管道通常只显示 ID，只有确定性类型/型号结果真实存在时才追加
-紧凑结果。完整参数仍在 JSON 中，左键后进入参数卡。画布不得默认堆叠全部
-参数。右键菜单必须从当前 catalog 构造；改型前清除旧类型的选型覆盖，再只让
-当前模块、关联流股和直接上下游待复算，无关节点保持稳定。override 独立存储，
-不得回写 BKP。
+PFD机器协议保留`compact`、`standard`、`detailed`三级信息密度。
+节点包含设备ID、源模块、映射类型和选择状态；边保留流股ID、方向与连接。
+完整参数始终在JSON中，不能靠界面读取补齐。修改型式只能使用当前catalog
+中的selection ID；旧选择结果失效后，明确标记当前设备及相关流股和上下游
+待复算，无关节点保持稳定。override独立存储，不得回写BKP。
 
 ### 协议 1.9 的受控 AI 辅助计算与编排链
 
@@ -81,8 +81,8 @@ hybrid_prepare(input.operation + input.payload)
 ## 三种导入方式
 
 1. Aspen `.bkp/.apw/.inp`：可选 COM；独立子进程、外层超时、源文件只读复制、逐模块遍历、全过程留痕。
-2. 手动输入：先选模块/设备族，再按字段逐项输入；每个框只承载一个参数和一个明确单位。
-3. LLM 辅助：用户自行提供进程外 API 配置；端点、密钥和 `model_id` 三者缺一时不得发起远程调用，配置区必须明确显示可编辑的模型 ID，而不是隐式使用代码默认值。通过协议 1.9 的确定性重放、冻结上下文和严格 JSON，先补齐可由登记配方闭合的数据；仍缺失时，只对登记的预选字段给出带依据、假设、上下界/登记枚举、置信度和敏感性的最后一级工程估算，由程序校核、带入并重算，同时在终表注明。模型还可把无条件默认型式升级为当前上下文明确支持的登记条件型式，再完成语义抽取、文字条件判断、歧义处理、图谱检索规划、输出编排或审核。程序保留初算和复算结果；API 配置不完整时前两种方式完整可用。
+2. 手动输入：先选模块/设备族，再按JSON字段逐项给值，数量与单位/基准明确对应。
+3. LLM 辅助：用户自行提供进程外 API 配置；端点、密钥和 `model_id` 三者缺一时不得发起远程调用，必须显式提供模型ID，不能隐式使用代码默认值。通过协议 1.9 的确定性重放、冻结上下文和严格 JSON，先补齐可由登记配方闭合的数据；仍缺失时，只对登记的预选字段给出带依据、假设、上下界/登记枚举、置信度和敏感性的最后一级工程估算，由程序校核、带入并重算，同时在终表注明。模型还可把无条件默认型式升级为当前上下文明确支持的登记条件型式，再完成语义抽取、文字条件判断、歧义处理、图谱检索规划、输出编排或审核。程序保留初算和复算结果；API 配置不完整时前两种方式完整可用。
 
 Aspen 未运行或 `compstatus` 含 `NOT_RUN/NORESULTS` 时，Output 节点的零值/空单位是占位而不是工程数据，必须略过；连接和模块语义仍可用于 PFD。请求运行时只运行哈希一致的隔离副本，COM 树读取后用隔离 `SaveAs` 捕获 `.his`，并保留 REP/SUM/MSG 诊断。无带哈希原始历史或历史门不全零时，推导最多 provisional。
 
@@ -103,21 +103,19 @@ Aspen 未运行或 `compstatus` 含 `NOT_RUN/NORESULTS` 时，Output 节点的�
 - 液透平 `ΔP/(ρg)`、`ΔP·Q` 和乘效率结果分别只代表压差水头分量、压差功率分量和轴功初筛，不得写成全机总轴功或最终机组选型。塔 `πDi²/4` 只代表全筒截面积，不代表扣除降液管、受液板和无效区后的有效面积。
 - 膜面积内置几何式只适用于 `cylindrical_channels`；其他几何必须提供同工况外部 `membrane_area_m2`。材料默认可见但属于可选偏好，不填时保留泛用候选和证据缺口。
 
-## 本工作区入口
+## 本仓库的后台文件
 
-- 总包：`设备设计选型工作包/README.md`
-- 应用：`设备设计选型工作包/app/equipment_design_app.py`
-- 图谱：`设备设计选型工作包/knowledge_graph/README.md`
-- Aspen 推导链：`设备设计选型工作包/knowledge_graph/aspen_equipment_derivation_chain.md`
-- 匹配器：`设备设计选型工作包/scripts/equipment_design_match.py`
-- Aspen 适配器：`设备设计选型工作包/scripts/aspen_equipment_derivation.py`
-- 启动器：`设备设计选型工作包/run_equipment_design_app.ps1`
-- 打包器：`设备设计选型工作包/build_equipment_design_app.ps1`
-- Agent CLI：`设备设计选型工作包/app/equipment_design_agent.py`
-- 参数模板：`设备设计选型工作包/knowledge_graph/equipment_parameter_chain_templates.json`
-- 展示适配器：`设备设计选型工作包/app/result_presentation.py`
-- 客户输出剖面：`设备设计选型工作包/knowledge_graph/equipment_customer_output_profiles.json`
-- 客户交付适配器：`设备设计选型工作包/app/customer_delivery.py`
-- Agent Schema：`设备设计选型工作包/app/schemas/`
-- PFD 映射核心：`设备设计选型工作包/app/aspen_pfd.py`
-- PFD Schema：`设备设计选型工作包/app/schemas/equipment_design_pfd_mapping.schema.json`
+- 总包：`README.md`
+- 内部API适配器：`app/equipment_design_app.py`（不是GUI启动器）
+- 图谱：`knowledge_graph/README.md`
+- Aspen 推导链：`knowledge_graph/aspen_equipment_derivation_chain.md`
+- 匹配器：`scripts/equipment_design_match.py`
+- Aspen 适配器：`scripts/aspen_equipment_derivation.py`
+- Agent CLI：`app/equipment_design_agent.py`
+- 参数模板：`knowledge_graph/equipment_parameter_chain_templates.json`
+- 展示适配器：`app/result_presentation.py`
+- 客户输出剖面：`knowledge_graph/equipment_customer_output_profiles.json`
+- 客户交付适配器：`app/customer_delivery.py`
+- Agent Schema：`app/schemas/`
+- PFD 映射核心：`app/aspen_pfd.py`
+- PFD Schema：`app/schemas/equipment_design_pfd_mapping.schema.json`

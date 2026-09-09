@@ -1,0 +1,95 @@
+"""Discover this product's real interfaces without guessing a user's home paths."""
+from __future__ import annotations
+
+import inspect
+import json
+from pathlib import Path
+
+from backends.process import pressure
+from tools.equipment_gateway import describe_policy
+
+ROOT = Path(__file__).resolve().parents[1]
+PRESSURE_METHODS = ("liquid_pipe_loss", "series_pressure", "compressor_train",
+                    "equal_ratio_initializer", "parallel_distribution")
+
+
+def skill_location():
+    relative = "equipment-design-app/SKILL.md"
+    bundled = ROOT / "plugins/chemical-engineering-skills/skills" / relative
+    if bundled.is_file():
+        return {"available": True, "path": str(bundled), "basis": "bundled_product_skill"}
+    receipt = ROOT.parent / "CHEMICAL_SKILLS_INSTALLATION.json"
+    if receipt.is_file():
+        paths = json.loads(receipt.read_text(encoding="utf-8-sig"))
+        if (paths.get("schema") == "chemical-skills-installation-paths-v1"
+                and Path(paths.get("runtime_root", "")).resolve() == ROOT.resolve()
+                and Path(paths.get("workspace_root", "")).resolve() == ROOT.parent.resolve()):
+            candidate = Path(paths["skills_root"]) / relative
+            return {"available": candidate.is_file(), "path": str(candidate),
+                    "basis": "explicit_installation_paths", "receipt": str(receipt)}
+    return {"available": False, "path": None, "basis": "no_explicit_product_skill_path",
+            "effect": "Skill guidance unavailable; bundled deterministic backend remains callable"}
+
+
+def backend_request(operation, payload=None):
+    return {"schema": "equipment-design-agent-request-v1", "request_id": "PRODUCT-DISCOVERY",
+            "operation": operation, "payload": payload or {}}
+
+
+def describe(runner):
+    original = runner(backend_request("capabilities"))
+    return {"schema": "chemical-engineering-product-capabilities-v1",
+            "product": "chemical-engineering-skills", "standalone_product": True,
+            "other_repositories_required": False, "gui_required": False,
+            "skill": skill_location(), "equipment_gateway": describe_policy(),
+            "original_backend_capabilities": original,
+            "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
+            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "capabilities", "schema"],
+            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit"],
+            "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
+                          "query_modes": ["lexical", "hash_vector", "exact_node_id"],
+                          "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
+            "examples": ["examples/heat_exchanger_request.json", "examples/parallel_pressure_request.json", "examples/prepare_feedback_case.py"],
+            "runtime_boundary": {"python_required": True, "core_calculation_network_required": False,
+                                 "vector_requires_numpy": True, "mcp_requires_bundled_dependencies": True,
+                                 "licensed_software_needed_for_actual_Aspen_EDR_SW6": True},
+            "engineering_accepted": False}
+
+
+def schema(schema_id, runner):
+    if schema_id == "expert-request":
+        return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
+                "required": ["operation", "payload"], "properties": {
+                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "capabilities", "schema"]},
+                    "payload": {"type": "object"}},
+                "description": "equipment payload is an original Agent request; equipment_batch payload has requests[]. Use original schema_get IDs for detailed backend inputs."}
+    if schema_id == "pressure-methods":
+        methods = {}
+        for name in PRESSURE_METHODS:
+            function = getattr(pressure, name)
+            signature = inspect.signature(function)
+            methods[name] = {"signature": str(signature), "description": inspect.getdoc(function),
+                             "required_inputs": [key for key, parameter in signature.parameters.items()
+                                                 if parameter.default is inspect.Parameter.empty]}
+        return {"schema": schema_id, "operation": "pressure", "payload": {"method": "registered method name", "inputs": "named parameters in the signatures"},
+                "methods": methods, "source": "backends/process/pressure.py", "acceptance": "declared-basis calculation, not equipment rating or actual process simulation"}
+    if schema_id == "process-feedback":
+        return {"schema": schema_id, "operation": "feedback", "required_payload": ["selector_request", "context"],
+                "selector_request": "Original equipment Agent request; same-case canonical source/authority must bind its values, units and equipment family.",
+                "context": {"case_id": "current case identity", "run_id": "current export run identity",
+                    "source_export": {"path": "canonical-export.json", "sha256": "actual file SHA-256"},
+                    "authority": {"path": "authority.json", "sha256": "actual file SHA-256"},
+                    "equipment_map": "Optional physical equipment identity mapping when required by the project; unique equipment_tag binding does not require this field",
+                    "topology": "Declared nodes and directed edges; pressure/recycle effects can propagate both ways",
+                    "constraint_evidence": "Per-equipment hash-bound reviewed constraints with exact current value and applicable limit sources",
+                    "configuration_checks": "Per-equipment registered pressure methods with explicit input_basis"},
+                "source_schemas": ["equipment-process-canonical-export-v1", "equipment-process-authority-v1", "equipment-process-limit-v1"],
+                "example_generator": "examples/prepare_feedback_case.py --output-dir <new-directory>",
+                "validator_owner": "backends/process/feedback.py", "engineering_accepted": False,
+                "scope": "Discovery contract, not a substitute for source-binding/applicability validators. Missing engineering evidence stays local; no automatic model mutation."}
+    if schema_id == "process-replay-audit":
+        return {"schema": schema_id, "operation": "replay_audit", "required_payload": ["plan", "replay"],
+                "evidence_root": "Explicit directory of hash-bound current model and domain receipts",
+                "validator_owner": "backends/process/feedback.py:audit_replay",
+                "boundary": "Only registered validators verify a gate. Labels, synthetic examples and self-declared passed booleans do not prove a real flowsheet passed."}
+    return runner(backend_request("schema_get", {"schema_id": schema_id}))

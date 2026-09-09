@@ -324,8 +324,35 @@ def objects(value, path=''):
 async def main():
     output, repository = Path(sys.argv[1]), Path(sys.argv[2])
     expected = sorted(['knowledge_search', 'equipment_calculate', 'pressure_calculate',
-                       'process_feedback', 'process_replay_audit'])
-    bootstrap = "import sitecustomize; assert sitecustomize.GUARD_ACTIVE; import runpy,sys; from pathlib import Path; sys.path.insert(0,str(Path(sys.argv[1]).parent)); runpy.run_path(sys.argv[1],run_name='__main__')"
+                       'process_feedback', 'process_replay_audit', 'equipment_batch', 'product_describe'])
+    bootstrap = r"""
+import sitecustomize,runpy,sys,subprocess
+from pathlib import Path
+assert sitecustomize.GUARD_ACTIVE
+sitecustomize.negative_controls()
+target=Path(sys.argv[1]);root=target.parent.parent
+sys.path.insert(0,str(root));sys.path.insert(0,str(target.parent))
+import tools.equipment_gateway as gateway
+guard_file=str(Path(sitecustomize.__file__).resolve())
+child="import importlib.util,runpy,sys; from pathlib import Path; spec=importlib.util.spec_from_file_location('explicit_mcp_child_guard',sys.argv[1]); guard=importlib.util.module_from_spec(spec); spec.loader.exec_module(guard); assert guard.GUARD_ACTIVE; guard.negative_controls(); target=sys.argv[2]; sys.argv=[target,*sys.argv[3:]]; sys.path.insert(0,str(Path(target).parent)); runpy.run_path(target,run_name='__main__')"
+original_command=gateway._command
+def command(environment):
+    argv=original_command(environment)
+    assert Path(argv[-2]).resolve()==gateway.AGENT.resolve()
+    return argv[:-2]+['-c',child,guard_file,str(gateway.AGENT),'--session-jsonl']
+gateway._command=command
+original_run=subprocess.run
+def run(argv,*args,**kwargs):
+    if isinstance(argv,list) and '-c' not in argv:
+        for index,value in enumerate(argv):
+            if str(value)==str(root/'knowledge/scripts/query_knowledge.py'):
+                assert kwargs.get('stdin')==subprocess.DEVNULL
+                argv=argv[:index]+['-c',child,guard_file,str(value),*argv[index+1:]]
+                break
+    return original_run(argv,*args,**kwargs)
+subprocess.run=run
+sys.argv=[str(target)];runpy.run_path(str(target),run_name='__main__')
+"""
     params = StdioServerParameters(command=sys.executable,
         args=['-B', '-c', bootstrap, str(repository / 'tools/expert_mcp.py')],
         env=dict(os.environ), cwd=str(output))
@@ -592,7 +619,11 @@ def integration(runtime: Path, toolkit: Path, output: Path, *, server_mode: str 
     resultpath = output / 'protocol_result.json'
     protocol = json.loads(resultpath.read_text(encoding='utf-8')) if resultpath.exists() else {}
     process_snapshot_unchanged = sorted(before, key=lambda p: p['Id']) == sorted(after, key=lambda p: p['Id'])
-    expected_process_count = (6 if knowledge_ready else 3) if server_mode == 'expert' else 2
+    # Expert: client + server + one resident equipment worker; knowledge-ready
+    # adds one vector-query worker (standards use the resident equipment worker).
+    # Every child loads the test guard explicitly even
+    # though production correctly removes inherited PYTHONPATH.
+    expected_process_count = (4 if knowledge_ready else 3) if server_mode == 'expert' else 2
     passed = (returncode == 0 and not timed_out and process_snapshot_unchanged and expert_sources_unchanged
               and not remaining_owned and len(ready) == expected_process_count
               and {'network_blocked', 'com_blocked'}.issubset(controls)

@@ -1,0 +1,347 @@
+{
+  "schema": "chemical-release-validation-v1",
+  "release": "0.3.0",
+  "date": "2026-09-10",
+  "record_scope": "release_software_audit",
+  "learning_eligible": false,
+  "default_retrieval_eligible": false,
+  "engineering_accepted": false,
+  "aspen_started": false,
+  "gui_required": false,
+  "other_repositories_required": false,
+  "regression": {
+    "suite_count": 17,
+    "test_instances": 312,
+    "passed_instances": 310,
+    "skipped_private_evidence": 2,
+    "passed": true,
+    "scope": "Includes the six synthetic feedback example tests; do not count those twice.",
+    "suites": [
+      {
+        "name": "public_contract",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "711cac81de8126a532d0e0535e928e7d8b63bb2847c0f89bd6363fc504939fc1"
+      },
+      {
+        "name": "public_connection",
+        "tests": 6,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "a02c53a779a5f590360623dc8e4b163bdba318e461267b73bbd82534a30841bb"
+      },
+      {
+        "name": "binary_assets",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "f9deda4301d2cfdeae52e37717a6d021fc10f60885688d48fc56d4ab0ca93de9"
+      },
+      {
+        "name": "equipment",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "1d726b3ac54f36b3bb3e75660b327353041d05da0e310e89e555cf7e3f889da1"
+      },
+      {
+        "name": "tower",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "1840c3d7d009f2c6e0e4f8d33df75859afa115d50523293528b28b76630518ba"
+      },
+      {
+        "name": "two_section",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "a6db40f3e2e0390ed6f0f0f6f4ade650fa8ce32ac308a12c53686d98306e23f8"
+      },
+      {
+        "name": "installation",
+        "tests": 28,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "146b7f513ad9d64abf7fe59a48bfaad3d04b4a3b426f61f54b192e229e764d15"
+      },
+      {
+        "name": "aspen_parser",
+        "tests": 31,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "2605bc3c070ca2f397b83b53dd4725cecc77d82f3617d857407fde5529c7bdeb"
+      },
+      {
+        "name": "history_encoding",
+        "tests": 14,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "d69d5b9ddfcb3e29ee7fee64a130a81919686a2de1478f89b9871867b5692203"
+      },
+      {
+        "name": "f1",
+        "tests": 11,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "3b0bdb7cdfbb1c22ef3b0c422677650f118181f97c47bd3f72675e01a0841217"
+      },
+      {
+        "name": "windows_ownership",
+        "tests": 5,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "2f2993f1f2fc4bd0939e0f7a72277a4f6328da9bb2efafc857fed11e85c6828d"
+      },
+      {
+        "name": "feedback_integrity",
+        "tests": 38,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "f11b30562e5a957e405258cb3c1e99d61b96301f07a60bb031cce884300b103b"
+      },
+      {
+        "name": "mcp_installer",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "cdd85973f2c999e646a9f82307b6b57620174f7891f609ce609d9941b8e6527a"
+      },
+      {
+        "name": "learning_cli",
+        "tests": 24,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "730ee575ef1129d3d9d145a1b8fdad296b19aac94e5a3e30775050602326e473"
+      },
+      {
+        "name": "aspen_owned_runtime",
+        "tests": 21,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "b36371c23111e8826b904eb07b996ee43cb1a5d5ac51cdd5456384c9199a4580"
+      },
+      {
+        "name": "learning_eligibility",
+        "tests": 18,
+        "skipped": 2,
+        "passed": true,
+        "log_sha256": "541de0cfb90946afb342a5920358e218de6466088a9da3b7a313ab039dcf6615"
+      },
+      {
+        "name": "evolution_forward",
+        "tests": 38,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "35e918edd637e67778d1e491e2fa66de53bab42b99c536947ea14f0689bd39fd"
+      }
+    ]
+  },
+  "standalone_gateway": {
+    "tests_run": 18,
+    "tests_passed": 18,
+    "gateway_sha256": "273BDAE1FFDC9AB86D80F6B8488052E41FD2FA8FA4180881C8A9CDF9C3B3190C",
+    "test_sha256": "F72D45AFDF559BE6A85BAC9972D9422C162A30C4C988C354D881A26A9A686F57",
+    "original_schema_count": 24,
+    "local_canonical_operations": 18,
+    "local_registered_aliases": 16,
+    "backend_source_and_data_unchanged": true
+  },
+  "standalone_entrypoints": {
+    "tests_run": 7,
+    "tests_passed": 7,
+    "mcp_tool_count": 7,
+    "mcp_transactions": 8,
+    "test_sha256": "8D0632D133C3DDB5EF7680C53799A2643B374A4373790CC3B3688D55CFAA56F3",
+    "coverage": [
+      "CLI capability discovery and real registered backend schema ID/hash",
+      "18 local operations and 16 aliases mapped to the actual original registry",
+      "CLI lexical/exact node/detail/full-text/vector queries",
+      "CLI resident same PID, invalid input and forged report rejection, failure continuation, EOF",
+      "all seven real MCP tools with shared resident worker",
+      "50 square metre synthetic exchanger arithmetic oracle",
+      "same-case synthetic input binding, no revision without limits, empty replay gates rejected",
+      "synthetic explicit installation receipt path and mismatched receipt refusal",
+      "independently active child guards and network/COM/source-read negative controls"
+    ]
+  },
+  "knowledge_lifecycle": {
+    "tests_run": 25,
+    "passed": true,
+    "baseline_unchanged": true,
+    "test_file_sha256": "cbab7e26ebf26d0dd8c6ac486174f6b48e127ea23403b0967a5a7f4026b291ef",
+    "manifest_before_sha256": "457b0f94e3fad108893d2934bbfa2b1e9cc6d8f44908da273994af46315180e6",
+    "manifest_after_sha256": "457b0f94e3fad108893d2934bbfa2b1e9cc6d8f44908da273994af46315180e6",
+    "knowledge_manifest_sha256": "457b0f94e3fad108893d2934bbfa2b1e9cc6d8f44908da273994af46315180e6",
+    "evidence_sha256": "0117415ff44a953151c63cd851e203b1c3801ff463e61dfcefe80ab7890ec825"
+  },
+  "isolated_install": {
+    "passed": true,
+    "managed_file_count": 881,
+    "installed_bytes_unchanged": true,
+    "runtime_source_unchanged": true,
+    "guard_limitations": "Explicit Python host/worker audit hooks; not an OS sandbox for hostile native code. pip independently uses no-index and require-hashes.",
+    "guarded_process_count": 49,
+    "unexpected_guard_events": [],
+    "remaining_owned_processes": [],
+    "offline_wheels": 71,
+    "evidence_sha256": "1631af5fe57be9b5e9acec66fb76111ed5f59fde70d3dd068008cff2f16806f4",
+    "steps": [
+      {
+        "name": "01_verify",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 5.10096280000289
+      },
+      {
+        "name": "02_install_plan",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 5.8046233999994
+      },
+      {
+        "name": "03_install",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 12.77131830000144
+      },
+      {
+        "name": "04_reused_offline_dependencies",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 0.22442020000016782
+      },
+      {
+        "name": "05_seven_tool_entrypoints",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 28.728454999996757
+      },
+      {
+        "name": "06_full_feedback_examples",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 15.54649139999674
+      },
+      {
+        "name": "07_standard_database",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 3.3763438999958453
+      },
+      {
+        "name": "08_macro_vector",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 2.567767400003504
+      },
+      {
+        "name": "09_owner_0",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 0.3138374999980442
+      },
+      {
+        "name": "09_owner_1",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 0.3509459999986575
+      },
+      {
+        "name": "09_owner_2",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 0.3671505000020261
+      },
+      {
+        "name": "10_installed_strict_parser",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 0.27966700000251876
+      },
+      {
+        "name": "11_source_candidate_build",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 24.682562499998312
+      },
+      {
+        "name": "12_candidate_verify",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 2.010922399997071
+      },
+      {
+        "name": "13_candidate_exact_node",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 2.2643902999989223
+      },
+      {
+        "name": "14_candidate_vector",
+        "exit_code": 0,
+        "expected_exit": 0,
+        "elapsed_s": 3.4131460999997216
+      },
+      {
+        "name": "15_path_final_preflight",
+        "exit_code": 2,
+        "expected_exit": 2,
+        "elapsed_s": 4.571263000005274
+      },
+      {
+        "name": "16_path_staging_preflight",
+        "exit_code": 2,
+        "expected_exit": 2,
+        "elapsed_s": 4.177176800003508
+      }
+    ]
+  },
+  "windows_path_regression": {
+    "passed": true,
+    "evidence_sha256": "e807fc971196a9251beb195008285fec60df0616e350a01a23e840d1ecc39c2d",
+    "scope": "Actual formerly failing depth replay plus preflight rejection of genuinely excessive paths; no system setting changed and no source removed."
+  },
+  "private_source_equivalence": {
+    "tests": 38,
+    "passed": true,
+    "scope": "Maintainer source-equivalence audit with private originals; not deployed offline dependency verification",
+    "assertions_weakened": false,
+    "suites": [
+      {
+        "suite": "original_knowledge_21",
+        "tests": 21,
+        "passed": true,
+        "source_test_sha256": "f32b23a83799798ca3d6690640180ad28b539f65f7ced5b8f6aa0f35814b6f7a",
+        "log_sha256": "910cf2f7671c7b4e4835938994779a7b90e3cdaf2a26aa6854de9bd6d3b7a95b"
+      },
+      {
+        "suite": "original_maintenance_profiles_9",
+        "tests": 9,
+        "passed": true,
+        "source_test_sha256": "5927aaaf2f7e3142d57e8b050d90dfc17238d7df1070418a5881ecb69461f7d5",
+        "log_sha256": "c6ed8a1d6f29f91bb42b2d3c0d2bc390157515d35b101938263418b24d73c496"
+      },
+      {
+        "suite": "original_section_mapping_8",
+        "tests": 8,
+        "passed": true,
+        "source_test_sha256": "0192e7f80dcf52c1bf85a7c59ac608bcd1e7eb156a16d8b6c7708f3ae3a47005",
+        "log_sha256": "ff6b84116cb4c7f8410b4d42d5ba00c59fd746000dc9dac87646e4943759204b"
+      }
+    ]
+  },
+  "metadata": {
+    "passed": true,
+    "python_files_parsed": 281,
+    "handbook_local_links_checked": 950,
+    "missing_links": []
+  },
+  "limits": [
+    "CPython 3.14 Windows AMD64 is the complete offline dependency target.",
+    "CLI/MCP tests use synthetic inputs; no real Aspen/EDR/SW6 or vendor engineering acceptance is claimed.",
+    "Private-source preservation checks are not runtime dependencies.",
+    "Python audit hooks are not an operating-system sandbox for arbitrary hostile native code."
+  ]
+}

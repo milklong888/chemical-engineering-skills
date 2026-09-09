@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Complete hash-bound per-node independent review; not automatic promotion",
+  "type": "object",
+  "required": [
+    "schema",
+    "intake_sha256",
+    "changes_sha256",
+    "reviewer_id",
+    "changes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "knowledge-intake-review-v1"
+    },
+    "intake_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "changes_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "reviewer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "required": [
+          "change_sha256",
+          "decision",
+          "source_sha256",
+          "text_sha256",
+          "knowledge_layer",
+          "distribution_scope",
+          "basis",
+          "evidence"
+        ],
+        "properties": {
+          "change_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "decision": {
+            "enum": [
+              "admit_source_candidate",
+              "hold"
+            ]
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "text_sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "knowledge_layer": {
+            "enum": [
+              "L3",
+              "L2",
+              "L1",
+              "L0"
+            ]
+          },
+          "distribution_scope": {
+            "enum": [
+              "local_only",
+              "redistributable"
+            ]
+          },
+          "basis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

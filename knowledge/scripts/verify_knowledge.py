@@ -34,10 +34,14 @@ def verify(root: Path = ROOT) -> dict:
     try:
         _, records = load_records(root)
         counts = {name: sum(r["corpus"] == name for r in records) for name in ("chemical_principles", "sun_lanyi", "aspen_v10")}
-        if counts != {"chemical_principles": 23, "sun_lanyi": 396, "aspen_v10": 6454}:
+        declared = manifest.get("corpus_record_counts")
+        if not isinstance(declared, dict) or counts != declared:
             problems.append("corpus identity count mismatch")
     except (OSError, ValueError, KeyError) as exc:
         problems.append(str(exc)); counts = {}
+    actual={p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()
+            and p != root/'manifest.json' and '__pycache__' not in p.parts and p.suffix != '.pyc'}
+    problems.extend('unmanifested file: '+p for p in sorted(actual-paths))
     return {"status": "pass" if not problems else "fail", "verified_files": len(paths),
             "corpus_record_counts": counts, "problems": problems, "raw_source_pages_verified": False,
             "aspen_engineering_acceptance_verified": False, "network_used": False}

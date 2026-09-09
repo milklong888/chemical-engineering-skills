@@ -23,7 +23,7 @@
 | 原设备图谱/标准事实 | `backends/equipment/knowledge_graph/`与`backends/equipment/data/` | 保持原单位、适用分类、QA和消费者范围。 |
 | 设备选型器 | `backends/equipment/app/equipment_design_agent.py` | 原JSON接口，先计算后选择；COM单独显式允许。 |
 | 设备结果返回工艺模型 | `backends/process/feedback.py` | 有来源超限才生成修改候选；模型实施与同版复算仍须专业工作流。 |
-| 本地MCP连接 | `tools/expert_mcp.py` | 五项无界面查询/计算/反馈工具；不自动启动Aspen。 |
+| 本地MCP连接 | `tools/expert_mcp.py` | 七项无界面发现/查询/计算/反馈工具；不自动启动Aspen。 |
 | 原Aspen MCP封装 | `vendor/aspen-mcp-toolkit/run_offline_mcp.py` | 可选70工具；工程操作仍受输入、会话所有权和交付约束。 |
 
 专业技能中保留的旧图谱名称先按此表解析，不在缺少原目录时重新造图谱或仅返回
@@ -37,7 +37,9 @@ NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口�
 各知识corpus的`knowledge_graph/00_ERROR_MEMORY.md`和`NEW_KNOWLEDGE.md`分别
 作为错误优先检查与新知识待审入口。设备图谱的治理入口在`knowledge/equipment/`，
 实际算法/数据库仍只有上表中的原后台一个owner。运行资产已冻结，不能边查询边
-追加新事实；用户关闭当前任务后按中央进化流程审查，在新版本重建并验签后更新。
+追加新事实。普通来源资料用 `knowledge/scripts/build_knowledge_version.py` 在
+独立候选目录审核、重建与核验；任务经验须另在用户关闭当前任务后按中央进化
+流程审查。两条路径都不自动覆盖活动库。
 
 ## 可选本地资料接入
 
@@ -49,7 +51,7 @@ NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口�
 | Aspen操作知识 | 相应版本的卡片、字段、模型和运行方法。 | 软件版本、合法帮助位置、实际字段核对。 |
 | 设备与标准图谱 | 设备身份、公式族、参数来源和适用标准。 | 标准版本、公式单位、设备和工况适用范围。 |
 | 项目专用图谱 | 当前项目的原始要求、已采用方案和同案证据。 | 项目身份、访问范围、当前权威、允许的查询范围。 |
-| 设备选型器 | 参数推导、候选匹配和结果审查。 | 程序提交、数据包版本、接口命令和输入输出结构。 |
+| 项目设备补充资料 | 同设备厂家曲线、报价、材料及软件结果。 | 设备身份、适用工况、版本、来源和验收状态。 |
 
 将实际路径写入本地`assets.local.json`或项目自己的资产表，原始资料就地保留。
 不要将该本地配置或数据提交到公开仓库。读取资源前核对其来源和用途；宏观问题
@@ -62,10 +64,5 @@ NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口�
 目录，只索引适用的技能与已授权资料。源电脑私有全局索引不分发；随包
 `knowledge/vectors/`是从经审查公开原节点实际生成的独立索引，不是空配置。
 
-外部工程入口：
-
-- <https://github.com/milklong888/chemical-engineering-rag-kg>
-- <https://github.com/milklong888/equipment-design-selector>
-
-未出现在随包清单的其他项目图谱仍是外部依赖。用本地资产表明确其位置、权限
+未出现在随包清单的项目专用资料是显式项目输入。用本地资产表明确其位置、权限
 与范围；没有原始资料时不得将引用描述为已核验。

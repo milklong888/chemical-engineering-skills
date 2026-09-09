@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Explicit knowledge source or task-experience intake; candidate construction only",
+  "type": "object",
+  "required": [
+    "schema",
+    "base_manifest_sha256",
+    "intake_kind",
+    "proposer_id",
+    "changes"
+  ],
+  "properties": {
+    "schema": {
+      "const": "knowledge-version-intake-v1"
+    },
+    "base_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "intake_kind": {
+      "enum": [
+        "direct_source",
+        "task_experience"
+      ]
+    },
+    "proposer_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "required": [
+          "operation",
+          "origin_kind",
+          "relaxation_applied",
+          "record",
+          "source",
+          "license"
+        ],
+        "properties": {
+          "operation": {
+            "enum": [
+              "add",
+              "supersede"
+            ]
+          },
+          "origin_kind": {
+            "enum": [
+              "external_source",
+              "task_experience"
+            ]
+          },
+          "relaxation_applied": {
+            "type": "boolean"
+          },
+          "record": {
+            "type": "object",
+            "required": [
+              "node_id",
+              "corpus",
+              "title",
+              "text",
+              "knowledge_layer",
+              "evidence_class",
+              "authority_scope",
+              "project_value_transfer_allowed",
+              "units_basis",
+              "applicability",
+              "forbidden_transfer"
+            ],
+            "properties": {
+              "node_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "corpus": {
+                "enum": [
+                  "chemical_principles",
+                  "sun_lanyi",
+                  "aspen_v10"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "knowledge_layer": {
+                "enum": [
+                  "L3",
+                  "L2",
+                  "L1",
+                  "L0"
+                ]
+              },
+              "evidence_class": {
+                "const": "X"
+              },
+              "authority_scope": {
+                "const": "shared"
+              },
+              "project_value_transfer_allowed": {
+                "const": false
+              },
+              "units_basis": {
+                "type": "string",
+                "minLength": 1
+              },
+              "applicability": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "forbidden_transfer": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "source": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256",
+              "source_id",
+              "locator"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
+              },
+              "source_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "license": {
+            "type": "object",
+            "required": [
+              "distribution_scope",
+              "basis"
+            ],
+            "properties": {
+              "distribution_scope": {
+                "enum": [
+                  "local_only",
+                  "redistributable"
+                ]
+              },
+              "basis": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "supersedes": {
+            "type": "object",
+            "required": [
+              "corpus",
+              "node_id",
+              "text_sha256"
+            ],
+            "properties": {
+              "corpus": {
+                "enum": [
+                  "chemical_principles",
+                  "sun_lanyi",
+                  "aspen_v10"
+                ]
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "text_sha256": {
+                "type": "string",
+                "pattern": "^[a-fA-F0-9]{64}$"
+              }
+            }
+          },
+          "experience": {
+            "type": "object",
+            "properties": {
+              "lineage_manifest": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{64}$"
+                  }
+                }
+              },
+              "candidate_review": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{64}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
