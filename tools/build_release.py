@@ -66,7 +66,7 @@ def sealed_release_metadata(repository: Path) -> tuple[list, list]:
     data = manifest_path.read_bytes()
     v.public_text(v.MANIFEST, data)
     manifest = json.loads(data)
-    if not isinstance(manifest, dict) or manifest.get("schema") != "chemical-public-release-v1":
+    if not isinstance(manifest, dict) or manifest.get("schema") not in {"chemical-public-release-v1", "chemical-public-release-v2"}:
         raise v.ReleaseError("Cannot reuse scope from an unsupported release manifest")
     dependencies = manifest.get("external_dependencies", [])
     templates = manifest.get("synthetic_templates", [])

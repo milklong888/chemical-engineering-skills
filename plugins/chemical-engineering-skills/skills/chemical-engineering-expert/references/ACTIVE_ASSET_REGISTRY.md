@@ -21,13 +21,27 @@
 | chemical-engineering-expert | 设计基准、宏观方案、证据和方法审查 | [SKILL.md](../../chemical-engineering-expert/SKILL.md) |
 | chemical-equipment-selection-audit | 设备选型计算和来源审查 | [SKILL.md](../../chemical-equipment-selection-audit/SKILL.md) |
 | chemical-tower-design | 塔工艺设计、负荷和设备资料 | [SKILL.md](../../chemical-tower-design/SKILL.md) |
-| equipment-design-app | 独立设备选型器的调用合同 | [SKILL.md](../../equipment-design-app/SKILL.md) |
+| equipment-design-app | 随包无界面设备后台的调用合同 | [SKILL.md](../../equipment-design-app/SKILL.md) |
 | subagent-dispatch | 独立事实任务分工与结果归并 | [SKILL.md](../../subagent-dispatch/SKILL.md) |
 | sw6-scripted-equipment-design | SW6输入和结果的接口审查 | [SKILL.md](../../sw6-scripted-equipment-design/SKILL.md) |
 
 每个模块的references/ERROR_MEMORY.md保存检查规则，NEW_KNOWLEDGE.md保存
 新增方法的状态。备份与发行副本不建立第二套活动权威。
 
-原始化工资料、商业软件帮助、设备标准与项目图谱均为可选本地资产；位置、版本、
-来源和项目范围按工作区LOCAL_KNOWLEDGE_GRAPH_LINKS.md登记。公开仓库不预置
-这些资料，缺少依赖时明确列出所影响的任务，不使用其他项目数值补齐。
+## 随包图谱及其治理入口
+
+后台根目录为`{CHEM_WORKSPACE}/chemical-engineering-runtime`，以下位置相对此根。
+先读各图谱的错误记忆，再按最高充分层检索；新知识先登记候选与来源，不能直接
+追加到已签名的运行数据库或向量矩阵。
+
+| 图谱 | 原节点与查询资料 | 错误/新知识入口 |
+| --- | --- | --- |
+| 化工原理 | `knowledge/chemical_principles/knowledge_graph/` | 同目录`00_ERROR_MEMORY.md`、`NEW_KNOWLEDGE.md` |
+| 孙兰义方法图谱 | `knowledge/sun_lanyi/knowledge_graph/` | 同目录`00_ERROR_MEMORY.md`、`NEW_KNOWLEDGE.md` |
+| Aspen V10操作细节 | `knowledge/aspen_v10/knowledge_graph/` | 同目录`00_ERROR_MEMORY.md`、`NEW_KNOWLEDGE.md` |
+| 设备规则及标准事实 | `backends/equipment/knowledge_graph/`、`backends/equipment/data/` | `knowledge/equipment/00_ERROR_MEMORY.md`路由到已有专业owner，`knowledge/equipment/NEW_KNOWLEDGE.md`记录待审入口 |
+
+统一查询为`tools/expert_cli.py`。原始教材/商业帮助整页、私人项目图谱与真实
+工程结果仍是可选本地资产；位置、来源、版本和项目范围按工作区
+LOCAL_KNOWLEDGE_GRAPH_LINKS.md登记。缺少的是具体原件或证据时，不能把包内
+已经提供的结构化知识和算法也说成未安装，更不能以其他项目数值补齐。

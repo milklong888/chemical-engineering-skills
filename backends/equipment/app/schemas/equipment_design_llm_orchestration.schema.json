@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-app-llm-orchestration-v1",
+  "title": "Equipment Design Strict LLM Orchestration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "prepared_sha256", "authority_revision", "context_sha256", "context_scope",
+    "coverage_status", "injection_point", "deterministic_authority",
+    "step_output", "calculation_assist_validation", "verified_calculation_inputs",
+    "verified_model_estimate_inputs", "verified_model_estimate_lineage",
+    "terminal_selection_assist_validation", "verified_terminal_selection_overrides",
+    "verified_terminal_selection_override_id",
+    "output_composition", "execution_timeline",
+    "proposal", "validated_proposal", "candidate_reference",
+    "replay_contract", "transition_contract", "apply_contract", "orchestration_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-app-llm-orchestration-v1"},
+    "prepared_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "authority_revision": {
+      "$ref": "equipment_design_authority_revision.schema.json"
+    },
+    "context_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "context_scope": {"enum": ["minimum", "routed", "full_family", "full_bundle"]},
+    "coverage_status": {"enum": ["BOUNDED_MINIMUM", "ROUTED_HITS", "PARTIAL", "COMPLETE"]},
+    "injection_point": {"type": "string"},
+    "deterministic_authority": {"const": true},
+    "step_output": {"type": "object"},
+    "calculation_assist_validation": {"type": "array"},
+    "verified_calculation_inputs": {"type": "object"},
+    "verified_model_estimate_inputs": {"type": "object"},
+    "verified_model_estimate_lineage": {"type": "object"},
+    "terminal_selection_assist_validation": {"type": "array"},
+    "verified_terminal_selection_overrides": {"type": "object"},
+    "verified_terminal_selection_override_id": {"type": ["string", "null"]},
+    "output_composition": {"type": "object"},
+    "execution_timeline": {
+      "$ref": "equipment_design_interleaved_timeline.schema.json"
+    },
+    "proposal": {"type": "object"},
+    "validated_proposal": {"type": "object"},
+    "candidate_reference": {"type": ["object", "null"]},
+    "replay_contract": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["authority_revision"],
+          "properties": {
+            "authority_revision": {
+              "$ref": "equipment_design_authority_revision.schema.json"
+            }
+          }
+        }
+      ]
+    },
+    "transition_contract": {
+      "type": "object",
+      "required": [
+        "single_step", "interleaved_output", "ai_controls_output_composition",
+        "algorithm_remains_authoritative", "next_actions"
+      ]
+    },
+    "apply_contract": {"type": "object"},
+    "provider": {"type": "string"},
+    "provider_endpoint": {"type": ["string", "null"]},
+    "model": {"type": "string"},
+    "timeout_s": {"type": ["integer", "null"]},
+    "wire_api": {"enum": ["chat_completions", "responses"]},
+    "reasoning_effort": {"type": ["string", "null"]},
+    "response_storage_disabled": {"type": ["boolean", "null"]},
+    "api_key_persisted": {"type": "boolean"},
+    "api_key_echoed": {"type": "boolean"},
+    "orchestration_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+  }
+}

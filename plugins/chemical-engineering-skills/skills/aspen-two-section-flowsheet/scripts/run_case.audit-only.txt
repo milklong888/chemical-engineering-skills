@@ -1,0 +1,86 @@
+# Original run controller — audit-only code, not executable authority
+
+default_retrieval_eligible: false
+learning_eligible: false
+record_scope: audit_only
+
+Original file SHA256: `7874c7765e9760e59f674402eae883d0b7dcaf07a51848721254d3fc0e8108fc`. This body is retained to show the exact prior implementation; it is not imported or run. It overwrote target files, used unowned EnsureDispatch sessions, and called an unknown/timed-out engine state returned. Use the existing supervised Aspen runtime instead.
+
+```python
+def run_case(
+    stem: str,
+    lines: list[str],
+    sep_settings: list[tuple[str, str, dict[str, float]]],
+    streams_to_read: list[str],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[str], str]:
+    paths = {
+        "inp": OUT / f"{stem}.inp",
+        "bkp": OUT / f"{stem}.bkp",
+        "apwz": OUT / f"{stem}.apwz",
+        "roundtrip": OUT / f"{stem}_roundtrip.inp",
+        "verify": OUT / f"{stem}_verify_from_bkp.inp",
+        "after": OUT / f"{stem}_after_run.inp",
+        "streams": OUT / f"{stem}_stream_results.csv",
+        "blocks": OUT / f"{stem}_block_status.csv",
+    }
+    for path in paths.values():
+        if path.exists():
+            path.unlink()
+    too_long = [line for line in lines if len(line) > 132]
+    if too_long:
+        raise ValueError(f"Input line exceeds 132 columns: {too_long[:5]}")
+    paths["inp"].write_text("\n".join(lines) + "\n", encoding="ascii")
+
+    missing: list[str] = []
+    aspen = win32.gencache.EnsureDispatch("Apwn.Document")
+    try:
+        try:
+            aspen.SuppressDialogs = True
+        except Exception:
+            pass
+        aspen.InitFromFile(str(paths["inp"].resolve()))
+        for block, outlet, splits in sep_settings:
+            missing += set_sep2_splits(aspen, block, outlet, splits)
+        aspen.Export(1, str(paths["bkp"].resolve()))
+        aspen.SaveAs(str(paths["apwz"].resolve()), True)
+        aspen.Export(4, str(paths["roundtrip"].resolve()))
+    finally:
+        try:
+            aspen.Close(False)
+        except Exception:
+            pass
+
+    aspen = win32.gencache.EnsureDispatch("Apwn.Document")
+    try:
+        try:
+            aspen.SuppressDialogs = True
+        except Exception:
+            pass
+        aspen.InitFromArchive2(str(paths["bkp"].resolve()))
+        aspen.Export(4, str(paths["verify"].resolve()))
+        run_status = "not run"
+        try:
+            aspen.Engine.Run2(False)
+            deadline = time.time() + 60
+            while time.time() < deadline:
+                try:
+                    if not bool(aspen.Engine.IsRunning):
+                        break
+                except Exception:
+                    break
+                time.sleep(0.5)
+            run_status = "Run2 returned"
+        except Exception as exc:
+            run_status = f"Run2 exception: {exc}"
+        aspen.Export(4, str(paths["after"].resolve()))
+        streams = [read_stream(aspen, sid) for sid in streams_to_read]
+        blocks = block_status_rows(aspen, paths["after"])
+    finally:
+        try:
+            aspen.Close(False)
+        except Exception:
+            pass
+    write_csv(streams, paths["streams"])
+    write_csv(blocks, paths["blocks"])
+    return streams, blocks, missing, run_status
+```

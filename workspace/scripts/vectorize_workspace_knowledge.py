@@ -26,7 +26,7 @@ if hasattr(sys.stdout, "reconfigure"):
 WORKSPACE = Path(__file__).resolve().parents[1]
 CHEM_PRINCIPLES_ROOT = WORKSPACE / "chemical_principles_knowledge"
 BUNDLED_SKILLS = WORKSPACE.parent / "skills"
-DEFAULT_CODEX_HOME = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex"))
+DEFAULT_CODEX_HOME = Path(os.environ["CODEX_HOME"]) if os.environ.get("CODEX_HOME") else WORKSPACE / ".codex"
 CODEX_SKILLS = Path(r'{CHEM_SKILLS}')
 INDEX_DIR = WORKSPACE / "knowledge_vector_index"
 RECORDS_JSONL = INDEX_DIR / "records.jsonl"

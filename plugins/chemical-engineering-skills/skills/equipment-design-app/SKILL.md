@@ -1,19 +1,26 @@
 ---
 name: equipment-design-app
-description: Operate or audit the local “设备设计图谱与脚本” application and its deterministic equipment-design workflow. Use for Aspen BKP/APW imports, manual equipment-parameter entry, equipment-family matching, formula-chain derivation, evidence-gated model selection, knowledge-graph lookup, optional controlled AI calculation assistance/output orchestration/review, or packaging/maintaining the Windows app.
+description: Run the bundled headless equipment-design backend for parameter derivation, family and type selection, standards lookup, optional isolated Aspen import, deterministic replay and evidence-bound feedback into process design. Preserve original formula and rule provenance; GUI software is not required.
 ---
 
 # Equipment Design App
 
-Use the local application as a thin execution interface over the existing parent package “设备设计图谱与脚本”. The application and this skill are adapters; they do not contain or outrank the graph and deterministic scripts.
+Use the original deterministic equipment implementation through its headless
+JSON interface. This skill is the workflow adapter; it does not outrank the
+graph, formulas or current-project authority. The name is retained for stable
+routing, not as a requirement to install a desktop application.
 
 ## Start
 
 1. Open the workspace `LOCAL_KNOWLEDGE_GRAPH_LINKS.md`.
-2. Open `设备设计选型工作包/README.md` and `设备设计选型工作包/knowledge_graph/README.md`.
+2. Resolve the backend through that map. In an installed workspace its root is
+   `{CHEM_WORKSPACE}/chemical-engineering-runtime/backends/equipment`;
+   read its `README.md` and `knowledge_graph/README.md`.
 3. Read [references/ERROR_MEMORY.md](references/ERROR_MEMORY.md), then [references/app_contract.md](references/app_contract.md).
 4. Read [references/NEW_KNOWLEDGE.md](references/NEW_KNOWLEDGE.md) only when recently ingested application knowledge is relevant.
-5. Prefer the agent-native JSON interface at `设备设计选型工作包/app/equipment_design_agent.py`. Launch with `scripts/launch_app.ps1` only when a human explicitly wants the GUI.
+5. Use `app/equipment_design_agent.py` under that backend root. No GUI/EXE is
+   distributed or required. Inspect `capabilities`, `catalog` and `schema_get`
+   before building a request; keep same-process JSONL sessions for batches.
 
 ## Agent-first execution
 
@@ -21,29 +28,28 @@ Use the local application as a thin execution interface over the existing parent
 
 When checking a built process or changed process parameters/modules, use the
 chemical expert's `references/PROCESS_EQUIPMENT_FEEDBACK.md`. In this workspace,
-the current GitHub source bridge is
-`integrations/github_20260909/selector_bridge.py`, pointing to the pinned LF
-runtime `external_sources/github/milklong888/equipment-design-selector-runtime`.
-Use its versioned Agent API and verified local assets. Keep the legacy package
-as an explicit compatibility/source path rather than silently mixing versions.
+the packaged bridge is `tools/expert_cli.py` under the runtime root. Its
+`feedback` operation calls the preserved 2.4.0 backend then builds an
+evidence-bound process plan. Data projections and backend source have separate
+new identities linked to the original source; do not relabel them as unchanged
+upstream binaries. Keep legacy maintenance sources out of default execution.
 
 Return parameter/formula/rule provenance, attributable capacity or physical
 diagnostics, catalog/evidence gaps, and adjustment-plan hashes to process design.
-Exchanger parallel/section alternatives and compressor staged/parallel
+Exchanger series-first alternatives, compressor staged-series and parallel-column
 alternatives require their own duty/pressure/phase/flow rationale and downstream
 replay. A program adjustment is a candidate until the flowsheet is actually
 changed and rerun; no-match, a default terminal form, or open vendor evidence
 alone must not trigger blind splitting or imply whole-process acceptance.
 See `references/process_feedback_bridge.md` for invocation and return paths.
 
-Do not use mouse coordinates or desktop control for normal data input/output. Create an `equipment-design-agent-request-v1` JSON object, invoke `equipment_design_agent.py --request <path> --output <path> --pretty`, and parse the `equipment-design-agent-response-v1` result. For repeated equipment or workflow calls, start `EquipmentDesignAgentCLI.exe --session-jsonl` once and exchange one UTF-8 request/response object per line so runtime verification, catalog loading, and one shared API instance are reused for the process. Preserve each response's own `exit_code`; one failed line must not stop or contaminate later equipment. The packaged CLI exposes both modes; the windowed EXE also accepts `--agent-request` plus `--agent-response`.
-
-For script-visible GUI report health, add `--report-status <path>` to a
-windowed EXE `render_report` file call. The resulting
-`equipment-design-report-status-v1` sidecar must be read-only and verify the
-request/response identity, deterministic presentation, nonempty equipment
-parameter content, report artifact markers, and artifact SHA-256. It is a
-diagnostic channel, not an authorization or runtime-verification bypass.
+Create an `equipment-design-agent-request-v1` JSON object, invoke
+`equipment_design_agent.py --request <path> --output <path> --pretty`, and parse
+the `equipment-design-agent-response-v1` result. For repeated calls, start
+`python equipment_design_agent.py --session-jsonl` once and exchange one UTF-8
+request/response object per line. Runtime verification, catalog loading and one
+API instance are reused; retain each response's own exit code. A failed line
+must not stop or contaminate later equipment. Close stdin to finish the session.
 
 Use `capabilities`, `schema_get`, or `catalog` to discover operations, exact JSON contracts, and per-equipment fields before constructing requests. Use `manual_batch` for multiple manual records and `aspen_import` for full block/stream traversal. Preserve the returned request hash, exit code, errors, and artifact paths. For Agent/CLI calls, read API keys only from the fixed `EQUIPMENT_DESIGN_LLM_API_KEY` environment variable and remote compatible endpoints only from `EQUIPMENT_DESIGN_LLM_BASE_URL`; reject request-level endpoint or environment-variable overrides, and never place a key in JSON.
 
@@ -123,6 +129,31 @@ Partial input must return the known parameter rows, candidate family, minimum mi
 
 ## Verify delivery
 
-Run the agent protocol, app, and core unit suites; JSON file, one-shot stdin/stdout, and resident `--session-jsonl` round trips; schema discovery; deterministic replay and tamper rejection; `pfd_build`, catalog-bounded `pfd_override/AUTO`, and stateful `pfd_recalculate/clear=true` replay; `hybrid_prepare -> hybrid_continue` and offline-mock `hybrid_run`; the mock Aspen worker; both packaged EXE self-tests; and the GUI visual check. Test a verified recipe that fills only a missing field, returns a separate program recalculation, and preserves the initial result; test multi-step recipes independent of model order; test a structured bounded model estimate that closes the remaining preliminary selection while staying visible `J/provisional`; test unregistered, unbounded, out-of-guard and existing-value estimates as nonblocking rejections; and test that a deterministic recipe supersedes any conflicting estimate. Test a registered terminal condition that upgrades only a visible default and an invented terminal rule that is rejected without blocking; test model-controlled AI block order between immutable program anchors. Require a resident-session test to prove multiple requests use one process/API instance and retain independent response exit codes. Require nonempty parameter groups for all 17 families, units on numeric rows, structured formula chains on every derived row, candidate source/gate traces, and separate Aspen device pages. Run `scripts/audit_multi_bkp_model_gate.py` on the fixed ten-case replay and require every physical equipment record to expose one unambiguous terminal selection plus `recommended_type`, a candidate list, and a leading designation; only exact simulation-logic nodes may be N/A. The same gate must fail if any sentinel-scale canonical or derived value remains unisolated or contaminates a designation. Verify PFD node/edge topology, mapping hash, source immutability, current-block recalculation, adjacent stale propagation, and the compact/standard/detailed display contract without promoting overrides. The compact runtime bundle must preserve queryable core/model/standards assets and pass exact path-set, size, SHA-256 and SQLite integrity/count verification; packaged startup must fail closed on a missing, changed, or extra asset. Test the packaged program from a different working directory and confirm its embedded engine/rule/schema/knowledge-asset hashes match the frozen source. Review the interface for optional-COM wording, one-value-per-field inputs and `ⓘ` blank semantics, staged-LLM wording, equation typography, readable result cards, and a standard PFD canvas that is concise but not bare. For a real Aspen candidate, apply the workspace all-zero run-status and raw-history gate to the exact reopened delivery file.
+Verify the delivered headless surface: protocol schemas, JSON file/stdin/stdout
+and resident `--session-jsonl` round trips, deterministic replay and tamper
+rejection, and exact runtime source/data/schema manifests. Require independent
+responses from one resident process and one frozen authority instance.
+
+For supported calculation operations, test missing-only recipe closure,
+order-independent multistep derivation, provisional bounded estimates,
+registered terminal-condition upgrades and local rejection of invented rules,
+out-of-range values or overwrites. Preserve the initial and recalculated program
+anchors, units, formula chains, source traces and evidence states. PFD data
+operations retain node/edge identity, current-block recalculation and adjacent
+stale propagation; no desktop canvas or coordinate control is required.
+
+The published regression suite is `tests/test_equipment_backend.py` under the
+runtime source repository. It checks all 17 family contracts, source/data
+identities, guarded execution and actual database consumers. Private ten-case
+BKP replay is an additional user-supplied evidence profile, not an included
+fixture or a reason to claim real Aspen testing. Source-maintenance scripts
+need their explicitly declared original inputs.
+
+Test from a different working directory without the old workspace. Database
+queries must return source identity, units, applicability and reuse status.
+A missing, changed or extra required runtime asset fails verification. GUI/EXE
+self-tests are outside this Skill's distribution and acceptance scope. For a
+real Aspen candidate, independently apply the all-zero version-bound Summary
+and raw-history gate to the exact reopened delivery file.
 
 Do not declare the app or a design result ready until an independent chemical-equipment/knowledge-graph reviewer has checked the deterministic boundary, formula chains, evidence propagation, and packaging result.

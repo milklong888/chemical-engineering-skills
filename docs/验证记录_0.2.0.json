@@ -1,0 +1,262 @@
+{
+  "schema": "chemical-headless-release-validation-v1",
+  "version": "0.2.0",
+  "date": "2026-09-10",
+  "runtime_target": {
+    "implementation": "CPython",
+    "python": "3.14",
+    "platform": "Windows AMD64"
+  },
+  "unit_regressions": {
+    "test_instances": 306,
+    "passed_instances": 304,
+    "explicit_private_evidence_skips": 2,
+    "suites": [
+      {
+        "name": "public_contract",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_public_contract.py"
+        ],
+        "log_sha256": "b8064c827e5320e155a10c8a11b4b9c317482173a5b53077cf6876bb84d67098"
+      },
+      {
+        "name": "public_connection",
+        "tests": 6,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_public_connection.py"
+        ],
+        "log_sha256": "6dc4db1f0467d669b08fbab1448ad569c7bc1f069d1546dd235568ec7dd2baa0"
+      },
+      {
+        "name": "binary_assets",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_offline_assets.py"
+        ],
+        "log_sha256": "df506baebd9950f515ee33a19b1ffbcd00b98efa10fcd45add5f11babbb7f1aa"
+      },
+      {
+        "name": "equipment",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_equipment_backend.py"
+        ],
+        "log_sha256": "20670a89444fe2bd98a43422c16ab52c2d69710e464482ce9ed9c597432ec1d7"
+      },
+      {
+        "name": "tower",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_tower_portability.py"
+        ],
+        "log_sha256": "c61638373f987c795c0ea7060243258c083f3ea397995cd0a21cbd70c9f4e988"
+      },
+      {
+        "name": "two_section",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_two_section_portability.py"
+        ],
+        "log_sha256": "8f2467a170b626c5dcee09353811ff818978895504229d227d5d96a3c7e4a76f"
+      },
+      {
+        "name": "installation",
+        "tests": 28,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tools/test_install.py"
+        ],
+        "log_sha256": "69585bfd87c361a9d8b7e0cf2d21e1f14a9daccfb3739f94257f2029428037ea"
+      },
+      {
+        "name": "aspen_parser",
+        "tests": 31,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/tests",
+          "-p",
+          "test_aspen_evidence*.py"
+        ],
+        "log_sha256": "3117195f8c4af1cb295a4699f5b63eaf433af5b38ef0fc07733ae0fd0b66435f"
+      },
+      {
+        "name": "history_encoding",
+        "tests": 14,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/tests/test_aspen_history_encoding.py"
+        ],
+        "log_sha256": "e307a45d87802289c76ada3efb94bb4f2803c8cbf4cad16c8b5fc018d2e83b4c"
+      },
+      {
+        "name": "f1",
+        "tests": 11,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/chemical-tower-design/tests/test_f1_load_performance.py"
+        ],
+        "log_sha256": "c3fbd5f79012bd4f4084a8d38b783406bd89fde0e7e434c175db74722190b253"
+      },
+      {
+        "name": "windows_ownership",
+        "tests": 5,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_windows_runtime_regressions.py"
+        ],
+        "log_sha256": "9b574f77355bbf3d51ff4cab6ba9a815ef53c2ad8e21feef440100a250fd38a9"
+      },
+      {
+        "name": "feedback_integrity",
+        "tests": 32,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_*feedback*.py"
+        ],
+        "log_sha256": "184c4996893bc3246f4a789138afa1745acbffdf4330b5ed3331704eaff9610c"
+      },
+      {
+        "name": "mcp_installer",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "tests/test_mcp_offline.py"
+        ],
+        "log_sha256": "0db1068b65ce2903c3eb63ebbc7c6be9f4a73a7de48d1a38e17803de43a62e33"
+      },
+      {
+        "name": "learning_cli",
+        "tests": 24,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/scripts/tests/test_learning_admission_cli.py"
+        ],
+        "log_sha256": "5fc9f61f8508aaf9111a15d61e1d4c39c44b2b84c3525257c9a0f985ee529dc6"
+      },
+      {
+        "name": "aspen_owned_runtime",
+        "tests": 21,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/tests/test_aspen_runtime.py"
+        ],
+        "log_sha256": "cc867919c3159c892e93a04391998d59e6875c8e471e89f52ab6fba142e03881"
+      },
+      {
+        "name": "learning_eligibility",
+        "tests": 18,
+        "skipped": 2,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/scripts/test_learning_eligibility.py"
+        ],
+        "log_sha256": "327cbe134e906beaea618b710d9515a487edaf74444e1fcf798b11a703185568"
+      },
+      {
+        "name": "evolution_forward",
+        "tests": 38,
+        "skipped": 0,
+        "passed": true,
+        "invocation": [
+          "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/scripts/tests/test_evolution_candidate.py",
+          "--with-cli"
+        ],
+        "log_sha256": "3334eaf49358f77c16282bb615f71bf863ef87489f1809e97913ba69891cd627"
+      }
+    ]
+  },
+  "knowledge": {
+    "tests": 21,
+    "passed": true,
+    "records": 6873,
+    "retrieval_records": 6850,
+    "vector_dimensions": 768,
+    "manifest_sha256": "16d52e9dccd4fec9b864b53e9890537ebab146d9fef76cf7157a31cb2eb7446e"
+  },
+  "source_maintenance": {
+    "profile_and_docx_tests": 9,
+    "section_mapping_tests": 8,
+    "passed": true,
+    "scope": "Original-output comparison and explicit-profile boundary tests; no new project or shared-learning acceptance"
+  },
+  "isolated_installation": {
+    "passed": true,
+    "snapshot_payload_files": 886,
+    "installed_managed_files": 870,
+    "offline_wheels": 71,
+    "all_managed_files_unchanged_after_execution": true,
+    "unexpected_extra_files": 0,
+    "expert_tools_listed": 5,
+    "expert_transactions": 6,
+    "original_aspen_tools_listed": 70,
+    "original_aspen_execution_scope": "pure knowledge tool only; no Aspen simulation tools executed",
+    "installed_parser_tests": 24,
+    "external_network_calls": 0,
+    "com_calls": 0,
+    "remaining_owned_processes": 0,
+    "forbidden_source_reads": 0,
+    "guard_scope": "Python open/listdir/scandir/socket/DNS/COM guards and negative controls; not an OS sandbox for arbitrary native code. pip uses no-index and require-hashes.",
+    "receipts": [
+      {
+        "id": "source_snapshot",
+        "sha256": "15c9674deb068724cad21980c5c1c6b26b373581ba5635d2ae828db77d24340c"
+      },
+      {
+        "id": "install_readback",
+        "sha256": "945c5b8cb91621f298fdf47d280c9e1cd3b26554ef5fced6064932225ad5ff64"
+      },
+      {
+        "id": "dependencies",
+        "sha256": "cc40bca73f0a90c03f97438eb197ba93ba6b2b1190a71393c7cd80d7aa45bd7c"
+      },
+      {
+        "id": "expert_protocol",
+        "sha256": "3d8771417ae0d6bb9b8f604c79b15253ce7cacd48b5fa85b04999cf1f8d3b821"
+      },
+      {
+        "id": "toolkit_protocol",
+        "sha256": "1c24f87ec11849e8e16b0684af23f8d02fb2145dc7e7f84fe038f3c4ab6e0392"
+      },
+      {
+        "id": "source_snapshot_final_comparison",
+        "sha256": "16a6c744e49f259623cbe17bcd5484a2dd8098bbf479dea79d2a21cc19e0498b"
+      }
+    ],
+    "final_receipt_sha256": "3ece6edb603986efabeabd3991b51e0f6b74d95e1fb7f725ae2346bf1f384591"
+  },
+  "aspen_started": false,
+  "engineering_accepted": false,
+  "boundary": "Code, source identity, isolated installation and local protocol validation only. Real model/reopen/product/equipment/safety gates remain project-specific. Diagnostic timing is not a performance guarantee."
+}

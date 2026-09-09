@@ -1,0 +1,163 @@
+[
+  {
+    "node_id": "UG10-CH06-D017",
+    "source_json_pointer": "/987",
+    "classification": "databank table combined with prose",
+    "text_sha256": "913bf2c6a630398535008963ba3d055020616334ffb5647c5bcb4a9a411d814c",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH07-D048",
+    "source_json_pointer": "/1225",
+    "classification": "long method-name table",
+    "text_sha256": "1f6cfbf6d68c507ce9de55fb180fd1c796b45a20fa9e2ba10143607199c25074",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH07-D055",
+    "source_json_pointer": "/1233",
+    "classification": "free-water table and corrupted formula",
+    "text_sha256": "bc258b45b76c9df9c5db24aa9765912f711b82e111991718e5ede1ae9c8bdd17",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH07-D057",
+    "source_json_pointer": "/1236",
+    "classification": "water-solubility formula/table extraction",
+    "text_sha256": "a18512a739658f49e41fc6ee6a543c56dd545bbd8be322a49865519083065514",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH08-D101",
+    "source_json_pointer": "/1384",
+    "classification": "nonconventional component property table",
+    "text_sha256": "1a74bc55693e2984e411a3ab92ede1d551aee13ac56fd6bffc6c46d8c3a3d1f7",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH08-D201",
+    "source_json_pointer": "/1495",
+    "classification": "long explanatory prose joined across topics",
+    "text_sha256": "412bde48746bb43855c505e0b73829c7e198cfe4852029bf49435b3a72a98ed9",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH09-D010",
+    "source_json_pointer": "/1609",
+    "classification": "stream-state table",
+    "text_sha256": "8a2ab50b89d59a727e9557338df0008f980994e794f96539a91c831d9a57f10f",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH10-D141",
+    "source_json_pointer": "/1957",
+    "classification": "pressure-profile options table",
+    "text_sha256": "d47c47ad03455395611870138408b0427bae53b6c705758d79dc1ac756825443",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH16-D108",
+    "source_json_pointer": "/2796",
+    "classification": "long database search-order prose",
+    "text_sha256": "9130b27540252f6ea2cd6fdfc9e9972629ba034c39a72bbecd5fad811b811214",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH17-D035",
+    "source_json_pointer": "/2978",
+    "classification": "solver default options table",
+    "text_sha256": "066da25939dc1b3db61e2892c26f2179e46a6de6cc3cf1f6b1436a99d4bfc0ed",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH17-D242",
+    "source_json_pointer": "/3197",
+    "classification": "long results-page descriptions",
+    "text_sha256": "d6fa8e0fd1bc42d56960629e31142287f2fcc76fff8be0487e6e0119497c4550",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH25-D047",
+    "source_json_pointer": "/4404",
+    "classification": "formula symbol table",
+    "text_sha256": "99eb50f474d11d563b2deb89ba5c881e20b251223d823d66ac000f8c9fa7cb91",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH27-D099",
+    "source_json_pointer": "/4575",
+    "classification": "kinetic expression table with OCR ambiguity",
+    "text_sha256": "9be6ea4795382249fe32ed5e3eb287a6b94542d34dfc7e98fbfa56b06d409e10",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH27-D204",
+    "source_json_pointer": "/4687",
+    "classification": "kinetic expression table with OCR ambiguity",
+    "text_sha256": "a55034f1c85a09fff40af1eab728b33e091ed6234779a811e103764609b2367a",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH30-D095",
+    "source_json_pointer": "/5172",
+    "classification": "long property-estimation prose and example",
+    "text_sha256": "77164f83fd29cc5c978d908b88e662bc5fe6e4c2bb3e7751c396060995c58602",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH31-D047",
+    "source_json_pointer": "/5347",
+    "classification": "regression data-type table",
+    "text_sha256": "c0ddd4308727408d77b28fc76f368401b8288208fe1b40ee5ced2d876a2c2e39",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH31-D110",
+    "source_json_pointer": "/5415",
+    "classification": "regression parameter-role prose and example",
+    "text_sha256": "653950414a84facaa51a690f16f9e728d22ecca001fb22f8a4f048408a29e535",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH31-D182",
+    "source_json_pointer": "/5491",
+    "classification": "experimental example numerical table",
+    "text_sha256": "9807c420411e50e83a82d74c5a087c39115d5db2119d766cb1253e09ecfa00a5",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH31-D188",
+    "source_json_pointer": "/5500",
+    "classification": "long regression worked-example prose",
+    "text_sha256": "bf79d3432c37c97a72b20b516ea5e3a0b395e525acb78a5cac31dd6fa73a0f57",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH38-D070",
+    "source_json_pointer": "/6705",
+    "classification": "long automation explanation/code fragment",
+    "text_sha256": "b5495c5a38dbf36f815b4a1e99d229e421466a9e4041901c8eb0abd3709b9a3e",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH38-D098",
+    "source_json_pointer": "/6735",
+    "classification": "automation prose and code fragment",
+    "text_sha256": "3efa809cbe9690f18fd892b8cb7c373345636cf151fa67e8e81ede5aaf9efe12",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH38-D123",
+    "source_json_pointer": "/6762",
+    "classification": "attribute description/code fragment",
+    "text_sha256": "f85535b940464b79dbb781083da67a88db6db8041d8070182bce4109d9bb07c6",
+    "content_available": false
+  },
+  {
+    "node_id": "UG10-CH38-D148",
+    "source_json_pointer": "/6789",
+    "classification": "long unit-table explanation and code fragment",
+    "text_sha256": "07dba374cab2d93a9123160ea3a4ce3d883b0efa4fe9afd8a3fd8d7497d5c50f",
+    "content_available": false
+  }
+]

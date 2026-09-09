@@ -157,8 +157,19 @@ A sectioned Aspen deliverable is not acceptable until:
 
 ## Project resources
 
-The public release supplies the sectioning workflow, not historical project
-builders, process diagrams, or audit snapshots. Build the section contracts,
-cross-boundary stream ledger and audit from the active project's own sources.
-Any separately supplied case remains case-specific; its IDs, yields, settings,
-and validation values are not defaults for a new project.
+For the source-preserved section builder, first read
+[the explicit profile contract](scripts/PROFILE_CONTRACT.md), then use
+[build_two_section_corrected.py](scripts/build_two_section_corrected.py).
+Its original 22 function identities and parameterization are mapped in
+[SOURCE_PRESERVATION.json](scripts/SOURCE_PRESERVATION.json). Supply the current
+project's own profile and exact SHA256, components, molecular weights and
+reported field units; there are no historical project values by default.
+
+The builder produces candidate input and a controlled handoff to the existing
+operation template/runtime, not an Aspen run or an accepted model. Readback
+gaps remain unknown instead of zero. The original unsafe run body is retained
+as [audit-only source text](scripts/run_case.audit-only.txt), never executed.
+The synthetic profile only tests serialization and boundary behavior; it is
+not a flowsheet. No COM run was performed to qualify this restored route.
+Freeze section contracts and cross-boundary evidence from current sources
+before any separately authorized operation through `aspen-plus-operations`.

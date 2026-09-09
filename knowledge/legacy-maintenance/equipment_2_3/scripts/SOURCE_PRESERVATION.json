@@ -1,0 +1,125 @@
+{
+  "schema": "source-maintenance-parameterization-v1",
+  "files": [
+    {
+      "source_relative_path": "设备设计选型工作包/scripts/build_selection_learning_graph.py",
+      "public_path": "knowledge/legacy-maintenance/equipment_2_3/scripts/build_selection_learning_graph.py",
+      "source_sha256": "26e9261845d732a6696b8daca06447580f383097b13674b87fdba99c37778687",
+      "public_sha256": "774e0f7ba1f89277e31a56c355919ec06d615940fb55ca79741242f18776a540",
+      "all_original_top_level_definitions": [
+        "GraphNode",
+        "GraphEdge",
+        "read_csv",
+        "read_rows",
+        "sanitize_id",
+        "standard_family",
+        "source_nature",
+        "evidence_class",
+        "pdf_info",
+        "write_csv",
+        "markdown_table",
+        "table_path",
+        "build_selection_nodes",
+        "build_zip_audit",
+        "build_standard_inventory",
+        "write_outputs"
+      ],
+      "unchanged_definition_AST": [
+        "GraphNode",
+        "GraphEdge",
+        "read_csv",
+        "read_rows",
+        "sanitize_id",
+        "standard_family",
+        "source_nature",
+        "evidence_class",
+        "pdf_info",
+        "write_csv",
+        "markdown_table",
+        "build_zip_audit",
+        "build_standard_inventory"
+      ],
+      "parameterization": {
+        "changed": [
+          "build_selection_nodes",
+          "write_outputs",
+          "table_path"
+        ],
+        "contract": "hash-bound case literals and reports; original graph output equality checked against original parsed table input"
+      },
+      "original_preserved_privately": true,
+      "private_case_profile_distributed": false,
+      "automatic_activation": false,
+      "learning_eligible": false,
+      "default_retrieval_eligible": false
+    },
+    {
+      "source_relative_path": "设备设计选型工作包/scripts/extract_docx_tables.py",
+      "public_path": "knowledge/legacy-maintenance/equipment_2_3/scripts/extract_docx_tables.py",
+      "source_sha256": "fd8fcc44e7664c7f805ec6aa73d44cc166c9d59c52f52f9c51494ec527585c47",
+      "public_sha256": "47cfeb24517b1acc716164a140e4a43f5e956c2f98d5538005cb46cc9ba63dfd",
+      "all_original_top_level_definitions": [
+        "normalize_cell",
+        "find_docxs",
+        "table_to_rows",
+        "table_title",
+        "paragraph_outline",
+        "write_outline",
+        "safe_doc_id",
+        "main"
+      ],
+      "unchanged_definition_AST": [
+        "normalize_cell",
+        "table_to_rows",
+        "table_title",
+        "paragraph_outline",
+        "write_outline"
+      ],
+      "parameterization": {
+        "changed": [
+          "find_docxs",
+          "safe_doc_id",
+          "main"
+        ],
+        "contract": "explicit user document mapping or deterministic content hash; original table and paragraph extraction retained"
+      },
+      "original_preserved_privately": true,
+      "private_case_profile_distributed": false,
+      "automatic_activation": false,
+      "learning_eligible": false,
+      "default_retrieval_eligible": false
+    },
+    {
+      "source_relative_path": "设备设计选型工作包/scripts/build_bkp_equipment_selection_tables.py",
+      "public_path": "knowledge/legacy-maintenance/equipment_2_3/scripts/build_bkp_equipment_selection_tables.py",
+      "source_sha256": "287b943599e3787226fcc043657e3c84f3eea443222d07128ff2174c236713c4",
+      "public_sha256": "3cfc3e8bae84b349f1e2891607473e1a927a45efa537fb837f7a198ad508c1e8",
+      "all_original_top_level_definitions": [
+        "section_of",
+        "parse_stream_list",
+        "evidence_level",
+        "md_table",
+        "write_csv",
+        "main"
+      ],
+      "unchanged_definition_AST": [
+        "parse_stream_list",
+        "evidence_level",
+        "md_table",
+        "write_csv"
+      ],
+      "parameterization": {
+        "changed": [
+          "section_of",
+          "main"
+        ],
+        "contract": "explicit section-names JSON; original generic matching dictionaries and four other functions AST-exact"
+      },
+      "original_preserved_privately": true,
+      "private_case_profile_distributed": false,
+      "automatic_activation": false,
+      "learning_eligible": false,
+      "default_retrieval_eligible": false
+    }
+  ]
+}

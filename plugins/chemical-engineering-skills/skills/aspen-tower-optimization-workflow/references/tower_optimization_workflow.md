@@ -2,7 +2,8 @@
 
 Apply the chemical expert's STRICT_ACCEPTANCE_AND_LEARNING.md. Old project
 numbers and default pressure/reflux assumptions have no global authority.
-The private predecessor and historical case scripts are not distributed.
+Private case inputs are not distributed. Original calculation functions are
+preserved in the explicit-profile scripts described below.
 
 ## Network Position
 
@@ -306,9 +307,19 @@ stage relaxation is case-only and excluded from learning with all descendants.
 
 ## Public Hydraulic Interface Boundary
 
-The original single/parallel case scripts are not distributed. Their private
-stream maps, operating values, taskbook gates and label-inference assumptions
-cannot be made generic by renaming; no same-name placeholder is supplied.
+Use `../scripts/radfrac_packed_hydraulic_from_bkp.py` for one column and
+`../scripts/parallel_radfrac_packed_hydraulic_from_bkp.py` for parallel columns.
+The original parsing and calculation functions are retained; case identities,
+stream maps, geometry, physical-property inputs and acceptance limits are
+provided through `--config`, not inherited from a previous project.
+
+Read `../scripts/packed_hydraulic_config.schema.json` and the shared
+`../scripts/packed_hydraulic_contract.py`. Bind the source file and configuration
+hash, named DSET fields, explicit units, applicable packing limits and geometry.
+Run with `--config <case.json> --out-prefix <new-output-prefix>`; existing output
+is not overwritten. Missing inputs limit only the quantities that depend on
+them. Field-label inference is diagnostic only. Ideal-gas density and manual
+capacity/HETP estimates remain preliminary, never Column Internals/vendor proof.
 
 Use current same-case named stage profiles with explicit units, geometry and
 source-backed packing/tray limits. Column Internals/Column Analysis, vendor
@@ -409,4 +420,3 @@ A tower island is not promoted until the same-version full-flow candidate has:
 Current project-specific production, purity, residual SEP, heat-reporting and
 recycle requirements are read from that project's latest authority, never from
 a named historical case in the global skill.
-

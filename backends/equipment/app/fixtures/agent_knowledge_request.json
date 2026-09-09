@@ -1,0 +1,9 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-KG-001",
+  "operation": "knowledge_search",
+  "payload": {
+    "query": "泵 压力基准 轴功率",
+    "limit": 5
+  }
+}

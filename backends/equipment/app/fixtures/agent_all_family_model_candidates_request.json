@@ -1,0 +1,29 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-ALL-MODEL-CANDIDATES-001",
+  "operation": "equipment.match",
+  "payload": {
+    "records": [
+      {"equipment_family": "family_fixed_tubesheet_exchanger"},
+      {"equipment_family": "family_other_heat_exchanger"},
+      {"equipment_family": "family_tower"},
+      {"equipment_family": "family_reactor_vessel_separator"},
+      {"equipment_family": "family_storage_vessel"},
+      {"equipment_family": "family_pump"},
+      {"equipment_family": "family_compressor"},
+      {"equipment_family": "family_agitator"},
+      {"equipment_family": "family_static_mixer"},
+      {"equipment_family": "family_membrane"},
+      {"equipment_family": "family_package_equipment"},
+      {"equipment_family": "family_liquid_power_recovery_turbine"},
+      {"equipment_family": "family_gas_expander_turbine"},
+      {"equipment_family": "family_process_piping"},
+      {"equipment_family": "family_pipe_fitting"},
+      {"equipment_family": "family_flange_gasket"},
+      {"equipment_family": "family_valve"}
+    ],
+    "policy": {
+      "llm_allowed": false
+    }
+  }
+}

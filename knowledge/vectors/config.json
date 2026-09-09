@@ -1,0 +1,141 @@
+{
+  "schema": "preserved-knowledge-hash-vector-v1",
+  "algorithm": "existing_workspace_hash_ngram",
+  "learned_model": false,
+  "network_required": false,
+  "record_count": 6850,
+  "dimension": 768,
+  "shape": [
+    6850,
+    768
+  ],
+  "dtype": "float32",
+  "source_records_sha256": "8239d06a7834e1c28b6901900759577135f427539c720a05abae8745a8f61253",
+  "records_jsonl": "records.jsonl",
+  "records_sha256": "f0f9ad83273a7cd35658504e6d1782770d341158b4dad8944a5567711827cb06",
+  "vectors_npy": "vectors.npy",
+  "vectors_sha256": "4e5b43d6c79f2efe23b96a14b69846486dbc5647062900d1ff83a430eb742bb5",
+  "algorithm_sha256": "88a3044c52c615cb5c4533b95c1d405bbf935e886e2ea078b2ecd2f9b9c2c0be",
+  "query_routing_sha256": "feb1a3f240863755c7cb3d0ed2eb7244783881bda6f44ab7a94a9484dc67e155",
+  "routes_sha256": "7cd6edcbf50c71b255cf5292c68e0e91b5be4e0885c31568d840af9c7ad13276",
+  "excluded_records": [
+    {
+      "node_id": "UG10-CH06-D017",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH07-D048",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH07-D055",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH07-D057",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH08-D101",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH08-D201",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH09-D010",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH10-D141",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH16-D108",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH17-D035",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH17-D242",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH25-D047",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH27-D099",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH27-D204",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH30-D095",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH31-D047",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH31-D110",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH31-D182",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH31-D188",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH38-D070",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH38-D098",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH38-D123",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    },
+    {
+      "node_id": "UG10-CH38-D148",
+      "corpus": "aspen_v10",
+      "reason": "INELIGIBLE_OR_UNKNOWN_DEFAULT_RETRIEVAL_ELIGIBLE"
+    }
+  ],
+  "project_value_transfer_allowed": false,
+  "source_modified": false,
+  "learning_event": false
+}

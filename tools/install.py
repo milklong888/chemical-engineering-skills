@@ -13,6 +13,8 @@ import uuid
 
 from verify_release import ReleaseError, SKILLS_PREFIX, below, reject_links, safe_target, sha256, verify
 
+RUNTIME_VALIDATOR_SOURCE = SKILLS_PREFIX + "aspen-plus-operations/scripts/aspen_evidence.py"
+
 
 def atomic_write(path: Path, data: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -46,12 +48,29 @@ def install(repository: Path, workspace_root: Path, skills_root: Path, *, replac
     verified = verify(repository)
     planned, collisions, seen = [], [], set()
     tokens = {"{CHEM_WORKSPACE}": workspace_root.as_posix(), "{CHEM_SKILLS}": skills_root.as_posix()}
+    entries = []
     for entry in verified["manifest"]["files"]:
+        entries.append(entry)
+        if entry["path"].startswith("workspace/scripts/"):
+            # The knowledge adapter verifies its original algorithm/routing
+            # bytes. Keep this runtime dependency unchanged; the project copy
+            # separately receives install path substitutions.
+            entries.append({**entry, "_runtime_copy": True})
+        elif entry["path"] == RUNTIME_VALIDATOR_SOURCE:
+            # Feedback replays the exact existing pure parser, including after
+            # skills and runtime are installed to disjoint locations.
+            entries.append({**entry, "_runtime_copy": True,
+                            "_runtime_relative": "validators/aspen_evidence.py"})
+    for entry in entries:
         source_rel = entry["path"]
-        if source_rel.startswith(SKILLS_PREFIX):
+        if entry.get("_runtime_copy"):
+            kind, root, rel = "runtime", workspace_root, "chemical-engineering-runtime/" + entry.get("_runtime_relative", source_rel)
+        elif source_rel.startswith(SKILLS_PREFIX):
             kind, root, rel = "skills", skills_root, source_rel[len(SKILLS_PREFIX):]
         elif source_rel.startswith("workspace/"):
             kind, root, rel = "workspace", workspace_root, source_rel[len("workspace/"):]
+        elif source_rel.startswith(("backends/", "knowledge/", "vendor/", "runtime/", "tools/", "examples/")):
+            kind, root, rel = "runtime", workspace_root, "chemical-engineering-runtime/" + source_rel
         else:
             continue
         target = safe_target(root, rel)
@@ -67,10 +86,13 @@ def install(repository: Path, workspace_root: Path, skills_root: Path, *, replac
         source = safe_target(repository, source_rel).read_bytes()
         if sha256(source) != entry["sha256"]:
             raise ReleaseError("Source changed during install preflight")
-        text = source.decode("utf-8")
-        for token, value in tokens.items():
-            text = text.replace(token, value)
-        output = text.encode("utf-8")
+        if kind == "runtime":
+            output = source  # Preserve backend manifests, binary data and wheels byte-for-byte.
+        else:
+            text = source.decode("utf-8")
+            for token, value in tokens.items():
+                text = text.replace(token, value)
+            output = text.encode("utf-8")
         old = target.read_bytes() if target.exists() else None
         item = {"kind": kind, "relative": rel, "target": target, "data": output, "old": old}
         planned.append(item)

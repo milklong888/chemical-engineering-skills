@@ -1,0 +1,13 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-PARTIAL-FLOW-001",
+  "operation": "equipment.match",
+  "payload": {
+    "values": {
+      "flow_m3_h": 20
+    },
+    "policy": {
+      "llm_allowed": false
+    }
+  }
+}

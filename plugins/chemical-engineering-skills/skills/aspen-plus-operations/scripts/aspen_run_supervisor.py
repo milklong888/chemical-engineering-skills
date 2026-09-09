@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import time
 from typing import Any
 import uuid
@@ -13,6 +14,39 @@ from aspen_runtime import DEFAULT_LOCK_PATH, acquire_lock, atomic_json, process_
 
 DEFAULT_PHASE_TIMEOUTS = {"worker_boot": 30.0, "creating_com": 60.0, "opening": 60.0,
     "running": 1800.0, "exporting": 60.0, "saving": 60.0, "closing": 30.0, "finished": 10.0}
+
+
+def prepare_owned_command(command: list[str], environment: dict[str, str]):
+    """Follow CPython's own Windows-venv spawn route, retaining exact Popen PID.
+
+    Source: CPython v3.14.3 Lib/multiprocessing/popen_spawn_win32.py, bpo-35797.
+    Only the current interpreter may be redirected; arbitrary child PIDs or
+    other launchers are never adopted as owned workers.
+    """
+    if not command or not all(isinstance(arg, str) for arg in command):
+        raise ValueError("Worker command must be a nonempty string argument list")
+    actual, env = list(command), dict(environment)
+    base = getattr(sys, "_base_executable", sys.executable)
+    same = lambda a, b: os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+    bypass = (os.name == "nt" and sys.implementation.name == "cpython"
+              and not same(sys.executable, base) and same(command[0], sys.executable))
+    if bypass:
+        if not Path(base).is_file():
+            raise FileNotFoundError("Current venv base interpreter missing")
+        actual[0] = base
+        env["__PYVENV_LAUNCHER__"] = sys.executable
+    return actual, env, {"venv_redirector_bypassed": bypass,
+                         "requested_executable": command[0], "actual_executable": actual[0],
+                         "venv_identity": sys.executable if bypass else None}
+
+
+def stage_belongs_to_worker(candidate, identity, run_id, owner_token):
+    child = candidate.get("process_identity", {})
+    return (candidate.get("run_id") == run_id and candidate.get("owner_token") == owner_token
+            and candidate.get("pid") == identity.get("pid") and identity.get("verified") is True
+            and child.get("verified") is True and child.get("pid") == identity.get("pid")
+            and bool(identity.get("start_identity"))
+            and child.get("start_identity") == identity["start_identity"])
 
 
 def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, float] | None = None,
@@ -55,16 +89,19 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
         env.update(environment or {})
         env.update({"ASPEN_RUNTIME_STAGE_FILE": str(phase_file), "ASPEN_RUNTIME_RUN_ID": run_id,
                     "ASPEN_RUNTIME_OWNER_TOKEN": lease.record["owner_token"], "PYTHONDONTWRITEBYTECODE": "1"})
+        actual_command, env, launch_metadata = prepare_owned_command(command, env)
+        result["launch"] = launch_metadata
+        result["actual_command"] = actual_command
         with (run_dir / "worker_stdout.txt").open("wb") as stdout, (run_dir / "worker_stderr.txt").open("wb") as stderr:
-            worker = subprocess.Popen(command, cwd=run_dir, env=env, stdout=stdout, stderr=stderr,
+            worker = subprocess.Popen(actual_command, cwd=run_dir, env=env, stdout=stdout, stderr=stderr,
                                       creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
             owned_identity = process_identity(worker.pid)
             result["owned_worker"] = owned_identity
             while worker.poll() is None:
                 try:
                     candidate = json.loads(phase_file.read_text(encoding="utf-8"))
-                    if (candidate.get("run_id") == run_id and candidate.get("owner_token") == lease.record["owner_token"]
-                            and candidate.get("pid") == worker.pid and candidate.get("sequence", 0) > sequence):
+                    if (stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"])
+                            and candidate.get("sequence", 0) > sequence):
                         new_phase = candidate.get("phase")
                         if new_phase not in budgets:
                             raise ValueError(f"Unknown worker phase: {new_phase}")
@@ -91,7 +128,7 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
             # A very fast worker may exit between polls: consume its final state.
             if phase_file.is_file():
                 candidate = json.loads(phase_file.read_text(encoding="utf-8"))
-                if candidate.get("run_id") == run_id and candidate.get("owner_token") == lease.record["owner_token"] and candidate.get("pid") == worker.pid:
+                if stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"]):
                     last_stage = candidate
             result["worker_exit_code"] = worker.returncode
         if result["status"] != "timeout":

@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-service-profile-v1",
+  "title": "Deterministically derived equipment service profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "equipment_id",
+    "source_bundle_sha256",
+    "boundary_streams",
+    "raw_observations",
+    "service_labels",
+    "unknown_labels",
+    "diagnostics",
+    "profile_context_sha256",
+    "runtime_contract"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-service-profile-v1"},
+    "equipment_id": {"type": "string", "minLength": 1},
+    "equipment_family": {"type": "string"},
+    "aspen_block_id": {"type": "string"},
+    "aspen_block_type": {"type": "string"},
+    "source_bundle_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+    "boundary_streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stream_id", "stream_kind", "role", "direction"],
+        "properties": {
+          "stream_id": {"type": "string", "minLength": 1},
+          "stream_kind": {"enum": ["material", "heat", "work", "unknown"]},
+          "role": {"enum": ["feed", "product", "side_draw", "reflux", "vent", "drain", "utility", "unknown"]},
+          "direction": {"enum": ["inlet", "outlet", "bidirectional", "unknown"]}
+        }
+      }
+    },
+    "raw_observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["observation_id", "field", "value", "unit", "source_path", "label_origin", "qa_status"],
+        "properties": {
+          "observation_id": {"type": "string"},
+          "stream_id": {"type": "string"},
+          "field": {"type": "string"},
+          "value": {"type": ["number", "string", "boolean", "array"]},
+          "unit": {"type": "string"},
+          "basis": {"type": "string"},
+          "source_path": {"type": "string"},
+          "label_origin": {"enum": ["ASPEN_RAW_FIELD", "MANUAL_RAW_FIELD"]},
+          "qa_status": {"enum": ["USABLE", "ISOLATED_INVALID", "ISOLATED_SENTINEL", "NOT_RUN_PLACEHOLDER", "CONFLICT"]}
+        }
+      }
+    },
+    "service_labels": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/label"}
+    },
+    "unknown_labels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label_id", "reason", "minimum_missing_fields", "warning_code"],
+        "properties": {
+          "label_id": {"type": "string"},
+          "reason": {"type": "string"},
+          "minimum_missing_fields": {"type": "array", "items": {"type": "string"}},
+          "warning_code": {"type": "string"}
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "scope", "severity", "detail"],
+        "properties": {
+          "code": {"type": "string"},
+          "scope": {"enum": ["field", "stream", "equipment", "property_join"]},
+          "severity": {"enum": ["info", "warning", "local_blocker"]},
+          "detail": {"type": "string"}
+        }
+      }
+    },
+    "accepted_connection_property_facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "connection_id", "fact", "value", "source_id",
+          "source_asset_sha256", "source_record_sha256"
+        ],
+        "properties": {
+          "connection_id": {"type": "string"},
+          "fact": {"type": "string"},
+          "value": {},
+          "source_id": {"type": "string"},
+          "source_asset_path": {"type": ["string", "null"]},
+          "source_asset_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+          "source_record_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "profile_context_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+    "runtime_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pdf_access", "image_access", "vision_capability", "labels_rebuilt_from_raw_input"],
+      "properties": {
+        "pdf_access": {"const": "FORBIDDEN"},
+        "image_access": {"const": "FORBIDDEN"},
+        "vision_capability": {"const": false},
+        "labels_rebuilt_from_raw_input": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_id",
+        "value",
+        "label_origin",
+        "evidence_state",
+        "derivation_id",
+        "input_observation_ids",
+        "formula_chain",
+        "label_context_sha256"
+      ],
+      "properties": {
+        "label_id": {"type": "string", "pattern": "^[a-z0-9_.:-]+$"},
+        "value": {"type": ["number", "string", "boolean", "array"]},
+        "unit": {"type": "string"},
+        "basis": {"type": "string"},
+        "label_origin": {"enum": ["ASPEN_RAW_FIELD", "MANUAL_RAW_FIELD", "MODULE_TOPOLOGY", "EXACT_DERIVATION", "PROPERTY_GRAPH_JOIN", "REGISTERED_PROVISIONAL_FALLBACK"]},
+        "evidence_state": {"enum": ["A", "D", "J", "U"]},
+        "derivation_id": {"type": "string"},
+        "input_observation_ids": {"type": "array", "items": {"type": "string"}},
+        "property_graph_record_ids": {"type": "array", "items": {"type": "string"}},
+        "formula_chain": {"type": "string"},
+        "warning_codes": {"type": "array", "items": {"type": "string"}},
+        "label_context_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"}
+      }
+    }
+  }
+}

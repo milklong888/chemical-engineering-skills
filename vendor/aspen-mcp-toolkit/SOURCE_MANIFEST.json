@@ -1,0 +1,593 @@
+{
+  "schema": "aspen-mcp-vendor-source-v1",
+  "project": "AspenPlus-MCP-Toolkit-ddtlxc001",
+  "commit": "7bf5780d537fb9db917d37517168925f2091b3d7",
+  "original_bytes_preserved": true,
+  "files": [
+    {
+      "path": "docs/blocks/ccd-advanced.md",
+      "bytes": 343,
+      "sha256": "32b04eacde433aaa2f1235261ff597a7101fc4e1b76c2b68eab37e40c3894999"
+    },
+    {
+      "path": "docs/blocks/ccd.md",
+      "bytes": 1725,
+      "sha256": "f6a648c9ebe11e5976fa6af93bc59800875991750dd28ab5172b26614a3437a7"
+    },
+    {
+      "path": "docs/blocks/cffilter-advanced.md",
+      "bytes": 358,
+      "sha256": "ffe00131de4e73e0f2f4e2c088fc3a6cef684d1cc59ff426ec6e46a21ed057b7"
+    },
+    {
+      "path": "docs/blocks/cffilter.md",
+      "bytes": 2543,
+      "sha256": "c2a69394e134705e0357c49f95f8c672f171a77ac0fb701f9ff84b6f90accbac"
+    },
+    {
+      "path": "docs/blocks/cfuge-advanced.md",
+      "bytes": 450,
+      "sha256": "9d4ca9e97160ca8aedfa875275186e63b940b3b3a8c629094ca40a406840af4e"
+    },
+    {
+      "path": "docs/blocks/cfuge.md",
+      "bytes": 1902,
+      "sha256": "34f49ff87362c172c10524a03a4b220e9c84725b08890ff30a631fd058eb4191"
+    },
+    {
+      "path": "docs/blocks/classifier-advanced.md",
+      "bytes": 364,
+      "sha256": "a4a9c6740e9bf1a7663b28a666aea092f224fbd84c592b4daddbaa2f859f5c67"
+    },
+    {
+      "path": "docs/blocks/classifier.md",
+      "bytes": 2199,
+      "sha256": "4bc6aab38bbe5c2d62c904af99038f2510ff3d08f179e7de6f9a377cc69851c1"
+    },
+    {
+      "path": "docs/blocks/common-advanced.md",
+      "bytes": 2366,
+      "sha256": "083df12de0faf5da807271d12e419965cabfc18133b808382f56e4514d59985c"
+    },
+    {
+      "path": "docs/blocks/compr-advanced.md",
+      "bytes": 1298,
+      "sha256": "cd35cab7d9ce7b1928afb3f7a15b59ba21b6fb2b7cf581965320b8c503944a64"
+    },
+    {
+      "path": "docs/blocks/compr.md",
+      "bytes": 3452,
+      "sha256": "ef6f50e1a74cb997561fa9d3b567558094140d85434ac910331ee781f85f9bb1"
+    },
+    {
+      "path": "docs/blocks/consep-advanced.md",
+      "bytes": 352,
+      "sha256": "9ca6e7a6fe486266a8930232297ca8daa3dd9b0c51fa29dd970a2b47dfd438f6"
+    },
+    {
+      "path": "docs/blocks/consep.md",
+      "bytes": 2585,
+      "sha256": "3d65de01f0514ea2e329fb8545a2d12e5ccc2cfe0f6854031f282afda545e64e"
+    },
+    {
+      "path": "docs/blocks/crusher-advanced.md",
+      "bytes": 416,
+      "sha256": "ed24b0f98416f9ac73e5cbc81075941b30fc8960bb0ab3beee882eba2dddf8c2"
+    },
+    {
+      "path": "docs/blocks/crusher.md",
+      "bytes": 2031,
+      "sha256": "0081d88abafffea6ffec16c5403ac0968332309e0c091bb5bb4da3e19021ea67"
+    },
+    {
+      "path": "docs/blocks/crystallizer-advanced.md",
+      "bytes": 393,
+      "sha256": "16f2845b6ab9c79cb4963b1b6e0abfff8e097fa04c11e906dda69f8ed3513ab7"
+    },
+    {
+      "path": "docs/blocks/crystallizer.md",
+      "bytes": 1880,
+      "sha256": "36cfc44fcf83402f50cd0ec801e80b1eaad8c95c94b38ab29597138a58fbfab4"
+    },
+    {
+      "path": "docs/blocks/cyclone-advanced.md",
+      "bytes": 367,
+      "sha256": "7d45c0d4a58a270939488a03bdb4c471e49a01cc9be536e2a4a815b775cb6050"
+    },
+    {
+      "path": "docs/blocks/cyclone.md",
+      "bytes": 1951,
+      "sha256": "09e9948a1d5915c48d7a78f1d58f6175ad04a06a36fc76284b659f5a3597236d"
+    },
+    {
+      "path": "docs/blocks/decanter-advanced.md",
+      "bytes": 281,
+      "sha256": "abba99a288382f36afa7f31127da7e90f068a67e2829a75f171935e09d17b5da"
+    },
+    {
+      "path": "docs/blocks/decanter.md",
+      "bytes": 1636,
+      "sha256": "829b84ceaa57096d21fc7dee14729d1631ba00867baf9e0e2b161ae74437a5a4"
+    },
+    {
+      "path": "docs/blocks/distl-advanced.md",
+      "bytes": 349,
+      "sha256": "a78d9c1cdb1067f2235feac07345d10e7ae6f5cc9f70e95248e11fe4108f1b89"
+    },
+    {
+      "path": "docs/blocks/distl.md",
+      "bytes": 2011,
+      "sha256": "1a6c5c1c8c3b9c0ed83347e3206a3089dc864f19738778d2387b27f91e2e59e7"
+    },
+    {
+      "path": "docs/blocks/dryer-advanced.md",
+      "bytes": 359,
+      "sha256": "b9764e2f846329edd552c22aff6275ecade1bdbc611f026f87d7c7497933f603"
+    },
+    {
+      "path": "docs/blocks/dryer.md",
+      "bytes": 1988,
+      "sha256": "d942b789fb20ff5fe55fb24cfe832508da8607fb4b526e862f62e3fda9e083ca"
+    },
+    {
+      "path": "docs/blocks/dstwu-advanced.md",
+      "bytes": 349,
+      "sha256": "03f775f8d00cda9c19526714a964eec368c66caf6906f6baa1d62cd65aeae6f7"
+    },
+    {
+      "path": "docs/blocks/dstwu.md",
+      "bytes": 3248,
+      "sha256": "53b67a41777441468a14700778cdadead2019431d006e4c8a173f2864c5ee865"
+    },
+    {
+      "path": "docs/blocks/electrolyzer-advanced.md",
+      "bytes": 1663,
+      "sha256": "1700f053133d3af66e240e456415b7fb3224ba44b75d21af3b8601a6994a44e5"
+    },
+    {
+      "path": "docs/blocks/electrolyzer.md",
+      "bytes": 3330,
+      "sha256": "0774099b3889b165d51ee4446d5db0e11d3806278c0ba0617ff475243675fcc9"
+    },
+    {
+      "path": "docs/blocks/esp-advanced.md",
+      "bytes": 332,
+      "sha256": "8204dd1bce60b0ad7822408de42464a4248c92fed12ad593164c1ecc901cd4d1"
+    },
+    {
+      "path": "docs/blocks/esp.md",
+      "bytes": 1918,
+      "sha256": "26f6649a340500382bc7172c86e95502aaefa48a4707cef9d13440fc6b4c348f"
+    },
+    {
+      "path": "docs/blocks/extract-advanced.md",
+      "bytes": 355,
+      "sha256": "0cf9c3f14815b8d64cd0fc84e520dd87e59563217ddd6dee9d3abf949e914a1e"
+    },
+    {
+      "path": "docs/blocks/extract.md",
+      "bytes": 1387,
+      "sha256": "6576e5c42f85aff974f93735c5fb312df2b965e6fe29019e06386f2aaa7d5b0e"
+    },
+    {
+      "path": "docs/blocks/fabfl-advanced.md",
+      "bytes": 349,
+      "sha256": "3e3dd95c72b0701675ab7be1122c189796585af1cdb28880d56958fe3456c5c5"
+    },
+    {
+      "path": "docs/blocks/fabfl.md",
+      "bytes": 1795,
+      "sha256": "1ac3916ca1a4a30e325d9e1b45f76d977ffcf74a16ef830bc75cc48c2483bc84"
+    },
+    {
+      "path": "docs/blocks/filter-advanced.md",
+      "bytes": 393,
+      "sha256": "92e2957f1e8d89141de93dcca68cc598b6ddd47ce1a02426b3b36aaca9cf582e"
+    },
+    {
+      "path": "docs/blocks/filter.md",
+      "bytes": 2102,
+      "sha256": "6c639545bf327885badd46b335a7aa39c4dd7c52b3ae79004315abbd7b9dd11f"
+    },
+    {
+      "path": "docs/blocks/flash2-advanced.md",
+      "bytes": 277,
+      "sha256": "436433450fb6855b38224c4eadaed4c63e66a43a28efc948a4e1ae290bd23062"
+    },
+    {
+      "path": "docs/blocks/flash2.md",
+      "bytes": 1575,
+      "sha256": "fb7239bdf7d1f389ad7403ec6df7f92f4af70c1267af651c6a05fd724c57036c"
+    },
+    {
+      "path": "docs/blocks/flash3-advanced.md",
+      "bytes": 277,
+      "sha256": "c2c2916a187bee0b73634b5f8eb9007c350f4761b55536d07ea3acaff61a70d5"
+    },
+    {
+      "path": "docs/blocks/flash3.md",
+      "bytes": 1922,
+      "sha256": "0be228230fa0c07b89b96ea8e5cfad053165fe84e21b48e01f7632effd15ce06"
+    },
+    {
+      "path": "docs/blocks/fluidbed-advanced.md",
+      "bytes": 428,
+      "sha256": "a32100b69119fb6a8be2c15173766a6be8ab4ea05d14866e7d2a295077af38aa"
+    },
+    {
+      "path": "docs/blocks/fluidbed.md",
+      "bytes": 1888,
+      "sha256": "51ed25afb679965b29c6153c4c380afd276c3867e9f71a7186f4c52e478d8c16"
+    },
+    {
+      "path": "docs/blocks/fsplit-advanced.md",
+      "bytes": 367,
+      "sha256": "007a4216c35389de9374395999575ed89eb49986faa4e2b141d2ea05109a5a44"
+    },
+    {
+      "path": "docs/blocks/fsplit.md",
+      "bytes": 1781,
+      "sha256": "015d0f39af648899d9aa2a9947c8d78e1e2c7bdb8e9f26e8746248c1deb20f28"
+    },
+    {
+      "path": "docs/blocks/granulator-advanced.md",
+      "bytes": 364,
+      "sha256": "9ac3d9e5eef45c7c466fcfddb552a1c2d31b78d3abe22218dcd0f1e930827c4b"
+    },
+    {
+      "path": "docs/blocks/granulator.md",
+      "bytes": 1584,
+      "sha256": "089b3dee85b3b28df8938b550c2cd472245307c84016943379390a4d7a1f8fe3"
+    },
+    {
+      "path": "docs/blocks/heater-advanced.md",
+      "bytes": 277,
+      "sha256": "d1297ade4255a85261addbed49931fde667084e558fd259813b186c526a0cb1f"
+    },
+    {
+      "path": "docs/blocks/heater.md",
+      "bytes": 2366,
+      "sha256": "fb7d3d9a2929870baeb4634dfa1bc7a6e01fa5ed38f484db44f58d74f1c726d1"
+    },
+    {
+      "path": "docs/blocks/heatx-advanced.md",
+      "bytes": 2766,
+      "sha256": "ddfe88bcbd18dc2e9acd7c78489f0aedab6b7850c5807718190d1d6f64126c9c"
+    },
+    {
+      "path": "docs/blocks/heatx.md",
+      "bytes": 3118,
+      "sha256": "9bc6214e6909ea147c7f26edffbe1030a431a09111724c2f02442fc6ea044566"
+    },
+    {
+      "path": "docs/blocks/index.md",
+      "bytes": 6593,
+      "sha256": "b8b253fcb6e405f749103fd53fc33a598c71838a8cece3fb4c2ea21389e256d0"
+    },
+    {
+      "path": "docs/blocks/mixer-advanced.md",
+      "bytes": 364,
+      "sha256": "3f70306fb698da841184e3fce10187727c5ab189b521c9ce5ff20767c8775f57"
+    },
+    {
+      "path": "docs/blocks/mixer.md",
+      "bytes": 1736,
+      "sha256": "1263fdc80a555db26e2e25a570121b0fd08db56c2c416ef1d9044f2ffeb89c7d"
+    },
+    {
+      "path": "docs/blocks/pump-advanced.md",
+      "bytes": 1191,
+      "sha256": "2b638cc0dc08475c2f957f39c2127342adbd26ac6a0933a6ace86b5569c8fd60"
+    },
+    {
+      "path": "docs/blocks/pump.md",
+      "bytes": 2612,
+      "sha256": "b2a1ca9eedace70387da0fe5c7fd17c8f08480f2fcb264bdd5b71b5559b35c01"
+    },
+    {
+      "path": "docs/blocks/radfrac-advanced.md",
+      "bytes": 9249,
+      "sha256": "265741adaccfc138f8930ddb9ff0243f28ca6ae797bf05ef31ede19329e97b50"
+    },
+    {
+      "path": "docs/blocks/radfrac.md",
+      "bytes": 6277,
+      "sha256": "dfb8917ceb8bbfbf0cf4ddcc7209651b388573d73ecc5be2735bca03a7748d27"
+    },
+    {
+      "path": "docs/blocks/rcstr-advanced.md",
+      "bytes": 851,
+      "sha256": "b3e68cdf9e80cf836dd58aa5f6bc301f240cbdb4b488f312655ad58a85501072"
+    },
+    {
+      "path": "docs/blocks/rcstr.md",
+      "bytes": 3241,
+      "sha256": "8786c98231590c37a49b7e7441aeb096c62a1c14daa2db9cb3105a8756ad54ec"
+    },
+    {
+      "path": "docs/blocks/requil-advanced.md",
+      "bytes": 277,
+      "sha256": "36cd7d06b3c25ea0abe4d369ad14723ac4016f58d1a03db6f2ddebfcaf7a810d"
+    },
+    {
+      "path": "docs/blocks/requil.md",
+      "bytes": 4074,
+      "sha256": "6d3fb0ec3a2dabb4e743bb78bee167f0e8f8ae6f854722923e10776b77c69142"
+    },
+    {
+      "path": "docs/blocks/rgibbs-advanced.md",
+      "bytes": 277,
+      "sha256": "6d6ad95cd2c61f64292591c456c837f713625dfe828b16466db9f53bc42b15d1"
+    },
+    {
+      "path": "docs/blocks/rgibbs.md",
+      "bytes": 1907,
+      "sha256": "59e3aa4baca7669b8fc0a073467828c9827f66a33584918043113919d7c09327"
+    },
+    {
+      "path": "docs/blocks/rplug-advanced.md",
+      "bytes": 1068,
+      "sha256": "bb22b05fa4ebe17121dce82d0fafdee4bb75e1e7e64b2d16babd723e0466cd80"
+    },
+    {
+      "path": "docs/blocks/rplug.md",
+      "bytes": 4329,
+      "sha256": "dae69c09ea47cd6d60d7c7a08cdb9b4d6acb45e3c830b14417550a4b2319aa44"
+    },
+    {
+      "path": "docs/blocks/rstoic-advanced.md",
+      "bytes": 277,
+      "sha256": "708eb2c246378238d21a643e2d525d9fbae154ef2e3cc8972e049776ca4cf81d"
+    },
+    {
+      "path": "docs/blocks/rstoic.md",
+      "bytes": 6789,
+      "sha256": "e8fa51ce66a8246972b7880e33f5ba0a1163889bc83234d00cf3de7daa0248e0"
+    },
+    {
+      "path": "docs/blocks/ryield-advanced.md",
+      "bytes": 277,
+      "sha256": "cf94969c92920cdcfafc38f21f9eaf05998e0aacec29373a4eb0c6bd1bdf01ed"
+    },
+    {
+      "path": "docs/blocks/ryield.md",
+      "bytes": 3883,
+      "sha256": "41a0cfb866cd2e97fea167eb0626a70a12fc3ea66a406c33f7a3b8f8194aad43"
+    },
+    {
+      "path": "docs/streams.md",
+      "bytes": 1583,
+      "sha256": "96568fbbd077647ec8bf85ad113e7b78ae511e7bde80e6c1661d6b4dba4025fe"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1105,
+      "sha256": "4c948fbc72833d7d5bc5f51328a127b7cb6ffd9ffb0425da854e0ce1f91690e3"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 363,
+      "sha256": "7772f9a5b554746daddd2c5c1ef2167eceb7f925398bd645ae71b2af8e783864"
+    },
+    {
+      "path": "README.md",
+      "bytes": 19227,
+      "sha256": "b14b7442a202a290c45ee167c69850f5bdad63706cd2db52bcb479dbb3513b06"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 30,
+      "sha256": "265c7cbb452cfdc66bcd2f49fd47f37001b7f1645be42a54ff8e8084b43d9a78"
+    },
+    {
+      "path": "src/aspen_mcp/__init__.py",
+      "bytes": 66,
+      "sha256": "8fc02bc823c2646b01972b7faf26ae2775588eeabe9314c044349191b1c378b2"
+    },
+    {
+      "path": "src/aspen_mcp/bridge/__init__.py",
+      "bytes": 461,
+      "sha256": "92ce1ba7d46fe84c124da886adcd64daac9676172e3242f8c460ea77d43bd946"
+    },
+    {
+      "path": "src/aspen_mcp/bridge/base.py",
+      "bytes": 3180,
+      "sha256": "252f3bf9d59e6101a334a8bdcb396999269e85dd757ff051bdeade29cb87b356"
+    },
+    {
+      "path": "src/aspen_mcp/bridge/stub.py",
+      "bytes": 9529,
+      "sha256": "3c958a35a5cefe604cafa615002c6bcbe533d90967ed0a34d20b02cda19bfe73"
+    },
+    {
+      "path": "src/aspen_mcp/bridge/windows.py",
+      "bytes": 11878,
+      "sha256": "d5c5838a529fcd1bf90250f8c852469e58a5e677dbf7a89846be24e7e433ff38"
+    },
+    {
+      "path": "src/aspen_mcp/cache.py",
+      "bytes": 3092,
+      "sha256": "410c4875e65d463ef5f58a12226ad0908f12e34e92b736835d6080867d0a81eb"
+    },
+    {
+      "path": "src/aspen_mcp/com_bridge.py",
+      "bytes": 414,
+      "sha256": "e9ae732e63df69f3279d9b2432408f136682befda1b5e37504b834e14b67b12d"
+    },
+    {
+      "path": "src/aspen_mcp/knowledge/__init__.py",
+      "bytes": 70,
+      "sha256": "ee2ca628c4faf909f028485db981a04684645e724010d906e6f57e7888f035b7"
+    },
+    {
+      "path": "src/aspen_mcp/knowledge/convergence.py",
+      "bytes": 11039,
+      "sha256": "79c07930d8390ca7a30bd2663fbcdd3b8ffa0820491ebf7230e160c5ab03e842"
+    },
+    {
+      "path": "src/aspen_mcp/server.py",
+      "bytes": 29597,
+      "sha256": "9b9ef65bd1b628c1eadc65ddf5c19f0cb65875aed47c4e1dd6726df590bbb6c9"
+    },
+    {
+      "path": "src/aspen_mcp/tools/__init__.py",
+      "bytes": 76,
+      "sha256": "dc463a6098312d9b613d031797b2cb13d3ef49b8259c8a6dba05e83eab5f5c86"
+    },
+    {
+      "path": "src/aspen_mcp/tools/_common.py",
+      "bytes": 4029,
+      "sha256": "f65d13ddd6f8f0eff060b3fadc3d2ad1f8a566f1116b85f39fc3cc2426fd9d74"
+    },
+    {
+      "path": "src/aspen_mcp/tools/_error.py",
+      "bytes": 2469,
+      "sha256": "6429761af02db0985d0c171164ae122aa8071e7fdb1399053eae3ace90296f8b"
+    },
+    {
+      "path": "src/aspen_mcp/tools/analysis.py",
+      "bytes": 27240,
+      "sha256": "9dd48a8ec66448b3796bf7bd7a8c69d6f642f65debab6503ec51cf53d817f212"
+    },
+    {
+      "path": "src/aspen_mcp/tools/blocks.py",
+      "bytes": 13573,
+      "sha256": "0e7c4c72a62933d5400aa0df3cd56593041072689a8fb413f0aafa254311b989"
+    },
+    {
+      "path": "src/aspen_mcp/tools/columns.py",
+      "bytes": 10848,
+      "sha256": "216d08fc83dccd7a3415ea3df75014f695f44261da0657a860324c2cf241d255"
+    },
+    {
+      "path": "src/aspen_mcp/tools/components.py",
+      "bytes": 6450,
+      "sha256": "d978049672f25f6e74e86a9d582aaa15023118b2387aafc9e574941232b58b17"
+    },
+    {
+      "path": "src/aspen_mcp/tools/deep_probe.py",
+      "bytes": 7567,
+      "sha256": "ea4c6e13ffb50d4cde11b12e2446cf1feb9bf9a4ac7ea05e6cfc711b327e997c"
+    },
+    {
+      "path": "src/aspen_mcp/tools/fix_trivial.py",
+      "bytes": 7286,
+      "sha256": "4fdd370b0d68a43631f9692dc3235c8293e24cdb167e85549367891333f18cec"
+    },
+    {
+      "path": "src/aspen_mcp/tools/flowsheet.py",
+      "bytes": 6511,
+      "sha256": "21315344e47f462d7bf31f2705995830c8a2439d14c4bd653eadb2a49262f2da"
+    },
+    {
+      "path": "src/aspen_mcp/tools/paths.py",
+      "bytes": 1964,
+      "sha256": "a2f21d006bf138ef17c067ae1a2288b89a894981c158098a564dbd09a40bcfed"
+    },
+    {
+      "path": "src/aspen_mcp/tools/reactions.py",
+      "bytes": 11150,
+      "sha256": "313e8c8644ccc0a92ebb89bc728b67b8c9cd8b097653eb683e638424793889f8"
+    },
+    {
+      "path": "src/aspen_mcp/tools/sensitivity_advanced.py",
+      "bytes": 7781,
+      "sha256": "daae95ea2edd5a40681b42e5023e2df0de0f680ed14570479cd23ec6007ffac9"
+    },
+    {
+      "path": "src/aspen_mcp/tools/simulation.py",
+      "bytes": 11905,
+      "sha256": "f540d4ab8fd6a08ecc0a50f8437b4cd2cb5a95a5edfd4a47144d093908367af4"
+    },
+    {
+      "path": "src/aspen_mcp/tools/streams.py",
+      "bytes": 23242,
+      "sha256": "491f52f1466b3ca14a60f289b0fb56f41d063420ef570ce6cca610a4ae259b80"
+    },
+    {
+      "path": "src/aspen_mcp/tools/utilities.py",
+      "bytes": 14971,
+      "sha256": "bef7ba47ee0aa93b0491163f2efa6123480bceb9f0127d390e1dbadeed30ae0c"
+    },
+    {
+      "path": "maintenance/_remove_old_utils.py",
+      "original_path": "src/_remove_old_utils.py",
+      "sha256": "3989d470b04b7e90c13bfb0e492fec1852b23e7c7776e0cb2ea64ffd635b3cb7",
+      "bytes": 1217,
+      "runtime_entry": false,
+      "automatic_execution_forbidden": true
+    }
+  ],
+  "tool_names": [
+    "status",
+    "probe",
+    "open_file",
+    "close_file",
+    "run",
+    "run_async",
+    "save",
+    "reinit",
+    "reinit_and_run",
+    "new_simulation",
+    "stop_simulation",
+    "visible",
+    "run_script",
+    "batch_refresh",
+    "list_all_streams",
+    "get_stream",
+    "get_stream_composition_info",
+    "set_stream_param",
+    "set_stream_composition",
+    "set_stream_composition_batch",
+    "add_stream",
+    "remove_stream",
+    "connect",
+    "connect_port",
+    "disconnect",
+    "list_block_ports",
+    "list_all_blocks",
+    "get_block",
+    "set_param",
+    "add_block",
+    "remove_block",
+    "block_status",
+    "explore",
+    "list_components",
+    "add_component",
+    "remove_component",
+    "get_property_method",
+    "set_property_method",
+    "add_reaction_set",
+    "remove_reaction_set",
+    "add_reaction",
+    "remove_reaction",
+    "list_reaction_sets",
+    "flowsheet_topology",
+    "add_side_duty",
+    "remove_side_duty",
+    "get_value",
+    "set_value",
+    "sensitivity",
+    "export_report_file",
+    "diagnose",
+    "search_convergence_knowledge",
+    "generate_input_summary",
+    "find_incomplete_inputs",
+    "list_tear_streams",
+    "set_tear_estimate",
+    "simulation_warnings",
+    "validate_block",
+    "fill_trivial_params",
+    "deep_probe",
+    "configure_fsplit",
+    "set_column_stages",
+    "set_condenser_type",
+    "set_reboiler_type",
+    "set_feed_stage",
+    "set_product_stage",
+    "set_column_pressure",
+    "add_utility",
+    "list_utilities",
+    "remove_utility"
+  ]
+}

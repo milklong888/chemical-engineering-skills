@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-agent-request-v1",
+  "title": "Equipment Design Agent Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "operation", "payload"],
+  "properties": {
+    "schema": {"const": "equipment-design-agent-request-v1"},
+    "request_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "operation": {
+      "enum": [
+        "capabilities", "schema_get", "catalog", "auto_match", "manual_match", "manual_batch",
+        "render_report", "organize_answer", "customer_export", "knowledge_search", "aspen_derive", "aspen_import", "pfd_build", "pfd_override", "pfd_recalculate",
+        "hybrid_prepare", "hybrid_continue", "hybrid_run", "llm_review", "llm_apply", "selftest",
+        "system.capabilities", "schema.get", "catalog.get", "equipment.match", "report.render", "answer.organize", "equipment.customer.export", "knowledge.query",
+        "aspen.export.derive", "aspen.case.import", "aspen.pfd.build", "aspen.pfd.override", "aspen.pfd.recalculate", "workflow.hybrid.prepare", "workflow.hybrid.continue",
+        "workflow.hybrid", "review.llm", "review.apply", "system.selftest"
+      ]
+    },
+    "payload": {"type": "object"}
+  },
+  "$defs": {
+    "deterministicInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "payload"],
+      "properties": {
+        "operation": {
+          "enum": ["auto_match", "manual_match", "manual_batch", "aspen_derive", "aspen_import"]
+        },
+        "payload": {"type": "object"}
+      }
+    },
+    "replayableDeterministicInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "payload"],
+      "properties": {
+        "operation": {
+          "enum": ["auto_match", "manual_match", "manual_batch", "aspen_derive"]
+        },
+        "payload": {"type": "object"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"operation": {"enum": ["capabilities", "system.capabilities", "catalog", "catalog.get", "selftest", "system.selftest"]}}},
+      "then": {"properties": {"payload": {"type": "object", "maxProperties": 0}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["schema_get", "schema.get"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["schema_id"], "properties": {"schema_id": {"type": "string", "minLength": 1}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["render_report", "report.render"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input"], "properties": {"input": {"$ref": "#/$defs/replayableDeterministicInput"}, "format": {"enum": ["html", "markdown", "md", "json"]}, "output_path": {"type": "string"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["organize_answer", "answer.organize"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input"], "properties": {"input": {"$ref": "#/$defs/replayableDeterministicInput"}, "format": {"enum": ["markdown", "md", "json"]}, "output_path": {"type": "string"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["customer_export", "equipment.customer.export"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input"], "properties": {"input": {"$ref": "#/$defs/replayableDeterministicInput"}, "output_path": {"type": "string"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["pfd_build", "aspen.pfd.build"]}}},
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["bundle_path"],
+            "properties": {
+              "bundle_path": {"type": "string", "minLength": 1},
+              "overrides": {
+                "type": "object",
+                "propertyNames": {"minLength": 1},
+                "additionalProperties": {"type": "string", "minLength": 1}
+              },
+              "output_path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["pfd_override", "aspen.pfd.override"]}}},
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["bundle_path", "block_id", "selection_id"],
+            "properties": {
+              "bundle_path": {"type": "string", "minLength": 1},
+              "overrides": {
+                "type": "object",
+                "propertyNames": {"minLength": 1},
+                "additionalProperties": {"type": "string", "minLength": 1}
+              },
+              "block_id": {"type": "string", "minLength": 1},
+              "selection_id": {"type": "string", "minLength": 1},
+              "output_path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["pfd_recalculate", "aspen.pfd.recalculate"]}}},
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["bundle_path", "block_id"],
+            "properties": {
+              "bundle_path": {"type": "string", "minLength": 1},
+              "overrides": {
+                "type": "object",
+                "propertyNames": {"minLength": 1},
+                "additionalProperties": {"type": "string", "minLength": 1}
+              },
+              "parameter_overrides": {
+                "type": "object",
+                "propertyNames": {"minLength": 1},
+                "additionalProperties": {
+                  "type": "object",
+                  "propertyNames": {"minLength": 1},
+                  "additionalProperties": {"type": ["string", "number", "integer", "boolean"]}
+                }
+              },
+              "block_id": {"type": "string", "minLength": 1},
+              "values": {
+                "type": "object",
+                "propertyNames": {"minLength": 1},
+                "additionalProperties": {"type": ["string", "number", "integer", "boolean", "null"]}
+              },
+              "clear": {"type": "boolean"},
+              "output_path": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["hybrid_prepare", "workflow.hybrid.prepare"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input"], "properties": {"input": {"$ref": "#/$defs/deterministicInput"}, "knowledge": {"type": "object"}, "injection_point": {"type": "string"}, "context_scope": {"type": "string"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["hybrid_continue", "workflow.hybrid.continue"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "properties": {"prepared": {"type": "object"}, "prepared_path": {"type": "string"}, "step_output": {"type": "object"}, "step_output_path": {"type": "string"}}, "allOf": [{"oneOf": [{"required": ["prepared"]}, {"required": ["prepared_path"]}]}, {"oneOf": [{"required": ["step_output"]}, {"required": ["step_output_path"]}]}]}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["hybrid_run", "workflow.hybrid"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input"], "properties": {"input": {"$ref": "#/$defs/deterministicInput"}, "knowledge": {"type": "object"}, "injection_point": {"type": "string"}, "context_scope": {"type": "string"}, "llm": {"type": "object"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["llm_review", "review.llm"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["input", "config"], "properties": {"input": {"$ref": "#/$defs/deterministicInput"}, "knowledge": {"type": "object"}, "injection_point": {"type": "string"}, "context_scope": {"type": "string"}, "config": {"type": "object"}, "policy": {"type": "object"}}}}}
+    },
+    {
+      "if": {"properties": {"operation": {"enum": ["llm_apply", "review.apply"]}}},
+      "then": {"properties": {"payload": {"type": "object", "additionalProperties": false, "required": ["approval"], "properties": {"proposal": {"type": "object"}, "proposal_path": {"type": "string"}, "approval": {"type": "object"}}, "oneOf": [{"required": ["proposal"]}, {"required": ["proposal_path"]}]}}}
+    }
+  ]
+}

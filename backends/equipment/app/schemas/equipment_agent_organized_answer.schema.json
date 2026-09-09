@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-agent-organized-answer-v1",
+  "title": "Equipment Agent Organized Answer",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "section_order",
+    "equipment_count",
+    "equipment",
+    "authority",
+    "source_presentation_sha256",
+    "organized_answer_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "equipment-agent-organized-answer-v1"
+    },
+    "section_order": {
+      "const": [
+        "结论",
+        "计算",
+        "候选与系统修改方案",
+        "强制警告",
+        "待补证据",
+        "下一步"
+      ]
+    },
+    "equipment_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "equipment_id",
+          "conclusion",
+          "calculations",
+          "candidates_and_system_plan",
+          "mandatory_warnings",
+          "pending_evidence",
+          "next_actions",
+          "agent_control",
+          "fact_binding"
+        ],
+        "properties": {
+          "equipment_id": {
+            "type": ["string", "null"]
+          },
+          "conclusion": {
+            "type": "object"
+          },
+          "calculations": {
+            "type": "array"
+          },
+          "candidates_and_system_plan": {
+            "type": "object"
+          },
+          "mandatory_warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pending_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "next_actions": {
+            "type": "array"
+          },
+          "agent_control": {
+            "type": "object"
+          },
+          "fact_binding": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministic_facts_immutable",
+        "llm_may_organize_language_only",
+        "llm_may_change_counts_models_or_open_gates",
+        "program_generated",
+        "llm_used"
+      ],
+      "properties": {
+        "deterministic_facts_immutable": {
+          "const": true
+        },
+        "llm_may_organize_language_only": {
+          "const": true
+        },
+        "llm_may_change_counts_models_or_open_gates": {
+          "const": false
+        },
+        "program_generated": {
+          "const": true
+        },
+        "llm_used": {
+          "const": false
+        }
+      }
+    },
+    "source_presentation_sha256": {
+      "type": "string",
+      "pattern": "^[A-F0-9]{64}$"
+    },
+    "organized_answer_sha256": {
+      "type": "string",
+      "pattern": "^[A-F0-9]{64}$"
+    }
+  }
+}

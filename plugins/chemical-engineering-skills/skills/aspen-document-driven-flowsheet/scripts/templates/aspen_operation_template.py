@@ -34,10 +34,10 @@ class Config:
 
 def load_runtime(config: Config):
     import hashlib
-    default = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))) / "skills/aspen-plus-operations/scripts/aspen_runtime.py"
+    default = Path(__file__).resolve().parents[3] / "aspen-plus-operations/scripts/aspen_runtime.py"
     path = Path(config.runtime_path).resolve() if config.runtime_path else default.resolve()
     if not path.is_file():
-        raise FileNotFoundError(f"Shared Aspen runtime unavailable: {path}")
+        raise FileNotFoundError(f"Bundled shared Aspen runtime unavailable: {path}; a detached template needs --runtime-path and --runtime-sha256")
     actual = hashlib.sha256(path.read_bytes()).hexdigest().upper()
     if config.runtime_path and not config.runtime_sha256:
         raise ValueError("A custom runtime path requires --runtime-sha256")

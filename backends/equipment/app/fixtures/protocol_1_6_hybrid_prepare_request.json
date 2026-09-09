@@ -1,0 +1,28 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-P16-HYBRID-PREPARE",
+  "operation": "hybrid_prepare",
+  "payload": {
+    "input": {
+      "operation": "manual_match",
+      "payload": {
+        "selection_id": "block:PUMP",
+        "values": {
+          "equipment_tag": "P-P16-FIXTURE",
+          "phase": "liquid",
+          "pressure_basis": "absolute",
+          "inlet_pressure_mpa": 0.2,
+          "outlet_pressure_mpa": 0.6,
+          "density_kg_m3": 900,
+          "flow_m3_h": 20,
+          "efficiency_percent": 75
+        }
+      }
+    },
+    "knowledge": {
+      "enabled": false
+    },
+    "injection_point": "audit",
+    "context_scope": "minimum"
+  }
+}

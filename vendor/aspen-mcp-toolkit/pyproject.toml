@@ -1,0 +1,15 @@
+[project]
+name = "aspen-plus-mcp"
+version = "1.0.0"
+description = "MCP server for Aspen Plus process simulation — talk to Aspen Plus in natural language"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=1.0.0",
+    "pywin32>=306",
+]
+
+[project.scripts]
+aspen-mcp = "aspen_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-evidence-index-v1",
+  "title": "Same-equipment evidence index",
+  "$defs": {
+    "estimate": {
+      "type": "object", "additionalProperties": true,
+      "required": ["field_id", "value", "state", "evidence_class", "result_status", "promotion_cap", "inference_basis", "assumptions", "context_refs", "lower_bound", "upper_bound", "registered_allowed_values", "registry_id", "confidence", "sensitivity_note"],
+      "properties": {
+        "field_id": {"type": "string", "minLength": 1}, "value": {"type": ["number", "string"]}, "state": {"type": "string", "minLength": 1}, "evidence_class": {"const": "J"}, "result_status": {"const": "PROVISIONAL"}, "promotion_cap": {"const": "TYPE_SCREENING"},
+        "inference_basis": {"enum": ["unit_conversion", "same_case_fact_interpretation", "engineering_requirement", "registered_range_interpolation", "conservative_screening_assumption"]}, "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}, "context_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "lower_bound": {"type": ["number", "null"]}, "upper_bound": {"type": ["number", "null"]}, "registered_allowed_values": {"type": "array", "items": {"type": "string", "minLength": 1}}, "registry_id": {"type": ["string", "null"]}, "confidence": {"enum": ["low", "medium"]}, "sensitivity_note": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [{"properties": {"value": {"type": "number"}, "lower_bound": {"type": "number"}, "upper_bound": {"type": "number"}}}, {"properties": {"value": {"type": "string"}, "lower_bound": {"type": "null"}, "upper_bound": {"type": "null"}, "registered_allowed_values": {"type": "array", "minItems": 1}, "registry_id": {"type": "string", "minLength": 1}}}]
+    },
+    "equipmentDisclosure": {
+      "type": "object", "additionalProperties": true,
+      "required": ["llm_used", "status", "model_estimate_fields", "applied_model_estimate_fields", "superseded_model_estimate_fields", "estimates", "evidence_class", "promotion_cap", "statement"],
+      "properties": {"llm_used": {"type": "boolean"}, "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]}, "model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "applied_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "superseded_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "estimates": {"type": "array", "items": {"$ref": "#/$defs/estimate"}}, "evidence_class": {"type": ["string", "null"], "enum": ["J", null]}, "promotion_cap": {"type": ["string", "null"], "enum": ["TYPE_SCREENING", null]}, "statement": {"type": "string", "minLength": 1}}
+    },
+    "aggregateDisclosure": {
+      "type": "object", "additionalProperties": false, "required": ["llm_used", "status", "equipment", "statement"],
+      "properties": {"llm_used": {"type": "boolean"}, "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]}, "equipment": {"type": "array", "items": {"allOf": [{"$ref": "#/$defs/equipmentDisclosure"}, {"type": "object", "required": ["equipment_key"], "properties": {"equipment_key": {"type": "string", "minLength": 1}}}]}}, "statement": {"type": "string", "minLength": 1}}
+    }
+  },
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "equipment_count", "record_count", "records", "deterministic", "llm_used", "model_estimate_disclosure"],
+  "properties": {
+    "schema": {"const": "equipment-evidence-index-v1"},
+    "equipment_count": {"type": "integer", "minimum": 0},
+    "record_count": {"type": "integer", "minimum": 0},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "equipment_key", "evidence_kind", "status", "record_id", "evidence_id",
+          "source_fields", "verification_scope"
+        ],
+        "properties": {
+          "equipment_key": {"type": "string", "minLength": 1},
+          "evidence_kind": {"type": "string"},
+          "status": {"type": "string"},
+          "record_id": {"type": "string"},
+          "evidence_id": {"type": "string"},
+          "source_fields": {"type": "array", "items": {"type": "string"}},
+          "verification_scope": {"type": "string"}
+        }
+      }
+    },
+    "deterministic": {"const": true},
+    "llm_used": {"type": "boolean"},
+    "model_estimate_disclosure": {"$ref": "#/$defs/aggregateDisclosure"}
+  }
+}

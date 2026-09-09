@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-formula-trace-v1",
+  "title": "Reproducible built-in equipment formula trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "traceability_status",
+    "calculation_id",
+    "formula_id",
+    "formula_definition",
+    "formula_definition_sha256",
+    "input_bindings",
+    "substitution",
+    "output",
+    "open_traceability_gaps",
+    "calculation_trace_sha256"
+  ],
+  "properties": {
+    "schema": {
+      "const": "equipment-formula-trace-v1"
+    },
+    "traceability_status": {
+      "enum": [
+        "COMPLETE_REPRODUCIBLE_TRACE",
+        "REPRODUCIBLE_TRACE_WITH_OPEN_PROVENANCE"
+      ]
+    },
+    "calculation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "formula_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "formula_definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calculation_id",
+        "formula_id",
+        "formula_expression",
+        "target_field",
+        "output_unit",
+        "dependency_fields",
+        "release_class",
+        "declared_evidence_class",
+        "applicability",
+        "does_not_prove",
+        "promotion_cap",
+        "implementation_binding",
+        "source_bindings"
+      ],
+      "properties": {
+        "calculation_id": {"type": "string"},
+        "formula_id": {"type": "string"},
+        "formula_expression": {"type": "string"},
+        "target_field": {"type": "string"},
+        "output_unit": {"type": "string"},
+        "dependency_fields": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        },
+        "release_class": {"enum": ["A", "B"]},
+        "declared_evidence_class": {"type": "string"},
+        "applicability": {"type": ["string", "null"]},
+        "does_not_prove": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "promotion_cap": {"type": "string"},
+        "implementation_binding": {
+          "type": "object",
+          "required": [
+            "implementation_ref",
+            "branch_key",
+            "engine_version",
+            "source_file_sha256",
+            "source_code_set_sha256",
+            "source_manifest_payload_sha256",
+            "binding_status"
+          ],
+          "properties": {
+            "implementation_ref": {"type": "string"},
+            "branch_key": {"type": "string"},
+            "engine_version": {"type": "string"},
+            "source_file_sha256": {
+              "type": ["string", "null"],
+              "pattern": "^[A-F0-9]{64}$"
+            },
+            "actual_source_file_sha256": {
+              "type": ["string", "null"],
+              "pattern": "^[A-F0-9]{64}$"
+            },
+            "source_code_set_sha256": {
+              "type": ["string", "null"],
+              "pattern": "^[A-F0-9]{64}$"
+            },
+            "source_manifest_payload_sha256": {
+              "type": ["string", "null"],
+              "pattern": "^[A-F0-9]{64}$"
+            },
+            "binding_status": {"type": "string"}
+          }
+        },
+        "source_bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "reference",
+              "source_kind",
+              "binding_status",
+              "relative_path",
+              "anchor",
+              "source_file_sha256",
+              "locator_line_1based"
+            ],
+            "properties": {
+              "reference": {"type": "string"},
+              "source_kind": {"type": "string"},
+              "binding_status": {"type": "string"},
+              "relative_path": {"type": ["string", "null"]},
+              "anchor": {"type": ["string", "null"]},
+              "anchor_status": {"type": "string"},
+              "source_file_sha256": {
+                "type": ["string", "null"],
+                "pattern": "^[A-F0-9]{64}$"
+              },
+              "locator_line_1based": {
+                "type": ["integer", "null"],
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "formula_definition_sha256": {
+      "type": "string",
+      "pattern": "^[A-F0-9]{64}$"
+    },
+    "input_bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "field_id",
+          "value",
+          "unit",
+          "source_kind",
+          "binding_status",
+          "evidence_class",
+          "upstream_calculation_id",
+          "upstream_formula_trace_sha256",
+          "fallback_tier",
+          "field_value_sha256"
+        ],
+        "properties": {
+          "field_id": {"type": "string"},
+          "value": {},
+          "unit": {"type": ["string", "null"]},
+          "source_kind": {"type": "string"},
+          "binding_status": {"type": "string"},
+          "evidence_class": {"type": "string"},
+          "upstream_calculation_id": {"type": ["string", "null"]},
+          "upstream_formula_trace_sha256": {
+            "type": ["string", "null"],
+            "pattern": "^[A-F0-9]{64}$"
+          },
+          "fallback_tier": {"type": ["string", "null"]},
+          "field_value_sha256": {
+            "type": "string",
+            "pattern": "^[A-F0-9]{64}$"
+          }
+        }
+      }
+    },
+    "substitution": {
+      "type": "string"
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_field", "value", "unit"],
+      "properties": {
+        "target_field": {"type": "string"},
+        "value": {"type": "number"},
+        "unit": {"type": "string"}
+      }
+    },
+    "open_traceability_gaps": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "calculation_trace_sha256": {
+      "type": "string",
+      "pattern": "^[A-F0-9]{64}$"
+    }
+  }
+}

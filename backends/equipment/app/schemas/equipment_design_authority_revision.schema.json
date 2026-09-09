@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-authority-revision-v1",
+  "title": "Equipment Design Deterministic Authority Revision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "agent_protocol_version", "matcher_engine_version",
+    "core_asset_sha256", "core_asset_set_sha256",
+    "schema_asset_sha256", "schema_asset_set_sha256",
+    "source_code_sha256", "source_code_set_sha256", "source_code_manifest",
+    "runtime_manifest", "authority_revision_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-authority-revision-v1"},
+    "agent_protocol_version": {"type": "string", "minLength": 1},
+    "matcher_engine_version": {"type": "string", "minLength": 1},
+    "core_asset_sha256": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules", "model_rules", "parameter_templates", "customer_output_profiles",
+        "pump_standard_points", "pipe_standard_dn_od", "equipment_selection_graph"
+      ],
+      "properties": {
+        "rules": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "model_rules": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "parameter_templates": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "customer_output_profiles": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "pump_standard_points": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "pipe_standard_dn_od": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "equipment_selection_graph": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+      }
+    },
+    "core_asset_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "schema_asset_sha256": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"pattern": "^app/schemas/[^/\\\\]+\\.json$"},
+      "additionalProperties": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+    },
+    "schema_asset_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "source_code_sha256": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "app/app_core.py",
+        "app/aspen_com_import.py",
+        "app/aspen_pfd.py",
+        "app/authority_revision.py",
+        "app/customer_delivery.py",
+        "app/equipment_design_agent.py",
+        "app/equipment_design_app.py",
+        "app/llm_bridge.py",
+        "app/pfd_canvas.py",
+        "app/result_presentation.py",
+        "app/runtime_bundle.py",
+        "app/source_code_manifest.py",
+        "app/tk_gui.py",
+        "app/user_guide.py",
+        "scripts/aspen_equipment_derivation.py",
+        "scripts/connection_component_selection.py",
+        "scripts/equipment_calc.py",
+        "scripts/equipment_design_match.py",
+        "scripts/equipment_service_profile.py"
+      ],
+      "properties": {
+        "app/app_core.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/aspen_com_import.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/aspen_pfd.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/authority_revision.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/customer_delivery.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/equipment_design_agent.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/equipment_design_app.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/llm_bridge.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/pfd_canvas.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/result_presentation.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/runtime_bundle.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/source_code_manifest.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/tk_gui.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "app/user_guide.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "scripts/aspen_equipment_derivation.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "scripts/connection_component_selection.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "scripts/equipment_calc.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "scripts/equipment_design_match.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "scripts/equipment_service_profile.py": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+      }
+    },
+    "source_code_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "source_code_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "manifest_sha256", "manifest_payload_sha256",
+        "path_set_sha256", "file_count"
+      ],
+      "properties": {
+        "status": {"enum": ["SOURCE_TREE_VERIFIED", "PACKAGED_SNAPSHOT_VERIFIED"]},
+        "manifest_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "manifest_payload_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "path_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+        "file_count": {"const": 19}
+      }
+    },
+    "runtime_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "manifest_sha256", "bundle_revision"],
+      "properties": {
+        "status": {"enum": ["PACKAGED", "NOT_PACKAGED"]},
+        "manifest_sha256": {
+          "oneOf": [
+            {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+            {"type": "null"}
+          ]
+        },
+        "bundle_revision": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "PACKAGED"}}},
+          "then": {"properties": {"manifest_sha256": {"type": "string"}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "NOT_PACKAGED"}}},
+          "then": {"properties": {"manifest_sha256": {"type": "null"}}}
+        }
+      ]
+    },
+    "authority_revision_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+  }
+}

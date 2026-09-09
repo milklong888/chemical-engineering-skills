@@ -1,0 +1,132 @@
+{
+  "schema": "equipment-design-all-family-acceptance-fixture-v1",
+  "purpose": "Deterministic minimum-meaningful calculate-then-select coverage; values are synthetic test inputs, not project defaults.",
+  "expected_family_count": 17,
+  "expected_total_calculation_count": 57,
+  "cases": [
+    {
+      "family_id": "family_fixed_tubesheet_exchanger",
+      "values": {"heat_duty_kw": 500, "overall_u_w_m2k": 600, "lmtd_k": 30, "lmtd_correction_factor": 0.9, "operating_pressure_mpa": 1.0, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 150},
+      "expected_calculation_ids": ["exchanger_area", "exchanger_tube_count", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "固定管板式管壳换热器"
+    },
+    {
+      "family_id": "family_other_heat_exchanger",
+      "values": {"process_function": "process heat exchange", "heat_duty_kw": 300, "overall_u_w_m2k": 450, "lmtd_k": 25, "lmtd_correction_factor": 0.85, "operating_pressure_mpa": 0.8, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 130},
+      "expected_calculation_ids": ["exchanger_area", "exchanger_tube_count", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "固定管板式管壳流程换热器"
+    },
+    {
+      "family_id": "family_tower",
+      "values": {"diameter_mm": 1600, "height_mm": 18000, "stage_count": 30, "flow_m3_h": 100, "retention_time_min": 5, "operating_pressure_mpa": 0.3, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 140, "inner_diameter_mm": 1600, "head_type": "2:1_ellipsoidal", "allowable_stress_mpa": 120, "weld_efficiency": 0.85},
+      "expected_calculation_ids": ["tower_tray_spacing", "tower_cross_section", "tower_active_area_fraction", "tower_active_area", "tower_hole_area", "tower_actual_superficial_velocity", "tower_internal_height", "tower_bottom_liquid_height", "design_pressure", "cylinder_thickness", "head_thickness"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "单溢流筛板塔"
+    },
+    {
+      "family_id": "family_reactor_vessel_separator",
+      "values": {"process_function": "process vessel", "volume_m3": 20, "volume_basis": "nominal_total", "diameter_mm": 2000, "height_mm": 6000, "operating_pressure_mpa": 1.2, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 180, "inner_diameter_mm": 2000, "straight_shell_length_mm": 5000, "head_type": "2:1_ellipsoidal", "allowable_stress_mpa": 130, "weld_efficiency": 0.9},
+      "expected_calculation_ids": ["cylinder_volume", "design_pressure", "cylinder_thickness", "head_thickness"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "立式工艺分离罐"
+    },
+    {
+      "family_id": "family_storage_vessel",
+      "values": {"process_function": "buffer storage", "flow_m3_h": 50, "volume_m3": 25, "volume_basis": "nominal_total", "diameter_mm": 2400, "height_mm": 5000, "fill_fraction": 0.8, "retention_time_min": 20, "operating_pressure_mpa": 0.4, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 100, "inner_diameter_mm": 2400, "straight_shell_length_mm": 4200, "head_type": "2:1_ellipsoidal", "allowable_stress_mpa": 120, "weld_efficiency": 0.85},
+      "expected_calculation_ids": ["cylinder_volume", "storage_required_volume", "design_pressure", "cylinder_thickness", "head_thickness"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "立式圆筒储罐"
+    },
+    {
+      "family_id": "family_pump",
+      "values": {"phase": "liquid", "pressure_basis": "absolute", "atmospheric_pressure_mpa": 0.101325, "flow_m3_h": 20, "inlet_pressure_mpa": 0.2, "outlet_pressure_mpa": 0.6, "density_kg_m3": 900, "efficiency_percent": 75, "npsha_m": 6, "npshr_m": 3, "operating_pressure_mpa": 0.6, "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["pump_head_from_pressure", "pump_hydraulic_power", "pump_shaft_power", "pump_cavitation_margin", "design_pressure"],
+      "expected_candidate_kind": "standard_marking",
+      "expected_recommended_type": "轴向吸入离心泵"
+    },
+    {
+      "family_id": "family_compressor",
+      "values": {"phase": "gas", "pressure_basis": "absolute", "atmospheric_pressure_mpa": 0.101325, "flow_m3_h": 2000, "inlet_pressure_mpa": 0.2, "outlet_pressure_mpa": 0.8, "gas_molecular_weight": 28, "compressibility_factor": 0.98, "efficiency_percent": 75, "operating_pressure_mpa": 0.8, "design_pressure_factor": 1.1},
+      "expected_calculation_ids": [
+        "pressure_ratio",
+        "compressor_isentropic_shaft_power",
+        "compressor_total_power",
+        "design_pressure"
+      ],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "离心式压缩机"
+    },
+    {
+      "family_id": "family_agitator",
+      "values": {"process_function": "liquid mixing", "volume_m3": 6.0, "volume_basis": "effective_working", "diameter_mm": 1800, "height_mm": 2500, "inner_diameter_mm": 1700, "straight_shell_length_mm": 2200, "rotational_speed_rpm": 120, "shaft_power_kw": 15, "mixing_metric": "homogeneity target supplied", "operating_pressure_mpa": 0.4, "pressure_basis": "gauge", "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["cylinder_volume", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "顶入式斜叶涡轮搅拌器"
+    },
+    {
+      "family_id": "family_static_mixer",
+      "values": {"flow_m3_h": 100, "target_velocity_m_s": 2.0, "allowable_pressure_drop_kpa": 20, "mixing_metric": "CoV <= 0.05", "element_count": 6, "material": "S31603", "operating_pressure_mpa": 1.0, "pressure_basis": "gauge", "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["pipe_required_diameter", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "螺旋元件静态混合器"
+    },
+    {
+      "family_id": "family_membrane",
+      "values": {"process_function": "membrane separation", "membrane_geometry_type": "cylindrical_channels", "element_count": 10, "channel_count": 1000, "channel_inner_diameter_mm": 1.0, "element_length_m": 1.0, "flux": 20, "selectivity": 25, "recovery_percent": 80, "operating_pressure_mpa": 1.5, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 60},
+      "expected_calculation_ids": ["membrane_area", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "卷式膜组件"
+    },
+    {
+      "family_id": "family_package_equipment",
+      "values": {"process_function": "cyclic package service", "capacity": 100, "cycle_time_h": 8, "allowable_pressure_drop_kpa": 30, "operating_pressure_mpa": 1.0, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 120},
+      "expected_calculation_ids": ["design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "双塔变温吸附成套装置"
+    },
+    {
+      "family_id": "family_liquid_power_recovery_turbine",
+      "values": {"phase": "liquid", "pressure_basis": "absolute", "atmospheric_pressure_mpa": 0.101325, "flow_m3_h": 50, "inlet_pressure_mpa": 2.0, "outlet_pressure_mpa": 0.5, "density_kg_m3": 900, "efficiency_percent": 80, "operating_pressure_mpa": 2.0, "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["pressure_ratio", "liquid_turbine_pressure_head", "liquid_turbine_hydraulic_power", "liquid_turbine_shaft_power", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "液力透平"
+    },
+    {
+      "family_id": "family_gas_expander_turbine",
+      "values": {"phase": "gas", "pressure_basis": "absolute", "atmospheric_pressure_mpa": 0.101325, "flow_m3_h": 2000, "inlet_pressure_mpa": 2.0, "outlet_pressure_mpa": 0.5, "inlet_temperature_c": 100, "efficiency_percent": 80, "shaft_power_kw": 150, "operating_pressure_mpa": 2.0, "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["pressure_ratio", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "径向膨胀透平"
+    },
+    {
+      "family_id": "family_process_piping",
+      "values": {"flow_m3_h": 100, "target_velocity_m_s": 2.0, "selected_wall_thickness_mm": 6.0, "material": "S31603", "operating_pressure_mpa": 1.0, "pressure_basis": "gauge", "design_pressure_factor": 1.1, "design_temperature_c": 100},
+      "expected_calculation_ids": ["pipe_required_diameter", "pipe_standard_dn_selection", "pipe_standard_dn_selection", "pipe_actual_velocity", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "无缝钢制工艺管道"
+    },
+    {
+      "family_id": "family_pipe_fitting",
+      "values": {"selected_dn": "DN100", "wall_series": "SCH40", "fitting_type": "90 degree elbow", "material": "S31603", "connection_type": "butt weld"},
+      "expected_calculation_ids": [],
+      "expected_candidate_kind": "component_marking",
+      "expected_recommended_type": "对焊钢制管件"
+    },
+    {
+      "family_id": "family_flange_gasket",
+      "values": {"selected_dn": "DN100", "pressure_class": "PN16", "flange_face": "RF", "material": "S31603", "gasket_material": "spiral wound graphite"},
+      "expected_calculation_ids": [],
+      "expected_candidate_kind": "component_marking",
+      "expected_recommended_type": "带颈对焊法兰配缠绕垫片"
+    },
+    {
+      "family_id": "family_valve",
+      "values": {"valve_function": "control", "phase": "liquid", "flow_m3_h": 80, "density_kg_m3": 1000, "pressure_drop_kpa": 50, "selected_dn": "DN80", "pressure_class": "PN16", "material": "S31603", "operating_pressure_mpa": 1.0, "pressure_basis": "gauge", "design_pressure_factor": 1.1},
+      "expected_calculation_ids": ["valve_liquid_equivalent_cv_screening", "valve_maximum_pressure_drop_screening", "design_pressure"],
+      "expected_candidate_kind": "engineered_designation",
+      "expected_recommended_type": "单座直通调节阀"
+    }
+  ]
+}

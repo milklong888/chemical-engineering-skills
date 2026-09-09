@@ -1,0 +1,66 @@
+{
+  "history_text": "NO ERRORS OR WARNINGS GENERATED\n",
+  "bundle": {
+    "schema": "aspen-equipment-export-v1",
+    "case": {
+      "case_id": "APP-MOCK-PUMP",
+      "pressure_basis": "absolute",
+      "run_status": {
+        "terminal_errors": 0,
+        "severe_errors": 0,
+        "errors": 0,
+        "warnings": 0
+      }
+    },
+    "units": {
+      "stream.TEMP_OUT": "C",
+      "stream.PRES_OUT": "bar",
+      "stream.MASSFLMX": "kg/h",
+      "stream.VOLFLMX": "m3/h",
+      "stream.VOLFLMX_LIQ": "m3/h",
+      "stream.VFRAC_OUT": "-",
+      "block.CEFF": "percent"
+    },
+    "streams": [
+      {
+        "stream_id": "S-IN",
+        "TEMP_OUT": 25.0,
+        "PRES_OUT": 1.2,
+        "MASSFLMX": 30600.0,
+        "VOLFLMX": 36.0,
+        "VOLFLMX_LIQ": 36.0,
+        "VFRAC_OUT": 0.0,
+        "density_kg_m3": 850.0,
+        "phase": "liquid"
+      },
+      {
+        "stream_id": "S-OUT",
+        "TEMP_OUT": 25.5,
+        "PRES_OUT": 5.0,
+        "MASSFLMX": 30600.0,
+        "VOLFLMX": 36.0,
+        "VOLFLMX_LIQ": 36.0,
+        "VFRAC_OUT": 0.0,
+        "density_kg_m3": 850.0,
+        "phase": "liquid"
+      }
+    ],
+    "blocks": [
+      {
+        "block_id": "P-101",
+        "block_type": "PUMP",
+        "inlet_streams": ["S-IN"],
+        "outlet_streams": ["S-OUT"],
+        "CEFF": 72.0,
+        "block_status": 0
+      }
+    ],
+    "equipment_map": [
+      {
+        "block_id": "P-101",
+        "equipment_tag": "P-101",
+        "process_function": "liquid pressure boosting"
+      }
+    ]
+  }
+}

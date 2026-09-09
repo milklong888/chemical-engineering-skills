@@ -1,0 +1,15 @@
+{
+  "scope": "Synthetic interpolation test only, not a tower rating or design default",
+  "operation": "pressure",
+  "payload": {
+    "method": "parallel_distribution",
+    "inputs": {
+      "total_flow": 30,
+      "flow_unit": "m3/h",
+      "branch_curves": [
+        {"id": "A", "source": "Synthetic curve, flow m3/h, pressure Pa", "points": [[0, 0], [20, 10000]]},
+        {"id": "B", "source": "Synthetic curve, flow m3/h, pressure Pa", "points": [[0, 0], [10, 10000]]}
+      ]
+    }
+  }
+}

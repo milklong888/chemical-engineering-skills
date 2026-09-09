@@ -1,0 +1,76 @@
+{
+  "schema": "chemical-principles-source-registry-v1",
+  "created_on": "2026-07-24",
+  "scope": "local_user_supplied_textbook_rag",
+  "distribution": "original_source_payload_not_bundled; source-backed original graph cards preserved",
+  "authority_policy": {
+    "tier": "textbook_foundation",
+    "evidence_class": "X",
+    "relative_priority": "below safety_law_active_project_same_case_current_standard_and_current_software_authority; above project examples informal summaries and pretrained memory",
+    "allowed_reuse": [
+      "definitions",
+      "physical mechanisms",
+      "derivation structure",
+      "dimensionless groups",
+      "unit-operation method families",
+      "qualitative trends",
+      "sanity checks",
+      "search and calculation routing"
+    ],
+    "forbidden_transfer": [
+      "example values as project defaults",
+      "uncited empirical constants",
+      "OCR numbers or equations without page verification",
+      "equipment sizes or operating conditions across projects",
+      "claims that conflict with newer standards or same-case evidence"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "CEPR-UPPER-WANG-HE",
+      "volume": "upper",
+      "title": "化工原理 上",
+      "authors_as_supplied": [
+        "王瑶",
+        "贺高红"
+      ],
+      "publisher": "化学工业出版社",
+      "isbn": "978-7-122-27413-7",
+      "edition": "2016年10月北京第1版第1次印刷",
+      "bibliographic_evidence": "copyright_page_visual_review",
+      "path": "{USER_SUPPLIED_SOURCE}/教育部高等学校化工类专业教学指导委员会推荐教材 化工原理 上 (Pdg2Pic, 王瑶，贺高红主编) (z-library.sk, 1lib.sk, z-lib.sk) (1).pdf",
+      "sha256": "C532A5F767FE40A0BEEF722048B22280BBCFCA13D8BB160B3BDC0FFEB8BA7E12",
+      "expected_pages": 371,
+      "pdf_creator": "Pdg2Pic",
+      "source_form": "scanned_pages",
+      "text_layer": "absent",
+      "license": "copyright_status_not_verified_user_supplied_local_copy",
+      "access": "local_user_supplied",
+      "status": "validated_identity_and_bibliographic_frontmatter",
+      "source_payload_available": false
+    },
+    {
+      "source_id": "CEPR-LOWER-PAN-WU",
+      "volume": "lower",
+      "title": "化工原理 下",
+      "authors_as_supplied": [
+        "潘艳秋",
+        "吴雪梅"
+      ],
+      "publisher": "化学工业出版社",
+      "isbn": "978-7-122-28670-3",
+      "edition": "2017年3月北京第1版第1次印刷",
+      "bibliographic_evidence": "copyright_page_visual_review",
+      "path": "{USER_SUPPLIED_SOURCE}/化工原理 下 (潘艳秋，吴雪梅主编, Yanqiu Pan, Xuemei Wu, 潘艳秋,吴雪梅主编 etc.) (z-library.sk, 1lib.sk, z-lib.sk) (1).pdf",
+      "sha256": "379A9F59C2315960AC01A476F9B17079F04C4A27C0859A1E9B07F7DB44561269",
+      "expected_pages": 316,
+      "pdf_creator": "DuXiu/SuperStar",
+      "source_form": "scanned_pages",
+      "text_layer": "effectively_absent",
+      "license": "copyright_status_not_verified_user_supplied_local_copy",
+      "access": "local_user_supplied",
+      "status": "validated_identity_and_bibliographic_frontmatter",
+      "source_payload_available": false
+    }
+  ]
+}

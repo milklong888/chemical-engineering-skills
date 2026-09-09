@@ -1,0 +1,39 @@
+{
+  "schema": "aspen-mcp-offline-extension-v1",
+  "extension_id": "workspace-retrieval-numpy",
+  "base_lock_sha256": "9951da63e62bd0f8d29e51108a4458d8b78707112f313b525da0fb5809259859",
+  "target": {
+    "implementation": "CPython",
+    "python_major_minor": "3.14",
+    "tested_python_patch": "3.14.3",
+    "platform": "win_amd64",
+    "bits": 64
+  },
+  "wheel_count": 1,
+  "wheels": [
+    {
+      "name": "numpy",
+      "version": "2.4.6",
+      "filename": "numpy-2.4.6-cp314-cp314-win_amd64.whl",
+      "bytes": 12450334,
+      "sha256": "b507f5c4c1d508876d1819b6bf9a49d365b96320b5d4993426b33a23ca4b8261",
+      "tags": [
+        "cp314-cp314-win_amd64"
+      ],
+      "requires_dist": [],
+      "license_expression": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "license_files": [
+        "numpy/ma/LICENSE",
+        "numpy/_core/include/numpy/random/LICENSE.txt",
+        "numpy-2.4.6.dist-info/licenses/LICENSE.txt",
+        "numpy-2.4.6.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+        "numpy-2.4.6.dist-info/licenses/numpy/ma/LICENSE",
+        "numpy-2.4.6.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+        "numpy-2.4.6.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+        "numpy-2.4.6.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+        "numpy-2.4.6.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE"
+      ]
+    }
+  ],
+  "base_distributions_modified": false
+}

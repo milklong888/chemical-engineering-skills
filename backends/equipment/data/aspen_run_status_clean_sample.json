@@ -1,0 +1,12 @@
+{
+  "schema": "aspen-run-status-evidence-v1",
+  "case_id": "DEMO-PUMP-CASE",
+  "raw_history_path": "aspen_clean_sample.his",
+  "raw_history_sha256": "D0B2F3B90308FE94AAA1B5472647C7F36DD2D8DCA6D6F5AB4871590E775A7714",
+  "run_status": {
+    "terminal_errors": 0,
+    "severe_errors": 0,
+    "errors": 0,
+    "warnings": 0
+  }
+}

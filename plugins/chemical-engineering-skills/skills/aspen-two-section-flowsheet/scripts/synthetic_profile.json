@@ -1,0 +1,511 @@
+{
+  "schema": "two-section-explicit-profile-v1",
+  "profile_id": "synthetic_shape_fixture_not_a_model",
+  "source_builder_sha256": "7874c7765e9760e59f674402eae883d0b7dcaf07a51848721254d3fc0e8108fc",
+  "authority": {
+    "scope": "synthetic_test",
+    "status": "not_project_evidence"
+  },
+  "default_retrieval_eligible": false,
+  "learning_eligible": false,
+  "components": [
+    [
+      "X",
+      "COMPX"
+    ]
+  ],
+  "molecular_weights": {
+    "X": 1000.0
+  },
+  "molecular_weight_unit": "kg/kmol",
+  "original_mass_feed": {
+    "X": 1.0
+  },
+  "placeholder_seed_flow_kmol_h": 0.001,
+  "literals": {
+    "segment_a_lines": {
+      "v000": "X",
+      "v001": "X",
+      "v002": "X",
+      "v003": "X",
+      "v004": "X",
+      "v005": "X",
+      "v006": "X",
+      "v007": "X",
+      "v008": "X",
+      "v009": "X",
+      "v010": "X",
+      "v011": "X",
+      "v012": "X",
+      "v013": "X",
+      "v014": "X",
+      "v015": "X",
+      "v016": "X",
+      "v017": "X",
+      "v018": "X",
+      "v019": "X",
+      "v020": "X",
+      "v021": "X",
+      "v022": "X",
+      "v023": "X",
+      "v024": "X",
+      "v025": 1.0,
+      "v026": 1.0,
+      "v027": "X",
+      "v028": 1.0,
+      "v029": 1.0,
+      "v030": "X",
+      "v031": 1.0,
+      "v032": "X",
+      "v033": 1.0,
+      "v034": 1.0,
+      "v035": "X",
+      "v036": 1.0,
+      "v037": "X",
+      "v038": 1.0,
+      "v039": 1.0,
+      "v040": "X",
+      "v041": "X",
+      "v042": 1.0,
+      "v043": 1.0,
+      "v044": "X",
+      "v045": 1.0,
+      "v046": 1.0,
+      "v047": "X",
+      "v048": 1.0,
+      "v049": "X",
+      "v050": "X",
+      "v051": "X",
+      "v052": "X",
+      "v053": "X",
+      "v054": "X",
+      "v055": "X",
+      "v056": "X",
+      "v057": "X",
+      "v058": "X",
+      "v059": "X",
+      "v060": "X",
+      "v061": "X",
+      "v062": "X",
+      "v063": "X",
+      "v064": "X",
+      "v065": "X",
+      "v066": "X",
+      "v067": "X",
+      "v068": "X",
+      "v069": "X",
+      "v070": "X",
+      "v071": "X",
+      "v072": "X",
+      "v073": "X",
+      "v074": "X",
+      "v075": "X",
+      "v076": "X",
+      "v077": "X",
+      "v078": "X",
+      "v079": "X",
+      "v080": "X",
+      "v081": "X",
+      "v082": "X",
+      "v083": "X",
+      "v084": "X",
+      "v085": "X",
+      "v086": "X",
+      "v087": "X",
+      "v088": "X",
+      "v089": "X",
+      "v090": "X",
+      "v091": "X",
+      "v092": "X",
+      "v093": "X",
+      "v094": "X",
+      "v095": "X",
+      "v096": "X",
+      "v097": "X",
+      "v098": "X",
+      "v099": "X",
+      "v100": "X",
+      "v101": "X",
+      "v102": "X",
+      "v103": "X",
+      "v104": "X",
+      "v105": "X"
+    },
+    "segment_b_lines": {
+      "v000": 1.0,
+      "v001": "X",
+      "v002": "X",
+      "v003": "X",
+      "v004": "X",
+      "v005": "X",
+      "v006": "X",
+      "v007": "X",
+      "v008": "X",
+      "v009": "X",
+      "v010": "X",
+      "v011": "X",
+      "v012": "X",
+      "v013": "X",
+      "v014": "X",
+      "v015": "X",
+      "v016": "X",
+      "v017": "X",
+      "v018": "X",
+      "v019": "X",
+      "v020": "X",
+      "v021": "X",
+      "v022": "X",
+      "v023": "X",
+      "v024": "X",
+      "v025": 1.0,
+      "v026": 1.0,
+      "v027": "X",
+      "v028": 1.0,
+      "v029": 1.0,
+      "v030": "X",
+      "v031": "X",
+      "v032": "X",
+      "v033": "X",
+      "v034": "X",
+      "v035": "X",
+      "v036": "X",
+      "v037": "X",
+      "v038": "X",
+      "v039": "X",
+      "v040": "X",
+      "v041": "X",
+      "v042": "X",
+      "v043": "X",
+      "v044": "X",
+      "v045": "X",
+      "v046": "X",
+      "v047": "X",
+      "v048": "X",
+      "v049": "X",
+      "v050": "X",
+      "v051": "X",
+      "v052": "X",
+      "v053": "X",
+      "v054": "X",
+      "v055": "X",
+      "v056": "X",
+      "v057": "X",
+      "v058": "X",
+      "v059": "X",
+      "v060": "X",
+      "v061": "X",
+      "v062": "X",
+      "v063": "X",
+      "v064": "X",
+      "v065": "X",
+      "v066": "X",
+      "v067": "X",
+      "v068": "X",
+      "v069": "X",
+      "v070": "X",
+      "v071": "X",
+      "v072": "X",
+      "v073": "X",
+      "v074": "X",
+      "v075": "X",
+      "v076": "X",
+      "v077": "X",
+      "v078": "X"
+    },
+    "audit_text": {
+      "v000": "stream",
+      "v001": "stream",
+      "v002": "X",
+      "v003": "X",
+      "v004": "X",
+      "v005": "X",
+      "v006": "X",
+      "v007": 1.0,
+      "v008": "X",
+      "v009": 1.0,
+      "v010": "X",
+      "v011": 1.0,
+      "v012": "X",
+      "v013": "X",
+      "v014": "",
+      "v015": "X",
+      "v016": "",
+      "v017": "X",
+      "v018": "",
+      "v019": "X",
+      "v020": "",
+      "v021": "X",
+      "v022": "X",
+      "v023": "",
+      "v024": "X",
+      "v025": "",
+      "v026": "X",
+      "v027": "X",
+      "v028": "",
+      "v029": "X",
+      "v030": "",
+      "v031": "mass_flow_kg_h",
+      "v032": "X",
+      "v033": 1.0,
+      "v034": "X",
+      "v035": "X",
+      "v036": "",
+      "v037": "X",
+      "v038": "",
+      "v039": "X",
+      "v040": 1.0,
+      "v041": "X",
+      "v042": 1.0,
+      "v043": "X",
+      "v044": 1.0,
+      "v045": "X",
+      "v046": "X",
+      "v047": "X",
+      "v048": "X",
+      "v049": 1.0,
+      "v050": "",
+      "v051": "X",
+      "v052": "",
+      "v053": "X",
+      "v054": "X",
+      "v055": "X",
+      "v056": "X",
+      "v057": "X",
+      "v058": "X",
+      "v059": "",
+      "v060": "X",
+      "v061": "",
+      "v062": "X",
+      "v063": "X",
+      "v064": "X",
+      "v065": "blkstat",
+      "v066": "blkmsg",
+      "v067": "X",
+      "v068": "blkstat",
+      "v069": "blkmsg",
+      "v070": "\n",
+      "v071": "\n"
+    },
+    "write_pfd": {
+      "v000": "X",
+      "v001": "synthetic_pfd.md",
+      "v002": "utf-8"
+    }
+  },
+  "joined_strings": {
+    "segment_a_lines": {},
+    "segment_b_lines": {
+      "s000": [
+        "mol_",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s001": [
+        "mol_",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ]
+    },
+    "audit_text": {
+      "s000": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s001": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 1,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s002": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s003": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".3f"
+        },
+        "synthetic "
+      ],
+      "s004": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".5f"
+        },
+        "synthetic "
+      ],
+      "s005": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".6f"
+        }
+      ],
+      "s006": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s007": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 1,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s008": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        }
+      ],
+      "s009": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".3f"
+        },
+        "synthetic ",
+        {
+          "field": 1,
+          "conversion": -1,
+          "format": ".3f"
+        },
+        "synthetic ",
+        {
+          "field": 2,
+          "conversion": -1,
+          "format": ".3f"
+        },
+        "synthetic "
+      ],
+      "s010": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".6f"
+        }
+      ],
+      "s011": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".3f"
+        },
+        "synthetic "
+      ],
+      "s012": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ".5f"
+        },
+        "synthetic "
+      ],
+      "s013": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 1,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 2,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic "
+      ],
+      "s014": [
+        "synthetic ",
+        {
+          "field": 0,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 1,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic ",
+        {
+          "field": 2,
+          "conversion": -1,
+          "format": ""
+        },
+        "synthetic "
+      ]
+    },
+    "write_pfd": {}
+  },
+  "sections": {
+    "a": {
+      "stem": "synthetic_a",
+      "sep_settings": [],
+      "streams_to_read": [
+        "X"
+      ]
+    },
+    "b": {
+      "stem": "synthetic_b",
+      "sep_settings": [],
+      "streams_to_read": [
+        "X"
+      ]
+    }
+  },
+  "synthetic": true
+}

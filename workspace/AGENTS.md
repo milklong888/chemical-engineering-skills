@@ -31,6 +31,13 @@ Aspen, equipment or engineering-report work:
     method review only after explicit user closure of the current revision.
     Case-specific relaxations and their descendants remain project audit only.
 
-See `LOCAL_KNOWLEDGE_GRAPH_LINKS.md` for optional local knowledge resources.
+Read `LOCAL_KNOWLEDGE_GRAPH_LINKS.md` before resolving knowledge/software paths.
+The installed `chemical-engineering-runtime/` provides bundled headless knowledge,
+equipment, pressure and process-feedback interfaces. Resolve legacy graph names
+through that map; a missing desktop GUI is not a missing calculation backend.
+Use source-bound constraints before exchanger-series, compressor-stage or
+parallel-column proposals, then update the real model and recalculate affected
+consumers. Never count a proposed topology as an implemented flowsheet.
+
 Missing source material or licensed software is a declared dependency, not
 permission to fabricate results. This workspace template contains no project data.

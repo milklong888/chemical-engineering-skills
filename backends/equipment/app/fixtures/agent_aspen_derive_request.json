@@ -1,0 +1,10 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-ASPEN-DERIVE-001",
+  "operation": "aspen.export.derive",
+  "payload": {
+    "export_path": "data/aspen_equipment_export_sample.json",
+    "output_path": "outputs/agent_acceptance_20260717_no_llm/aspen_derived_result.json",
+    "require_clean": true
+  }
+}

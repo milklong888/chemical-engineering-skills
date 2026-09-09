@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-agent-response-v1",
+  "title": "Equipment Design Agent Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "request_id", "request_sha256", "operation", "ok", "status", "exit_code", "machine_state", "engine", "result", "artifacts", "issues", "errors", "provenance"],
+  "properties": {
+    "schema": {"const": "equipment-design-agent-response-v1"},
+    "request_id": {"type": "string"},
+    "request_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "operation": {"type": "string"},
+    "ok": {"type": "boolean"},
+    "status": {"enum": ["PASS", "FAILED"]},
+    "exit_code": {"type": "integer", "minimum": 0, "maximum": 9},
+    "machine_state": {
+      "type": "object",
+      "required": ["state", "operation", "deterministic_authority"],
+      "properties": {
+        "state": {"type": "string"},
+        "operation": {"type": "string"},
+        "deterministic_authority": {"type": "boolean"},
+        "deterministic_result_preserved": {"type": "boolean"},
+        "error_code": {"type": ["string", "null"]},
+        "steps": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "engine": {"type": "object"},
+    "result": {},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "artifact_root", "relative_path", "sha256", "size_bytes"],
+        "properties": {
+          "kind": {"type": "string"},
+          "artifact_root": {"type": "string"},
+          "relative_path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "issues": {"type": "array", "items": {"type": "object"}},
+    "errors": {"type": "array", "items": {"type": "object"}},
+    "provenance": {"type": "object"}
+  }
+}

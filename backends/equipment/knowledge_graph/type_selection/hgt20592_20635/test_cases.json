@@ -1,0 +1,720 @@
+[
+  {
+    "expected": "FL_CL_SO",
+    "input": {
+      "class_rating": 150,
+      "dn_mm": 100,
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "flammability",
+          "source_id": "TEST_FIXTURE:T01:flammability",
+          "value": "nonflammable"
+        },
+        {
+          "fact": "low_sealing_demand",
+          "source_id": "TEST_FIXTURE:T01:low_sealing_demand",
+          "value": true
+        },
+        {
+          "fact": "utility_service",
+          "source_id": "TEST_FIXTURE:T01:utility_service",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 100
+    },
+    "test_id": "T01"
+  },
+  {
+    "expected": "FL_CL_TH",
+    "input": {
+      "class_rating": 150,
+      "dn_mm": 25,
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "corrosivity",
+          "source_id": "TEST_FIXTURE:T02:corrosivity",
+          "value": "low"
+        },
+        {
+          "fact": "instrument_service",
+          "source_id": "TEST_FIXTURE:T02:instrument_service",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T02"
+  },
+  {
+    "expected": "FL_CL_WN",
+    "input": {
+      "class_rating": 600,
+      "dn_mm": 200,
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "flammability",
+          "source_id": "TEST_FIXTURE:T03:flammability",
+          "value": "flammable"
+        },
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T03:severe_cyclic",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T03"
+  },
+  {
+    "expected": "FL_CL_LF_SE",
+    "input": {
+      "class_rating": 300,
+      "dn_mm": 150,
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "lining_material",
+          "source_id": "TEST_FIXTURE:T04:lining_material",
+          "value": "titanium"
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T04"
+  },
+  {
+    "expected": "FL_CL_KWN_T",
+    "input": {
+      "class_rating": 600,
+      "dn_mm": 100,
+      "object_family": "flange_type",
+      "pressure_tap_connection": "NPT",
+      "property_evidence": [
+        {
+          "fact": "orifice_service",
+          "source_id": "TEST_FIXTURE:T05:orifice_service",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T05"
+  },
+  {
+    "expected": "FL_PN_KWN_S",
+    "input": {
+      "dn_mm": 80,
+      "object_family": "flange_type",
+      "pn": 40,
+      "pressure_tap_connection": "socket_weld",
+      "property_evidence": [
+        {
+          "fact": "orifice_service",
+          "source_id": "TEST_FIXTURE:T06:orifice_service",
+          "value": true
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T06"
+  },
+  {
+    "expected": "FL_PN_JWN",
+    "input": {
+      "dn_mm": 100,
+      "object_family": "flange_type",
+      "pn": 25,
+      "property_evidence": [
+        {
+          "fact": "jacketed_pipe",
+          "source_id": "TEST_FIXTURE:T07:jacketed_pipe",
+          "value": true
+        },
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T07:severe_cyclic",
+          "value": true
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T07"
+  },
+  {
+    "expected": "FL_PN_BL_S",
+    "input": {
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "closure_required",
+          "source_id": "TEST_FIXTURE:T08:closure_required",
+          "value": true
+        },
+        {
+          "fact": "lining_material",
+          "source_id": "TEST_FIXTURE:T08:lining_material",
+          "value": "stainless"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T08"
+  },
+  {
+    "expected": "FL_PN_WN",
+    "input": {
+      "object_family": "flange_type",
+      "system_series": "PN"
+    },
+    "status_contains": "PROVISIONAL",
+    "test_id": "T09"
+  },
+  {
+    "excluded_contains": "FL_CL_TH",
+    "expected": "FL_CL_WN",
+    "input": {
+      "class_rating": 150,
+      "dn_mm": 25,
+      "object_family": "flange_type",
+      "property_evidence": [
+        {
+          "fact": "corrosivity",
+          "source_id": "TEST_FIXTURE:T10:corrosivity",
+          "value": "severe"
+        },
+        {
+          "fact": "instrument_service",
+          "source_id": "TEST_FIXTURE:T10:instrument_service",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T10"
+  },
+  {
+    "expected": "FACE_FF",
+    "input": {
+      "class_rating": 300,
+      "object_family": "facing",
+      "property_evidence": [
+        {
+          "fact": "flange_material_group",
+          "source_id": "TEST_FIXTURE:T11:flange_material_group",
+          "value": "steel"
+        },
+        {
+          "fact": "mating_material_group",
+          "source_id": "TEST_FIXTURE:T11:mating_material_group",
+          "value": "cast_iron"
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T11"
+  },
+  {
+    "expected": "FACE_RJ",
+    "input": {
+      "object_family": "facing",
+      "property_evidence": [
+        {
+          "fact": "ring_joint_required",
+          "source_id": "TEST_FIXTURE:T12:ring_joint_required",
+          "value": true
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T12"
+  },
+  {
+    "expected": "FACE_FM_M_PAIR",
+    "input": {
+      "object_family": "facing",
+      "property_evidence": [
+        {
+          "fact": "internal_component_connection",
+          "source_id": "TEST_FIXTURE:T13:internal_component_connection",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T13"
+  },
+  {
+    "expected": "FACE_RF",
+    "input": {
+      "object_family": "facing",
+      "system_series": "CLASS"
+    },
+    "status_contains": "PROVISIONAL",
+    "test_id": "T14"
+  },
+  {
+    "expected": "G_NON_ASBESTOS_FIBER",
+    "input": {
+      "object_family": "gasket_type",
+      "pn": 16,
+      "property_evidence": [
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T15:toxicity",
+          "value": "normal"
+        },
+        {
+          "fact": "utility_service",
+          "source_id": "TEST_FIXTURE:T15:utility_service",
+          "value": true
+        },
+        {
+          "fact": "vacuum_level",
+          "source_id": "TEST_FIXTURE:T15:vacuum_level",
+          "value": "none"
+        }
+      ],
+      "system_series": "PN",
+      "temperature_unit": "C",
+      "temperature_value": 120
+    },
+    "test_id": "T15"
+  },
+  {
+    "expected": "G_MODIFIED_PTFE",
+    "input": {
+      "class_rating": 300,
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "corrosivity",
+          "source_id": "TEST_FIXTURE:T16:corrosivity",
+          "value": "high"
+        },
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T16:current_facing",
+          "value": "RF"
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 150
+    },
+    "test_id": "T16"
+  },
+  {
+    "expected": "G_PTFE_ENVELOPE_B",
+    "input": {
+      "dn_mm": 200,
+      "gasket_family_preference": "ptfe_envelope",
+      "object_family": "gasket_type",
+      "pn": 25,
+      "property_evidence": [
+        {
+          "fact": "core_corrosion_risk",
+          "source_id": "TEST_FIXTURE:T17:core_corrosion_risk",
+          "value": false
+        },
+        {
+          "fact": "vacuum_level",
+          "source_id": "TEST_FIXTURE:T17:vacuum_level",
+          "value": "none"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T17"
+  },
+  {
+    "expected": "G_PTFE_ENVELOPE_C",
+    "input": {
+      "dn_mm": 550,
+      "gasket_family_preference": "ptfe_envelope",
+      "object_family": "gasket_type",
+      "pn": 25,
+      "property_evidence": [
+        {
+          "fact": "core_corrosion_risk",
+          "source_id": "TEST_FIXTURE:T18:core_corrosion_risk",
+          "value": false
+        },
+        {
+          "fact": "vacuum_level",
+          "source_id": "TEST_FIXTURE:T18:vacuum_level",
+          "value": "none"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T18"
+  },
+  {
+    "excluded_contains": "G_PTFE_ENVELOPE_B",
+    "expected": "G_MODIFIED_PTFE",
+    "input": {
+      "dn_mm": 300,
+      "gasket_family_preference": "ptfe_envelope",
+      "object_family": "gasket_type",
+      "pn": 16,
+      "property_evidence": [
+        {
+          "fact": "corrosivity",
+          "source_id": "TEST_FIXTURE:T19:corrosivity",
+          "value": "high"
+        },
+        {
+          "fact": "vacuum_level",
+          "source_id": "TEST_FIXTURE:T19:vacuum_level",
+          "value": "vacuum"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T19"
+  },
+  {
+    "expected": "G_MICA_COMPOSITE",
+    "input": {
+      "class_rating": 300,
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T20:current_facing",
+          "value": "RF"
+        },
+        {
+          "fact": "oxidizing",
+          "source_id": "TEST_FIXTURE:T20:oxidizing",
+          "value": false
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 800
+    },
+    "test_id": "T20"
+  },
+  {
+    "excluded_contains": "G_FLEX_GRAPHITE_REINFORCED",
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "class_rating": 300,
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T21:current_facing",
+          "value": "RF"
+        },
+        {
+          "fact": "oxidizing",
+          "source_id": "TEST_FIXTURE:T21:oxidizing",
+          "value": true
+        },
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T21:toxicity",
+          "value": "high"
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 500
+    },
+    "test_id": "T21"
+  },
+  {
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "class_rating": 600,
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T22:current_facing",
+          "value": "RF"
+        },
+        {
+          "fact": "leak_tightness",
+          "source_id": "TEST_FIXTURE:T22:leak_tightness",
+          "value": "high"
+        },
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T22:toxicity",
+          "value": "extreme"
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T22"
+  },
+  {
+    "expected": "G_RING_OCTAGONAL",
+    "input": {
+      "class_rating": 900,
+      "dn_mm": 100,
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T23:current_facing",
+          "value": "RJ"
+        },
+        {
+          "fact": "ring_joint_required",
+          "source_id": "TEST_FIXTURE:T23:ring_joint_required",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T23"
+  },
+  {
+    "expected": "G_SPIRAL_B",
+    "input": {
+      "gasket_family_preference": "spiral_wound",
+      "object_family": "gasket_type",
+      "pn": 63,
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T24:current_facing",
+          "value": "FM/M"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T24"
+  },
+  {
+    "expected": "G_SPIRAL_A",
+    "input": {
+      "gasket_family_preference": "spiral_wound",
+      "object_family": "gasket_type",
+      "pn": 63,
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T25:current_facing",
+          "value": "T/G"
+        }
+      ],
+      "system_series": "PN"
+    },
+    "test_id": "T25"
+  },
+  {
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "object_family": "gasket_type",
+      "system_series": "PN"
+    },
+    "status_contains": "PROVISIONAL",
+    "test_id": "T26"
+  },
+  {
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "cleanability_required",
+          "source_id": "TEST_FIXTURE:T27:cleanability_required",
+          "value": true
+        },
+        {
+          "fact": "fire_safe_required",
+          "source_id": "TEST_FIXTURE:T27:fire_safe_required",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T27",
+    "warning_contains": "W_FIRE_CLEAN"
+  },
+  {
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "object_family": "gasket_type",
+      "property_evidence": [
+        {
+          "fact": "current_facing",
+          "source_id": "TEST_FIXTURE:T28:current_facing",
+          "value": "RF"
+        },
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T28:toxicity",
+          "value": "high"
+        },
+        {
+          "fact": "vacuum_level",
+          "source_id": "TEST_FIXTURE:T28:vacuum_level",
+          "value": "high_vacuum"
+        }
+      ],
+      "system_series": "CLASS",
+      "user_forced_candidate_id": "G_PTFE_ENVELOPE_B"
+    },
+    "test_id": "T28",
+    "warning_contains": "W_FORCED_REJECTED"
+  },
+  {
+    "expected": "FST_CL_HEX_I",
+    "input": {
+      "class_rating": 150,
+      "object_family": "fastener_type",
+      "property_evidence": [
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T29:severe_cyclic",
+          "value": false
+        },
+        {
+          "fact": "thermal_shock",
+          "source_id": "TEST_FIXTURE:T29:thermal_shock",
+          "value": false
+        },
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T29:toxicity",
+          "value": "normal"
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 80
+    },
+    "test_id": "T29"
+  },
+  {
+    "expected": "FST_CL_FULL_HH",
+    "input": {
+      "class_rating": 600,
+      "object_family": "fastener_type",
+      "property_evidence": [
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T30:severe_cyclic",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS",
+      "temperature_unit": "C",
+      "temperature_value": 300
+    },
+    "test_id": "T30"
+  },
+  {
+    "expected": "FST_PN_HEX_I",
+    "input": {
+      "object_family": "fastener_type",
+      "pn": 40,
+      "property_evidence": [
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T31:severe_cyclic",
+          "value": false
+        },
+        {
+          "fact": "thermal_shock",
+          "source_id": "TEST_FIXTURE:T31:thermal_shock",
+          "value": false
+        },
+        {
+          "fact": "toxicity",
+          "source_id": "TEST_FIXTURE:T31:toxicity",
+          "value": "normal"
+        }
+      ],
+      "system_series": "PN",
+      "temperature_unit": "C",
+      "temperature_value": 80
+    },
+    "test_id": "T31"
+  },
+  {
+    "expected": "FST_PN_FULL_II",
+    "input": {
+      "object_family": "fastener_type",
+      "pn": 63,
+      "system_series": "PN",
+      "temperature_unit": "C",
+      "temperature_value": 250
+    },
+    "test_id": "T32"
+  },
+  {
+    "expected": "FST_PN_FULL_II",
+    "input": {
+      "object_family": "fastener_type",
+      "system_series": "PN"
+    },
+    "status_contains": "PROVISIONAL",
+    "test_id": "T33"
+  },
+  {
+    "expected": "FACE_RJ",
+    "input": {
+      "object_family": "facing",
+      "property_evidence": [
+        {
+          "fact": "mating_material_group",
+          "source_id": "TEST_FIXTURE:T34:mating_material_group",
+          "value": "cast_iron"
+        },
+        {
+          "fact": "ring_joint_required",
+          "source_id": "TEST_FIXTURE:T34:ring_joint_required",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "test_id": "T34",
+    "warning_contains": "W_COMPAT_CONFLICT"
+  },
+  {
+    "expected": "G_SPIRAL_D",
+    "input": {
+      "dn_mm": 2500,
+      "object_family": "gasket_type",
+      "pn": 250,
+      "system_series": "PN",
+      "temperature_unit": "C",
+      "temperature_value": 1200
+    },
+    "test_id": "T35",
+    "warning_contains": "W_SCOPE_MISMATCH"
+  },
+  {
+    "expected": "FL_CL_WN",
+    "input": {
+      "object_family": "flange_type",
+      "pressure_unit": "bar",
+      "pressure_value": 10,
+      "property_evidence": [
+        {
+          "fact": "severe_cyclic",
+          "source_id": "TEST_FIXTURE:T36:severe_cyclic",
+          "value": true
+        }
+      ],
+      "system_series": "CLASS"
+    },
+    "status_contains": "PROVISIONAL",
+    "test_id": "T36"
+  }
+]

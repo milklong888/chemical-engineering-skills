@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-database-authority-registry-v1",
+  "title": "Equipment Database Authority Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "policy",
+    "consumers",
+    "databases",
+    "non_sql_catalogs"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-database-authority-registry-v1"},
+    "revision": {"type": "string", "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$"},
+    "policy": {
+      "type": "object",
+      "required": [
+        "active_database_resolution",
+        "access_mode",
+        "unknown_or_unregistered_build",
+        "quarantined_or_candidate_runtime_use",
+        "database_payloads_in_git",
+        "public_decomposition",
+        "payload_distribution"
+      ]
+    },
+    "consumers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "consumer_id",
+          "database_id",
+          "code_path",
+          "access_mode",
+          "allowed_scope",
+          "required_dataset_ids"
+        ],
+        "properties": {
+          "consumer_id": {"type": "string", "minLength": 1},
+          "database_id": {"type": "string", "minLength": 1},
+          "code_path": {"type": "string", "minLength": 1},
+          "access_mode": {"const": "read_only"},
+          "allowed_scope": {"type": "string", "minLength": 1},
+          "required_dataset_ids": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "databases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "database_id",
+          "logical_role",
+          "status",
+          "scope_status",
+          "runtime_use_allowed",
+          "runtime_required",
+          "relative_path",
+          "manifest_relative_path",
+          "build_id",
+          "expected_size_bytes",
+          "expected_sha256",
+          "reason",
+          "table_contracts"
+        ],
+        "properties": {
+          "database_id": {"type": "string", "minLength": 1},
+          "logical_role": {"type": "string", "minLength": 1},
+          "status": {"enum": ["ACTIVE", "QUARANTINED", "INVALID", "CANDIDATE"]},
+          "scope_status": {"type": "string", "minLength": 1},
+          "runtime_use_allowed": {"type": "boolean"},
+          "runtime_required": {"type": "boolean"},
+          "relative_path": {"type": "string", "pattern": "^[^\\\\].*\\.sqlite$"},
+          "manifest_relative_path": {"type": ["string", "null"]},
+          "build_id": {"type": "string", "minLength": 1},
+          "expected_size_bytes": {"type": "integer", "minimum": 1},
+          "expected_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "reason": {"type": "string", "minLength": 1},
+          "table_contracts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["row_count", "required_columns"],
+              "properties": {
+                "row_count": {"type": "integer", "minimum": 0},
+                "required_columns": {
+                  "type": "array",
+                  "items": {"type": "string", "minLength": 1},
+                  "uniqueItems": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "non_sql_catalogs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["catalog_id", "relative_path", "role"],
+        "properties": {
+          "catalog_id": {"type": "string", "minLength": 1},
+          "relative_path": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

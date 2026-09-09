@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-hybrid-result-v2",
+  "title": "Equipment Design Hybrid Result Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "machine_state", "deterministic_result", "deterministic_recalculation",
+    "calculation_assist_application", "terminal_selection_application", "selection_completeness", "prepared",
+    "knowledge_context", "orchestration", "execution_timeline", "llm_review", "fallback",
+    "application_boundary"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-hybrid-result-v2"},
+    "machine_state": {
+      "type": "object",
+      "required": ["state", "deterministic_authority", "deterministic_result_preserved", "llm_requested"]
+    },
+    "deterministic_result": {"type": "object"},
+    "deterministic_recalculation": {"type": ["object", "null"]},
+    "calculation_assist_application": {"type": ["object", "null"]},
+    "terminal_selection_application": {"type": ["object", "null"]},
+    "selection_completeness": {
+      "type": "object",
+      "required": [
+        "schema", "status", "acceptance", "terminal_form_complete",
+        "engineering_candidate_complete", "preliminary_missing_fields",
+        "model_estimate_fields", "formal_evidence_gaps", "formal_promotion_allowed", "statement"
+      ],
+      "properties": {
+        "schema": {"const": "equipment-design-hybrid-selection-completeness-v1"},
+        "status": {"type": "string"},
+        "acceptance": {"enum": ["PASS", "FAIL"]}
+      }
+    },
+    "prepared": {"type": ["object", "null"]},
+    "knowledge_context": {"type": ["object", "null"]},
+    "orchestration": {"type": ["object", "null"]},
+    "execution_timeline": {
+      "$ref": "equipment_design_interleaved_timeline.schema.json"
+    },
+    "llm_review": {
+      "type": "object",
+      "required": ["status", "result"],
+      "properties": {
+        "status": {"enum": ["NOT_REQUESTED", "COMPLETED_STRICT", "FAILED_FALLBACK"]},
+        "result": {"type": ["object", "null"]}
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "required": ["used", "preserved_result", "errors"]
+    },
+    "application_boundary": {"type": "string"}
+  }
+}

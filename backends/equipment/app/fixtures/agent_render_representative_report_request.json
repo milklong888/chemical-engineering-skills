@@ -1,0 +1,108 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REP-PARAM-REPORT-20260718",
+  "operation": "render_report",
+  "payload": {
+    "input": {
+      "operation": "manual_batch",
+      "payload": {
+        "items": [
+          {
+            "selection_id": "block:PUMP",
+            "values": {
+              "equipment_tag": "P-101",
+              "process_function": "液体升压",
+              "phase": "liquid",
+              "flow_m3_h": 20,
+              "pressure_basis": "absolute",
+              "inlet_pressure_mpa": 0.2,
+              "outlet_pressure_mpa": 0.6,
+              "density_kg_m3": 900,
+              "efficiency_percent": 75,
+              "temperature_c": 40,
+              "npsha_m": 5.2,
+              "npshr_m": 3.1,
+              "rotational_speed_rpm": 2900,
+              "material": "S31603"
+            }
+          },
+          {
+            "selection_id": "family:family_fixed_tubesheet_exchanger",
+            "values": {
+              "equipment_tag": "E-101",
+              "process_function": "工艺物流冷却",
+              "heat_duty_kw": 1000,
+              "overall_u_w_m2k": 500,
+              "lmtd_k": 40,
+              "lmtd_correction_factor": 0.9,
+              "operating_pressure_mpa": 1.0,
+              "design_pressure_factor": 1.1,
+              "design_temperature_c": 160,
+              "diameter_mm": 1000,
+              "material": "S30408"
+            }
+          },
+          {
+            "selection_id": "block:RADFRAC",
+            "values": {
+              "equipment_tag": "T-101",
+              "equipment_type": "板式精馏塔",
+              "process_function": "精馏分离",
+              "flow_m3_h": 30,
+              "retention_time_min": 5,
+              "diameter_mm": 1600,
+              "height_mm": 18000,
+              "stage_count": 30,
+              "operating_pressure_mpa": 0.45,
+              "design_pressure_factor": 1.1,
+              "design_temperature_c": 140,
+              "inner_diameter_mm": 1600,
+              "allowable_stress_mpa": 118,
+              "weld_efficiency": 0.85,
+              "material": "Q345R"
+            }
+          },
+          {
+            "selection_id": "block:COMPR",
+            "values": {
+              "equipment_tag": "C-101",
+              "process_function": "工艺气体压缩",
+              "phase": "vapor",
+              "flow_m3_h": 2000,
+              "pressure_basis": "absolute",
+              "inlet_pressure_mpa": 0.2,
+              "outlet_pressure_mpa": 0.8,
+              "inlet_temperature_c": 35,
+              "gas_molecular_weight": 28,
+              "compressibility_factor": 0.98,
+              "efficiency_percent": 75,
+              "operating_pressure_mpa": 0.8,
+              "design_pressure_factor": 1.1,
+              "design_temperature_c": 120
+            }
+          },
+          {
+            "selection_id": "block:VALVE",
+            "values": {
+              "equipment_tag": "FV-101",
+              "process_function": "流量调节",
+              "valve_function": "control",
+              "flow_m3_h": 50,
+              "pressure_drop_kpa": 80,
+              "cv": 42,
+              "selected_dn": "DN80",
+              "pressure_class": "PN16",
+              "material": "S31603",
+              "connection_type": "法兰",
+              "operating_pressure_mpa": 1.0,
+              "design_pressure_factor": 1.1,
+              "design_temperature_c": 120
+            }
+          }
+        ]
+      }
+    },
+    "format": "html",
+    "output_path": "outputs/agent_acceptance_20260717_no_llm/08_representative_parameter_report.html"
+  }
+}

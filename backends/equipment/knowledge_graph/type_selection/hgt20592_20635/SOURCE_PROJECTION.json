@@ -1,0 +1,9 @@
+{
+  "schema": "hgt-source-locator-projection-v1",
+  "source_records": 44,
+  "original_hash_manifest_sha256": "7C3B3D9670941A0474B62802175F02EDD1E4AF4423A3253CA7873F48654EF8E2",
+  "original_source_records_sha256": "60ADA5CF021D7CE88A0943726A372B1751E2BE00D2B8D32610EE012A3B538286",
+  "source_text_included": false,
+  "deterministic_selector_and_computational_csvs_unchanged": true,
+  "original_qa_not_upgraded": true
+}

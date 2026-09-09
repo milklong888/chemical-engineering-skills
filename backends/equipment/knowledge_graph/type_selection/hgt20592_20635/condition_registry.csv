@@ -1,0 +1,51 @@
+﻿allowed_values,annotation_class,data_type,field_name,field_role,normalization_note,unit
+flange_type|facing|gasket_type|fastener_type,ENGINEERING_NORMALIZATION,string,object_family,RAW_INPUT,用户/调用脚本必填，确定候选对象族,
+PN|CLASS,ENGINEERING_NORMALIZATION,string,system_series,RAW_INPUT,从Aspen项目约定或用户法兰标准归一；缺失时不得臆造压力等级,
+,ENGINEERING_NORMALIZATION,string,module_id,RAW_INPUT,Aspen模块标识或手动记录标识；原始输入,
+Aspen block class/user equipment class,ENGINEERING_NORMALIZATION,string,module_type,RAW_INPUT,Aspen模块类别原始字段；供上游设备映射,
+,ENGINEERING_NORMALIZATION,number,pressure_value,RAW_INPUT,Aspen流股/设备压力；仅归一为MPa，不直接替代法兰额定等级,source unit
+Pa|kPa|MPa|bar|bara|barg|psi,ENGINEERING_NORMALIZATION,string,pressure_unit,RAW_INPUT,程序单位归一；表压需另有大气压基准,
+,ENGINEERING_NORMALIZATION,number,pressure_mpa,DERIVED_OUTPUT_ONLY,由pressure_value确定性换算；DETERMINISTIC_DERIVATION,MPa
+6|10|16|25|40|63|100|160,ENGINEERING_NORMALIZATION,number,pn,RAW_INPUT,用户/设计额定等级；不得仅凭操作压力越过p-T材料曲线确定,bar-class code
+150|300|600|900|1500|2500,ENGINEERING_NORMALIZATION,number,class_rating,RAW_INPUT,用户/设计额定等级,ASME Class
+,ENGINEERING_NORMALIZATION,number,dn_mm,RAW_INPUT,Aspen管径、管道计算或用户给定；用于范围匹配,mm
+,ENGINEERING_NORMALIZATION,number,temperature_value,RAW_INPUT,Aspen流股或手动原始温度；设计温度优先于操作温度,source unit
+C|K|F,ENGINEERING_NORMALIZATION,string,temperature_unit,RAW_INPUT,温度单位，程序确定性换算为°C,
+,ENGINEERING_NORMALIZATION,number,temperature_c,DERIVED_OUTPUT_ONLY,由temperature_value和temperature_unit确定性换算；DERIVED_OUTPUT_ONLY,°C
+liquid|vapor|two_phase|solid_bearing|unknown,ENGINEERING_NORMALIZATION,string,phase,DERIVED_OUTPUT_ONLY,Aspen相态/汽液分率归一,
+0..1,ENGINEERING_NORMALIZATION,number,vapor_fraction,RAW_INPUT,Aspen VFRAC；只用于相态归一,fraction
+0..1,ENGINEERING_NORMALIZATION,number,solid_fraction,RAW_INPUT,Aspen固相分率；只用于相态归一,fraction
+component_id + fraction + basis,ENGINEERING_NORMALIZATION,array[object],components,RAW_INPUT,Aspen组分及组成原始字段；名称本身不触发危害/腐蚀标签,
+fact + value + source_id + validity,ENGINEERING_NORMALIZATION,array[object],property_evidence,RAW_INPUT,由有来源物性/相容性图谱生成的事实；无source_id一律拒绝,
+oxidizer|halide|acid|alkali|solvent|abrasive|polymerizing|other,ENGINEERING_NORMALIZATION,array[string],composition_tags,RAW_INPUT,由Aspen组分清单和用户介质描述归一,
+none|low|moderate|high|severe|unknown,ENGINEERING_NORMALIZATION,string,corrosivity,DERIVED_OUTPUT_ONLY,材料/腐蚀数据或用户条件；无数据保持unknown,
+normal|moderate|high|extreme|unknown,ENGINEERING_NORMALIZATION,string,toxicity,DERIVED_OUTPUT_ONLY,法规/用户危害分类；标准中的高度/极度危害对应high/extreme,
+nonflammable|flammable|highly_flammable|unknown,ENGINEERING_NORMALIZATION,string,flammability,DERIVED_OUTPUT_ONLY,SDS/用户/Aspen组分辅助归一,
+none|possible|explosive|unknown,ENGINEERING_NORMALIZATION,string,explosivity,DERIVED_OUTPUT_ONLY,爆炸危险属性,
+ordinary|clean|high_purity|sterile|unknown,ENGINEERING_NORMALIZATION,string,cleanliness,DERIVED_OUTPUT_ONLY,清洁/卫生要求；本标准未覆盖卫生认证,
+ordinary|enhanced|high|zero_emission|unknown,ENGINEERING_NORMALIZATION,string,leak_tightness,DERIVED_OUTPUT_ONLY,密封等级要求；zero_emission需项目/供应商验证,
+none|vacuum|high_vacuum|unknown,ENGINEERING_NORMALIZATION,string,vacuum_level,DERIVED_OUTPUT_ONLY,Aspen压力加当地大气压/用户真空等级归一,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,severe_cyclic,DERIVED_OUTPUT_ONLY,温压循环是否严重,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,thermal_shock,DERIVED_OUTPUT_ONLY,热冲击/快速温变,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,oxidizing,DERIVED_OUTPUT_ONLY,介质氧化性；影响柔性石墨上限,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,crevice_corrosion_risk,DERIVED_OUTPUT_ONLY,缝隙腐蚀风险,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,severe_corrosion,DERIVED_OUTPUT_ONLY,严重腐蚀风险,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,utility_service,DERIVED_OUTPUT_ONLY,公用工程工况,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,instrument_service,DERIVED_OUTPUT_ONLY,仪表/小口径螺纹连接工况,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,low_sealing_demand,DERIVED_OUTPUT_ONLY,低密封要求,
+none|stainless|nickel|titanium|other|unknown,ENGINEERING_NORMALIZATION,string,lining_material,DERIVED_OUTPUT_ONLY,衬里材质,
+steel|stainless|nickel|titanium|cast_iron|other|unknown,ENGINEERING_NORMALIZATION,string,flange_material_group,DERIVED_OUTPUT_ONLY,法兰材料组,
+steel|stainless|nickel|titanium|cast_iron|other|unknown,ENGINEERING_NORMALIZATION,string,mating_material_group,DERIVED_OUTPUT_ONLY,对接件材料组,
+RF|FF|FM/M|T/G|RJ|unknown,ENGINEERING_NORMALIZATION,string,current_facing,DERIVED_OUTPUT_ONLY,现有/拟定密封面配对,
+nonmetal_flat|ptfe_envelope|metal_jacket|spiral_wound|kammprofile|ring_joint|none,ENGINEERING_NORMALIZATION,string,gasket_family_preference,RAW_INPUT,用户偏好；不能越过硬排除,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,ring_joint_required,DERIVED_OUTPUT_ONLY,金属环垫或环槽连接要求,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,flush_bore_required,RAW_INPUT,要求垫片/内环内径与法兰内径齐平,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,core_corrosion_risk,DERIVED_OUTPUT_ONLY,PTFE包覆垫嵌入层被介质腐蚀风险,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,fire_safe_required,DERIVED_OUTPUT_ONLY,防火要求；本标准类型表不足以给出认证结论,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,cleanability_required,DERIVED_OUTPUT_ONLY,可清洗/无滞留要求；本标准仅给局部结构提示,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,jacketed_pipe,DERIVED_OUTPUT_ONLY,夹套管连接,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,orifice_service,DERIVED_OUTPUT_ONLY,孔板流量测量连接,
+NPT|socket_weld|unknown,ENGINEERING_NORMALIZATION,string,pressure_tap_connection,RAW_INPUT,孔板法兰测压孔连接形式,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,closure_required,DERIVED_OUTPUT_ONLY,盲端封闭,
+true|false|unknown,ENGINEERING_NORMALIZATION,boolean,internal_component_connection,DERIVED_OUTPUT_ONLY,阀盖/阀体等内部连接,
+registered candidate id,ENGINEERING_NORMALIZATION,string,user_forced_candidate_id,RAW_INPUT,人工覆盖；若触发硬排除，程序拒绝并报警,

@@ -1,0 +1,17 @@
+{
+  "errata_policy": "2012-05 later errata overrides earlier base text and obsolete errata",
+  "evidence_layers": [
+    "SOURCE_RAW_TEXT",
+    "SOURCE_NORMALIZATION",
+    "DETERMINISTIC_DERIVATION",
+    "ENGINEERING_NORMALIZATION",
+    "DETERMINISTIC_POLICY"
+  ],
+  "known_boundary": "不替代材料p-T曲线、泄漏等级、耐火/卫生认证、供应商特殊工况确认或法兰尺寸表全量数字化",
+  "package_version": "hgt20592-20635-type-options-1.0.0",
+  "runtime_source_access": false,
+  "runtime_vision": false,
+  "scope": "法兰型式、密封面、垫片型式、紧固件组件的确定性唯一终端选型",
+  "source_document": "HG/T 20592~20635-2009（含编制说明和后发布勘误）",
+  "source_pdf_sha256": "7513C49ABF181FF538E4D3A29050DEDD4DDDBEF9DE11B25840EEF21731D64201"
+}

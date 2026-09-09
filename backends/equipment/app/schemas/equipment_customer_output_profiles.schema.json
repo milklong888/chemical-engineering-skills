@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-customer-output-profiles-v1",
+  "title": "Original-artifact-bound customer output profile contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema", "version", "scope", "source_artifacts", "global_output_columns",
+    "canonical_field_definitions", "algorithm_family_profile_map", "profiles"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-customer-output-profiles-v1"},
+    "version": {"type": "string"},
+    "scope": {"type": "string", "minLength": 1},
+    "source_artifacts": {"type": "object", "minProperties": 2},
+    "global_output_columns": {
+      "type": "array", "minItems": 1,
+      "items": {"$ref": "#/$defs/field"}
+    },
+    "canonical_field_definitions": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "data_type", "aliases"]
+      }
+    },
+    "algorithm_family_profile_map": {"type": "object", "minProperties": 17},
+    "profiles": {
+      "type": "array", "minItems": 19,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["authority_section_id", "title", "family_id", "required_fields"],
+        "properties": {
+          "authority_section_id": {"pattern": "^(T(0[1-9]|1[0-4])|X0[1-5])$"},
+          "title": {"type": "string"},
+          "family_id": {"type": "string", "pattern": "^family_"},
+          "required_fields": {
+            "type": "array", "minItems": 1,
+            "items": {"$ref": "#/$defs/field"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "field": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["canonical_id", "label", "source_gate", "selection_impact", "authority_sources"],
+      "properties": {
+        "canonical_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "label": {"type": "string", "minLength": 1},
+        "unit": {"type": ["string", "null"]},
+        "source_gate": {"type": "string"},
+        "selection_impact": {"type": "string"},
+        "authority_sources": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  }
+}

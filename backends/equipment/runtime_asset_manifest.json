@@ -1,0 +1,675 @@
+{
+  "bundle_revision": "1F7D8FC06C8C075E6CB33C0C5AA55D568229B40FE3547C521631309A82AC5D1C",
+  "coverage_definition": {
+    "complete_requires": [
+      "exact manifest path set, size and SHA-256 verification",
+      "all registered runtime packages present",
+      "SQLite PRAGMA quick_check=ok and frozen table counts unchanged",
+      "all bundled CSV/Markdown/JSON audit and routing assets present"
+    ],
+    "excluded_with_reason": {
+      "jsonl": "redundant extraction carrier superseded by the verified SQLite authority carrier",
+      "parser_cache_or_temp": "non-canonical build/cache/quarantine material",
+      "png": "rendering duplicates; figure captions, page/bbox metadata and source hashes remain queryable in SQLite",
+      "source_paragraphs": "not included; original source hashes and projection exclusions retained"
+    },
+    "included": [
+      "equipment core Markdown/JSON/CSV",
+      "authority model graph Markdown/JSON",
+      "separately identified structured standard and figure facts; no full-text source carrier",
+      "original calculation rules and source locator metadata",
+      "deterministic pump data and all Agent/LLM/presentation schemas"
+    ],
+    "not_claimed": [
+      "embedded source PDFs",
+      "embedded PNG visual crops",
+      "automatic engineering-value promotion from retrieval hits"
+    ],
+    "status_claim": "BACKEND_STRUCTURED_FACT_PROJECTION"
+  },
+  "files": [
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/aspen_equipment_derivation_chain.md",
+      "sha256": "75984D2FB3B0A04BFB732BC4671C173C0D10A6B0A477AF754633A0CC1699A303",
+      "size_bytes": 2903
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/aspen_equipment_export.schema.json",
+      "sha256": "5562EC7025ECE195E76FF7FC19C446DC60BCBB651B69CEE0CE7F31BF1FD0146A",
+      "size_bytes": 12572
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/chapter_04_08_late_equipment_graph.md",
+      "sha256": "2D1D43A5AA9E17A1F8A032D4AD36BA4F934EDBB6364D9D8C591267A47C96E88C",
+      "size_bytes": 5397
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_connection_selection_package.schema.json",
+      "sha256": "4420FCFD535726E96960BE764247A54DEDD022E8B0F7140892F6CF38699217B2",
+      "size_bytes": 6427
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_customer_output_profiles.json",
+      "sha256": "B5E08754C7159F5B5A51BEC7ABA2273633D33B735F59216F41C05F2DAD98AC0C",
+      "size_bytes": 534698
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_design_parameter_package.schema.json",
+      "sha256": "F6F00E364AECE95F1D0D8DD1605E229B82D8E7AFF367624CEF1C5DF0194F8338",
+      "size_bytes": 2471
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_match_input.schema.json",
+      "sha256": "2829CC7790A6DCA08BA67E307E5BFC2FC68C618D3BAA42747A688DDCF13CD808",
+      "size_bytes": 9133
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_match_rules.json",
+      "sha256": "370BFD78B11B272740A63609E73F9967F6DCBDCA7656298113B6AB41F6E8DA21",
+      "size_bytes": 15321
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_model_recommendation_rules.json",
+      "sha256": "DB0D35FAB9F1072C1BC4C081CF12FE7D0DA258F5C666423270DB4342DE22E54F",
+      "size_bytes": 37114
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_parameter_chain_templates.json",
+      "sha256": "D5E43724A53EEEB277841B4A4AEC20B76FBA57247C08FEC5C8A930C8598588E5",
+      "size_bytes": 39707
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_service_label_derivation_contract.md",
+      "sha256": "3C7E7E87C33205BE26359BD1503AAA76F6C40585D8DA8D62845D32A214878193",
+      "size_bytes": 4764
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_service_profile.schema.json",
+      "sha256": "CD071F1CB1C495644119CD8713C4B37941586233102095EEF50C281BC960CA59",
+      "size_bytes": 5684
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_type_applicability_contract.md",
+      "sha256": "C1549C162E6F403474CC45826E9F2AB63A1C79257D2EA7B5ACE8B6962D271EFD",
+      "size_bytes": 5547
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_type_applicability_graph.schema.json",
+      "sha256": "89B7EC4357D70F2CC7B2240C7BE79E0246ABED7719A2CD1F2EDD9BC7F18DD199",
+      "size_bytes": 8652
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/equipment_type_applicability_label_catalog.json",
+      "sha256": "C433022504B60F91F262C9D1DDAB6AC13507BA5C33BFC4B90773C341405BFCF2",
+      "size_bytes": 7744
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/evidence_boundary_nodes.md",
+      "sha256": "20F6804289E42DE8D63E154CBA092C5F7C7F67B013C51BE1588AC895A830360D",
+      "size_bytes": 2710
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/formula_family_nodes.md",
+      "sha256": "8CA970E01E1BE29369D581D688F797F10B40E4024BAFF8C16976226ACDF5C40D",
+      "size_bytes": 10464
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/manual_decision_gates.md",
+      "sha256": "DA41802C31153F76E3CC5A339DCAF8401AD5C588A04692E0B394F2D0FC7721DB",
+      "size_bytes": 1533
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/mismatch_audit_playbook.md",
+      "sha256": "C937AF9BE16EDA702BB114800FD4F24C52240FAE6AAF4AE8EB0618DEFED5D118",
+      "size_bytes": 660
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/parameter_source_nodes.md",
+      "sha256": "23FBEAF8DDE1446E15347DB628C233DE555FCE83C795BA51517A68CE374C3EAF",
+      "size_bytes": 3194
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/README.md",
+      "sha256": "633EF845628EF9521E9B80ABEDA8F1946E6E26984D7AC8646363B7915931EB3C",
+      "size_bytes": 3269
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/RESTORATION_PROVENANCE.json",
+      "sha256": "521B5A7187ED6BFBF7D3B03BC9CE9E7BE8927B21D82E7B64F95B1E0742AD3BBE",
+      "size_bytes": 84548
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/software_boundary_graph.md",
+      "sha256": "B49A8E67F1114B992F9BF450F229F40679873C6F8AC4EDC1960DB4D45576A9C0",
+      "size_bytes": 1771
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/exchanger_standards_nodes.md",
+      "sha256": "E8105B87A46EFA417E31E60ECE2696FD1ACB489175415B619B2940AB7520F9E5",
+      "size_bytes": 3137
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/reactor_standards_nodes.md",
+      "sha256": "54BB5FCB980593A235AE5E3AF64A7E57CD7960876A18EC125F998FF7E1BFD974",
+      "size_bytes": 3241
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/README.md",
+      "sha256": "AE2024C97C23B67D7A2208208F4638B552C58CBA2E998BD7784BC60F64B87291",
+      "size_bytes": 3008
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/standard_parameter_crosswalk.md",
+      "sha256": "F92B52F171F5286D2087D9C28A7D3F626C8ABBEBED4DCF9BD724F5881AEA7A60",
+      "size_bytes": 2504
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/tower_standards_nodes.md",
+      "sha256": "C13647DC7579A2026D5BB75AB14250C25C5D9698478574B2E2521E1A93C85127",
+      "size_bytes": 3909
+    },
+    {
+      "asset_class": "design_standards",
+      "runtime_path": "knowledge_graph/standards_graph/vessel_standards_nodes.md",
+      "sha256": "35F5FF67F4CA4A3C33751BD1B748D2E742EB6C66625184D155FE9E4400409A5C",
+      "size_bytes": 3013
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/build_type_option_package.py",
+      "sha256": "B303780A645AF5BFDD7FF8BF88E87EC399B12503E5DD512FF1636CD4CE8B9DAC",
+      "size_bytes": 64473
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/candidate_capabilities.csv",
+      "sha256": "5DDA78770D930E1624CA52A531BE3C296F633BDEDEE43B6FD5D2655EE8CDACA3",
+      "size_bytes": 24191
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/compatibility_matrix.csv",
+      "sha256": "1478F8711F6B3601E6DE3BBAE9CF6F3A709650AF8D36BE83F41F73A79A2DAEC0",
+      "size_bytes": 2914
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/condition_registry.csv",
+      "sha256": "D78BA3608D47A56FAF0302D63031E5146F694CAD28A96708E11E23B341979EF6",
+      "size_bytes": 7020
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/hard_exclusions.csv",
+      "sha256": "0BBE56FAD0C1A5C5B5081059A9614A516621AB533FA66ADCFBC90A86B55F65BF",
+      "size_bytes": 4593
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/hash_manifest.csv",
+      "sha256": "9150E2B47D19C3919DEB32ABC82A800DA020EC6CCFEC9B341A8CDB8BF67F6892",
+      "size_bytes": 1976
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/input_schema.json",
+      "sha256": "2C32A511CA72897C11F61213A1A00143F669C8AEB4E003B3290748CDD5817539",
+      "size_bytes": 2481
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/logical_table_grouping_manifest.csv",
+      "sha256": "36EDF4FB3956828F0405A831EA860D3D9A122526790F9D0F4440B92C8CB723C2",
+      "size_bytes": 1276
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/package_metadata.json",
+      "sha256": "96081D9BE533F13E2E7FB3D0AEDAC10073AC8D82E0533D539710EC774C81F880",
+      "size_bytes": 827
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/PARENT_INTEGRATION.md",
+      "sha256": "A67986CFE3670BC1F702BE88E2BA24E1302646A80C0E923572809BF58D3BD571",
+      "size_bytes": 3320
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/README.md",
+      "sha256": "98E65F8997376747391E3A712F5772734CC56C0683EEFC3501A1AAC684CE4A0E",
+      "size_bytes": 4116
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/select_terminal_type.py",
+      "sha256": "6A75C1BC8B7AEE4BE9B7F156B468CB18ED2A0E7D16F362780148AF29317E393E",
+      "size_bytes": 19466
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/selection_rules.csv",
+      "sha256": "7C3578E7D0A7CE1F700308662FCA0D87B01BCDC43183139C7291A320E248CC9E",
+      "size_bytes": 5870
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/service_label_derivation.csv",
+      "sha256": "1628B5928930207059142D0C4A5D353DC1A8F4FB7CC438C82B99DEF451770695",
+      "size_bytes": 1799
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/SOURCE_PROJECTION.json",
+      "sha256": "950D9C9E1BE6A6CDBFE10805682920A2FF09649AFFACCD9AA88297027864DA6A",
+      "size_bytes": 418
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/source_records.csv",
+      "sha256": "FB6DD5E7C030DBB90BAF166D23D12F0D00CB1DEA7F99AF3D25B192A973CD914A",
+      "size_bytes": 18057
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/source_relations.csv",
+      "sha256": "9C81AA263D08AD1FEA286940EB429A9E6763C18136BCF985BBCB00B8C85A38EC",
+      "size_bytes": 25119
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/test_cases.json",
+      "sha256": "DB2B5056256413DD3F6508E98314F0B28098FD3A2B7CAC1540E82478C770D98B",
+      "size_bytes": 17840
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/tie_default_priority.csv",
+      "sha256": "64E7CDAE6957EC4C14B758A9E8A1573BA6CAE54A2C73B41871E8BBAC9B885570",
+      "size_bytes": 7882
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/type_catalog.csv",
+      "sha256": "29DCB8DFEEBA0EB848BEFFC499F0E89EDAFB88C46F0506D4FDF3421AF432EEA5",
+      "size_bytes": 13401
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/validate_package.py",
+      "sha256": "7C92325ED8BDFEDC8E80EA1C78D0D7A49430AE4DF6701FD3B39CC56DCBA1051E",
+      "size_bytes": 12906
+    },
+    {
+      "asset_class": "equipment_core",
+      "runtime_path": "knowledge_graph/type_selection/hgt20592_20635/warning_templates.csv",
+      "sha256": "DD321B3253768B95CC21AA3B72E4F06E72A327C8BE5BF1BC9F3858818840CA97",
+      "size_bytes": 1681
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/00-authority-registry.md",
+      "sha256": "9AFCD700BA3937FD2932E0B5AC10A755BAA36BF469E1D93187D24093954A79CB",
+      "size_bytes": 8445
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/05-evidence-reuse-boundaries.md",
+      "sha256": "67DEFF08DCFE47467F98C3B7325080659E99B22C1C008162F5273F8044CCAA8C",
+      "size_bytes": 917
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/10-equipment-family-router.md",
+      "sha256": "8720D33DAA487123527625C0AF827B63161E9EAF66B5099CF7B4FC83DBE3D51A",
+      "size_bytes": 4344
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/12-template-coverage-router.md",
+      "sha256": "D30203FFB9888ED65702DCC90CB7FF2F3AF1E266CD524E6087749EE4DAC80087",
+      "size_bytes": 1149
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/13-overview-table-field-schema.md",
+      "sha256": "9D9AE7A94F26F2D5AF9E168EA1893FE2443BB8E915FC4E38A144AEBC48A100F1",
+      "size_bytes": 5658
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/15-standard-designation-rules.md",
+      "sha256": "F0725E33E4ED2702CF22B33031643A47E459D73D44BA22BD679BA0E0BDB18CA4",
+      "size_bytes": 4249
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/16-dynamic-vendor-rules.md",
+      "sha256": "E3B78D88D680597A84FC66453E32D7A4D01E1F462902830AB4D7BF1E0C7FBB7B",
+      "size_bytes": 3186
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/17-piping-selection-router.md",
+      "sha256": "3B25A195787602527626B1D835DE92D20726A63E9F35113411FBA87913EB5AAF",
+      "size_bytes": 1033
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/18-model-size-standard-router.md",
+      "sha256": "C4D6DC5A82590B1541AADF5C2B9DFE48E8E4E524212BAFCD9649295C7D09DD9B",
+      "size_bytes": 7496
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/19-overview-table-source-precision.md",
+      "sha256": "BC3C7EC3021713EAF8C2C4C3733A9916A9352A583184F8F86435A8CF8206A668",
+      "size_bytes": 1981
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/20-model-determination-card.md",
+      "sha256": "2C00FFEAE7456530B1F2EB1B4C6BAEC349C943466E8DBF58D53F548D83BE6863",
+      "size_bytes": 2431
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/21-line-determination-card.md",
+      "sha256": "92A568CE7EA80D7B7E4B8E5FD9A1368271C483FD97AB44B5048D10BA8F702F92",
+      "size_bytes": 961
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/30-overview-table-interface.md",
+      "sha256": "FF15BB89CE91CA665F7FD94B352BFDC8E57D596E716BA361806BD8FBC7B69734",
+      "size_bytes": 2253
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/31-piping-overview-interface.md",
+      "sha256": "B5822BBCAA7AB13E08250DF27E1258E312FF2CEB470170936CE56BB2134479DF",
+      "size_bytes": 923
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/40-legacy-model-quarantine.md",
+      "sha256": "03D5D8E96DCFEA74A508BF675087C03687E37E7E28257B819A8717B522A0A79B",
+      "size_bytes": 2948
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/90-unknowns-router.md",
+      "sha256": "5A6A5DB8927372D1697933BD682C53B61F88D1240CF33F729E64F9968CF3F86F",
+      "size_bytes": 1619
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/equipment_selection_graph_v2.json",
+      "sha256": "05D9246BE061ED3D8206C5ACBF1269C6B1CD3AFFC75784E86B2DC91E3A8C63EC",
+      "size_bytes": 72610
+    },
+    {
+      "asset_class": "equipment_model_authority",
+      "runtime_path": "equipment_selection_graph/README.md",
+      "sha256": "039E9DF205F8549E601939CEC53DD48D140A7F6AF6504592F3BBCA4D600D6885",
+      "size_bytes": 2669
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/aspen_equipment_export_sample.json",
+      "sha256": "0FE8CD3892F7CE0C754AD8BCC8B6CA7206CF59269B3CB16BD149530C5A2ADD29",
+      "size_bytes": 1443
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/aspen_run_status_clean_sample.json",
+      "sha256": "BE8F9A6D4921C3ECA9B216681514C66A193E89F813365977F9845E42233B718E",
+      "size_bytes": 326
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/database_authority_registry.json",
+      "sha256": "9CA8A5A484E70D344E38DA2F7E600E7A47780E472AE3A3788B1CAACFC0761F4A",
+      "size_bytes": 12367
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/equipment_match_examples.json",
+      "sha256": "D25F45A7D6D06F30E9736461D6FED89B82E9C8E9C89107E068CAA7E2ECD4D8D0",
+      "size_bytes": 1581
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/pipe_gbt12459_2025_dn_od_catalog.csv",
+      "sha256": "03172323BB7D6642836A83F2E6801C5D9731FBD42B20C29805E60A66EFF7035A",
+      "size_bytes": 20379
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/pump_gbt5662_2013_design_points.csv",
+      "sha256": "1A4F14BB6AC63DC9FC3B4ACAA670051E38D74B3BD6A0DDA9D52DDF7A42E19137",
+      "size_bytes": 14091
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/standard_facts.sqlite.gz",
+      "sha256": "584E860945491D52CBEB6CF9275E06197A8893181389934B371C54A717ABB158",
+      "size_bytes": 9284033
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/standard_facts_manifest.json",
+      "sha256": "5477E6EBF3F1E5690731969671B69DC24A4FB1BBDB023E3171E4E5CC4A5D0237",
+      "size_bytes": 999
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/database_contracts/executable_standard_data_public_schema.sql",
+      "sha256": "88B499CA36432DC4182E171CEACBBBF7F5EF0E5CB5C800307F7D9DEEB929338F",
+      "size_bytes": 2913
+    },
+    {
+      "asset_class": "deterministic_data",
+      "runtime_path": "data/database_contracts/standards_knowledge_public_schema.sql",
+      "sha256": "FCED25D104AFBA7CE9575FAE80A82A27F71772177D422F280ACD38C0372BFB2E",
+      "size_bytes": 2634
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_agent_organized_answer.schema.json",
+      "sha256": "2A154A3A12FF7A160F00348A770180856C4096954D03A4B2C9B5DD6B0394B45F",
+      "size_bytes": 2921
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_customer_delivery_bundle.schema.json",
+      "sha256": "5C7A57AC721472626E51F066C7157CBA586F91F0CE4B4396EF574FDFC9706029",
+      "size_bytes": 4502
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_customer_output_profiles.schema.json",
+      "sha256": "B30D2F6B0BC593341AF901B5AA0A53BC23751CA30A74D7CC73F63F01F79971F6",
+      "size_bytes": 2232
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_database_authority_registry.schema.json",
+      "sha256": "124A27ECDF280CC90C13588B7EF43F81F484C99C45E1A8DE5A12C93B713A38BF",
+      "size_bytes": 4027
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_agent_request.schema.json",
+      "sha256": "32A13E2FE6B2A54E8E4C4718737551AF9266997AFFF5979CCF26CEB5BEFC0950",
+      "size_bytes": 8780
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_agent_response.schema.json",
+      "sha256": "0296E908D0A4232554BB66C6ACE746D3FAB3F85AC0359331905A2AD88D7FEB77",
+      "size_bytes": 1927
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_authority_revision.schema.json",
+      "sha256": "D3AEC41642E8B46DCFBE097C09E93D8945311350F6CDA53FB51C8D65198FAF1E",
+      "size_bytes": 6128
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_hybrid_result.schema.json",
+      "sha256": "9DA781F66AE8DACAF108D793D2089EAB79CE4E7681DB528812535480120BF11F",
+      "size_bytes": 2233
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_interleaved_timeline.schema.json",
+      "sha256": "FDF5C25C0590C263A798CECDEF9B8975B3D4BD49E4CCCB0F9D2492935B30C9E7",
+      "size_bytes": 1639
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_llm_context_pack.schema.json",
+      "sha256": "904C6F13BF52DB01F9DC3DDBA225B63343BD32644C059B24971A838838690CDD",
+      "size_bytes": 8447
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_llm_orchestration.schema.json",
+      "sha256": "C8972E4EF9E209904BE4ECFA2E8AE443A33154481C3649F06BD8982139B38C43",
+      "size_bytes": 3371
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_llm_prepared.schema.json",
+      "sha256": "A9D353DA038998935341F4A79920933E793A9E27B5BF2E9D4651642E740CA223",
+      "size_bytes": 2069
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_llm_step_output.schema.json",
+      "sha256": "2C5370DE6C2C8CF41C49911B23BD3A88B4FA23E75A694BF6B3CCED9CEE0A388B",
+      "size_bytes": 9139
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_pfd_mapping.schema.json",
+      "sha256": "6C6D4AC2A0FC3A9AC5FBEE88E2565A7D92A2DFC2E352F14B4C85B17B21320B8C",
+      "size_bytes": 9555
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_presentation.schema.json",
+      "sha256": "16A64FFE4BE33C205FFD4AE6FEBF6623FD2064C3924B5B8A7FDF84B5B2B96AE2",
+      "size_bytes": 5279
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_report_status.schema.json",
+      "sha256": "1C354D808BBB0B1D56550B5143219A7CE595625FD4A6D692A6C33684F2C0D6A2",
+      "size_bytes": 3510
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_design_source_code_manifest.schema.json",
+      "sha256": "E060AC510B49607ABF8AAE66AEB368EED3CCD59641F0B97F681923F7F7D39179",
+      "size_bytes": 3047
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_evidence_index.schema.json",
+      "sha256": "910521CED4E7D8211A9F58F44D714FB8308FA49D8335A9A8B528FE47E027531C",
+      "size_bytes": 4710
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_family_datasheet.schema.json",
+      "sha256": "E7FF84F82B69BD8B115C61F583CD4827BB4E84FE4724D7109263B56ACB68AC3F",
+      "size_bytes": 6408
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_formula_trace.schema.json",
+      "sha256": "5528B1EE58A4CFF38EF446022C6C53896A8A6DA5503330E7D1C8516AAC092781",
+      "size_bytes": 5955
+    },
+    {
+      "asset_class": "protocol_schemas",
+      "runtime_path": "app/schemas/equipment_overview_table.schema.json",
+      "sha256": "83AFC5EA2A1EE390FD64E892304019CF831693120D95A50F8B94E5E13E4E1F86",
+      "size_bytes": 12983
+    }
+  ],
+  "generated_utc": "2026-09-09T17:09:05.749530+00:00",
+  "package_counts": {
+    "design_standards": 6,
+    "deterministic_data": 10,
+    "equipment_core": 45,
+    "equipment_model_authority": 18,
+    "protocol_schemas": 21
+  },
+  "package_size_bytes": {
+    "design_standards": 18812,
+    "deterministic_data": 9340766,
+    "equipment_core": 1047909,
+    "equipment_model_authority": 124872,
+    "protocol_schemas": 108862
+  },
+  "runtime_roots": [
+    "knowledge_graph",
+    "equipment_selection_graph",
+    "data",
+    "app/schemas"
+  ],
+  "schema": "equipment-design-runtime-asset-manifest-v1",
+  "standards_sqlite": {
+    "counts": {
+      "datasets": 24,
+      "figure_datasets": 14,
+      "figure_records": 1844,
+      "standard_records": 24887
+    },
+    "database_id": "equipment_standard_facts_projection_v1",
+    "parent_database_sha256": "27A1C4B0FA5CA9DAEACD727808A4758ECC156835BADC83461BF789DA0BA8F551",
+    "projection_manifest_sha256": "5477E6EBF3F1E5690731969671B69DC24A4FB1BBDB023E3171E4E5CC4A5D0237",
+    "projection_sha256": "BF36A87330439FF40754496127DD9995E7F47D5C6D2F33D8A6D985A44AA661B5",
+    "quick_check": "ok",
+    "relative_path": "data/standard_facts.sqlite.gz",
+    "role": "source_fact_not_automatic_design_evidence",
+    "runtime_path": "data/standard_facts.sqlite.gz",
+    "scope_status": "SOURCE_FACTS_ONLY_QUALIFIED_CONSUMERS_REQUIRED",
+    "sha256": "BF36A87330439FF40754496127DD9995E7F47D5C6D2F33D8A6D985A44AA661B5",
+    "status": "PASS"
+  },
+  "total_files": 100,
+  "total_size_bytes": 10641221
+}

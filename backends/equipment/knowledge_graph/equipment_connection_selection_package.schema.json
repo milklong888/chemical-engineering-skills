@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-connection-selection-package-v1",
+  "title": "Deterministic equipment connection component selection package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "engine_version", "status", "deterministic", "llm_used",
+    "runtime_vision", "runtime_source_access", "parent_selection_context_sha256",
+    "source_export_sha256", "pfd_mapping_sha256", "connections", "diagnostics"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-connection-selection-package-v1"},
+    "engine_version": {"type": "string"},
+    "status": {"enum": ["DERIVED", "DERIVED_WITH_LOCAL_DIAGNOSTICS", "NOT_APPLICABLE", "LOCAL_SELECTION_PACKAGE_FAILED"]},
+    "deterministic": {"const": true},
+    "llm_used": {"const": false},
+    "runtime_vision": {"const": false},
+    "runtime_source_access": {"const": false},
+    "parent_selection_context_sha256": {"type": "string", "pattern": "^$|^[A-Fa-f0-9]{64}$"},
+    "source_export_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+    "pfd_mapping_sha256": {"type": "string", "pattern": "^$|^[A-Fa-f0-9]{64}$"},
+    "selector_manifest_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+    "selector_asset_count": {"type": "integer", "minimum": 1},
+    "ignored_direct_label_fields": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "selection_package_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "connection_id", "stream_id", "block_id", "block_type", "end_role",
+          "port_index", "port_identity_status", "from_block_ids", "to_block_ids",
+          "applicability", "component_types"
+        ],
+        "properties": {
+          "connection_id": {"type": "string", "minLength": 1},
+          "stream_id": {"type": "string"},
+          "block_id": {"type": "string"},
+          "block_type": {"type": "string"},
+          "end_role": {"enum": ["INLET", "OUTLET"]},
+          "port_index": {"type": "integer", "minimum": 1},
+          "port_identity_status": {"enum": ["EXACT_PORT_ID", "PROVISIONAL_PORT_ID"]},
+          "from_block_ids": {"type": "array", "items": {"type": "string"}},
+          "to_block_ids": {"type": "array", "items": {"type": "string"}},
+          "stream_kind": {"enum": ["material", "heat", "work", "unknown"]},
+          "applicability": {"enum": ["APPLICABLE", "NOT_APPLICABLE", "LOCAL_DIAGNOSTIC"]},
+          "reason_code": {"type": "string"},
+          "raw_service_context": {"type": "object"},
+          "accepted_property_facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["fact", "value", "source_id", "source_asset_path", "source_asset_sha256", "source_record_sha256", "qa_status", "subject_scope", "corroborating_source_records"],
+              "properties": {
+                "fact": {"type": "string", "minLength": 1},
+                "value": {"oneOf": [{"type": "boolean"}, {"type": "string", "minLength": 1}]},
+                "source_id": {"type": "string", "minLength": 1},
+                "source_asset_path": {"type": "string", "minLength": 1},
+                "source_asset_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+                "source_record_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+                "qa_status": {"enum": ["VALIDATED", "PROMOTED", "ACCEPTED"]},
+                "subject_scope": {"enum": ["stream", "mixture", "project_requirement", "module_requirement", "connection_requirement"]},
+                "stream_id": {"type": ["string", "null"]},
+                "block_id": {"type": ["string", "null"]},
+                "connection_id": {"type": ["string", "null"]},
+                "project_context_sha256": {"type": ["string", "null"], "pattern": "^[A-Fa-f0-9]{64}$"},
+                "composition_sha256": {"type": ["string", "null"], "pattern": "^[A-Fa-f0-9]{64}$"},
+                "valid_phases": {"oneOf": [{"type": "null"}, {"enum": ["liquid", "vapor", "two_phase", "solid_bearing"]}, {"type": "array", "items": {"enum": ["liquid", "vapor", "two_phase", "solid_bearing"]}, "minItems": 1, "uniqueItems": true}]},
+                "valid_temperature_min_c": {"type": ["number", "null"]},
+                "valid_temperature_max_c": {"type": ["number", "null"]},
+                "valid_pressure_min_mpa": {"type": ["number", "null"]},
+                "valid_pressure_max_mpa": {"type": ["number", "null"]},
+                "pressure_basis": {"type": ["string", "null"], "enum": ["absolute", "gauge", null]},
+                "corroborating_source_records": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["source_id", "source_asset_sha256", "source_record_sha256"],
+                    "properties": {
+                      "source_id": {"type": "string", "minLength": 1},
+                      "source_asset_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+                      "source_record_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "rejected_property_facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["fact", "source_id", "reason"],
+              "properties": {
+                "fact": {"type": "string"},
+                "source_id": {"type": ["string", "null"]},
+                "reason": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "ignored_direct_label_fields": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "component_types": {
+            "type": "object",
+            "propertyNames": {"enum": ["flange_type", "facing", "gasket_type", "fastener_type"]},
+            "additionalProperties": {"type": "object"}
+          }
+        }
+      }
+    },
+    "diagnostics": {"type": "array", "items": {"type": "object"}}
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Explicit source-bound packed hydraulic case configuration",
+  "description": "Missing calculation inputs yield affected-only gaps; the schema does not certify engineering evidence. All numeric examples must be supplied by the current project, not this package.",
+  "type": "object",
+  "required": ["schema", "mode", "run_id", "artifacts", "property_method", "vapor_density_model", "towers"],
+  "properties": {
+    "schema": {"const": "packed-hydraulic-case-config-v1"},
+    "mode": {"enum": ["single", "parallel"]},
+    "run_id": {"type": "string", "minLength": 1},
+    "artifacts": {
+      "type": "object", "required": ["bkp", "streams"],
+      "properties": {"bkp": {"$ref": "#/$defs/artifact"}, "streams": {"$ref": "#/$defs/artifact"}, "inp": {"$ref": "#/$defs/artifact"}}
+    },
+    "property_method": {"$ref": "#/$defs/evidence"},
+    "vapor_density_model": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["method", "accepted_for_preliminary"], "properties": {"method": {"const": "ideal_gas"}, "accepted_for_preliminary": {"const": true}}}]},
+    "parameters": {
+      "description": "Each provided value requires source, locator, basis and exact unit. No defaults. Single sizing consumes HETP(m), packing_type(label), flooding_f_factor(Pa^0.5), capacity_factor_target(1), min/max(1), max_bed_height_m(m), diameter_round_step_m(m). Parallel rating uses source INP diameter/height instead of HETP and sizing target.",
+      "type": "object", "additionalProperties": {"$ref": "#/$defs/parameter"}
+    },
+    "parallel_distribution": {"description": "Optional source record of actual branch distribution. This program does not solve or certify branch pressure balance, equal splitting or full-flow reconnect.", "$ref": "#/$defs/evidence"},
+    "towers": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "allOf": [{"$ref": "#/$defs/evidence"}, {
+          "type": "object", "required": ["block", "nstage", "feed_stage"],
+          "properties": {
+            "block": {"type": "string", "minLength": 1},
+            "tag": {"type": "string"}, "service": {"type": "string"},
+            "nstage": {"type": "integer", "minimum": 4}, "feed_stage": {"type": "integer", "minimum": 3},
+            "parameters": {"type": "object", "additionalProperties": {"$ref": "#/$defs/parameter"}},
+            "profiles": {
+              "description": "Explicit verified DSET mappings only. temperature=C, pressure=bar_abs, vapor/liquid_mole=kmol/h, vapor/liquid_mass=kg/h. Temperature/pressure/mole use RAD_PRO2; mass uses RAD_PR2S. Inference helpers remain diagnostic, not automatically adopted.",
+              "type": "object", "additionalProperties": {"$ref": "#/$defs/profile"}
+            },
+            "internals_units": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["unit"], "properties": {"unit": {"const": "m"}}}]},
+            "nozzles": {
+              "type": "array", "items": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["service", "stream", "phase", "velocity"], "properties": {
+                "service": {"type": "string"}, "stream": {"type": "string"}, "phase": {"enum": ["liquid", "vapor"]},
+                "velocity": {"$ref": "#/$defs/parameter"}, "density": {"$ref": "#/$defs/parameter"}
+              }}]}
+            }
+          }
+        }]
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {"type": "object", "required": ["source", "locator", "basis"], "properties": {"source": {"type": "string", "minLength": 1}, "locator": {"type": "string", "minLength": 1}, "basis": {"type": "string", "minLength": 1}}},
+    "artifact": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["path", "sha256", "run_id"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}, "run_id": {"type": "string", "minLength": 1}, "encoding": {"enum": ["utf-8", "utf-8-sig", "cp936", "gbk", "ascii"]}}}]},
+    "parameter": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["value", "unit"], "properties": {"value": {"type": ["number", "string"]}, "unit": {"type": "string", "minLength": 1}}}]},
+    "profile": {"allOf": [{"$ref": "#/$defs/evidence"}, {"type": "object", "required": ["dataset", "label", "unit"], "properties": {"dataset": {"enum": ["RAD_PRO2", "RAD_PR2S"]}, "label": {"type": "string", "pattern": "^@L_[0-9]+$"}, "unit": {"enum": ["C", "bar_abs", "kmol/h", "kg/h"]}}}]}
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "equipment-standard-fact-projection-manifest-v1",
+  "parent_commit": "e3a5f1bffd1889b8c70ae0b1f3343f7fccbeea20",
+  "parent_database_sha256": "27A1C4B0FA5CA9DAEACD727808A4758ECC156835BADC83461BF789DA0BA8F551",
+  "parent_build_id": "20260720-visual-batch-v2",
+  "path": "data/standard_facts.sqlite",
+  "sha256": "BF36A87330439FF40754496127DD9995E7F47D5C6D2F33D8A6D985A44AA661B5",
+  "size_bytes": 121257984,
+  "table_counts": {
+    "datasets": 24,
+    "standard_records": 24887,
+    "figure_datasets": 14,
+    "figure_records": 1844
+  },
+  "role": "source_fact_not_automatic_design_evidence",
+  "original_qa_states_preserved": true,
+  "source_text_and_private_paths_excluded": true,
+  "calculation_consumer_dataset_ids": [
+    "gbt1048_nominal_pressure_series",
+    "gbt17395_pipe_dimensions_weights"
+  ],
+  "compressed_path": "data/standard_facts.sqlite.gz",
+  "compressed_sha256": "584E860945491D52CBEB6CF9275E06197A8893181389934B371C54A717ABB158",
+  "compressed_size_bytes": 9284033
+}

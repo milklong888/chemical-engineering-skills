@@ -20,7 +20,7 @@ import time
 from typing import Any, Callable
 import uuid
 
-RUNTIME_VERSION = "1.0.0-strict-20260909"
+RUNTIME_VERSION = "1.0.1-strict-offline-20260910"
 DEFAULT_LOCK_PATH = Path(tempfile.gettempdir()) / "CodexAspenRuntime" / "aspen_com.owner.lock"
 
 
@@ -55,7 +55,18 @@ def atomic_json(path: Path, value: Any) -> None:
             stream.write("\n")
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temp, path)
+        # Windows readers may briefly hold a handle without FILE_SHARE_DELETE.
+        # Retry only recognized sharing/access failures, with a hard deadline;
+        # preserve atomic replacement and report persistent failures unchanged.
+        deadline = time.monotonic() + 1.0
+        while True:
+            try:
+                os.replace(temp, path)
+                break
+            except OSError as exc:
+                if getattr(exc, "winerror", None) not in {5, 32, 33} or time.monotonic() >= deadline:
+                    raise
+                time.sleep(.01)
     finally:
         temp.unlink(missing_ok=True)
 

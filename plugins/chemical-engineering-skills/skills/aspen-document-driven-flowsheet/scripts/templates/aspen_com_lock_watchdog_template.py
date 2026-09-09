@@ -11,7 +11,7 @@ import sys
 import time
 from typing import Any
 
-_RUNTIME_DIR = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))) / "skills/aspen-plus-operations/scripts"
+_RUNTIME_DIR = Path(__file__).resolve().parents[3] / "aspen-plus-operations/scripts"
 if not (_RUNTIME_DIR / "aspen_runtime.py").is_file():
     raise ImportError(f"Shared Aspen runtime missing: {_RUNTIME_DIR}")
 sys.path.insert(0, str(_RUNTIME_DIR))

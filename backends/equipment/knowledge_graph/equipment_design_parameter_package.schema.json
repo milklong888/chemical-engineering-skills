@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-parameter-package-v1",
+  "title": "设备设计先计算后选型参数包",
+  "type": "object",
+  "required": ["schema", "status", "family_id", "groups", "calculation_chain", "constraint_checks", "selection_feature_vector", "selection_context", "deterministic", "llm_used"],
+  "properties": {
+    "schema": {"const": "equipment-design-parameter-package-v1"},
+    "status": {"type": "string"},
+    "family_id": {"type": "string"},
+    "title": {"type": "string"},
+    "template_version": {"type": "string"},
+    "template_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+    "groups": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["group_id", "title", "rows"],
+        "properties": {
+          "group_id": {"type": "string"},
+          "title": {"type": "string"},
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["field_id", "label", "display_value", "role", "state", "source", "required_for"],
+              "properties": {
+                "field_id": {"type": "string"},
+                "label": {"type": "string"},
+                "symbol": {"type": "string"},
+                "display_value": {"type": "string"},
+                "unit": {"type": ["string", "null"]},
+                "role": {"type": "string"},
+                "state": {"enum": ["CALCULATED", "PROVIDED", "MISSING", "EXTERNAL_REQUIRED"]},
+                "source": {"type": "object"},
+                "required_for": {"type": "array", "items": {"type": "string"}},
+                "equation_chain": {"type": ["string", "null"]},
+                "formula_chain": {"type": ["object", "null"]}
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "calculation_chain": {"type": "array", "items": {"type": "object"}},
+    "constraint_checks": {"type": "array", "items": {"type": "object"}},
+    "selection_feature_vector": {
+      "type": "object",
+      "required": ["status", "required_fields", "values", "missing_fields", "sha256"]
+    },
+    "selection_context": {
+      "type": "object",
+      "required": ["values", "sha256", "source"]
+    },
+    "deterministic": {"const": true},
+    "llm_used": {"const": false}
+  },
+  "additionalProperties": true
+}

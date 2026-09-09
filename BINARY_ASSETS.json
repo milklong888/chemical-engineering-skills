@@ -1,0 +1,670 @@
+{
+  "schema": "chemical-reviewed-binary-assets-v1",
+  "assets": [
+    {
+      "path": "runtime/wheelhouse/aiofile-3.11.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "ce77d14ac07f77bc2b757834a5c129321f3f705c474593deed5ab209079a52c9",
+      "bytes": 20446,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/annotated_types-0.7.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53",
+      "bytes": 13643,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/anyio-4.14.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "4e5533c5b8ff0a24f5d7a176cbe6877129cd183893f66b537f8f227d10527d72",
+      "bytes": 124875,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/attrs-26.1.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309",
+      "bytes": 67548,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/authlib-1.7.2-py2.py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "3e1faedc9d87e7d56a164eca3ccb6ace0d61b94abe83e92242f8dc8bba9b4a9f",
+      "bytes": 259548,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/beartype-0.22.9-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "d16c9bbc61ea14637596c5f6fbff2ee99cbe3573e46a716401734ef50c3060c2",
+      "bytes": 1333658,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/cachetools-7.1.4-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "323dc4127934744db5b54eb4924482d7edafbf9554e820d1531c2e08c0e4ef54",
+      "bytes": 16761,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/caio-0.9.25-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "06c0bb02d6b929119b1cfbe1ca403c768b2013a369e2db46bfa2a5761cf82e40",
+      "bytes": 19087,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/certifi-2026.6.17-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "2227dcbaafe0d2f59279d1762ddddc37783ed4354594f194ffc31d20f41fc3db",
+      "bytes": 133289,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/cffi-2.0.0-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "203a48d1fb583fc7d78a4c6655692963b860a417c0528492a6bc21f1aaefab25",
+      "bytes": 185650,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/click-8.4.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76",
+      "bytes": 119243,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/colorama-0.4.6-py2.py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6",
+      "bytes": 25335,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/cryptography-49.0.0-cp311-abi3-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "e5dfc1e64de5677cec922ffa8da89c546d0415bf6efdf081842e5d44c84e1f0e",
+      "bytes": 3810026,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/cyclopts-4.19.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "a8c11adb45afae25db310122950c7639c70b56e2ce341e5b29848bf3a8ecc1d4",
+      "bytes": 228005,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/dnspython-2.8.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "01d9bbc4a2d76bf0db7c1f729812ded6d912bd318d3b1cf81d30c0f845dbf3af",
+      "bytes": 331094,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/docstring_parser-0.18.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "b3fcbed555c47d8479be0796ef7e19c2670d428d72e96da63f3a40122860374b",
+      "bytes": 22484,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/email_validator-2.3.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "80f13f623413e6b197ae73bb10bf4eb0908faf509ad8362c5edeb0be7fd450b4",
+      "bytes": 35604,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/exceptiongroup-1.3.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "a7a39a3bd276781e98394987d3a5701d0c4edffb633bb7a5144577f82c773598",
+      "bytes": 16740,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/fastmcp-3.4.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "c87a62b029f0c5400ada85f683629345d2466c39169f0cb853e487b2f7308c08",
+      "bytes": 8018,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/fastmcp_slim-3.4.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "bdc72492212681ca502755fa8acc0457f559295da1fc3dfc0599adc1c04b82f3",
+      "bytes": 749195,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/griffelib-2.1.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "cc7b3d2d2865ad0b909fcc38086e3f554b5ea7acbaa7bbb7ecaa3f5dfb7d9f00",
+      "bytes": 142560,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/h11-0.16.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86",
+      "bytes": 37515,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/httpcore-1.0.9-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55",
+      "bytes": 78784,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/httpx-0.28.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad",
+      "bytes": 73517,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/httpx_sse-0.4.3-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "0ac1c9fe3c0afad2e0ebb25a934a59f4c7823b60792691f779fad2c5568830fc",
+      "bytes": 8960,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/idna-3.18-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2",
+      "bytes": 65455,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jaraco.classes-3.4.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "f662826b6bed8cace05e7ff873ce0f9283b5c924470fe664fff1c2f00f581790",
+      "bytes": 6777,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jaraco_context-6.1.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "bf8150b79a2d5d91ae48629d8b427a8f7ba0e1097dd6202a9059f29a36379535",
+      "bytes": 7871,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jaraco_functools-4.5.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "79ce39246eddbde4b3a03b77ea5f0f7878dc669b166a66cf3fa8e266aa3fa2f4",
+      "bytes": 10594,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/joserfc-1.7.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "b3e3d655612e2e1ef67b2600f2f420e12e537b020208fab1761fad647319c164",
+      "bytes": 70423,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jsonref-1.1.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "590dc7773df6c21cbf948b5dac07a72a251db28b0238ceecce0a2abfa8ec30a9",
+      "bytes": 9425,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jsonschema-4.26.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce",
+      "bytes": 90630,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jsonschema_path-0.5.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "2790a070bc7abb08ea3dbe4d340ece4efadf639223001f020c7503229ba068e2",
+      "bytes": 24077,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/jsonschema_specifications-2025.9.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe",
+      "bytes": 18437,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/keyring-25.7.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "be4a0b195f149690c166e850609a477c532ddbfbaed96a404d4e43f8d5e2689f",
+      "bytes": 39160,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/markdown_it_py-4.2.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "bytes": 91687,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/mcp-1.28.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "2726bca5e7193f61c5dde8b12500a6de2d9acf6d1a1c0be9e8c2e706437991df",
+      "bytes": 222620,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/mdurl-0.1.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "bytes": 9979,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/more_itertools-11.1.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "4b65538ae22f6fed0ce4874efd317463a7489796a0939fa66824dd542125a192",
+      "bytes": 72226,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/openapi_pydantic-0.5.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "a3a09ef4586f5bd760a8df7f43028b60cafb6d9f61de2acba9574766255ab146",
+      "bytes": 96381,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/opentelemetry_api-1.43.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "20acf45e9b21851926835292e4045d290acade1edd2ff3de86d2f069687ba1fd",
+      "bytes": 61912,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/packaging-26.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "5fc45236b9446107ff2415ce77c807cee2862cb6fac22b8a73826d0693b0980e",
+      "bytes": 100195,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pathable-0.6.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "82c4ca6c98c502ad12e0d4e9779b6210afee93c38990988c8c5d1b49bdcdf566",
+      "bytes": 18983,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pip-26.1.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "382ff9f685ee3bc25864f820aa50505825f10f5458ffff07e30a6d96e5715cab",
+      "bytes": 1813144,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/platformdirs-4.10.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "fb516cdb12eb0d857d0cd85a7c57cea4d060bee4578d6cf5a14dfdf8cbf8784a",
+      "bytes": 22743,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/py_key_value_aio-0.4.5-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "ab862adbcb8c72547d1c57821f22cbbb71ab86509039c96f36e914e0336c8dd7",
+      "bytes": 170005,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pycparser-3.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992",
+      "bytes": 48172,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pydantic-2.13.4-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "45a282cde31d808236fd7ea9d919b128653c8b38b393d1c4ab335c62924d9aba",
+      "bytes": 472262,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pydantic_settings-2.14.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "a20c97b37910b6550d5ea50fbcc2d4187defe58cd57070b73863d069419c9440",
+      "bytes": 61715,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pydantic_core-2.46.4-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "811ff8e9c313ab425368bcbb36e5c4ebd7108c2bbf4e4089cfbb0b01eff63fac",
+      "bytes": 2072238,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pygments-2.20.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176",
+      "bytes": 1231151,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pyjwt-2.13.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "66adcc2aff09b3f1bbd95fc1e1577df8ac8723c978552fd43304c8a290ac5728",
+      "bytes": 31274,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pyperclip-1.11.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "299403e9ff44581cb9ba2ffeed69c7aa96a008622ad0c46cb575ca75b5b84273",
+      "bytes": 11063,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/python_dotenv-1.2.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a",
+      "bytes": 22101,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/python_multipart-0.0.32-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "ff6d3f776f16878c894e52e107296ffc890e913c611b1a4ec6c44e2821fe2e23",
+      "bytes": 30042,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pywin32-312-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "a4dd3a848290ef724347b19f301045831d8e802fa4464f491b98b1e0a081432e",
+      "bytes": 7024157,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pywin32_ctypes-0.2.3-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "8a1513379d709975552d202d942d9837758905c8d01eb82b8bcc30918929e7b8",
+      "bytes": 30756,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/pyyaml-6.0.3-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "4a2e8cebe2ff6ab7d1050ecd59c25d4c8bd7e6f400f5f82b96557ac0abafd0ac",
+      "bytes": 156429,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/referencing-0.37.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231",
+      "bytes": 26766,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/rich-15.0.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "bytes": 310654,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/rich_rst-2.0.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "7bc2923929c9bbc61aadfef2069b742446823b306af84cf9e0f56b965a3d3035",
+      "bytes": 273082,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/rpds_py-2026.5.1-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "cef8ac28d26f4dda3533060c20fbf80a325458fa9fd23ea72a73cdfa8e978838",
+      "bytes": 225985,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/sse_starlette-3.4.5-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "e71bad53323f65573c3864a6c3bd0c1eb6e5f092b2e48082b0c35927d19ca296",
+      "bytes": 16518,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/starlette-1.3.1-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "c7372aae11c3c3f26a42df7bd626cec2f47d03483d261d369516a615a53714c6",
+      "bytes": 73632,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/typing_inspection-0.4.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7",
+      "bytes": 14611,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/typing_extensions-4.15.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548",
+      "bytes": 44614,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/uncalled_for-0.3.2-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "0ff60b142c7d1f8070bde9d42afaa70aedc77dcc10998c227687e9c15713418e",
+      "bytes": 11444,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/uvicorn-0.49.0-py3-none-any.whl",
+      "kind": "python_wheel",
+      "sha256": "ba3d14c3ee7e41c6c654c46c9eb489d33213cdd30aa1696eab1374337c13f68f",
+      "bytes": 71376,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/watchfiles-1.2.0-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "71283b39fd17e5408eb123bd37aeecfd9d54c81fc184421943208aadb879d103",
+      "bytes": 288441,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/websockets-16.0-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "c0ee0e63f23914732c6d7e0cce24915c48f3f1512ec1d079ed01fc629dab269d",
+      "bytes": 178381,
+      "source_ledger": "vendor/aspen-mcp-toolkit/offline-runtime.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "runtime/wheelhouse/extensions/numpy/numpy-2.4.6-cp314-cp314-win_amd64.whl",
+      "kind": "python_wheel",
+      "sha256": "b507f5c4c1d508876d1819b6bf9a49d365b96320b5d4993426b33a23ca4b8261",
+      "bytes": 12450334,
+      "source_ledger": "vendor/aspen-mcp-toolkit/numpy-retrieval-extension.lock.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Original distribution license/notice retained inside wheel; fastmcp-slim fixed-tag license supplied under vendor third_party"
+    },
+    {
+      "path": "backends/equipment/data/standard_facts.sqlite.gz",
+      "kind": "sqlite_gzip",
+      "sha256": "584e860945491d52cbeb6cf9275e06197a8893181389934b371c54a717abb158",
+      "bytes": 9284033,
+      "uncompressed_sha256": "bf36a87330439ff40754496127dd9995e7f47d5c6d2f33d8a6d985a44aa661b5",
+      "uncompressed_bytes": 121257984,
+      "source_ledger": "backends/equipment/data/standard_facts_manifest.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Structured facts/units/conditions and provenance projection; long source expression and private paths excluded; original QA retained"
+    },
+    {
+      "path": "knowledge/vectors/vectors.npy",
+      "kind": "numpy_index",
+      "sha256": "4e5b43d6c79f2efe23b96a14b69846486dbc5647062900d1ff83a430eb742bb5",
+      "bytes": 21043328,
+      "dtype": "float32",
+      "shape": [
+        6850,
+        768
+      ],
+      "allow_pickle": false,
+      "source_ledger": "knowledge/vectors/config.json",
+      "review_status": "admitted",
+      "redistribution_basis": "Deterministic hash-vector numeric index built solely from admitted original method/operation records; not a trained model"
+    }
+  ]
+}

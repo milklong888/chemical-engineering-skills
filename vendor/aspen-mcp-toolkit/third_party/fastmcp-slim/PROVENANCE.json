@@ -1,0 +1,40 @@
+{
+  "schema": "fixed-upstream-license-evidence-v1",
+  "retrieved_at": "2026-09-09T17:03:27.742081+00:00",
+  "project": "PrefectHQ/fastmcp",
+  "package": "fastmcp-slim",
+  "version": "3.4.2",
+  "tag": "v3.4.2",
+  "tag_ref_url": "https://api.github.com/repos/PrefectHQ/fastmcp/git/ref/tags/v3.4.2",
+  "tag_ref_sha256": "4ed4fc93de09040ba90d25b25e021834a29a220e7a5d57fad90e2666b15b0f24",
+  "tag_object_type": "commit",
+  "tag_object_sha": "3b8538e2422a1c43fdb69661c610de7985b785f2",
+  "commit_sha": "3b8538e2422a1c43fdb69661c610de7985b785f2",
+  "source_tree_url": "https://api.github.com/repos/PrefectHQ/fastmcp/git/trees/3b8538e2422a1c43fdb69661c610de7985b785f2?recursive=1",
+  "source_tree_sha": "3b8538e2422a1c43fdb69661c610de7985b785f2",
+  "source_tree_response_sha256": "9a9ecb65f1f2a735d50967ae2d0a29f8dc977d7cc824764419f6fb6aa3effe88",
+  "source_tree_truncated": false,
+  "notice_files_in_complete_tree": [],
+  "license_expression_in_fixed_source": "Apache-2.0",
+  "wheel_sha256": "bdc72492212681ca502755fa8acc0457f559295da1fc3dfc0599adc1c04b82f3",
+  "wheel_modified": false,
+  "files": [
+    {
+      "path": "LICENSE",
+      "source_path": "LICENSE",
+      "tag_url": "https://raw.githubusercontent.com/PrefectHQ/fastmcp/v3.4.2/LICENSE",
+      "commit_url": "https://raw.githubusercontent.com/PrefectHQ/fastmcp/3b8538e2422a1c43fdb69661c610de7985b785f2/LICENSE",
+      "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+      "bytes": 11356
+    },
+    {
+      "path": "UPSTREAM_PYPROJECT.toml",
+      "source_path": "fastmcp_slim/pyproject.toml",
+      "tag_url": "https://raw.githubusercontent.com/PrefectHQ/fastmcp/v3.4.2/fastmcp_slim/pyproject.toml",
+      "commit_url": "https://raw.githubusercontent.com/PrefectHQ/fastmcp/3b8538e2422a1c43fdb69661c610de7985b785f2/fastmcp_slim/pyproject.toml",
+      "sha256": "c75d7da0a3f4d0c4a712d2f3f507ce21f2d82df7d7e62492487dbd66eb106e58",
+      "bytes": 2829
+    }
+  ],
+  "evidence_scope": "Same-package fixed-tag source declares Apache-2.0; root license attached. No general compliance conclusion for other packages."
+}

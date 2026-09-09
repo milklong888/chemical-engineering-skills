@@ -1,0 +1,414 @@
+{
+  "schema": "equipment-parameter-chain-templates-v1",
+  "version": "1.6.0",
+  "customer_output_profiles_path": "equipment_customer_output_profiles.json",
+  "customer_output_policy": {
+    "authority": "original customer Excel/Word headers plus promoted equipment overview field-schema nodes",
+    "value_transfer": "forbidden; the profile carries field structure and evidence gates only",
+    "family_ambiguity": "retain the union at the most-general supported family until a deterministic discriminator closes a subtype",
+    "missing_fields": "retain every required row; apply only registered context fallbacks as visibly RECOMMENDED or DEFAULTED preliminary values, and keep formal evidence gaps open"
+  },
+  "workflow": [
+    "normalize_and_unit_convert",
+    "identify_equipment_family",
+    "calculate_all_closable_parameters",
+    "build_parameter_package",
+    "run_constraint_checks",
+    "match_type_standard_or_vendor_candidates",
+    "rank_candidates_and_explain_rejections",
+    "promote_only_after_same_equipment_evidence"
+  ],
+  "selection_policy": {
+    "type_screening": "allowed after family identity is deterministic",
+    "candidate_matching": "may consume only the parameter package selection_feature_vector",
+    "partial_input": "show calculated and missing rows; retain the most general type candidate; do not fabricate a model",
+    "formal_model": "requires the family evidence gate and independent approval"
+  },
+  "visual_template": {
+    "parameter_columns": ["group", "label", "symbol", "value", "unit", "source", "status", "equation_chain"],
+    "candidate_columns": ["rank", "designation", "kind", "status", "score", "formal_model"],
+    "status_legend": {
+      "CALCULATED": "由本次明确输入按公式链计算",
+      "PROVIDED": "由 Aspen、手工输入或调用方提供，尚需来源证据",
+      "MISSING": "当前没有值，选型或正式门可能因此未闭合",
+      "EXTERNAL_REQUIRED": "必须由标准查表、同设备软件或厂家证据闭合",
+      "RECOMMENDED": "由图谱条件规则或内置推荐公式补入，仅供预设计并保留告警",
+      "DEFAULTED": "最终保底默认值，仅用于不中停的预设计计算，必须做敏感性复核"
+    }
+  },
+  "parameter_definitions": {
+    "equipment_tag": {"label": "设备位号", "symbol": "Tag", "unit": null},
+    "equipment_type": {"label": "设备型式", "symbol": "Type", "unit": null},
+    "aspen_block_type": {"label": "Aspen 模块类型", "symbol": "Block", "unit": null},
+    "process_function": {"label": "工艺功能", "symbol": "Service", "unit": null},
+    "phase": {"label": "相态", "symbol": "Phase", "unit": null},
+    "flow_m3_h": {"label": "体积流量", "symbol": "Q", "unit": "m3/h"},
+    "mass_flow_kg_h": {"label": "质量流量", "symbol": "m", "unit": "kg/h"},
+    "density_kg_m3": {"label": "密度", "symbol": "rho", "unit": "kg/m3"},
+    "efficiency_percent": {"label": "效率", "symbol": "eta", "unit": "%"},
+    "pressure_basis": {"label": "压力基准", "symbol": "basis", "unit": null},
+    "design_pressure_basis": {"label": "设计压力输出基准", "symbol": "basisPd", "unit": null},
+    "atmospheric_pressure_mpa": {"label": "当地大气压", "symbol": "Patm", "unit": "MPa"},
+    "inlet_pressure_mpa": {"label": "入口压力", "symbol": "Pin", "unit": "MPa"},
+    "outlet_pressure_mpa": {"label": "出口压力", "symbol": "Pout", "unit": "MPa"},
+    "operating_pressure_mpa": {"label": "操作压力", "symbol": "Pop", "unit": "MPa"},
+    "design_pressure_factor": {"label": "设计压力系数", "symbol": "kP", "unit": "-"},
+    "design_pressure_mpa": {"label": "设计压力值（基准见独立字段）", "symbol": "Pd", "unit": "MPa"},
+    "temperature_c": {"label": "操作温度", "symbol": "T", "unit": "degC"},
+    "inlet_temperature_c": {"label": "入口温度", "symbol": "Tin", "unit": "degC"},
+    "outlet_temperature_c": {"label": "出口温度", "symbol": "Tout", "unit": "degC"},
+    "design_temperature_c": {"label": "设计温度", "symbol": "Td", "unit": "degC"},
+    "pressure_drop_kpa": {"label": "实际压降", "symbol": "dP", "unit": "kPa"},
+    "allowable_pressure_drop_kpa": {"label": "允许压降", "symbol": "dPallow", "unit": "kPa"},
+    "maximum_pressure_drop_kpa": {"label": "最大压差初筛", "symbol": "dPmax", "unit": "kPa"},
+    "maximum_pressure_drop_factor": {"label": "最大压差裕量系数", "symbol": "kMax", "unit": "-"},
+    "heat_duty_kw": {"label": "热负荷", "symbol": "Qh", "unit": "kW"},
+    "specific_heat_kj_kgk": {"label": "定压比热（预估时显式报警）", "symbol": "Cp", "unit": "kJ/(kg.K)"},
+    "overall_u_w_m2k": {"label": "总传热系数", "symbol": "U", "unit": "W/(m2.K)"},
+    "lmtd_k": {"label": "对数平均温差", "symbol": "dTlm", "unit": "K"},
+    "lmtd_correction_factor": {"label": "LMTD 修正系数", "symbol": "F", "unit": "-"},
+    "heat_transfer_area_m2": {"label": "计算换热面积", "symbol": "A", "unit": "m2"},
+    "tube_outer_diameter_mm": {"label": "换热管外径", "symbol": "do", "unit": "mm"},
+    "tube_length_mm": {"label": "换热管长度", "symbol": "L", "unit": "mm"},
+    "tube_or_plate_count": {"label": "换热管/板数量", "symbol": "Nt", "unit": "count"},
+    "shell_pass_count": {"label": "壳程数", "symbol": "Ns", "unit": "count"},
+    "tube_material_grade": {"label": "管程材料", "symbol": "MOCt", "unit": null},
+    "shell_material_grade": {"label": "壳程材料", "symbol": "MOCs", "unit": null},
+    "diameter_mm": {"label": "设备直径", "symbol": "D", "unit": "mm"},
+    "height_mm": {"label": "设备高度", "symbol": "H", "unit": "mm"},
+    "tower_internal_height_m": {"label": "填料/塔板有效高度", "symbol": "Hint", "unit": "m"},
+    "inner_diameter_mm": {"label": "筒体计算内径", "symbol": "Di", "unit": "mm"},
+    "straight_shell_length_mm": {"label": "筒体直段长度", "symbol": "Lstraight", "unit": "mm"},
+    "volume_m3": {"label": "用户/同工况给定的设计容积", "symbol": "Vselected", "unit": "m3"},
+    "volume_basis": {"label": "设计容积基准", "symbol": "basisV", "unit": null},
+    "required_volume_m3": {"label": "最低所需总容积", "symbol": "Vreq", "unit": "m3"},
+    "straight_shell_geometric_volume_m3": {"label": "圆筒直段几何容积", "symbol": "Vstraight", "unit": "m3"},
+    "stage_count": {"label": "级数 / 理论级或塔板数", "symbol": "N", "unit": "count"},
+    "retention_time_min": {"label": "停留时间", "symbol": "t", "unit": "min"},
+    "fill_fraction": {"label": "装填系数", "symbol": "phiV", "unit": "-"},
+    "tower_cross_section_m2": {"label": "塔筒全截面积（按内径）", "symbol": "AT,total", "unit": "m2"},
+    "tower_design_velocity_m_s": {"label": "塔径初估采用的表观速度", "symbol": "uDesign", "unit": "m/s"},
+    "tower_downcomer_area_fraction": {"label": "降液管面积分率", "symbol": "phiD", "unit": "-"},
+    "tower_receiving_area_fraction": {"label": "受液区面积分率", "symbol": "phiR", "unit": "-"},
+    "tower_inactive_area_fraction": {"label": "边缘/安定无效区面积分率", "symbol": "phiI", "unit": "-"},
+    "tower_active_area_fraction": {"label": "有效鼓泡面积分率", "symbol": "phiA", "unit": "-"},
+    "tower_active_area_m2": {"label": "有效鼓泡面积", "symbol": "Aa", "unit": "m2"},
+    "tower_open_area_fraction": {"label": "有效区开孔率", "symbol": "phiO", "unit": "-"},
+    "tower_hole_area_m2": {"label": "总开孔面积", "symbol": "Ao", "unit": "m2"},
+    "tower_actual_superficial_velocity_m_s": {"label": "按有效区折算表观速度", "symbol": "ua", "unit": "m/s"},
+    "tray_spacing_mm": {"label": "塔板间距", "symbol": "HT", "unit": "mm"},
+    "tower_top_bottom_allowance_mm": {"label": "塔顶/塔底及附加空间合计", "symbol": "Hallow", "unit": "mm"},
+    "tower_weir_length_ratio": {"label": "堰长与塔径比", "symbol": "lw/D", "unit": "-"},
+    "tower_weir_height_mm": {"label": "出口堰高", "symbol": "hw", "unit": "mm"},
+    "tower_downcomer_residence_time_s": {"label": "降液管停留时间初值", "symbol": "td", "unit": "s"},
+    "bottom_liquid_height_m": {"label": "塔底持液高度", "symbol": "hL", "unit": "m"},
+    "insulation_spec": {"label": "保温/保冷层", "symbol": "Insulation", "unit": null},
+    "protective_layer": {"label": "保护层", "symbol": "Protection", "unit": null},
+    "allowable_stress_mpa": {"label": "许用应力", "symbol": "sigma", "unit": "MPa"},
+    "weld_efficiency": {"label": "焊接接头系数", "symbol": "phiW", "unit": "-"},
+    "cylinder_calculated_thickness_mm": {"label": "筒体计算厚度", "symbol": "deltaC", "unit": "mm"},
+    "head_calculated_thickness_mm": {"label": "封头计算厚度", "symbol": "deltaH", "unit": "mm"},
+    "head_m": {"label": "扬程", "symbol": "H", "unit": "m"},
+    "hydraulic_power_kw": {"label": "水力功率", "symbol": "Ph", "unit": "kW"},
+    "pressure_drop_power_component_kw": {"label": "压差功率分量（初筛）", "symbol": "PdeltaP", "unit": "kW"},
+    "pressure_component_shaft_power_screening_kw": {"label": "压差分量轴功率初筛", "symbol": "Pscreen,deltaP", "unit": "kW"},
+    "pressure_drop_head_component_m": {"label": "压差水头分量（初筛）", "symbol": "HdeltaP", "unit": "m"},
+    "shaft_power_kw": {"label": "轴功率", "symbol": "Ps", "unit": "kW"},
+    "driver_efficiency_percent": {"label": "驱动效率", "symbol": "etaDriver", "unit": "%"},
+    "auxiliary_power_fraction": {"label": "辅机功率分率", "symbol": "fAux", "unit": "-"},
+    "total_power_kw": {"label": "总输入功率", "symbol": "Ptotal", "unit": "kW"},
+    "npsha_m": {"label": "装置汽蚀余量", "symbol": "NPSHa", "unit": "m"},
+    "npshr_m": {"label": "泵必需汽蚀余量", "symbol": "NPSHr", "unit": "m"},
+    "required_npsh_margin_m": {"label": "规定 NPSH 裕量", "symbol": "dNPSH_req", "unit": "m"},
+    "npshr_evidence_scope": {"label": "NPSHr 证据工况范围", "symbol": "scope_NPSHr", "unit": null},
+    "cavitation_margin_m": {"label": "汽蚀余量裕度", "symbol": "dNPSH", "unit": "m"},
+    "head_type": {"label": "封头型式", "symbol": "head_type", "unit": null},
+    "membrane_geometry_type": {"label": "膜通道几何型式", "symbol": "geometry", "unit": null},
+    "rotational_speed_rpm": {"label": "转速", "symbol": "n", "unit": "r/min"},
+    "gas_molecular_weight": {"label": "气体分子量", "symbol": "MW", "unit": "kg/kmol"},
+    "compressibility_factor": {"label": "压缩因子", "symbol": "Z", "unit": "-"},
+    "heat_capacity_ratio_k": {"label": "比热比", "symbol": "k", "unit": "-"},
+    "compression_pressure_ratio": {"label": "压缩比", "symbol": "rc", "unit": "-"},
+    "expansion_pressure_ratio": {"label": "膨胀比", "symbol": "re", "unit": "-"},
+    "surge_margin_percent": {"label": "实际/观测喘振裕量", "symbol": "SMobs", "unit": "%"},
+    "required_surge_margin_percent": {"label": "规定喘振裕量", "symbol": "SMreq", "unit": "%"},
+    "surge_margin_evidence_scope": {"label": "喘振裕量证据适用范围", "symbol": "scopeSM", "unit": "-"},
+    "mixing_metric": {"label": "混合指标", "symbol": "Mix", "unit": "-"},
+    "element_count": {"label": "元件数", "symbol": "Ne", "unit": "count"},
+    "channel_count": {"label": "通道数", "symbol": "Nc", "unit": "count"},
+    "channel_inner_diameter_mm": {"label": "通道内径", "symbol": "di", "unit": "mm"},
+    "element_length_m": {"label": "元件长度", "symbol": "L", "unit": "m"},
+    "membrane_area_m2": {"label": "膜面积", "symbol": "Am", "unit": "m2"},
+    "flux": {"label": "膜通量", "symbol": "J", "unit": null},
+    "selectivity": {"label": "选择性", "symbol": "alpha", "unit": "-"},
+    "recovery_percent": {"label": "回收率", "symbol": "R", "unit": "%"},
+    "capacity": {"label": "处理能力", "symbol": "Capacity", "unit": null},
+    "cycle_time_h": {"label": "循环周期", "symbol": "tc", "unit": "h"},
+    "target_velocity_m_s": {"label": "目标流速", "symbol": "vTarget", "unit": "m/s"},
+    "required_inner_diameter_mm": {"label": "水力计算内径", "symbol": "DiReq", "unit": "mm"},
+    "selected_dn": {"label": "公称直径", "symbol": "DN", "unit": "mm"},
+    "selected_outer_diameter_mm": {"label": "选定外径", "symbol": "Do", "unit": "mm"},
+    "selected_wall_thickness_mm": {"label": "选定壁厚", "symbol": "t", "unit": "mm"},
+    "actual_velocity_m_s": {"label": "选定管径实际流速", "symbol": "v", "unit": "m/s"},
+    "wall_series": {"label": "壁厚系列", "symbol": "SCH", "unit": null},
+    "material": {"label": "材料", "symbol": "MOC", "unit": null},
+    "fitting_type": {"label": "管件型式", "symbol": "Fitting", "unit": null},
+    "connection_type": {"label": "连接型式", "symbol": "Connection", "unit": null},
+    "pressure_class": {"label": "压力等级", "symbol": "PN/Class", "unit": null},
+    "flange_face": {"label": "法兰密封面", "symbol": "Face", "unit": null},
+    "gasket_material": {"label": "垫片材料", "symbol": "Gasket", "unit": null},
+    "valve_function": {"label": "阀门功能", "symbol": "Function", "unit": null},
+    "cv": {"label": "阀门流量系数", "symbol": "Cv", "unit": "-"},
+    "pressure_temperature_rating": {"label": "压力-温度等级", "symbol": "P-T rating", "unit": null},
+    "body_material_grade": {"label": "阀体材料牌号", "symbol": "MOC-body", "unit": null},
+    "internals_material_grade": {"label": "阀内件材料牌号", "symbol": "MOC-trim", "unit": null},
+    "seat_material_grade": {"label": "阀座材料牌号", "symbol": "MOC-seat", "unit": null},
+    "leakage_class": {"label": "泄漏等级", "symbol": "Leakage", "unit": null},
+    "actuator_type": {"label": "执行机构", "symbol": "Actuator", "unit": null},
+    "fail_position": {"label": "失效位", "symbol": "Fail", "unit": null},
+    "operating_range_and_rangeability": {"label": "工况 Cv/可调比", "symbol": "Cv-range", "unit": null},
+    "flashing_check_ref": {"label": "闪蒸校核状态", "symbol": "FlashCheck", "unit": null},
+    "cavitation_check_ref": {"label": "空化校核状态", "symbol": "CavCheck", "unit": null},
+    "noise_check_ref": {"label": "噪声校核状态", "symbol": "NoiseCheck", "unit": null},
+    "vendor_datasheet_ref": {"label": "厂家数据表状态", "symbol": "VendorDS", "unit": null},
+    "candidate_model": {"label": "候选型号或标记", "symbol": "Candidate", "unit": null},
+    "vendor_model": {"label": "厂家型号", "symbol": "VendorModel", "unit": null},
+    "crystallization_mode": {"label": "结晶操作模式", "symbol": "Modecryst", "unit": null, "evidence_gate": "同一 Aspen 块卡或项目设计基础"},
+    "solubility_profile_ref": {"label": "溶解度曲线/数据引用", "symbol": "SolubilityRef", "unit": null, "evidence_gate": "同物系、同温压范围溶解度数据"},
+    "solubility_profile_sha256": {"label": "溶解度数据 SHA-256", "symbol": "SolubilitySHA", "unit": null, "evidence_gate": "与溶解度引用成对校验"},
+    "crystal_component_mapping": {"label": "晶体组分映射", "symbol": "CrystalMap", "unit": null, "evidence_gate": "Aspen 组分 ID 与固相产品一一对应"},
+    "slurry_flow_m3_h": {"label": "结晶浆液体积流量", "symbol": "Qslurry", "unit": "m3/h", "evidence_gate": "同一结晶器出口浆液流股"},
+    "working_volume_m3": {"label": "结晶器工作容积", "symbol": "Vworking", "unit": "m3", "evidence_gate": "同一浆液流量与明确停留时间"},
+    "crystal_yield_kg_h": {"label": "晶体产量", "symbol": "mcrystal", "unit": "kg/h", "evidence_gate": "同一晶体组分映射下的进出口固相质量衡算"},
+    "separation_type": {"label": "固液分离任务类型", "symbol": "SepType", "unit": null, "evidence_gate": "Aspen 块卡或项目工艺说明"},
+    "solids_feed_kg_h": {"label": "过滤固体负荷", "symbol": "msolid", "unit": "kg/h", "evidence_gate": "同一过滤器入口固体组分流量"},
+    "filtrate_flow_kg_h": {"label": "滤液质量流量", "symbol": "mfiltrate", "unit": "kg/h", "evidence_gate": "同一过滤器滤液出口流股"},
+    "cake_moisture_percent": {"label": "滤饼含湿量", "symbol": "Xcake", "unit": "%", "evidence_gate": "同一过滤任务的湿基/干基声明"},
+    "filtration_flux_kg_m2_h": {"label": "过滤通量", "symbol": "Jcake", "unit": "kg/(m2.h)", "evidence_gate": "同工况试验、标准或厂家数据"},
+    "cake_specific_resistance_m_kg": {"label": "滤饼比阻", "symbol": "alphaCake", "unit": "m/kg", "evidence_gate": "同物料同工况过滤试验"},
+    "wash_requirement": {"label": "滤饼洗涤要求", "symbol": "Wash", "unit": null, "evidence_gate": "产品质量与物料衡算要求"},
+    "filter_area_m2": {"label": "所需过滤面积", "symbol": "Afilter", "unit": "m2", "evidence_gate": "固体负荷与同工况通量均已闭合"},
+    "dryer_model_kind": {"label": "Aspen 干燥模型类型", "symbol": "DryerModel", "unit": null, "evidence_gate": "Aspen 块卡"},
+    "moisture_basis": {"label": "含湿量基准", "symbol": "MoistBasis", "unit": null, "evidence_gate": "明确 wet/dry basis"},
+    "water_component_mapping": {"label": "水组分映射", "symbol": "WaterMap", "unit": null, "evidence_gate": "Aspen 组分 ID 与水分定义一一对应"},
+    "inlet_water_kg_h": {"label": "入口水分质量流量", "symbol": "mwater,in", "unit": "kg/h", "evidence_gate": "同一水组分映射下的入口流股"},
+    "outlet_water_kg_h": {"label": "产品残余水分质量流量", "symbol": "mwater,out", "unit": "kg/h", "evidence_gate": "同一水组分映射下的产品流股"},
+    "evaporation_rate_kg_h": {"label": "水分蒸发量", "symbol": "mevap", "unit": "kg/h", "evidence_gate": "同一水组分映射下的水衡算"},
+    "allowed_solid_temperature_c": {"label": "固体允许最高温度", "symbol": "Tsolid,max", "unit": "degC", "evidence_gate": "产品稳定性/安全设计基础"},
+    "heat_source": {"label": "干燥热源路线", "symbol": "HeatSource", "unit": null, "evidence_gate": "项目公用工程与安全设计"},
+    "offgas_route": {"label": "尾气处理路线", "symbol": "Offgas", "unit": null, "evidence_gate": "物料衡算及安全环保设计"},
+    "specific_drying_duty_kj_kg": {"label": "单位蒸发量热耗", "symbol": "qspecific", "unit": "kJ/kg", "evidence_gate": "蒸发量与热负荷均已闭合"}
+  },
+  "block_type_overlays": {
+    "CRYSTALLIZER": {
+      "title": "连续结晶器专属预设计参数",
+      "promotion_cap": "TYPE_SCREENING",
+      "evidence_class": "J",
+      "formal_gate": "同工况溶解度/过饱和度、晶体粒度或动力学、停留时间、热量衡算、机械及材料证据闭合",
+      "groups": [
+        {"id": "crystallizer_process_basis", "title": "结晶任务与物系基础", "fields": ["crystallization_mode", "solubility_profile_ref", "solubility_profile_sha256", "crystal_component_mapping", "slurry_flow_m3_h", "retention_time_min", "working_volume_m3", "crystal_yield_kg_h", "heat_duty_kw", "operating_pressure_mpa", "temperature_c"]}
+      ]
+    },
+    "FILTER": {
+      "title": "固液过滤机专属预设计参数",
+      "promotion_cap": "TYPE_SCREENING",
+      "evidence_class": "J",
+      "formal_gate": "同工况滤饼性质/比阻或通量、面积/周期、压差/洗涤、材质及厂家试验证据闭合",
+      "groups": [
+        {"id": "filter_process_basis", "title": "过滤负荷与滤饼基础", "fields": ["separation_type", "solids_feed_kg_h", "filtrate_flow_kg_h", "cake_moisture_percent", "filtration_flux_kg_m2_h", "cake_specific_resistance_m_kg", "allowable_pressure_drop_kpa", "wash_requirement", "cycle_time_h", "filter_area_m2"]}
+      ]
+    },
+    "DRYER": {
+      "title": "连续固体干燥器专属预设计参数",
+      "promotion_cap": "TYPE_SCREENING",
+      "evidence_class": "J",
+      "formal_gate": "进出含湿/蒸发负荷、干燥曲线与停留时间、热源与尾气、粉尘/溶剂安全及厂家性能证据闭合",
+      "groups": [
+        {"id": "dryer_process_basis", "title": "干燥负荷与安全基础", "fields": ["dryer_model_kind", "moisture_basis", "water_component_mapping", "inlet_water_kg_h", "outlet_water_kg_h", "evaporation_rate_kg_h", "heat_duty_kw", "allowed_solid_temperature_c", "heat_source", "offgas_route", "specific_drying_duty_kj_kg"]}
+      ]
+    }
+  },
+  "families": [
+    {
+      "family_id": "family_fixed_tubesheet_exchanger",
+      "title": "固定管板式换热器参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function"]},
+        {"id": "process_basis", "title": "热工基础", "fields": ["mass_flow_kg_h", "inlet_temperature_c", "outlet_temperature_c", "specific_heat_kj_kgk", "heat_duty_kw", "overall_u_w_m2k", "lmtd_k", "lmtd_correction_factor", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "计算结果", "fields": ["heat_transfer_area_m2", "tube_or_plate_count", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "construction", "title": "结构与材料", "fields": ["diameter_mm", "tube_outer_diameter_mm", "tube_length_mm", "shell_pass_count", "tube_material_grade", "shell_material_grade", "material"]},
+        {"id": "selection", "title": "标准系列匹配特征", "fields": ["heat_transfer_area_m2", "tube_or_plate_count", "tube_outer_diameter_mm", "tube_length_mm", "shell_pass_count", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_other_heat_exchanger",
+      "title": "其他换热器参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function"]},
+        {"id": "process_basis", "title": "热工基础", "fields": ["mass_flow_kg_h", "inlet_temperature_c", "outlet_temperature_c", "specific_heat_kj_kgk", "heat_duty_kw", "overall_u_w_m2k", "lmtd_k", "lmtd_correction_factor", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c", "allowable_pressure_drop_kpa"]},
+        {"id": "calculated_design", "title": "计算结果", "fields": ["heat_transfer_area_m2", "tube_or_plate_count", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "construction", "title": "结构与材料", "fields": ["tube_outer_diameter_mm", "tube_length_mm", "shell_pass_count", "tube_material_grade", "shell_material_grade", "material"]},
+        {"id": "selection", "title": "型式与规格匹配特征", "fields": ["process_function", "heat_transfer_area_m2", "tube_or_plate_count", "tube_outer_diameter_mm", "tube_length_mm", "shell_pass_count", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_tower",
+      "title": "塔器参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function"]},
+        {"id": "process_basis", "title": "工艺与水力基础", "fields": ["flow_m3_h", "retention_time_min", "diameter_mm", "inner_diameter_mm", "height_mm", "stage_count", "tower_design_velocity_m_s", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "tray_preliminary_basis", "title": "塔板预设计保底条件", "fields": ["tray_spacing_mm", "tower_downcomer_area_fraction", "tower_receiving_area_fraction", "tower_inactive_area_fraction", "tower_open_area_fraction", "tower_weir_length_ratio", "tower_weir_height_mm", "tower_downcomer_residence_time_s", "tower_top_bottom_allowance_mm"]},
+        {"id": "calculated_design", "title": "几何、水力与机械计算", "fields": ["tower_cross_section_m2", "tower_active_area_fraction", "tower_active_area_m2", "tower_hole_area_m2", "tower_actual_superficial_velocity_m_s", "tower_internal_height_m", "bottom_liquid_height_m", "design_pressure_mpa", "design_pressure_basis", "cylinder_calculated_thickness_mm", "head_calculated_thickness_mm"]},
+        {"id": "construction", "title": "机械输入与材料", "fields": ["head_type", "allowable_stress_mpa", "weld_efficiency", "material", "insulation_spec", "protective_layer"]},
+        {"id": "selection", "title": "工程规格匹配特征", "fields": ["equipment_type", "diameter_mm", "inner_diameter_mm", "height_mm", "tower_internal_height_m", "stage_count", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_reactor_vessel_separator",
+      "title": "反应器/容器/分离器参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function", "phase"]},
+        {"id": "process_basis", "title": "工艺与几何基础", "fields": ["flow_m3_h", "retention_time_min", "diameter_mm", "height_mm", "volume_m3", "volume_basis", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "容积与机械计算", "fields": ["straight_shell_geometric_volume_m3", "design_pressure_mpa", "design_pressure_basis", "cylinder_calculated_thickness_mm", "head_calculated_thickness_mm"]},
+        {"id": "construction", "title": "机械输入与材料", "fields": ["inner_diameter_mm", "straight_shell_length_mm", "head_type", "allowable_stress_mpa", "weld_efficiency", "material"]},
+        {"id": "selection", "title": "工程规格匹配特征", "fields": ["equipment_type", "volume_m3", "volume_basis", "diameter_mm", "height_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_storage_vessel",
+      "title": "储罐/缓冲罐参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "process_function"]},
+        {"id": "process_basis", "title": "库存与几何基础", "fields": ["flow_m3_h", "retention_time_min", "fill_fraction", "volume_m3", "volume_basis", "diameter_mm", "height_mm", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "容积与机械计算", "fields": ["required_volume_m3", "straight_shell_geometric_volume_m3", "design_pressure_mpa", "design_pressure_basis", "cylinder_calculated_thickness_mm", "head_calculated_thickness_mm"]},
+        {"id": "construction", "title": "机械输入与材料", "fields": ["inner_diameter_mm", "straight_shell_length_mm", "head_type", "allowable_stress_mpa", "weld_efficiency", "material"]},
+        {"id": "selection", "title": "工程规格匹配特征", "fields": ["required_volume_m3", "volume_m3", "volume_basis", "fill_fraction", "retention_time_min", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_pump",
+      "title": "泵参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function", "phase"]},
+        {"id": "process_basis", "title": "工况基础", "fields": ["flow_m3_h", "density_kg_m3", "temperature_c", "pressure_basis", "atmospheric_pressure_mpa", "inlet_pressure_mpa", "outlet_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "efficiency_percent"]},
+        {"id": "calculated_design", "title": "水力与功率计算", "fields": ["head_m", "hydraulic_power_kw", "shaft_power_kw", "design_pressure_mpa", "design_pressure_basis", "cavitation_margin_m"]},
+        {"id": "cavitation", "title": "汽蚀与运行条件", "fields": ["npsha_m", "npshr_m", "required_npsh_margin_m", "npshr_evidence_scope", "rotational_speed_rpm"]},
+        {"id": "selection", "title": "型号匹配特征", "fields": ["flow_m3_h", "head_m", "efficiency_percent", "rotational_speed_rpm", "npsha_m", "npshr_m", "temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_compressor",
+      "title": "压缩机/风机参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function", "phase"]},
+        {"id": "process_basis", "title": "气体工况基础", "fields": ["flow_m3_h", "mass_flow_kg_h", "gas_molecular_weight", "compressibility_factor", "heat_capacity_ratio_k", "inlet_temperature_c", "pressure_basis", "atmospheric_pressure_mpa", "inlet_pressure_mpa", "outlet_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "efficiency_percent", "driver_efficiency_percent", "auxiliary_power_fraction"]},
+        {"id": "calculated_design", "title": "压比与功率结果", "fields": ["compression_pressure_ratio", "shaft_power_kw", "total_power_kw", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "operability", "title": "运行边界", "fields": ["surge_margin_percent", "required_surge_margin_percent", "surge_margin_evidence_scope", "rotational_speed_rpm"]},
+        {"id": "selection", "title": "厂家候选匹配特征", "fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "inlet_temperature_c", "gas_molecular_weight", "compressibility_factor", "heat_capacity_ratio_k", "efficiency_percent", "shaft_power_kw"]}
+      ]
+    },
+    {
+      "family_id": "family_agitator",
+      "title": "搅拌设备参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "process_function"]},
+        {"id": "process_basis", "title": "混合任务与容器", "fields": ["flow_m3_h", "density_kg_m3", "volume_m3", "volume_basis", "diameter_mm", "height_mm", "mixing_metric", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor"]},
+        {"id": "construction", "title": "可选容器几何", "fields": ["inner_diameter_mm", "straight_shell_length_mm"]},
+        {"id": "calculated_design", "title": "计算结果", "fields": ["straight_shell_geometric_volume_m3", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "drive", "title": "驱动与材料", "fields": ["rotational_speed_rpm", "shaft_power_kw", "material"]},
+        {"id": "selection", "title": "厂家候选匹配特征", "fields": ["volume_m3", "volume_basis", "mixing_metric", "rotational_speed_rpm", "shaft_power_kw", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_static_mixer",
+      "title": "静态混合器参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "process_function"]},
+        {"id": "process_basis", "title": "流动与混合基础", "fields": ["flow_m3_h", "density_kg_m3", "target_velocity_m_s", "allowable_pressure_drop_kpa", "mixing_metric", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor"]},
+        {"id": "calculated_design", "title": "水力计算", "fields": ["required_inner_diameter_mm", "actual_velocity_m_s", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "construction", "title": "结构与材料", "fields": ["selected_dn", "selected_outer_diameter_mm", "selected_wall_thickness_mm", "element_count", "material"]},
+        {"id": "selection", "title": "厂家候选匹配特征", "fields": ["flow_m3_h", "selected_dn", "allowable_pressure_drop_kpa", "mixing_metric", "element_count", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_membrane",
+      "title": "膜组件/膜装置参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function"]},
+        {"id": "process_basis", "title": "分离性能基础", "fields": ["flow_m3_h", "flux", "selectivity", "recovery_percent", "membrane_geometry_type", "element_count", "channel_count", "channel_inner_diameter_mm", "element_length_m", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "面积与设计条件", "fields": ["membrane_area_m2", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "selection", "title": "标准标记/厂家匹配特征", "fields": ["membrane_geometry_type", "membrane_area_m2", "flux", "selectivity", "recovery_percent", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_package_equipment",
+      "title": "成套设备参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function"]},
+        {"id": "process_basis", "title": "性能保证基础", "fields": ["capacity", "cycle_time_h", "allowable_pressure_drop_kpa", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "设计条件", "fields": ["design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "selection", "title": "厂家成套匹配特征", "fields": ["capacity", "cycle_time_h", "allowable_pressure_drop_kpa", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"]}
+      ]
+    },
+    {
+      "family_id": "family_liquid_power_recovery_turbine",
+      "title": "液体动力回收透平参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "process_function", "phase"]},
+        {"id": "process_basis", "title": "液体工况基础", "fields": ["flow_m3_h", "density_kg_m3", "pressure_basis", "atmospheric_pressure_mpa", "inlet_pressure_mpa", "outlet_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "efficiency_percent"]},
+        {"id": "calculated_design", "title": "膨胀与功率结果", "fields": ["expansion_pressure_ratio", "pressure_drop_head_component_m", "pressure_drop_power_component_kw", "pressure_component_shaft_power_screening_kw", "shaft_power_kw", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "selection", "title": "厂家候选匹配特征", "fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "expansion_pressure_ratio", "density_kg_m3", "pressure_drop_head_component_m", "efficiency_percent", "pressure_drop_power_component_kw", "pressure_component_shaft_power_screening_kw", "shaft_power_kw", "material"]}
+      ]
+    },
+    {
+      "family_id": "family_gas_expander_turbine",
+      "title": "气体膨胀机/透平参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "process_function", "phase"]},
+        {"id": "process_basis", "title": "气体工况基础", "fields": ["flow_m3_h", "mass_flow_kg_h", "gas_molecular_weight", "compressibility_factor", "inlet_temperature_c", "pressure_basis", "atmospheric_pressure_mpa", "inlet_pressure_mpa", "outlet_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "efficiency_percent"]},
+        {"id": "calculated_design", "title": "膨胀与功率结果", "fields": ["expansion_pressure_ratio", "shaft_power_kw", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "selection", "title": "厂家候选匹配特征", "fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "inlet_temperature_c", "gas_molecular_weight", "compressibility_factor", "efficiency_percent", "shaft_power_kw"]}
+      ]
+    },
+    {
+      "family_id": "family_process_piping",
+      "title": "工艺管道参数卡",
+      "groups": [
+        {"id": "identity", "title": "管线身份", "fields": ["equipment_tag", "process_function", "phase"]},
+        {"id": "process_basis", "title": "水力与设计基础", "fields": ["flow_m3_h", "density_kg_m3", "target_velocity_m_s", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "水力计算结果", "fields": ["required_inner_diameter_mm", "actual_velocity_m_s", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "construction", "title": "选定管道规格", "fields": ["selected_dn", "selected_outer_diameter_mm", "selected_wall_thickness_mm", "wall_series", "material"]},
+        {"id": "selection", "title": "管道等级匹配特征", "fields": ["selected_dn", "selected_wall_thickness_mm", "wall_series", "material", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"]}
+      ]
+    },
+    {
+      "family_id": "family_pipe_fitting",
+      "title": "管件参数卡",
+      "groups": [
+        {"id": "identity", "title": "部件身份", "fields": ["equipment_tag", "process_function"]},
+        {"id": "line_basis", "title": "所在管道等级", "fields": ["selected_dn", "selected_outer_diameter_mm", "selected_wall_thickness_mm", "wall_series", "material", "pressure_class"]},
+        {"id": "selection", "title": "管件标记匹配特征", "fields": ["fitting_type", "selected_dn", "wall_series", "material", "connection_type", "pressure_class"]}
+      ]
+    },
+    {
+      "family_id": "family_flange_gasket",
+      "title": "法兰/垫片参数卡",
+      "groups": [
+        {"id": "identity", "title": "部件身份", "fields": ["equipment_tag", "process_function"]},
+        {"id": "line_basis", "title": "配对基础", "fields": ["selected_dn", "selected_outer_diameter_mm", "selected_wall_thickness_mm", "pressure_class", "material"]},
+        {"id": "selection", "title": "法兰与垫片标记特征", "fields": ["selected_dn", "pressure_class", "flange_face", "material", "gasket_material", "connection_type"]}
+      ]
+    },
+    {
+      "family_id": "family_valve",
+      "title": "阀门参数卡",
+      "groups": [
+        {"id": "identity", "title": "设备身份", "fields": ["equipment_tag", "equipment_type", "aspen_block_type", "process_function", "valve_function"]},
+        {"id": "process_basis", "title": "工况与水力基础", "fields": ["flow_m3_h", "density_kg_m3", "temperature_c", "pressure_drop_kpa", "maximum_pressure_drop_factor", "pressure_basis", "atmospheric_pressure_mpa", "operating_pressure_mpa", "design_pressure_factor", "design_temperature_c"]},
+        {"id": "calculated_design", "title": "计算与选定结果", "fields": ["cv", "maximum_pressure_drop_kpa", "design_pressure_mpa", "design_pressure_basis"]},
+        {"id": "construction", "title": "连接、材料与执行机构", "fields": ["selected_dn", "pressure_class", "pressure_temperature_rating", "body_material_grade", "internals_material_grade", "seat_material_grade", "connection_type", "leakage_class", "actuator_type", "fail_position"]},
+        {"id": "selection", "title": "阀型与厂家候选特征", "fields": ["valve_function", "selected_dn", "pressure_class", "cv", "pressure_drop_kpa", "maximum_pressure_drop_kpa", "operating_range_and_rangeability", "flashing_check_ref", "cavitation_check_ref", "noise_check_ref", "vendor_datasheet_ref"]}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-SELFTEST-001",
+  "operation": "system.selftest",
+  "payload": {}
+}

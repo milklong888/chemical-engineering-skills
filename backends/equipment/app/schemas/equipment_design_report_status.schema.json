@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-report-status-v1",
+  "title": "Equipment Design GUI Report Status Sidecar",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "normal_content",
+    "generated_utc",
+    "diagnostic_channel",
+    "security_boundary",
+    "process_exit_code",
+    "request",
+    "response",
+    "report",
+    "content_summary",
+    "check_count",
+    "checks",
+    "errors"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-report-status-v1"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "normal_content": {"type": "boolean"},
+    "generated_utc": {"type": "string", "format": "date-time"},
+    "diagnostic_channel": {"const": "READ_ONLY_AUTOMATION_SIDECAR"},
+    "security_boundary": {"type": "string", "minLength": 1},
+    "process_exit_code": {"type": "integer", "minimum": 0, "maximum": 9},
+    "request": {"$ref": "#/$defs/fileRecordWithRequest"},
+    "response": {"$ref": "#/$defs/fileRecordWithResponse"},
+    "report": {"$ref": "#/$defs/fileRecord"},
+    "content_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["equipment_count", "parameter_group_count", "calculation_chain_count", "candidate_count"],
+      "properties": {
+        "equipment_count": {"type": "integer", "minimum": 0},
+        "parameter_group_count": {"type": "integer", "minimum": 0},
+        "calculation_chain_count": {"type": "integer", "minimum": 0},
+        "candidate_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "check_count": {"type": "integer", "minimum": 0},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "pass", "detail"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "pass": {"type": "boolean"},
+          "detail": {}
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage", "message"],
+        "properties": {
+          "stage": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "fileRecord": {
+      "type": "object",
+      "required": ["path", "exists", "sha256", "size_bytes"],
+      "properties": {
+        "path": {"type": ["string", "null"]},
+        "exists": {"type": "boolean"},
+        "sha256": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "fileRecordWithRequest": {
+      "allOf": [
+        {"$ref": "#/$defs/fileRecord"},
+        {
+          "type": "object",
+          "required": ["request_id", "operation", "canonical_sha256"],
+          "properties": {
+            "request_id": {"type": ["string", "null"]},
+            "operation": {"type": ["string", "null"]},
+            "canonical_sha256": {"type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"}
+          }
+        }
+      ]
+    },
+    "fileRecordWithResponse": {
+      "allOf": [
+        {"$ref": "#/$defs/fileRecord"},
+        {
+          "type": "object",
+          "required": ["ok", "status", "exit_code"],
+          "properties": {
+            "ok": {"type": ["boolean", "null"]},
+            "status": {"type": ["string", "null"]},
+            "exit_code": {"type": ["integer", "null"]}
+          }
+        }
+      ]
+    }
+  }
+}

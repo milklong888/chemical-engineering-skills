@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aspen-equipment-export-v1",
+  "title": "Aspen到设备设计推导链的确定性导出契约",
+  "type": "object",
+  "required": ["schema", "case", "streams", "blocks"],
+  "properties": {
+    "schema": {"const": "aspen-equipment-export-v1"},
+    "case": {
+      "type": "object",
+      "required": ["case_id", "pressure_basis", "run_status"],
+      "properties": {
+        "case_id": {"type": "string", "minLength": 1},
+        "pressure_basis": {"enum": ["absolute", "gauge"]},
+        "atmospheric_pressure_mpa": {"type": "number", "exclusiveMinimum": 0},
+        "source_case_path": {"type": "string"},
+        "run_status_evidence_path": {"type": "string"},
+        "run_status_evidence_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+        "run_status": {
+          "type": "object",
+          "required": ["terminal_errors", "severe_errors", "errors", "warnings"],
+          "properties": {
+            "terminal_errors": {"type": "integer", "minimum": 0},
+            "severe_errors": {"type": "integer", "minimum": 0},
+            "errors": {"type": "integer", "minimum": 0},
+            "warnings": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "units": {
+      "type": "object",
+      "description": "只用于非规范Aspen字段（如QCALC、PRES_OUT）。规范字段名已经携带单位。键写成stream.PRES_OUT或block.QCALC。",
+      "additionalProperties": {"type": "string"}
+    },
+    "viscosity_correlation_registry": {
+      "type": "object",
+      "description": "Optional identity for coefficient records embedded in this same hash-bound export. Presence does not promote an internal estimate above evidence class J.",
+      "properties": {
+        "registry_id": {"type": "string", "minLength": 1},
+        "registry_version": {"type": "string", "minLength": 1},
+        "registry_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+        "source_asset_path": {"type": "string", "minLength": 1},
+        "source_asset_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "viscosity_correlation_records": {
+      "type": "object",
+      "description": "Optional exact Aspen-component-ID keyed pure-component records. They are used only when a single-phase stream has no Aspen MUMX observation; no fuzzy component matching or extrapolation is allowed.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["molecular_weight_kg_kmol", "source"],
+        "properties": {
+          "molecular_weight_kg_kmol": {"type": "number", "exclusiveMinimum": 0},
+          "source": {
+            "type": "object",
+            "required": ["source_id", "citation", "sha256"],
+            "properties": {
+              "source_id": {"type": "string", "minLength": 1},
+              "citation": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+              "source_asset_path": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": true
+          },
+          "liquid": {"$ref": "#/$defs/viscosityPureModel"},
+          "vapor": {"$ref": "#/$defs/viscosityPureModel"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stream_id"],
+        "properties": {
+          "stream_id": {"type": "string", "minLength": 1},
+          "temperature_c": {"type": "number"},
+          "pressure_bar": {"type": "number"},
+          "mass_flow_kg_h": {"type": "number", "minimum": 0},
+          "volumetric_flow_m3_h": {"type": "number", "minimum": 0},
+          "vapor_volumetric_flow_m3_h": {"type": "number", "minimum": 0},
+          "liquid_volumetric_flow_m3_h": {"type": "number", "minimum": 0},
+          "density_kg_m3": {"type": "number", "exclusiveMinimum": 0},
+          "dynamic_viscosity_mpa_s": {"type": "number", "exclusiveMinimum": 0},
+          "MUMX": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Aspen MIXED-substream dynamic viscosity; the corresponding units registry entry is mandatory."
+          },
+          "MUMX_LIQUID": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Aspen STRM_UPP liquid-phase MUMX transport property."
+          },
+          "MUMX_VAPOR": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Aspen STRM_UPP vapor-phase MUMX transport property."
+          },
+          "vapor_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+          "liquid_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+          "molecular_weight": {"type": "number", "exclusiveMinimum": 0},
+          "compressibility_factor": {"type": "number", "exclusiveMinimum": 0},
+          "phase": {"enum": ["liquid", "vapor", "two_phase", "solid_bearing"]},
+          "solid_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+          "dominant_components": {"type": ["string", "array"]},
+          "composition_basis": {"enum": ["mole_fraction", "mass_fraction"]},
+          "composition": {
+            "type": "array",
+            "description": "Complete Aspen MIXED-stream composition vector; component identifiers are not hazard labels.",
+            "items": {
+              "type": "object",
+              "required": ["component_id", "fraction", "basis", "source_path"],
+              "properties": {
+                "component_id": {"type": "string", "minLength": 1},
+                "fraction": {"type": "number", "minimum": 0, "maximum": 1},
+                "basis": {"enum": ["mole_fraction", "mass_fraction"]},
+                "source_path": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["block_id", "block_type", "inlet_streams", "outlet_streams"],
+        "properties": {
+          "block_id": {"type": "string", "minLength": 1},
+          "block_type": {"type": "string", "minLength": 1},
+          "inlet_streams": {"type": "array", "items": {"type": "string"}},
+          "outlet_streams": {"type": "array", "items": {"type": "string"}},
+          "heat_duty_kw": {"type": "number"},
+          "heat_transfer_area_m2": {"type": "number", "exclusiveMinimum": 0},
+          "shaft_power_kw": {"type": "number"},
+          "head_m": {"type": "number", "minimum": 0},
+          "efficiency_percent": {"type": "number", "exclusiveMinimum": 0, "maximum": 100},
+          "pressure_drop_kpa": {"type": "number"},
+          "pressure_ratio": {"type": "number", "exclusiveMinimum": 0},
+          "stage_count": {"type": "number", "exclusiveMinimum": 0},
+          "volume_m3": {"type": "number", "exclusiveMinimum": 0},
+          "diameter_mm": {"type": "number", "exclusiveMinimum": 0},
+          "height_mm": {"type": "number", "exclusiveMinimum": 0},
+          "block_status": {}
+        },
+        "additionalProperties": true
+      }
+    },
+    "equipment_map": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["block_id"],
+        "properties": {
+          "block_id": {"type": "string"},
+          "equipment_tag": {"type": "string"},
+          "equipment_family": {"type": "string"},
+          "equipment_type": {"type": "string"},
+          "process_function": {"type": "string"},
+          "connection_design_context": {
+            "type": "object",
+            "description": "Optional structured mechanical connection constraints. Service/hazard labels are not accepted here.",
+            "properties": {
+              "system_series": {"enum": ["PN", "CLASS"]},
+              "pn": {"type": "number", "exclusiveMinimum": 0},
+              "class_rating": {"type": "number", "exclusiveMinimum": 0},
+              "dn_mm": {"type": "number", "exclusiveMinimum": 0},
+              "nominal_diameter_mm": {"type": "number", "exclusiveMinimum": 0},
+              "pressure_tap_connection": {"type": "string"},
+              "gasket_family_preference": {"type": "string"},
+              "flush_bore_required": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "property_evidence": {
+      "type": "array",
+      "description": "Hash-locked property/compatibility or project-requirement facts. Component names alone never create service labels.",
+      "items": {
+        "type": "object",
+        "required": ["fact", "value", "source_id", "subject_scope", "source_asset_path", "source_asset_sha256", "source_record_sha256", "qa_status"],
+        "properties": {
+          "fact": {"enum": ["corrosivity", "toxicity", "flammability", "explosivity", "oxidizing", "crevice_corrosion_risk", "severe_corrosion", "cleanliness", "leak_tightness", "vacuum_level", "severe_cyclic", "thermal_shock", "utility_service", "instrument_service", "low_sealing_demand", "lining_material", "flange_material_group", "mating_material_group", "current_facing", "ring_joint_required", "core_corrosion_risk", "fire_safe_required", "cleanability_required", "jacketed_pipe", "orifice_service", "closure_required", "internal_component_connection"]},
+          "value": {"oneOf": [{"type": "boolean"}, {"enum": ["none", "low", "moderate", "high", "severe", "normal", "extreme", "nonflammable", "flammable", "highly_flammable", "possible", "explosive", "ordinary", "clean", "high_purity", "sterile", "enhanced", "zero_emission", "vacuum", "high_vacuum", "stainless", "nickel", "titanium", "other", "steel", "cast_iron", "RF", "FF", "FM/M", "T/G", "RJ"]}]},
+          "source_id": {"type": "string", "minLength": 1},
+          "subject_scope": {"enum": ["stream", "mixture", "project_requirement", "module_requirement", "connection_requirement", "component"]},
+          "source_asset_path": {"type": "string", "minLength": 1},
+          "source_asset_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+          "source_record_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+          "qa_status": {"enum": ["VALIDATED", "PROMOTED", "ACCEPTED"]},
+          "stream_id": {"type": "string"},
+          "block_id": {"type": "string"},
+          "connection_id": {"type": "string"},
+          "project_context_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+          "composition_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+          "valid_phase": {"enum": ["liquid", "vapor", "two_phase", "solid_bearing"]},
+          "valid_phases": {"type": "array", "items": {"enum": ["liquid", "vapor", "two_phase", "solid_bearing"]}, "minItems": 1, "uniqueItems": true},
+          "valid_temperature_min_c": {"type": "number"},
+          "valid_temperature_max_c": {"type": "number"},
+          "valid_pressure_min_mpa": {"type": "number"},
+          "valid_pressure_max_mpa": {"type": "number"},
+          "pressure_basis": {"enum": ["absolute", "gauge"]}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "viscosityPureModel": {
+      "type": "object",
+      "required": ["model", "temperature_min_k", "temperature_max_k"],
+      "properties": {
+        "model": {
+          "enum": ["SUTHERLAND", "DIPPR_101", "ARRHENIUS_TWO_CONSTANT"]
+        },
+        "temperature_min_k": {"type": "number", "exclusiveMinimum": 0},
+        "temperature_max_k": {"type": "number", "exclusiveMinimum": 0},
+        "mu_ref_pa_s": {"type": "number", "exclusiveMinimum": 0},
+        "temperature_ref_k": {"type": "number", "exclusiveMinimum": 0},
+        "sutherland_k": {"type": "number", "exclusiveMinimum": 0},
+        "A": {"type": "number"},
+        "B_K": {"type": "number"},
+        "coefficients": {
+          "type": "object",
+          "required": ["A", "B", "C", "D", "E"],
+          "properties": {
+            "A": {"type": "number"},
+            "B": {"type": "number"},
+            "C": {"type": "number"},
+            "D": {"type": "number"},
+            "E": {"type": "number"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

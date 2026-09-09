@@ -1,0 +1,9 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "REQ-KG-PUMP-REVIEW-001",
+  "operation": "knowledge.query",
+  "payload": {
+    "query": "泵 压力基准 扬程 水力功率 轴功率 NPSHa NPSHr 厂家曲线 型号状态 证据边界",
+    "limit": 12
+  }
+}

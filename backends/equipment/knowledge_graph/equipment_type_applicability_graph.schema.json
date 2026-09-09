@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-type-applicability-graph-v1",
+  "title": "Equipment type applicability graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "source_runtime_access",
+    "label_definitions",
+    "source_snippets",
+    "options",
+    "rules",
+    "defaults",
+    "test_cases"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-type-applicability-graph-v1"},
+    "version": {"type": "string", "minLength": 1},
+    "source_runtime_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pdf", "image", "vision_capability"],
+      "properties": {
+        "pdf": {"const": "FORBIDDEN"},
+        "image": {"const": "FORBIDDEN"},
+        "vision_capability": {"const": false}
+      }
+    },
+    "label_definitions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/labelDefinition"}
+    },
+    "source_snippets": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceSnippet"}
+    },
+    "options": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/option"}
+    },
+    "rules": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/rule"}
+    },
+    "defaults": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/default"}
+    },
+    "test_cases": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/testCase"}
+    }
+  },
+  "$defs": {
+    "jsonValue": {
+      "oneOf": [
+        {"type": "string"},
+        {"type": "number"},
+        {"type": "boolean"},
+        {"type": "array", "items": {"type": ["string", "number", "boolean"]}}
+      ]
+    },
+    "labelDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_id", "side", "data_type", "unknown_policy", "description"],
+      "properties": {
+        "label_id": {"type": "string", "pattern": "^[a-z0-9_.:-]+$"},
+        "side": {"enum": ["service", "capability", "both"]},
+        "data_type": {"enum": ["boolean", "number", "string", "enum", "set"]},
+        "canonical_unit": {"type": "string"},
+        "allowed_values": {"type": "array", "items": {"type": ["string", "number", "boolean"]}},
+        "input_aliases": {"type": "array", "items": {"type": "string"}},
+        "unknown_policy": {"enum": ["retain_provisional", "not_applicable", "require_input"]},
+        "description": {"type": "string", "minLength": 1},
+        "derivation_boundary": {"type": "string"}
+      }
+    },
+    "sourceSnippet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snippet_id",
+        "annotation_class",
+        "source_id",
+        "source_sha256",
+        "physical_page",
+        "raw_text",
+        "normalized_annotation",
+        "reuse_class",
+        "qa_status"
+      ],
+      "properties": {
+        "snippet_id": {"type": "string", "minLength": 1},
+        "annotation_class": {
+          "enum": [
+            "SOURCE_QUOTATION",
+            "SOURCE_PARAPHRASE",
+            "ENGINEERING_NORMALIZATION",
+            "DETERMINISTIC_DERIVATION",
+            "EXTERNAL_CANDIDATE"
+          ]
+        },
+        "source_id": {"type": "string", "minLength": 1},
+        "source_sha256": {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"},
+        "physical_page": {"type": ["integer", "string"]},
+        "bbox_pt": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}},
+        "source_locator": {"type": "string"},
+        "raw_text": {"type": "string"},
+        "normalized_annotation": {"type": "string"},
+        "depends_on_snippet_ids": {"type": "array", "items": {"type": "string"}},
+        "reuse_class": {
+          "enum": [
+            "DIRECT_REUSE_VERIFIED",
+            "METHOD_ONLY",
+            "SOFTWARE_BOUNDARY",
+            "VENDOR_BOUNDARY",
+            "FORBIDDEN_TRANSFER"
+          ]
+        },
+        "qa_status": {"type": "string", "minLength": 1}
+      }
+    },
+    "assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_id", "operator", "value", "evidence_state", "source_snippet_ids"],
+      "properties": {
+        "label_id": {"type": "string"},
+        "operator": {"enum": ["eq", "in", "contains", "gte", "lte", "range", "present", "absent"]},
+        "value": {"$ref": "#/$defs/jsonValue"},
+        "unit": {"type": "string"},
+        "evidence_state": {"enum": ["SOURCE_BACKED", "DERIVED", "PROVISIONAL", "UNKNOWN"]},
+        "source_snippet_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_id", "operator", "value"],
+      "properties": {
+        "label_id": {"type": "string"},
+        "operator": {"enum": ["eq", "neq", "in", "not_in", "contains", "gte", "gt", "lte", "lt", "range", "present", "absent"]},
+        "value": {"$ref": "#/$defs/jsonValue"},
+        "unit": {"type": "string"}
+      }
+    },
+    "option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "option_id",
+        "selection_scope",
+        "terminal_type",
+        "capability_labels",
+        "default_eligible",
+        "generality_priority",
+        "source_snippet_ids"
+      ],
+      "properties": {
+        "option_id": {"type": "string", "pattern": "^[a-z0-9_.:-]+$"},
+        "selection_scope": {"type": "string", "minLength": 1},
+        "terminal_type": {"type": "string", "minLength": 1},
+        "standard_marking": {"type": "string"},
+        "capability_labels": {"type": "array", "items": {"$ref": "#/$defs/assignment"}},
+        "default_eligible": {"type": "boolean"},
+        "generality_priority": {"type": "integer", "minimum": 0},
+        "fallback_warning": {"type": "string"},
+        "formal_evidence_gate": {"type": "string"},
+        "source_snippet_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "selection_scope",
+        "outcome",
+        "target_option_ids",
+        "all",
+        "unknown_policy",
+        "priority",
+        "source_snippet_ids"
+      ],
+      "properties": {
+        "rule_id": {"type": "string", "pattern": "^[a-z0-9_.:-]+$"},
+        "selection_scope": {"type": "string"},
+        "outcome": {"enum": ["HARD_EXCLUDE", "MANDATORY_COMPATIBILITY", "PREFER", "DEPRIORITIZE", "DEFAULT"]},
+        "target_option_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "all": {"type": "array", "items": {"$ref": "#/$defs/predicate"}},
+        "any": {"type": "array", "items": {"$ref": "#/$defs/predicate"}},
+        "none": {"type": "array", "items": {"$ref": "#/$defs/predicate"}},
+        "unknown_policy": {"enum": ["retain_provisional", "fail_condition", "require_input"]},
+        "priority": {"type": "integer", "minimum": 0},
+        "warning_code": {"type": "string"},
+        "minimum_missing_label_ids": {"type": "array", "items": {"type": "string"}},
+        "source_snippet_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "default": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_scope", "option_id", "rule_id", "warning_code", "assumptions", "source_snippet_ids"],
+      "properties": {
+        "selection_scope": {"type": "string"},
+        "option_id": {"type": "string"},
+        "rule_id": {"type": "string"},
+        "warning_code": {"type": "string"},
+        "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "source_snippet_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "testCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id", "selection_scope", "service_labels", "expected_terminal_option_id", "expected_selection_state"],
+      "properties": {
+        "case_id": {"type": "string"},
+        "selection_scope": {"type": "string"},
+        "service_labels": {"type": "array", "items": {"$ref": "#/$defs/assignment"}},
+        "expected_terminal_option_id": {"type": "string"},
+        "expected_selection_state": {
+          "enum": [
+            "EXPLICIT_TERMINAL_TYPE_SELECTED",
+            "CONDITIONED_TERMINAL_TYPE_SELECTED",
+            "DEFAULTED_TERMINAL_TYPE_SELECTED"
+          ]
+        },
+        "expected_warning_codes": {"type": "array", "items": {"type": "string"}},
+        "expected_rejected_option_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

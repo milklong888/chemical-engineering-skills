@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-overview-table-v1",
+  "title": "Deterministic equipment overview table",
+  "$defs": {
+    "estimate": {
+      "type": "object", "additionalProperties": true,
+      "required": ["field_id", "value", "state", "evidence_class", "result_status", "promotion_cap", "inference_basis", "assumptions", "context_refs", "lower_bound", "upper_bound", "registered_allowed_values", "registry_id", "confidence", "sensitivity_note"],
+      "properties": {
+        "field_id": {"type": "string", "minLength": 1}, "value": {"type": ["number", "string"]}, "state": {"type": "string", "minLength": 1},
+        "evidence_class": {"const": "J"}, "result_status": {"const": "PROVISIONAL"}, "promotion_cap": {"const": "TYPE_SCREENING"},
+        "inference_basis": {"enum": ["unit_conversion", "same_case_fact_interpretation", "engineering_requirement", "registered_range_interpolation", "conservative_screening_assumption"]},
+        "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "context_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "lower_bound": {"type": ["number", "null"]}, "upper_bound": {"type": ["number", "null"]},
+        "registered_allowed_values": {"type": "array", "items": {"type": "string", "minLength": 1}}, "registry_id": {"type": ["string", "null"]},
+        "confidence": {"enum": ["low", "medium"]}, "sensitivity_note": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [
+        {"properties": {"value": {"type": "number"}, "lower_bound": {"type": "number"}, "upper_bound": {"type": "number"}}},
+        {"properties": {"value": {"type": "string"}, "lower_bound": {"type": "null"}, "upper_bound": {"type": "null"}, "registered_allowed_values": {"type": "array", "minItems": 1}, "registry_id": {"type": "string", "minLength": 1}}}
+      ]
+    },
+    "equipmentDisclosure": {
+      "type": "object", "additionalProperties": true,
+      "required": ["llm_used", "status", "model_estimate_fields", "applied_model_estimate_fields", "superseded_model_estimate_fields", "estimates", "evidence_class", "promotion_cap", "statement"],
+      "properties": {
+        "llm_used": {"type": "boolean"}, "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]},
+        "model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "applied_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "superseded_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "estimates": {"type": "array", "items": {"$ref": "#/$defs/estimate"}},
+        "evidence_class": {"type": ["string", "null"], "enum": ["J", null]}, "promotion_cap": {"type": ["string", "null"], "enum": ["TYPE_SCREENING", null]},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    },
+    "aggregateDisclosure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["llm_used", "status", "equipment", "statement"],
+      "properties": {
+        "llm_used": {"type": "boolean"}, "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]},
+        "equipment": {"type": "array", "items": {"allOf": [{"$ref": "#/$defs/equipmentDisclosure"}, {"type": "object", "required": ["equipment_key"], "properties": {"equipment_key": {"type": "string", "minLength": 1}}}]}},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema", "authority_contract", "columns", "row_count", "rows",
+    "deterministic", "program_generated", "manual_postprocessing",
+    "table_sha256", "row_hashes", "llm_used", "model_estimate_disclosure"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-overview-table-v1"},
+    "authority_contract": {"const": "3-2-equipment-selection-overview-v1"},
+    "columns": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string"},
+      "allOf": [
+        {"contains": {"const": "sequence_number"}},
+        {"contains": {"const": "process_section"}},
+        {"contains": {"const": "equipment_tag"}},
+        {"contains": {"const": "equipment_name"}},
+        {"contains": {"const": "quantity_and_standby"}},
+        {"contains": {"const": "equipment_type"}},
+        {"contains": {"const": "model_or_specification"}},
+        {"contains": {"const": "authority_information_coverage"}},
+        {"contains": {"const": "selection_specificity_gate"}},
+        {"contains": {"const": "formal_readiness_gate"}}
+      ]
+    },
+    "row_count": {"type": "integer", "minimum": 0},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "equipment_key", "family_ids", "quantity_and_standby", "model_or_specification_status",
+          "terminal_selection_status", "terminal_selection_basis", "terminal_default_applied",
+          "terminal_rule_id", "terminal_assumption",
+          "authority_table_id", "authority_table_title", "authority_source",
+          "authority_columns", "authority_cells", "authority_missing_fields",
+          "authority_completeness", "authority_structural_completeness",
+          "authority_information_coverage", "customer_information_coverage",
+          "selection_specificity_gate", "formal_readiness_gate",
+          "program_generated", "manual_postprocessing", "record_kind",
+          "source_input_sha256", "source_chain_binding", "source_chain_binding_sha256",
+          "authority_row_sha256", "all_equipment_fields_sha256", "all_equipment_fields",
+          "standards_and_versions", "evidence_ids", "customer_table_missing_fields",
+          "algorithm_evidence_missing_fields", "missing_information",
+          "evidence_level", "delivery_state", "llm_used", "model_estimate_disclosure"
+        ],
+        "properties": {
+          "equipment_key": {"type": "string", "minLength": 1},
+          "family_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "model_or_specification_status": {"type": "string"},
+          "terminal_selection_status": {"type": ["string", "null"]},
+          "terminal_selection_basis": {"type": ["string", "null"]},
+          "terminal_default_applied": {"type": "boolean"},
+          "terminal_rule_id": {"type": ["string", "null"]},
+          "terminal_assumption": {"type": ["string", "null"]},
+          "authority_table_id": {"type": ["string", "null"]},
+          "authority_table_title": {"type": ["string", "null"]},
+          "authority_source": {"type": "object"},
+          "authority_columns": {"type": "array"},
+          "authority_cells": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field_id", "state", "authority_column_index", "authority_table_id",
+                "program_generated", "manual_postprocessing", "cell_sha256"
+              ],
+              "properties": {
+                "field_id": {"type": "string", "minLength": 1},
+                "state": {"type": "string", "minLength": 1},
+                "authority_column_index": {"type": "integer", "minimum": 0},
+                "authority_table_id": {"type": ["string", "null"]},
+                "program_generated": {"const": true},
+                "manual_postprocessing": {"const": false},
+                "cell_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"}
+              }
+            }
+          },
+          "authority_missing_fields": {"type": "array", "items": {"type": "string"}},
+          "authority_completeness": {"type": "object"},
+          "authority_structural_completeness": {
+            "type": "object",
+            "required": ["required", "emitted", "unique", "state"],
+            "properties": {
+              "required": {"type": "integer", "minimum": 0},
+              "emitted": {"type": "integer", "minimum": 0},
+              "unique": {"type": "integer", "minimum": 0},
+              "state": {"enum": ["PASS", "BLOCKED", "NOT_APPLICABLE"]}
+            }
+          },
+          "authority_information_coverage": {
+            "type": "object",
+            "required": [
+              "required", "covered", "blocking_fields",
+              "explicit_open_gate_fields", "state"
+            ],
+            "properties": {
+              "required": {"type": "integer", "minimum": 0},
+              "covered": {"type": "integer", "minimum": 0},
+              "blocking_fields": {"type": "array", "items": {"type": "string"}},
+              "explicit_open_gate_fields": {"type": "array", "items": {"type": "string"}},
+              "state": {"enum": ["PASS", "BLOCKED", "NOT_APPLICABLE"]}
+            }
+          },
+          "customer_information_coverage": {
+            "type": "object",
+            "required": ["state", "blocking_fields"],
+            "properties": {
+              "state": {"enum": ["PASS", "BLOCKED"]},
+              "blocking_fields": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          },
+          "quantity_and_standby": {},
+          "selection_specificity_gate": {
+            "type": "object",
+            "required": ["state", "required_fields", "resolved_fields", "blocking_fields", "selection_identity"],
+            "properties": {
+              "state": {"enum": ["PASS", "BLOCKED", "NOT_APPLICABLE"]},
+              "required_fields": {"type": "array", "items": {"type": "string"}},
+              "resolved_fields": {"type": "array", "items": {"type": "string"}},
+              "blocking_fields": {"type": "array", "items": {"type": "string"}},
+              "selection_identity": {"type": "object"}
+            }
+          },
+          "formal_readiness_gate": {
+            "type": "object",
+            "required": ["state", "required_fields", "blocking_fields", "model_status"],
+            "properties": {
+              "state": {"enum": ["PASS", "BLOCKED", "NOT_APPLICABLE"]},
+              "required_fields": {"type": "array", "items": {"type": "string"}},
+              "blocking_fields": {"type": "array", "items": {"type": "string"}},
+              "model_status": {"type": "string"}
+            }
+          },
+          "program_generated": {"const": true},
+          "manual_postprocessing": {"const": false},
+          "record_kind": {"enum": ["equipment", "piping"]},
+          "source_input_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+          "source_chain_binding": {"type": "object"},
+          "source_chain_binding_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+          "authority_row_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+          "all_equipment_fields_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+          "all_equipment_fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field_id", "state", "delivery_field_index", "delivery_scope",
+                "program_generated", "manual_postprocessing", "cell_sha256"
+              ],
+              "properties": {
+                "field_id": {"type": "string", "minLength": 1},
+                "state": {"type": "string", "minLength": 1},
+                "delivery_field_index": {"type": "integer", "minimum": 0},
+                "delivery_scope": {"const": "all_equipment_fields"},
+                "program_generated": {"const": true},
+                "manual_postprocessing": {"const": false},
+                "cell_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"}
+              }
+            }
+          },
+          "standards_and_versions": {"type": "array"},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "customer_table_missing_fields": {"type": "array", "items": {"type": "string"}},
+          "algorithm_evidence_missing_fields": {"type": "array", "items": {"type": "string"}},
+          "missing_information": {"type": "array", "items": {"type": "string"}},
+          "evidence_level": {"type": "object"},
+          "delivery_state": {"type": "string"}
+          ,"llm_used": {"type": "boolean"}
+          ,"model_estimate_disclosure": {"$ref": "#/$defs/equipmentDisclosure"}
+        }
+      }
+    },
+    "deterministic": {"const": true},
+    "program_generated": {"const": true},
+    "manual_postprocessing": {"const": false},
+    "table_sha256": {"type": "string", "pattern": "^[0-9A-F]{64}$"},
+    "row_hashes": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[0-9A-F]{64}$"}
+    },
+    "llm_used": {"type": "boolean"},
+    "model_estimate_disclosure": {"$ref": "#/$defs/aggregateDisclosure"}
+  }
+}

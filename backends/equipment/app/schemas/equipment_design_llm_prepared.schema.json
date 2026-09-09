@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-llm-prepared-v1",
+  "title": "Equipment Design Immutable Prepared Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "injection_point", "deterministic_authority",
+    "authority_revision", "context_pack", "output_contract", "prepared_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-llm-prepared-v1"},
+    "injection_point": {
+      "enum": [
+        "semantic_extraction", "textual_condition_judgment", "ambiguity_resolution",
+        "kg_retrieval_planning", "audit"
+      ]
+    },
+    "deterministic_authority": {"const": true},
+    "authority_revision": {
+      "$ref": "equipment_design_authority_revision.schema.json"
+    },
+    "context_pack": {
+      "type": "object",
+      "required": ["schema", "context_sha256", "deterministic_result_sha256"],
+      "properties": {"schema": {"const": "equipment-design-llm-context-pack-v1"}}
+    },
+    "output_contract": {
+      "type": "object",
+      "required": ["schema", "json_schema", "provider_json_schema", "empty_template", "allowed_sections"]
+    },
+    "replay_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema", "replayable", "authority_revision", "input", "knowledge",
+        "injection_point", "context_scope", "deterministic_result_sha256"
+      ],
+      "properties": {
+        "schema": {"const": "equipment-design-deterministic-replay-v1"},
+        "replayable": {"type": "boolean"},
+        "authority_revision": {
+          "$ref": "equipment_design_authority_revision.schema.json"
+        },
+        "input": {"type": "object"},
+        "knowledge": {"type": "object"},
+        "injection_point": {"type": "string"},
+        "context_scope": {"enum": ["minimum", "routed", "full_family", "full_bundle"]},
+        "deterministic_result_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+      }
+    },
+    "prepared_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+  }
+}

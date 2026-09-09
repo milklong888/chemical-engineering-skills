@@ -1,0 +1,58 @@
+{
+  "schema": "aspen-equipment-export-v1",
+  "case": {
+    "case_id": "DEMO-PUMP-CASE",
+    "pressure_basis": "absolute",
+    "run_status_evidence_path": "aspen_run_status_clean_sample.json",
+    "run_status_evidence_sha256": "BE8F9A6D4921C3ECA9B216681514C66A193E89F813365977F9845E42233B718E",
+    "run_status": {
+      "terminal_errors": 0,
+      "severe_errors": 0,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  "streams": [
+    {
+      "stream_id": "S-IN",
+      "temperature_c": 25.0,
+      "pressure_bar": 1.2,
+      "mass_flow_kg_h": 30600.0,
+      "volumetric_flow_m3_h": 36.0,
+      "liquid_volumetric_flow_m3_h": 36.0,
+      "density_kg_m3": 850.0,
+      "vapor_fraction": 0.0,
+      "liquid_fraction": 1.0,
+      "phase": "liquid"
+    },
+    {
+      "stream_id": "S-OUT",
+      "temperature_c": 25.5,
+      "pressure_bar": 5.0,
+      "mass_flow_kg_h": 30600.0,
+      "volumetric_flow_m3_h": 36.0,
+      "liquid_volumetric_flow_m3_h": 36.0,
+      "density_kg_m3": 850.0,
+      "vapor_fraction": 0.0,
+      "liquid_fraction": 1.0,
+      "phase": "liquid"
+    }
+  ],
+  "blocks": [
+    {
+      "block_id": "P-101",
+      "block_type": "PUMP",
+      "inlet_streams": ["S-IN"],
+      "outlet_streams": ["S-OUT"],
+      "efficiency_percent": 72.0,
+      "block_status": 0
+    }
+  ],
+  "equipment_map": [
+    {
+      "block_id": "P-101",
+      "equipment_tag": "P-101",
+      "process_function": "liquid pressure boosting"
+    }
+  ]
+}

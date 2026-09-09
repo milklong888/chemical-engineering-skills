@@ -1,0 +1,63 @@
+{
+  "equipment": [
+    {
+      "设备位号": "P-101",
+      "设备类型": "离心泵",
+      "体积流量": "36 m3/h",
+      "扬程": "45 m",
+      "密度": "850 kg/m3",
+      "效率": "72 %",
+      "NPSHa": "5.2 m",
+      "NPSHr": "3.1 m"
+    },
+    {
+      "equipment_tag": "T-201",
+      "equipment_type": "精馏塔",
+      "diameter_mm": 1200,
+      "height_mm": 18000,
+      "stage_count": 40,
+      "design_pressure_mpa": 0.6,
+      "design_temperature_c": 140
+    },
+    {
+      "equipment_tag": "E-301",
+      "equipment_type": "固定管板式换热器",
+      "heat_duty_kw": 800,
+      "overall_u_w_m2k": 650,
+      "lmtd_k": 32,
+      "lmtd_correction_factor": 0.9,
+      "heat_transfer_area_m2": 40,
+      "design_pressure_mpa": 1.6,
+      "design_temperature_c": 180
+    },
+    {
+      "equipment_tag": "K-401",
+      "aspen_block_type": "COMPR",
+      "flow_m3_h": 2400,
+      "inlet_pressure_mpa": 0.12,
+      "outlet_pressure_mpa": 0.72,
+      "gas_molecular_weight": 28.4,
+      "compressibility_factor": 0.96,
+      "efficiency_percent": 76
+    },
+    {
+      "equipment_tag": "PL-501",
+      "equipment_type": "工艺管道",
+      "flow_m3_h": 100,
+      "target_velocity_m_s": 1.8,
+      "design_pressure_mpa": 2.5,
+      "design_temperature_c": 120,
+      "material": "S30408"
+    },
+    {
+      "equipment_tag": "CV-601",
+      "aspen_block_type": "VALVE",
+      "valve_function": "流量调节",
+      "flow_m3_h": 25,
+      "pressure_drop_kpa": 180,
+      "selected_dn": 50,
+      "pressure_class": "PN25",
+      "material": "S30408"
+    }
+  ]
+}

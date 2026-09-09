@@ -1,0 +1,1938 @@
+{
+  "graph_id": "equipment_selection_overview_authority_v3_complete_20260712",
+  "version": "3.1.0",
+  "as_of": "2026-07-13",
+  "authority_levels": [
+    "A0",
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "authority_definitions": {
+    "A0": "official title/status/scope metadata only; no local same-version clause text",
+    "A1": "local same-version text identity and scope verified; no page/table designation closure",
+    "A2": "local same-version clause/page/table or designation rule verified",
+    "A3": "same-equipment software calculation or vendor performance evidence closed",
+    "A4": "frozen final design plus formal calculation/datasheet/vendor confirmation"
+  },
+  "project_decisions": {
+    "pump_standard_and_model_freeze_20260712": {
+      "decision": "do_not_switch_existing_pump_models",
+      "reason": "GB/T 5662-2013 official full text is now local, but GB/T 3215-2025 official full text is unavailable because of adopted-standard copyright; neither standard alone proves a vendor model",
+      "unlock_requires": [
+        "explicit_user_authorization",
+        "same_tag_Q_H_eta_BEP_NPSHa_NPSHr",
+        "materials_and_seal",
+        "vendor_curve_or_datasheet_A3_A4"
+      ]
+    },
+    "template_scope_20260712": {
+      "excel_sheets": 8,
+      "word_tables": 14,
+      "added_sections": [
+        "process_piping",
+        "pipe_fittings",
+        "flanges",
+        "gaskets",
+        "valves"
+      ],
+      "reference_values": "forbidden_transfer"
+    },
+    "overview_precision_scope_20260713": {
+      "decision": "stop_at_equipment_overview_table_fields",
+      "included": [
+        "manufacturer_series_or_public_exact_model",
+        "capacity_or_size",
+        "design_pressure_temperature",
+        "material",
+        "power_speed",
+        "quantity",
+        "source_and_status"
+      ],
+      "excluded": [
+        "vendor_performance_curve",
+        "quotation_datasheet",
+        "manufacturing_drawing"
+      ]
+    }
+  },
+  "model_statuses": [
+    "unresolved",
+    "type_selected",
+    "standard_candidate",
+    "vendor_candidate",
+    "same_equipment_verified",
+    "final_model",
+    "custom_equipment_no_universal_model",
+    "legacy_unverified",
+    "wrong_family_or_wrong_scope"
+  ],
+  "nodes": [
+    {
+      "id": "std_gbt_28712_2_2023",
+      "type": "standard",
+      "number": "GB/T 28712.2-2023",
+      "title": "热交换器型式与基本参数 第2部分：固定管板式热交换器",
+      "status": "current",
+      "effective_date": "2024-01-01",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=053404E3EE048F91E06397BE0A0A9209",
+      "authority": "A2",
+      "scope": "fixed_tubesheet_heat_exchanger_basic_parameters",
+      "does_not_prove": [
+        "thermal_rating",
+        "pressure_mechanical_acceptance",
+        "vendor_delivery"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_28712_2_2023/sha256/3B5B2ABEFBEE4BD722AFA48EA8F2B1DD619DA32EAF91D6354E5942C89E85722F",
+        "absolute_path": "source://std_gbt_28712_2_2023/sha256/3B5B2ABEFBEE4BD722AFA48EA8F2B1DD619DA32EAF91D6354E5942C89E85722F",
+        "sha256": "3B5B2ABEFBEE4BD722AFA48EA8F2B1DD619DA32EAF91D6354E5942C89E85722F",
+        "page_count": 21,
+        "text_extractability": "page_table_extract_verified"
+      },
+      "evidence_refs": [
+        "PDF p5-10; chapters 1-5; tables 1-3; clause 5.7 formula (1)"
+      ]
+    },
+    {
+      "id": "std_gbt_151_2014",
+      "type": "standard",
+      "number": "GB/T 151-2014",
+      "title": "热交换器",
+      "status": "current_until_2026-07-31",
+      "superseded_by": "std_gbt_151_2026",
+      "authority": "A1",
+      "scope": "换热器",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_151_2014/sha256/B574238BA16F650BE008BD665A2A354C78C90ED9FA3D1C963CFD3E2ACF6D0FDB",
+        "absolute_path": "source://std_gbt_151_2014/sha256/B574238BA16F650BE008BD665A2A354C78C90ED9FA3D1C963CFD3E2ACF6D0FDB",
+        "sha256": "B574238BA16F650BE008BD665A2A354C78C90ED9FA3D1C963CFD3E2ACF6D0FDB",
+        "page_count": 250,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=892BA38ED351756BEBFC9F59868E4631",
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_151_2026",
+      "type": "standard",
+      "number": "GB/T 151-2026",
+      "title": "热交换器",
+      "status": "published_future_effective_2026-08-01",
+      "effective_date": "2026-08-01",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=969C9D975E0CC9D965FDED8AB4DC4BB0",
+      "authority": "A1",
+      "scope": "换热器",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_151_2026/sha256/E7FFF4CC164984576010849219920EFFDD261DB916203F8FAA5918F8D8E84D74",
+        "absolute_path": "source://std_gbt_151_2026/sha256/E7FFF4CC164984576010849219920EFFDD261DB916203F8FAA5918F8D8E84D74",
+        "sha256": "E7FFF4CC164984576010849219920EFFDD261DB916203F8FAA5918F8D8E84D74",
+        "page_count": 339,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_25198_2023",
+      "type": "standard",
+      "number": "GB/T 25198-2023",
+      "title": "压力容器封头",
+      "status": "current",
+      "effective_date": "2024-03-01",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=027A6096AEE8643EE06397BE0A0A0867",
+      "authority": "A2",
+      "scope": "pressure_vessel_heads",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_25198_2023/sha256/CA72374E2EDC8546F28B29E384A888C613027AE2DD2EDC2D6EE53D403060AA99",
+        "absolute_path": "source://std_gbt_25198_2023/sha256/CA72374E2EDC8546F28B29E384A888C613027AE2DD2EDC2D6EE53D403060AA99",
+        "sha256": "CA72374E2EDC8546F28B29E384A888C613027AE2DD2EDC2D6EE53D403060AA99",
+        "page_count": 83,
+        "text_extractability": "machine_text_full"
+      },
+      "evidence_refs": [
+        "PDF p5-9; chapter 1; clauses 4, 5.1.1, 5.1.2, 5.2; tables 1-2"
+      ]
+    },
+    {
+      "id": "std_gbt_17395_2024",
+      "type": "standard",
+      "number": "GB/T 17395-2024",
+      "title": "钢管尺寸、外形、重量及允许偏差",
+      "status": "current",
+      "effective_date": "2025-04-01",
+      "official_url": "https://std.samr.gov.cn/search/stdPage?q=17395",
+      "authority": "A2",
+      "scope": "steel_tube_dimensions_and_tolerances",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_17395_2024/sha256/64C4AD02C797783D7BCE681B2F40A4FB76E2122CE6AE3F11790C5D0098F33658",
+        "absolute_path": "source://std_gbt_17395_2024/sha256/64C4AD02C797783D7BCE681B2F40A4FB76E2122CE6AE3F11790C5D0098F33658",
+        "sha256": "64C4AD02C797783D7BCE681B2F40A4FB76E2122CE6AE3F11790C5D0098F33658",
+        "page_count": 55,
+        "text_extractability": "weak_or_partial_text_full_scan"
+      },
+      "evidence_refs": [
+        "PDF p7; clauses 1, 4.1, 4.2; tables 1-4",
+        "PDF p50; clause 5.1 and tables 11, 14, 15"
+      ]
+    },
+    {
+      "id": "std_gbt_18749_2019",
+      "type": "standard",
+      "number": "GB/T 18749-2019",
+      "title": "耐化学腐蚀陶瓷塔填料技术条件",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=996A838ABF698372E05397BE0A0AD949",
+      "authority": "A2",
+      "scope": "ceramic_random_tower_packing_quality",
+      "does_not_prove": [
+        "process_efficiency",
+        "structured_metal_packing_hETP",
+        "tower_capacity"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_18749_2019/sha256/64944C7546365D0FD715DED64F57EE7E068120F9D1211B784BA2F63C9FE60F40",
+        "absolute_path": "source://std_gbt_18749_2019/sha256/64944C7546365D0FD715DED64F57EE7E068120F9D1211B784BA2F63C9FE60F40",
+        "sha256": "64944C7546365D0FD715DED64F57EE7E068120F9D1211B784BA2F63C9FE60F40",
+        "page_count": 22,
+        "text_extractability": "machine_text_full"
+      },
+      "evidence_refs": [
+        "PDF p4-9; clauses 1, 4.1, 4.2; tables 1-3; annex A table A.1"
+      ]
+    },
+    {
+      "id": "std_nbt_47041_2014",
+      "type": "standard",
+      "number": "NB/T 47041-2014",
+      "title": "塔式容器",
+      "status": "current",
+      "effective_date": "2014-11-01",
+      "official_url": "https://hbba.sacinfo.org.cn/stdDetail/f51fb16483a3a2c057111d9676ac5aec",
+      "authority": "A2",
+      "scope": "tower_vessel_design",
+      "does_not_prove": [
+        "tower_internals_rating",
+        "universal_commercial_model"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_nbt_47041_2014/sha256/6333DA2C0A7B6ABB8CCE48CE7C5C54459CD9AB4B2A7B23BF6909A52ABF076925",
+        "absolute_path": "source://std_nbt_47041_2014/sha256/6333DA2C0A7B6ABB8CCE48CE7C5C54459CD9AB4B2A7B23BF6909A52ABF076925",
+        "sha256": "6333DA2C0A7B6ABB8CCE48CE7C5C54459CD9AB4B2A7B23BF6909A52ABF076925",
+        "page_count": 66,
+        "text_extractability": "image_only_no_embedded_text"
+      },
+      "evidence_refs": [
+        "PDF p5; clauses 1.1-1.3",
+        "PDF p8-9; clauses 4.2.1-4.2.8"
+      ]
+    },
+    {
+      "id": "std_jbt_4712_1_4_2007",
+      "type": "standard",
+      "number": "JB/T 4712.1~4712.4-2007",
+      "title": "容器支座",
+      "status": "obsolete_replaced_by_NB_T_47065_1_4_2018",
+      "authority": "A2",
+      "scope": "historical_vessel_support_series",
+      "does_not_prove": [
+        "current_support_model"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_jbt_4712_1_4_2007/sha256/66B3FB65CF4AF9671F0FB82C9BD3BC26A644647C46AD5B1DC2E1AF2605BFF33C",
+        "absolute_path": "source://std_jbt_4712_1_4_2007/sha256/66B3FB65CF4AF9671F0FB82C9BD3BC26A644647C46AD5B1DC2E1AF2605BFF33C",
+        "sha256": "66B3FB65CF4AF9671F0FB82C9BD3BC26A644647C46AD5B1DC2E1AF2605BFF33C",
+        "page_count": 133,
+        "text_extractability": "image_only_no_embedded_text"
+      },
+      "superseded_by": "std_nbt_47065_1_4_2018",
+      "evidence_refs": [
+        "PDF p8-24; clauses 1.1-1.3; chapter 3; tables 1-10; clause 6.1"
+      ],
+      "replacement_official_urls": [
+        "https://hbba.sacinfo.org.cn/stdDetail/a87b3a60802e0eda810b4a7ba9023a49",
+        "https://hbba.sacinfo.org.cn/stdDetail/0dace7679de87f4657cb5e940374649e",
+        "https://hbba.sacinfo.org.cn/stdDetail/3077340dd17381c27410a8008edd6d35",
+        "https://hbba.sacinfo.org.cn/stdDetail/873e0e787d85f7f19838685fc2acd259"
+      ]
+    },
+    {
+      "id": "std_nbt_47065_1_4_2018",
+      "type": "standard",
+      "number": "NB/T 47065.1~47065.4-2018",
+      "title": "容器支座",
+      "status": "current_text_missing_locally",
+      "authority": "A0",
+      "scope": "current_vessel_support_series_entry",
+      "does_not_prove": [
+        "support_model_without_current_clause_and_load_check"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "official_url": "https://hbba.sacinfo.org.cn/stdDetail/a87b3a60802e0eda810b4a7ba9023a49",
+      "official_urls": [
+        "https://hbba.sacinfo.org.cn/stdDetail/a87b3a60802e0eda810b4a7ba9023a49",
+        "https://hbba.sacinfo.org.cn/stdDetail/0dace7679de87f4657cb5e940374649e",
+        "https://hbba.sacinfo.org.cn/stdDetail/3077340dd17381c27410a8008edd6d35",
+        "https://hbba.sacinfo.org.cn/stdDetail/873e0e787d85f7f19838685fc2acd259"
+      ]
+    },
+    {
+      "id": "std_hgt_21514_2005",
+      "type": "standard",
+      "number": "HG/T 21514-2005",
+      "title": "钢制人孔和手孔的类型与技术条件",
+      "status": "status_missing",
+      "authority": "A2",
+      "scope": "manhole_handhole_component_designation",
+      "does_not_prove": [
+        "current_standard_status",
+        "whole_equipment_model",
+        "opening_reinforcement_acceptance"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_hgt_21514_2005/sha256/E82E0B86735AEA2D888708486C886058A8AD54C16CF20A9174B3DC0EFACB1D14",
+        "absolute_path": "source://std_hgt_21514_2005/sha256/E82E0B86735AEA2D888708486C886058A8AD54C16CF20A9174B3DC0EFACB1D14",
+        "sha256": "E82E0B86735AEA2D888708486C886058A8AD54C16CF20A9174B3DC0EFACB1D14",
+        "page_count": 51,
+        "text_extractability": "image_only_no_embedded_text"
+      },
+      "evidence_refs": [
+        "PDF p11; chapter 1",
+        "PDF p14-20; table 3",
+        "PDF p26; clause 5.0.1"
+      ]
+    },
+    {
+      "id": "std_hgt_20569_2013",
+      "type": "standard",
+      "number": "HG/T 20569-2013",
+      "title": "机械搅拌设备",
+      "status": "revision_planned_status_unverified",
+      "authority": "A2",
+      "scope": "mechanical_agitator_design_and_datasheet",
+      "does_not_prove": [
+        "unified_agitator_model_code",
+        "vendor_selection"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_hgt_20569_2013/sha256/91756DFEE8D8B79F78C04A64EB6B79B5CD4E90C0FC7983B26832813559018751",
+        "absolute_path": "source://std_hgt_20569_2013/sha256/91756DFEE8D8B79F78C04A64EB6B79B5CD4E90C0FC7983B26832813559018751",
+        "sha256": "91756DFEE8D8B79F78C04A64EB6B79B5CD4E90C0FC7983B26832813559018751",
+        "page_count": 133,
+        "text_extractability": "weak_or_partial_text_full_scan"
+      },
+      "official_url": "https://gyxxh.tj.gov.cn/ZWGK4147/ZCWJ6355/gjjwj/202511/W020251105356947717762.pdf",
+      "official_status_note": "2025年第四批行业标准制修订计划列入修订项目2025-1114T-HG，计划代替HG/T 20569-2013；本次未查到已发布的新编号，不能把2013版标成已废止。",
+      "evidence_refs": [
+        "PDF p14-15; chapter 3",
+        "PDF p37-40; annex A",
+        "PDF p41; B.1.2",
+        "PDF p59-61; C.1.2 and C.1.4",
+        "PDF p98-101; D.0.1-D.0.3"
+      ]
+    },
+    {
+      "id": "std_gbt_12771_2019",
+      "type": "standard",
+      "number": "GB/T 12771-2019",
+      "title": "流体输送用不锈钢焊接钢管",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=95A47695C5EC4F2CE05397BE0A0AB3E0",
+      "authority": "A2",
+      "scope": "stainless_welded_tube_procurement_designation",
+      "does_not_prove": [
+        "whole_equipment_model",
+        "nozzle_reinforcement_acceptance"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_12771_2019/sha256/FFEDCEF8A09134D7F909C0BA1B9CA4024119F5B9EA6971A19BBED4BD0C259AC9",
+        "absolute_path": "source://std_gbt_12771_2019/sha256/FFEDCEF8A09134D7F909C0BA1B9CA4024119F5B9EA6971A19BBED4BD0C259AC9",
+        "sha256": "FFEDCEF8A09134D7F909C0BA1B9CA4024119F5B9EA6971A19BBED4BD0C259AC9",
+        "page_count": 15,
+        "text_extractability": "machine_text_full"
+      },
+      "evidence_refs": [
+        "PDF p4-15; clauses 1, 3.1-3.2, 4, 9.1"
+      ]
+    },
+    {
+      "id": "std_gbt_3215_2025",
+      "type": "standard",
+      "number": "GB/T 3215-2025",
+      "title": "石油、石化和天然气工业用离心泵",
+      "status": "current",
+      "effective_date": "2026-04-01",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=66342AC82C26C01AA6F4B6111A283E9B",
+      "authority": "A0",
+      "scope": "泵",
+      "does_not_prove": [
+        "manufacturer_model",
+        "Q_H_eta_curve",
+        "NPSHr"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_5662_2013",
+      "type": "standard",
+      "number": "GB/T 5662-2013",
+      "title": "轴向吸入离心泵（16 bar）标记、性能和尺寸",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=6278BAFA34D6C6D6B02AFE6E74F311A1",
+      "authority": "A1",
+      "scope": "泵",
+      "does_not_prove": [
+        "legacy_IS_IH_model_validity",
+        "manufacturer_curve_closure"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_5662_2013/sha256/4F71EE5FF28FF90A7FE33B19E8C460C5F199F90B8770E2E9D67628E0F238E383",
+        "absolute_path": "source://std_gbt_5662_2013/sha256/4F71EE5FF28FF90A7FE33B19E8C460C5F199F90B8770E2E9D67628E0F238E383",
+        "sha256": "4F71EE5FF28FF90A7FE33B19E8C460C5F199F90B8770E2E9D67628E0F238E383",
+        "page_count": 8,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_20502_2006",
+      "type": "standard",
+      "number": "GB/T 20502-2006",
+      "title": "膜组件及装置型号命名",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=55D5B90D7EE4FF8B44929D6F3724989C",
+      "authority": "A1",
+      "scope": "膜分离",
+      "does_not_prove": [
+        "flux",
+        "selectivity",
+        "recovery",
+        "lifetime",
+        "vendor_performance"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_20502_2006/sha256/9FFFDD8DD9E5FE379C61DE94C61AA0AA2109EC6B7C8804D188AA3B7CBB03521E",
+        "absolute_path": "source://std_gbt_20502_2006/sha256/9FFFDD8DD9E5FE379C61DE94C61AA0AA2109EC6B7C8804D188AA3B7CBB03521E",
+        "sha256": "9FFFDD8DD9E5FE379C61DE94C61AA0AA2109EC6B7C8804D188AA3B7CBB03521E",
+        "page_count": 12,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_jbt_7660_2016",
+      "type": "standard",
+      "number": "JB/T 7660-2016",
+      "title": "静态混合器",
+      "status": "current_text_missing_locally",
+      "official_url": "https://std.samr.gov.cn/hb/search/stdHBDetailed?id=8B1827F21AB5BB19E05397BE0A0AB44A",
+      "authority": "A0",
+      "scope": "static_mixer_product_standard_entry",
+      "does_not_prove": [
+        "legacy_SV_DJHX_model_validity",
+        "pressure_drop",
+        "mixing_performance"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null
+    },
+    {
+      "id": "std_gbt_8163_2018",
+      "type": "standard",
+      "number": "GB/T 8163-2018",
+      "title": "输送流体用无缝钢管",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=71F772D82D1DD3A7E05397BE0A0AB82A",
+      "authority": "A1",
+      "scope": "seamless_steel_tube_product_standard",
+      "does_not_prove": [
+        "whole_equipment_model",
+        "nozzle_strength_or_reinforcement"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_8163_2018/sha256/01EE583BF5D539445BE19E21085DD52A71BA6A65D22A2EABA88956C2609102F0",
+        "absolute_path": "source://std_gbt_8163_2018/sha256/01EE583BF5D539445BE19E21085DD52A71BA6A65D22A2EABA88956C2609102F0",
+        "sha256": "01EE583BF5D539445BE19E21085DD52A71BA6A65D22A2EABA88956C2609102F0",
+        "page_count": 21,
+        "text_extractability": "weak_or_partial_text_full_scan"
+      }
+    },
+    {
+      "id": "std_gbt_8165_2025",
+      "type": "standard",
+      "number": "GB/T 8165-2025",
+      "title": "不锈钢复合钢板和钢带",
+      "status": "current",
+      "authority": "A1",
+      "scope": "stainless_clad_plate_product_standard",
+      "does_not_prove": [
+        "whole_equipment_model",
+        "material_selection_for_specific_service"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_8165_2025/sha256/24E86FDE9DCE8F2318192CFEFE5D84CCB1CF78C2767C170BA80A2801FAB6592F",
+        "absolute_path": "source://std_gbt_8165_2025/sha256/24E86FDE9DCE8F2318192CFEFE5D84CCB1CF78C2767C170BA80A2801FAB6592F",
+        "sha256": "24E86FDE9DCE8F2318192CFEFE5D84CCB1CF78C2767C170BA80A2801FAB6592F",
+        "page_count": 15,
+        "text_extractability": "weak_or_partial_text_full_scan"
+      },
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=5117AE65631C787955547476A11C5BF5"
+    },
+    {
+      "id": "std_hgj_211_85",
+      "type": "standard",
+      "number": "HGJ 211-85",
+      "title": "化工塔类设备施工及验收规范",
+      "status": "status_missing_historical_lead_only",
+      "authority": "A1",
+      "scope": "historical_tower_construction_acceptance",
+      "does_not_prove": [
+        "current_applicability",
+        "tower_model",
+        "process_hydraulics"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_hgj_211_85/sha256/23BD020C8B48697DF259BFC05B39BB08CEA90397161E04835096C5DF7CBC0758",
+        "absolute_path": "source://std_hgj_211_85/sha256/23BD020C8B48697DF259BFC05B39BB08CEA90397161E04835096C5DF7CBC0758",
+        "sha256": "23BD020C8B48697DF259BFC05B39BB08CEA90397161E04835096C5DF7CBC0758",
+        "page_count": 56,
+        "text_extractability": "machine_text_full"
+      }
+    },
+    {
+      "id": "std_sht_3098_2011",
+      "type": "standard",
+      "number": "SH/T 3098-2011",
+      "title": "石油化工塔器设计规范",
+      "status": "status_missing",
+      "authority": "A2",
+      "scope": "petrochemical_tower_design",
+      "does_not_prove": [
+        "current_status",
+        "universal_tower_model",
+        "tray_hydraulics_or_vendor_internals"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_sht_3098_2011/sha256/355DD758390A34B566C52766D8F93D712ECB64A1DA96E3809B9300440138C4D1",
+        "absolute_path": "source://std_sht_3098_2011/sha256/355DD758390A34B566C52766D8F93D712ECB64A1DA96E3809B9300440138C4D1",
+        "sha256": "355DD758390A34B566C52766D8F93D712ECB64A1DA96E3809B9300440138C4D1",
+        "page_count": 67,
+        "text_extractability": "image_only_no_embedded_text"
+      },
+      "evidence_refs": [
+        "PDF p6; chapter 1",
+        "PDF p14; clauses 6.4-6.5"
+      ]
+    },
+    {
+      "id": "std_gbt_3853_2017",
+      "type": "standard",
+      "number": "GB/T 3853-2017",
+      "title": "容积式压缩机 验收试验",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=6CAC79F3A5CA1839476968C191AEAF2E",
+      "authority": "A0",
+      "scope": "压缩机",
+      "does_not_prove": [
+        "manufacturer_model",
+        "centrifugal_compressor_map",
+        "same_equipment_acceptance"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_3235_2008",
+      "type": "standard",
+      "number": "GB/T 3235-2008",
+      "title": "通风机基本型式、尺寸参数及性能曲线",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E5A8FC3008DCE2F3D0755D748A552561",
+      "authority": "A1",
+      "scope": "压缩机_风机候选",
+      "does_not_prove": [
+        "manufacturer_model",
+        "same_equipment_working_point"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_3235_2008/sha256/A1EA7C0FB571753301D6E37D9A99FE7C9713CA19EF5A0BAAAFB97664F2994BEC",
+        "absolute_path": "source://std_gbt_3235_2008/sha256/A1EA7C0FB571753301D6E37D9A99FE7C9713CA19EF5A0BAAAFB97664F2994BEC",
+        "sha256": "A1EA7C0FB571753301D6E37D9A99FE7C9713CA19EF5A0BAAAFB97664F2994BEC",
+        "page_count": 14,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_syt_6651_2006",
+      "type": "standard",
+      "number": "SY/T 6651-2006",
+      "title": "石油、化学和天然气工业用轴流和离心压缩机及膨胀机 压缩机",
+      "status": "obsolete_replaced_by_SY_T_6651_2025",
+      "official_url": "https://std.samr.gov.cn/hb/search/stdHBDetailed?id=8B1827F1CF64BB19E05397BE0A0AB44A",
+      "authority": "A0",
+      "scope": "obsolete_process_compressor_standard",
+      "does_not_prove": [
+        "current_design_basis",
+        "manufacturer_model"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null
+    },
+    {
+      "id": "std_nbt_47003_1_2022",
+      "type": "standard",
+      "number": "NB/T 47003.1-2022",
+      "title": "常压容器 第1部分：钢制焊接常压容器",
+      "status": "published_effective_text_missing_locally",
+      "effective_date": "2023-05-04",
+      "authority": "A0",
+      "scope": "steel_welded_atmospheric_vessel_design",
+      "does_not_prove": [
+        "catalog_model",
+        "specific_vessel_capacity_or_geometry"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null
+    },
+    {
+      "id": "std_gb_50341_2014",
+      "type": "standard",
+      "number": "GB 50341-2014",
+      "title": "立式圆筒形钢制焊接油罐设计规范",
+      "status": "applicability_and_current_status_require_project_confirmation",
+      "effective_date": "2015-03-01",
+      "authority": "A0",
+      "scope": "vertical_cylindrical_welded_steel_oil_tank_design",
+      "does_not_prove": [
+        "universal_tank_model",
+        "applicability_to_all_media",
+        "specific_capacity_or_geometry"
+      ],
+      "verified_on": "2026-07-12",
+      "local_source": null
+    },
+    {
+      "id": "family_fixed_tubesheet_exchanger",
+      "type": "equipment_family",
+      "name": "固定管板式换热器",
+      "model_source_rule": "standard_series_plus_same_equipment_edr_and_mechanical_check",
+      "output_status": [
+        "type_selected",
+        "standard_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "process_basis",
+        "gbt_28712_lookup",
+        "EDR",
+        "GB/T_151_or_SW6",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_tower",
+      "type": "equipment_family",
+      "name": "塔器",
+      "model_source_rule": "custom_engineered_equipment",
+      "output_status": [
+        "type_selected",
+        "custom_equipment_no_universal_model",
+        "final_model"
+      ],
+      "required_gates": [
+        "process_basis",
+        "Column_Internals_or_vendor",
+        "mechanical_design",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_reactor_vessel_separator",
+      "type": "equipment_family",
+      "name": "反应器/容器/分离器",
+      "model_source_rule": "custom_engineered_equipment; component_designations_never_upgrade_whole_equipment_model",
+      "output_status": [
+        "type_selected",
+        "custom_equipment_no_universal_model",
+        "final_model"
+      ],
+      "required_gates": [
+        "process_basis",
+        "design_conditions",
+        "mechanical_design",
+        "whole_equipment_standard_scope_if_any_series_is_claimed",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_storage_vessel",
+      "type": "equipment_family",
+      "name": "储罐/缓冲罐/回流罐",
+      "model_source_rule": "custom_engineered_equipment_not_catalog_model",
+      "output_status": [
+        "type_selected",
+        "custom_equipment_no_universal_model",
+        "final_model"
+      ],
+      "required_gates": [
+        "inventory_or_residence_basis",
+        "fill_fraction",
+        "design_conditions",
+        "main_dimensions",
+        "breathing_relief_or_pressure_design",
+        "mechanical_design",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_pump",
+      "type": "equipment_family",
+      "name": "泵",
+      "model_source_rule": "vendor_model_only_after_curve_closure",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "Q_H_point",
+        "efficiency",
+        "BEP",
+        "NPSHa_NPSHr",
+        "material_and_seal",
+        "vendor_datasheet",
+        "gate_pump_freeze_20260712",
+        "gate_evidence_reuse_classification"
+      ],
+      "project_freeze": true,
+      "freeze_date": "2026-07-12"
+    },
+    {
+      "id": "family_compressor",
+      "type": "equipment_family",
+      "name": "压缩机/风机/真空机组",
+      "model_source_rule": "vendor_model_only_after_performance_map_closure",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gas_composition_MW_k_Z",
+        "flow_and_pressure_ratio",
+        "efficiency",
+        "temperature",
+        "performance_map",
+        "surge_choke_margin",
+        "intercooling",
+        "driver",
+        "anti_surge_control",
+        "vendor_datasheet",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_agitator",
+      "type": "equipment_family",
+      "name": "机械搅拌设备",
+      "model_source_rule": "standard_design_route_plus_vendor_mechanical_selection",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "mixing_duty",
+        "impeller_screening",
+        "speed_and_power",
+        "shaft_seal_gearbox",
+        "critical_speed_and_mechanical_check",
+        "vendor_datasheet",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_static_mixer",
+      "type": "equipment_family",
+      "name": "静态混合器",
+      "model_source_rule": "product_standard_applicability_plus_vendor_performance",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "flow_regime",
+        "allowable_pressure_drop",
+        "mixing_metric",
+        "element_count_and_length",
+        "material",
+        "vendor_datasheet",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_membrane",
+      "type": "equipment_family",
+      "name": "膜组件/膜装置",
+      "model_source_rule": "national_naming_rule_plus_same_product_performance_evidence",
+      "output_status": [
+        "type_selected",
+        "standard_candidate",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "naming_clause_mapping",
+        "membrane_material_and_area",
+        "flux_and_selectivity",
+        "stage_cut_recovery_purity",
+        "pressure_temperature_lifetime",
+        "vendor_or_primary_literature",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "family_package_equipment",
+      "type": "equipment_family",
+      "name": "吸附/干燥/撬装成套设备",
+      "model_source_rule": "vendor_package_model_only_after_guarantee_closure",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "process_guarantee",
+        "capacity_and_cycle",
+        "pressure_drop",
+        "utilities_and_controls",
+        "package_PID_and_interface",
+        "vendor_datasheet",
+        "gate_evidence_reuse_classification"
+      ]
+    },
+    {
+      "id": "gate_model_determination_card",
+      "type": "gate",
+      "name": "型号确定卡",
+      "required_fields": [
+        "equipment_tag",
+        "equipment_family",
+        "process_function",
+        "same_equipment_sources",
+        "operating_basis",
+        "design_basis",
+        "standard_identity",
+        "standard_scope_match",
+        "designation_grammar",
+        "lookup_chain",
+        "candidate_model",
+        "software_vendor_gate",
+        "verification_result",
+        "model_status",
+        "forbidden_claims"
+      ]
+    },
+    {
+      "id": "gate_legacy_quarantine",
+      "type": "gate",
+      "name": "历史型号隔离",
+      "banned_as_authority": [
+        "old_report_only",
+        "cross_tag_transfer",
+        "unparsed_model_string",
+        "missing_vendor_curve",
+        "wrong_standard_scope",
+        "wrong_media_or_process_route",
+        "wrong_equipment_function"
+      ]
+    },
+    {
+      "id": "std_gbt_150_1_2024",
+      "type": "standard",
+      "number": "GB/T 150.1-2024",
+      "title": "压力容器 第1部分：通用要求",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=4D1FD002A12678A75A4B7C42C1DE87EE",
+      "authority": "A1",
+      "scope": "压力容器_塔_反应器_分离器_承压罐",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_150_1_2024/sha256/DD45FE1CA30595A750FBD4E8874CB90EA374B931F52ABB9AE4A0B19992825F48",
+        "absolute_path": "source://std_gbt_150_1_2024/sha256/DD45FE1CA30595A750FBD4E8874CB90EA374B931F52ABB9AE4A0B19992825F48",
+        "sha256": "DD45FE1CA30595A750FBD4E8874CB90EA374B931F52ABB9AE4A0B19992825F48",
+        "page_count": 51,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_150_2_2024",
+      "type": "standard",
+      "number": "GB/T 150.2-2024",
+      "title": "压力容器 第2部分：材料",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=1D1BA04382E72AF5E728D9ED3C279E33",
+      "authority": "A1",
+      "scope": "压力容器_塔_反应器_分离器_承压罐",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_150_2_2024/sha256/2A49AD1BA32B37A5C1F6F6680439DE5456BC767E7B065C17521351FC09EB034A",
+        "absolute_path": "source://std_gbt_150_2_2024/sha256/2A49AD1BA32B37A5C1F6F6680439DE5456BC767E7B065C17521351FC09EB034A",
+        "sha256": "2A49AD1BA32B37A5C1F6F6680439DE5456BC767E7B065C17521351FC09EB034A",
+        "page_count": 79,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_150_3_2024",
+      "type": "standard",
+      "number": "GB/T 150.3-2024",
+      "title": "压力容器 第3部分：设计",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=5295531C5D8E43B884DD5E8C2F9DCD70",
+      "authority": "A1",
+      "scope": "压力容器_塔_反应器_分离器_承压罐",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_150_3_2024/sha256/1AFDA5F3833B2B7A8DE98455F5193716A1BBA671D0695D890A105217EF0756D9",
+        "absolute_path": "source://std_gbt_150_3_2024/sha256/1AFDA5F3833B2B7A8DE98455F5193716A1BBA671D0695D890A105217EF0756D9",
+        "sha256": "1AFDA5F3833B2B7A8DE98455F5193716A1BBA671D0695D890A105217EF0756D9",
+        "page_count": 287,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_150_4_2024",
+      "type": "standard",
+      "number": "GB/T 150.4-2024",
+      "title": "压力容器 第4部分：制造、检验和验收",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=AC3832C5CBF9AB7FF825DA2CAEF683E2",
+      "authority": "A1",
+      "scope": "压力容器_塔_反应器_分离器_承压罐",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_150_4_2024/sha256/2DC39C1AFEAB7CEFDE3675D31595B2BC83A98DDC6FAA8036BEEEED668F5A2E43",
+        "absolute_path": "source://std_gbt_150_4_2024/sha256/2DC39C1AFEAB7CEFDE3675D31595B2BC83A98DDC6FAA8036BEEEED668F5A2E43",
+        "sha256": "2DC39C1AFEAB7CEFDE3675D31595B2BC83A98DDC6FAA8036BEEEED668F5A2E43",
+        "page_count": 67,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_20801_1_2025",
+      "type": "standard",
+      "number": "GB/T 20801.1-2025",
+      "title": "压力管道规范 工业管道 第1部分：总则",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=02B92F024E3208D2CEA17BDF0F2743A0",
+      "authority": "A1",
+      "scope": "工业管道",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_20801_1_2025/sha256/DEF7EB49F84A960632B9E9ED96F484001794BEBC2C92DEB33A84CB59BE67BD7B",
+        "absolute_path": "source://std_gbt_20801_1_2025/sha256/DEF7EB49F84A960632B9E9ED96F484001794BEBC2C92DEB33A84CB59BE67BD7B",
+        "sha256": "DEF7EB49F84A960632B9E9ED96F484001794BEBC2C92DEB33A84CB59BE67BD7B",
+        "page_count": 311,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_13401_2025",
+      "type": "standard",
+      "number": "GB/T 13401-2025",
+      "title": "钢制对焊管件 技术规范",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=D6F82BDAC7DAD1B62091BAC79A960ADC",
+      "authority": "A1",
+      "scope": "管件",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_13401_2025/sha256/DD43998ECD18D9558405C95994D2C2187DAFC22205548885799A0A5150B3453B",
+        "absolute_path": "source://std_gbt_13401_2025/sha256/DD43998ECD18D9558405C95994D2C2187DAFC22205548885799A0A5150B3453B",
+        "sha256": "DD43998ECD18D9558405C95994D2C2187DAFC22205548885799A0A5150B3453B",
+        "page_count": 31,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_12459_2025",
+      "type": "standard",
+      "number": "GB/T 12459-2025",
+      "title": "钢制对焊管件 类型与参数",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=42BA7D06A375E936E06397BE0A0ACDC9",
+      "authority": "A1",
+      "scope": "管件",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_12459_2025/sha256/38EBC8147FF41434DDFBA456E31A02707ACED131A0E5387D9EC13AB5BC8E6412",
+        "absolute_path": "source://std_gbt_12459_2025/sha256/38EBC8147FF41434DDFBA456E31A02707ACED131A0E5387D9EC13AB5BC8E6412",
+        "sha256": "38EBC8147FF41434DDFBA456E31A02707ACED131A0E5387D9EC13AB5BC8E6412",
+        "page_count": 75,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_9124_1_2019",
+      "type": "standard",
+      "number": "GB/T 9124.1-2019",
+      "title": "钢制管法兰 第1部分：PN系列",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=9CE48857736DF6BB7BC7A2ED11368104",
+      "authority": "A0",
+      "scope": "法兰",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_9124_2_2019",
+      "type": "standard",
+      "number": "GB/T 9124.2-2019",
+      "title": "钢制管法兰 第2部分：Class系列",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=0DE3340B220E9675203D79EE030ED48D",
+      "authority": "A0",
+      "scope": "法兰",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_1047_2019",
+      "type": "standard",
+      "number": "GB/T 1047-2019",
+      "title": "管道元件 公称尺寸的定义和选用",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=255A13287E5ABDB3740F5FABA67AD496",
+      "authority": "A0",
+      "scope": "管道_阀门_法兰",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_1048_2019",
+      "type": "standard",
+      "number": "GB/T 1048-2019",
+      "title": "管道元件 PN的定义和选用",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=3F9B24843482F90C56CE6847A55B3D61",
+      "authority": "A0",
+      "scope": "管道_阀门_法兰",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_4622_1_2022",
+      "type": "standard",
+      "number": "GB/T 4622.1-2022",
+      "title": "管法兰用缠绕式垫片 第1部分：PN系列",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=544834ED00FA59838929AE54624B2B65",
+      "authority": "A1",
+      "scope": "垫片",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_4622_1_2022/sha256/17E156FCEF524593DB19DDAF8000095032E46E963E259179C45638BDA08C4453",
+        "absolute_path": "source://std_gbt_4622_1_2022/sha256/17E156FCEF524593DB19DDAF8000095032E46E963E259179C45638BDA08C4453",
+        "sha256": "17E156FCEF524593DB19DDAF8000095032E46E963E259179C45638BDA08C4453",
+        "page_count": 35,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_4622_2_2022",
+      "type": "standard",
+      "number": "GB/T 4622.2-2022",
+      "title": "管法兰用缠绕式垫片 第2部分：Class系列",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=7159D6EBF6F70B337FD92F7AB201A33A",
+      "authority": "A1",
+      "scope": "垫片",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_4622_2_2022/sha256/0446185D0E51E565A5E175ED0CF5F6E1C3B2E8EDF04CCC19BAA9013AF2DAA238",
+        "absolute_path": "source://std_gbt_4622_2_2022/sha256/0446185D0E51E565A5E175ED0CF5F6E1C3B2E8EDF04CCC19BAA9013AF2DAA238",
+        "sha256": "0446185D0E51E565A5E175ED0CF5F6E1C3B2E8EDF04CCC19BAA9013AF2DAA238",
+        "page_count": 27,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_12220_2015",
+      "type": "standard",
+      "number": "GB/T 12220-2015",
+      "title": "工业阀门 标志",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=74AD6CCE6C8A8D1BE9B5321C2BD27891",
+      "authority": "A0",
+      "scope": "阀门",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_12224_2015",
+      "type": "standard",
+      "number": "GB/T 12224-2015",
+      "title": "钢制阀门 一般要求",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=ACE7E1C5B0A31E5CC7F16BC1C39384EE",
+      "authority": "A1",
+      "scope": "阀门",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_12224_2015/sha256/2771C8AE112B5FA3F883B94BC058137154BF31E47F360095567FE47BC36A7A50",
+        "absolute_path": "source://std_gbt_12224_2015/sha256/2771C8AE112B5FA3F883B94BC058137154BF31E47F360095567FE47BC36A7A50",
+        "sha256": "2771C8AE112B5FA3F883B94BC058137154BF31E47F360095567FE47BC36A7A50",
+        "page_count": 162,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_13927_2022",
+      "type": "standard",
+      "number": "GB/T 13927-2022",
+      "title": "工业阀门 压力试验",
+      "status": "current",
+      "official_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=27CEF6988106C4695900FE295F54D6E8",
+      "authority": "A0",
+      "scope": "阀门",
+      "verified_on": "2026-07-12",
+      "local_source": null,
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_28573_2012",
+      "type": "standard",
+      "number": "GB/T 28573-2012",
+      "title": "石油、石化和天然气工业 一般用途汽轮机",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=71F772D7E2DBD3A7E05397BE0A0AB82A",
+      "authority": "A1",
+      "scope": "透平_汽轮机",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_28573_2012/sha256/B31D439E1E24257D79C91AF90A5C069C8E2B9CD1B02707DC29A17842C0944E04",
+        "absolute_path": "source://std_gbt_28573_2012/sha256/B31D439E1E24257D79C91AF90A5C069C8E2B9CD1B02707DC29A17842C0944E04",
+        "sha256": "B31D439E1E24257D79C91AF90A5C069C8E2B9CD1B02707DC29A17842C0944E04",
+        "page_count": 66,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "std_gbt_45820_2025",
+      "type": "standard",
+      "number": "GB/T 45820-2025",
+      "title": "石油炼化装置用透平压缩机",
+      "status": "current",
+      "official_url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=36DE96AA3E69CD71E06397BE0A0A23D9",
+      "authority": "A1",
+      "scope": "透平压缩机",
+      "verified_on": "2026-07-12",
+      "local_source": {
+        "relative_path": "source://std_gbt_45820_2025/sha256/7321554C248A49BAAF2F3D8AB6611FEA23C894A3A03BD55F46A09375ACA89059",
+        "absolute_path": "source://std_gbt_45820_2025/sha256/7321554C248A49BAAF2F3D8AB6611FEA23C894A3A03BD55F46A09375ACA89059",
+        "sha256": "7321554C248A49BAAF2F3D8AB6611FEA23C894A3A03BD55F46A09375ACA89059",
+        "page_count": 27,
+        "text_extractability": "official_pdf_local_full_text_not_clause_indexed"
+      },
+      "reuse_boundary": "direct_reuse only after scope/table match; never proves final vendor model"
+    },
+    {
+      "id": "family_other_heat_exchanger",
+      "type": "equipment_family",
+      "name": "非标/其他换热器",
+      "model_source_rule": "same-equipment thermal hydraulic evidence plus mechanical design; no fixed-tubesheet designation transfer to other structures",
+      "output_status": [
+        "type_selected",
+        "standard_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_model_determination_card"
+      ]
+    },
+    {
+      "id": "family_liquid_power_recovery_turbine",
+      "type": "equipment_family",
+      "name": "液体动力回收透平",
+      "model_source_rule": "same-duty Q-H-efficiency-speed-cavitation evidence and vendor curve",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_model_determination_card"
+      ]
+    },
+    {
+      "id": "family_gas_expander_turbine",
+      "type": "equipment_family",
+      "name": "气体透平/膨胀机/汽轮机",
+      "model_source_rule": "same-gas composition flow pressure ratio inlet temperature enthalpy efficiency speed and vendor map",
+      "output_status": [
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_model_determination_card"
+      ]
+    },
+    {
+      "id": "family_process_piping",
+      "type": "equipment_family",
+      "name": "工业管道",
+      "model_source_rule": "current line duty plus hydraulic sizing, pressure design, material class and stress/test evidence",
+      "output_status": [
+        "unresolved",
+        "type_selected",
+        "standard_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_line_determination_card"
+      ]
+    },
+    {
+      "id": "family_pipe_fitting",
+      "type": "equipment_family",
+      "name": "管件",
+      "model_source_rule": "same piping class, DN, wall series, fitting type, material and connection",
+      "output_status": [
+        "unresolved",
+        "standard_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_line_determination_card"
+      ]
+    },
+    {
+      "id": "family_flange_gasket",
+      "type": "equipment_family",
+      "name": "法兰与垫片",
+      "model_source_rule": "matched DN PN/Class flange face material pipe wall and media/temperature gasket compatibility",
+      "output_status": [
+        "unresolved",
+        "standard_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_line_determination_card"
+      ]
+    },
+    {
+      "id": "family_valve",
+      "type": "equipment_family",
+      "name": "阀门",
+      "model_source_rule": "line class and function plus DN PN/Class Cv pressure drop materials leakage actuator fail position and vendor datasheet",
+      "output_status": [
+        "unresolved",
+        "type_selected",
+        "vendor_candidate",
+        "same_equipment_verified",
+        "final_model"
+      ],
+      "required_gates": [
+        "gate_evidence_reuse_classification",
+        "gate_line_determination_card"
+      ]
+    },
+    {
+      "id": "gate_evidence_reuse_classification",
+      "type": "gate",
+      "name": "证据复用分类门",
+      "allowed": [
+        "direct_reuse",
+        "method_only",
+        "software_boundary",
+        "vendor_boundary",
+        "forbidden_transfer"
+      ]
+    },
+    {
+      "id": "gate_line_determination_card",
+      "type": "gate",
+      "name": "管线确定卡门",
+      "minimum_fields": [
+        "line_id",
+        "service",
+        "flow",
+        "operating_and_design_TP",
+        "hydraulic_basis",
+        "DN",
+        "wall",
+        "material",
+        "piping_class",
+        "fittings",
+        "flanges_gaskets",
+        "valves",
+        "stress_and_test_status",
+        "evidence"
+      ]
+    },
+    {
+      "id": "gate_pump_freeze_20260712",
+      "type": "gate",
+      "name": "泵型号冻结门",
+      "status": "active"
+    },
+    {
+      "id": "source_current_equipment_template_xlsx",
+      "type": "source",
+      "name": "设备汇总表(6).xlsx",
+      "reuse_class": "method_only_for_structure_and_current_draft_values_require_revalidation"
+    },
+    {
+      "id": "source_reference_equipment_template_docx",
+      "type": "source",
+      "name": "3-2 设备选型一览表.docx",
+      "reuse_class": "method_only_structure; values_forbidden_transfer"
+    },
+    {
+      "id": "template_equipment_overview_complete_v1",
+      "type": "template",
+      "name": "Excel 8 sheets / Word 14 tables complete equipment interface"
+    },
+    {
+      "id": "template_piping_overview_complete_v1",
+      "type": "template",
+      "name": "piping fittings flanges gaskets valves extension interface"
+    },
+    {
+      "id": "source_vendor_sulzer_structured_packings_2026",
+      "type": "manufacturer_source",
+      "manufacturer": "Sulzer",
+      "scope": "tower_packing_product_names_and_overview_parameters",
+      "official_url": "https://www.sulzer.com/en/-/media/files/products/separation-technology/brochures/english/structured_packings_e10686_en_web.pdf",
+      "local_path": "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Sulzer_Structured_Packings_2026.pdf",
+      "sha256": "E11393F7ABE23D262739434768BFD56C3C77245F6B0F8C215F93DE3E84719B3A",
+      "model_state": "manufacturer_series_candidate"
+    },
+    {
+      "id": "source_vendor_shanghai_zeer_sv",
+      "type": "manufacturer_source",
+      "manufacturer": "上海泽尔石化设备有限公司",
+      "scope": "SV_static_mixer_designation_grammar",
+      "official_url": "https://www.shzeer.cn/product/72.html",
+      "local_path": null,
+      "download_status": "official_page_indexed_direct_tls_download_failed",
+      "model_state": "manufacturer_series_candidate"
+    },
+    {
+      "id": "source_vendor_atlas_copco_compressor_expander",
+      "type": "manufacturer_source",
+      "manufacturer": "Atlas Copco",
+      "scope": "centrifugal_compressor_and_gas_expander_platforms",
+      "local_paths": [
+        "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Atlas_Copco_Centrifugal_Compressor_Technology.pdf",
+        "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Atlas_Copco_Expander_Brochure.pdf"
+      ],
+      "model_state": "engineered_to_order_platform"
+    },
+    {
+      "id": "source_vendor_sulzer_hst",
+      "type": "manufacturer_source",
+      "manufacturer": "Sulzer",
+      "scope": "HST_turbocompressor_public_series",
+      "official_url": "https://www.sulzer.com/en/-/media/files/products/compressors-and-aeration/brochures/hst5_hst10_turbocompressor_e10903.pdf",
+      "local_path": "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Sulzer_HST5_HST10_Turbocompressor.pdf",
+      "sha256": "B4F29F41AA11E7DF429DFB95C8CA70724ABE0DEEA50BE319513C8F12F589368D",
+      "model_state": "manufacturer_exact_model_public"
+    },
+    {
+      "id": "source_vendor_emerson_fisher_valves",
+      "type": "manufacturer_source",
+      "manufacturer": "Emerson Fisher",
+      "scope": "control_valve_series_DN_Class_Cv_material",
+      "official_url": "https://www.emerson.com/is/content/emerson/en/final-control/flow-controls/documents/d352343x012.pdf",
+      "local_path": "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Emerson_Fisher_Control_Valve_Sourcebook.pdf",
+      "sha256": "59450EE511BCB5E5356CB20ACE804C44E0D15B5D59D8502A6EEC05640799E8FC",
+      "model_state": "manufacturer_series_candidate"
+    },
+    {
+      "id": "source_vendor_ube_evonik_membranes",
+      "type": "manufacturer_source",
+      "manufacturer": "UBE and Evonik",
+      "scope": "membrane_material_module_size_and_application_boundaries",
+      "local_paths": [
+        "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\UBE_CO2_Separation_Membrane_Module.html",
+        "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Evonik_SEPURAN_NG.pdf",
+        "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Evonik_SEPURAN_Green.pdf"
+      ],
+      "does_not_prove": "current_project_CO2_CO_exact_model",
+      "model_state": "application_reference_only"
+    },
+    {
+      "id": "source_vendor_siemens_steam_turbines",
+      "type": "manufacturer_source",
+      "manufacturer": "Siemens Energy",
+      "scope": "industrial_steam_turbine_series",
+      "official_url": "https://assets.siemens-energy.com/dam/f005e344-5c84-41b0-b378-b20600c62b67/SE_Brochure-Industrial-Steam-Turbines_240611-pdf_Original%20file.pdf",
+      "local_path": "设备一览表_型号级资料包_20260713\\02_厂家官方资料\\Siemens_Industrial_Steam_Turbines.pdf",
+      "sha256": "0F57DD7CECB0E37859F1AF73EF4F5F2757A2D5357BE9109DCF10D087BFE7C0EC",
+      "does_not_prove": "process_gas_expander_model",
+      "model_state": "manufacturer_series_candidate"
+    }
+  ],
+  "edges": [
+    {
+      "from": "std_gbt_28712_2_2023",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "defines_basic_series_for"
+    },
+    {
+      "from": "std_gbt_151_2014",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "mechanical_design_basis_until_2026_07_31"
+    },
+    {
+      "from": "std_gbt_151_2026",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "future_mechanical_design_basis"
+    },
+    {
+      "from": "std_gbt_25198_2023",
+      "to": "family_reactor_vessel_separator",
+      "relation": "component_designation_only_for_heads"
+    },
+    {
+      "from": "std_gbt_25198_2023",
+      "to": "family_tower",
+      "relation": "component_designation_only_for_heads"
+    },
+    {
+      "from": "std_gbt_25198_2023",
+      "to": "family_storage_vessel",
+      "relation": "component_designation_only_when_scope_matches"
+    },
+    {
+      "from": "std_gbt_25198_2023",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "component_designation_only_when_head_is_used"
+    },
+    {
+      "from": "std_hgt_21514_2005",
+      "to": "family_reactor_vessel_separator",
+      "relation": "component_designation_only_status_must_be_checked"
+    },
+    {
+      "from": "std_hgt_21514_2005",
+      "to": "family_tower",
+      "relation": "component_designation_only_status_must_be_checked"
+    },
+    {
+      "from": "std_hgt_21514_2005",
+      "to": "family_storage_vessel",
+      "relation": "component_designation_only_status_must_be_checked"
+    },
+    {
+      "from": "std_hgt_21514_2005",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "component_designation_only_when_scope_matches"
+    },
+    {
+      "from": "std_gbt_12771_2019",
+      "to": "family_reactor_vessel_separator",
+      "relation": "tube_procurement_designation_only"
+    },
+    {
+      "from": "std_gbt_12771_2019",
+      "to": "family_tower",
+      "relation": "tube_procurement_designation_only"
+    },
+    {
+      "from": "std_gbt_12771_2019",
+      "to": "family_storage_vessel",
+      "relation": "tube_procurement_designation_only"
+    },
+    {
+      "from": "std_gbt_12771_2019",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "tube_procurement_designation_only"
+    },
+    {
+      "from": "std_gbt_8163_2018",
+      "to": "family_reactor_vessel_separator",
+      "relation": "tube_product_standard_only"
+    },
+    {
+      "from": "std_gbt_8163_2018",
+      "to": "family_tower",
+      "relation": "tube_product_standard_only"
+    },
+    {
+      "from": "std_gbt_8163_2018",
+      "to": "family_storage_vessel",
+      "relation": "tube_product_standard_only"
+    },
+    {
+      "from": "std_gbt_8165_2025",
+      "to": "family_reactor_vessel_separator",
+      "relation": "material_product_standard_only"
+    },
+    {
+      "from": "std_gbt_8165_2025",
+      "to": "family_tower",
+      "relation": "material_product_standard_only"
+    },
+    {
+      "from": "std_gbt_8165_2025",
+      "to": "family_storage_vessel",
+      "relation": "material_product_standard_only"
+    },
+    {
+      "from": "std_gbt_18749_2019",
+      "to": "family_tower",
+      "relation": "ceramic_packing_product_boundary"
+    },
+    {
+      "from": "std_nbt_47041_2014",
+      "to": "family_tower",
+      "relation": "tower_vessel_design_basis"
+    },
+    {
+      "from": "std_sht_3098_2011",
+      "to": "family_tower",
+      "relation": "design_basis_status_must_be_checked"
+    },
+    {
+      "from": "std_hgj_211_85",
+      "to": "family_tower",
+      "relation": "historical_construction_acceptance_lead_only"
+    },
+    {
+      "from": "std_jbt_4712_1_4_2007",
+      "to": "family_reactor_vessel_separator",
+      "relation": "obsolete_support_standard_do_not_use_for_current_model"
+    },
+    {
+      "from": "std_jbt_4712_1_4_2007",
+      "to": "std_nbt_47065_1_4_2018",
+      "relation": "superseded_by"
+    },
+    {
+      "from": "std_nbt_47065_1_4_2018",
+      "to": "family_reactor_vessel_separator",
+      "relation": "current_support_standard_entry_text_required"
+    },
+    {
+      "from": "std_nbt_47065_1_4_2018",
+      "to": "family_storage_vessel",
+      "relation": "current_support_standard_entry_text_required"
+    },
+    {
+      "from": "std_nbt_47065_1_4_2018",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "current_support_standard_entry_text_required_when_applicable"
+    },
+    {
+      "from": "std_hgt_20569_2013",
+      "to": "family_agitator",
+      "relation": "design_and_datasheet_basis_not_unified_model"
+    },
+    {
+      "from": "std_gbt_3853_2017",
+      "to": "family_compressor",
+      "relation": "acceptance_test_entry_not_vendor_model"
+    },
+    {
+      "from": "std_gbt_3235_2008",
+      "to": "family_compressor",
+      "relation": "fan_type_dimension_curve_expression_entry"
+    },
+    {
+      "from": "std_syt_6651_2006",
+      "to": "family_compressor",
+      "relation": "obsolete_do_not_use_as_current_design_basis"
+    },
+    {
+      "from": "std_gbt_20502_2006",
+      "to": "family_membrane",
+      "relation": "naming_entry_local_text_required"
+    },
+    {
+      "from": "std_jbt_7660_2016",
+      "to": "family_static_mixer",
+      "relation": "product_standard_entry_local_text_required"
+    },
+    {
+      "from": "std_nbt_47003_1_2022",
+      "to": "family_storage_vessel",
+      "relation": "atmospheric_vessel_design_basis_not_model"
+    },
+    {
+      "from": "std_gb_50341_2014",
+      "to": "family_storage_vessel",
+      "relation": "vertical_oil_tank_design_basis_only_when_scope_matches"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_fixed_tubesheet_exchanger",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_tower",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_reactor_vessel_separator",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_storage_vessel",
+      "relation": "required_before_formal_specification"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_pump",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_compressor",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_agitator",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_static_mixer",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_membrane",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_model_determination_card",
+      "to": "family_package_equipment",
+      "relation": "required_before_formal_model"
+    },
+    {
+      "from": "gate_legacy_quarantine",
+      "to": "gate_model_determination_card",
+      "relation": "must_revalidate_through"
+    },
+    {
+      "from": "std_gbt_3215_2025",
+      "to": "gate_pump_freeze_20260712",
+      "relation": "registers_standard_identity_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_5662_2013",
+      "to": "gate_pump_freeze_20260712",
+      "relation": "supplies_marking_performance_dimension_rules_without_model_change",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "gate_pump_freeze_20260712",
+      "to": "family_pump",
+      "relation": "required_before_any_existing_model_change",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "std_gbt_150_1_2024",
+      "to": "family_other_heat_exchanger",
+      "relation": "general_pressure_vessel_requirements",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_150_3_2024",
+      "to": "family_other_heat_exchanger",
+      "relation": "pressure_mechanical_design_method",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_151_2014",
+      "to": "family_other_heat_exchanger",
+      "relation": "heat_exchanger_mechanical_basis_until_2026_07_31",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_28573_2012",
+      "to": "family_gas_expander_turbine",
+      "relation": "applicable_only_for_general_purpose_steam_turbine_scope",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_45820_2025",
+      "to": "family_compressor",
+      "relation": "turbocompressor_product_requirements_when_scope_matches",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_20801_1_2025",
+      "to": "family_process_piping",
+      "relation": "industrial_piping_general_code_entry",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_17395_2024",
+      "to": "family_process_piping",
+      "relation": "steel_pipe_dimensions",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_8163_2018",
+      "to": "family_process_piping",
+      "relation": "seamless_pipe_product_standard_when_scope_matches",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_12771_2019",
+      "to": "family_process_piping",
+      "relation": "stainless_welded_pipe_product_standard_when_scope_matches",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_12459_2025",
+      "to": "family_pipe_fitting",
+      "relation": "defines_butt_weld_fitting_types_and_parameters",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_13401_2025",
+      "to": "family_pipe_fitting",
+      "relation": "butt_weld_fitting_technical_requirements",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_9124_1_2019",
+      "to": "family_flange_gasket",
+      "relation": "PN_flange_metadata_only_without_local_full_text",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_9124_2_2019",
+      "to": "family_flange_gasket",
+      "relation": "Class_flange_metadata_only_without_local_full_text",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_4622_1_2022",
+      "to": "family_flange_gasket",
+      "relation": "PN_spiral_wound_gasket_series",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_4622_2_2022",
+      "to": "family_flange_gasket",
+      "relation": "Class_spiral_wound_gasket_series",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_1047_2019",
+      "to": "family_process_piping",
+      "relation": "DN_definition_metadata_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_1048_2019",
+      "to": "family_process_piping",
+      "relation": "PN_definition_metadata_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_12220_2015",
+      "to": "family_valve",
+      "relation": "valve_marking_metadata_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "std_gbt_12224_2015",
+      "to": "family_valve",
+      "relation": "steel_valve_general_requirements",
+      "reuse_class": "direct_reuse"
+    },
+    {
+      "from": "std_gbt_13927_2022",
+      "to": "family_valve",
+      "relation": "pressure_test_metadata_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "source_reference_equipment_template_docx",
+      "to": "template_equipment_overview_complete_v1",
+      "relation": "supplies_structure_only",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "source_reference_equipment_template_docx",
+      "to": "gate_legacy_quarantine",
+      "relation": "values_and_models",
+      "reuse_class": "forbidden_transfer"
+    },
+    {
+      "from": "source_current_equipment_template_xlsx",
+      "to": "template_equipment_overview_complete_v1",
+      "relation": "supplies_current_draft_and_structure",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_equipment_overview_complete_v1",
+      "to": "family_other_heat_exchanger",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_equipment_overview_complete_v1",
+      "to": "family_liquid_power_recovery_turbine",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_equipment_overview_complete_v1",
+      "to": "family_gas_expander_turbine",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_piping_overview_complete_v1",
+      "to": "family_process_piping",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_piping_overview_complete_v1",
+      "to": "family_pipe_fitting",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_piping_overview_complete_v1",
+      "to": "family_flange_gasket",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "template_piping_overview_complete_v1",
+      "to": "family_valve",
+      "relation": "renders_section_for",
+      "reuse_class": "method_only"
+    },
+    {
+      "from": "source_vendor_sulzer_structured_packings_2026",
+      "to": "family_tower",
+      "relation": "supports_product_name_and_overview_parameters",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_shanghai_zeer_sv",
+      "to": "family_static_mixer",
+      "relation": "supports_SV_designation_grammar",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_atlas_copco_compressor_expander",
+      "to": "family_compressor",
+      "relation": "supports_platform_and_overview_range",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_atlas_copco_compressor_expander",
+      "to": "family_gas_expander_turbine",
+      "relation": "supports_platform_and_overview_range",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_sulzer_hst",
+      "to": "family_compressor",
+      "relation": "supports_public_blower_models",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_emerson_fisher_valves",
+      "to": "family_valve",
+      "relation": "supports_valve_series_and_overview_fields",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_ube_evonik_membranes",
+      "to": "family_membrane",
+      "relation": "supports_material_module_and_application_boundaries",
+      "reuse_class": "vendor_boundary"
+    },
+    {
+      "from": "source_vendor_siemens_steam_turbines",
+      "to": "family_gas_expander_turbine",
+      "relation": "steam_turbine_only_wrong_scope_for_CO2_expander",
+      "reuse_class": "forbidden_transfer"
+    }
+  ],
+  "reuse_classes": [
+    "direct_reuse",
+    "method_only",
+    "software_boundary",
+    "vendor_boundary",
+    "forbidden_transfer"
+  ]
+}

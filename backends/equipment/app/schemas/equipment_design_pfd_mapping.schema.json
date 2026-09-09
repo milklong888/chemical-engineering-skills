@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-pfd-mapping-v1",
+  "title": "Deterministic Aspen Block and PFD Mapping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "policy_version",
+    "source",
+    "mapping_policy",
+    "catalog",
+    "overrides",
+    "blocks",
+    "pfd",
+    "change_impact",
+    "evidence_gate",
+    "mapping_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-pfd-mapping-v1"},
+    "policy_version": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["schema", "canonical_content_sha256", "process_basis_status"],
+      "properties": {
+        "schema": {"const": "aspen-equipment-export-v1"},
+        "case_id": {"type": ["string", "null"]},
+        "canonical_content_sha256": {"$ref": "#/$defs/hash"},
+        "process_basis_status": {"const": "ASPEN_EXPORT_NOT_MECHANICAL_DESIGN_EVIDENCE"}
+      }
+    },
+    "mapping_policy": {"type": "object", "additionalProperties": true},
+    "catalog": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["selection_count", "selection_options"],
+      "properties": {
+        "selection_count": {"type": "integer", "minimum": 1},
+        "selection_options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/selection"}
+        }
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "propertyNames": {"minLength": 1},
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "blocks": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/blockMapping"}
+    },
+    "pfd": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "display_contract", "nodes", "edges", "layout", "topology_gate"],
+      "properties": {
+        "schema": {"const": "equipment-design-pfd-view-v1"},
+        "display_contract": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["default_level", "levels"],
+          "properties": {
+            "default_level": {"const": "standard"},
+            "levels": {
+              "type": "object",
+              "required": ["compact", "standard", "detailed"],
+              "properties": {
+                "compact": {"type": "object"},
+                "standard": {"type": "object"},
+                "detailed": {"type": "object"}
+              }
+            }
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/node"}
+        },
+        "edges": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/edge"}
+        },
+        "layout": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["algorithm", "canvas", "node_count", "edge_count", "scc_count"],
+          "properties": {
+            "algorithm": {"const": "deterministic-scc-longest-path-orthogonal-v1"},
+            "node_count": {"type": "integer", "minimum": 0},
+            "edge_count": {"type": "integer", "minimum": 0},
+            "scc_count": {"type": "integer", "minimum": 0}
+          }
+        },
+        "topology_gate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "issues", "referenced_stream_data_missing"],
+          "properties": {
+            "status": {"enum": ["PASS", "REVIEW"]},
+            "issues": {"type": "array", "items": {"type": "object"}},
+            "referenced_stream_data_missing": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "change_impact": {"type": "object", "additionalProperties": true},
+    "evidence_gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "formal_design_evidence", "model_promotion_allowed"],
+      "properties": {
+        "status": {"const": "PFD_MAPPING_ONLY"},
+        "formal_design_evidence": {"const": false},
+        "model_promotion_allowed": {"const": false}
+      }
+    },
+    "mapping_sha256": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "selection": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["selection_id", "family_id", "family_name", "display_name"],
+      "properties": {
+        "selection_id": {"type": "string", "minLength": 1},
+        "block_type": {"type": ["string", "null"]},
+        "family_id": {"type": "string", "minLength": 1},
+        "family_name": {"type": "string", "minLength": 1},
+        "display_name": {"type": "string", "minLength": 1}
+      }
+    },
+    "mappingState": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "status",
+        "selection_id",
+        "family_id",
+        "display_name",
+        "confidence_level",
+        "ambiguity_retained",
+        "evidence_gate"
+      ],
+      "properties": {
+        "status": {"type": "string", "minLength": 1},
+        "selection_id": {"type": ["string", "null"]},
+        "family_id": {"type": ["string", "null"]},
+        "display_name": {"type": "string", "minLength": 1},
+        "confidence_level": {"type": "string", "minLength": 1},
+        "ambiguity_retained": {"type": "boolean"},
+        "evidence_gate": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["formal_design_evidence", "model_promotion_allowed"],
+          "properties": {
+            "formal_design_evidence": {"const": false},
+            "model_promotion_allowed": {"const": false}
+          }
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["field", "label", "value", "unit", "display", "formal_design_evidence"],
+      "properties": {
+        "field": {"type": "string"},
+        "label": {"type": "string"},
+        "unit": {"type": "string"},
+        "display": {"type": "string"},
+        "formal_design_evidence": {"const": false}
+      }
+    },
+    "blockMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "block_id",
+        "equipment_tag",
+        "source",
+        "automatic_mapping",
+        "effective_mapping",
+        "recalculation_status",
+        "parameters"
+      ],
+      "properties": {
+        "block_id": {"type": "string", "minLength": 1},
+        "equipment_tag": {"type": "string", "minLength": 1},
+        "source": {"type": "object", "additionalProperties": true},
+        "automatic_mapping": {"$ref": "#/$defs/mappingState"},
+        "effective_mapping": {"$ref": "#/$defs/mappingState"},
+        "recalculation_status": {"type": "string"},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}}
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["node_id", "kind", "label", "recalculation_status", "geometry"],
+      "properties": {
+        "node_id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["equipment", "boundary_feed", "boundary_outlet"]},
+        "label": {"type": "string"},
+        "geometry": {
+          "type": "object",
+          "required": ["x", "y", "width", "height", "layer", "slot"],
+          "properties": {
+            "x": {"type": "number"},
+            "y": {"type": "number"},
+            "width": {"type": "number", "exclusiveMinimum": 0},
+            "height": {"type": "number", "exclusiveMinimum": 0},
+            "layer": {"type": "integer", "minimum": 0},
+            "slot": {"type": "integer", "minimum": 0}
+          }
+        },
+        "display": {"type": "object", "additionalProperties": true},
+        "recalculation_status": {"type": "string"}
+      }
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edge_id",
+        "kind",
+        "stream_id",
+        "label",
+        "source_node_id",
+        "target_node_id",
+        "topology_status",
+        "parameters",
+        "recalculation_status",
+        "formal_design_evidence",
+        "route"
+      ],
+      "properties": {
+        "edge_id": {"type": "string", "minLength": 1},
+        "kind": {"const": "process_stream_pipeline"},
+        "stream_id": {"type": "string", "minLength": 1},
+        "label": {"type": "string"},
+        "source_node_id": {"type": "string", "minLength": 1},
+        "target_node_id": {"type": "string", "minLength": 1},
+        "topology_status": {"type": "string"},
+        "parameters": {"type": "array", "items": {"$ref": "#/$defs/parameter"}},
+        "recalculation_status": {"type": "string"},
+        "formal_design_evidence": {"const": false},
+        "route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "points"],
+          "properties": {
+            "kind": {"enum": ["forward_orthogonal", "recycle_orthogonal", "self_loop_orthogonal"]},
+            "points": {
+              "type": "array",
+              "minItems": 4,
+              "items": {
+                "type": "array",
+                "prefixItems": [{"type": "number"}, {"type": "number"}],
+                "items": false
+              }
+            },
+            "parallel_lane_index": {"type": "integer", "minimum": 0},
+            "parallel_lane_count": {"type": "integer", "minimum": 1},
+            "parallel_lane_offset": {"type": "number"}
+          }
+        }
+      }
+    }
+  }
+}

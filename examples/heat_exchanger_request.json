@@ -1,0 +1,14 @@
+{
+  "scope": "Synthetic regression only, not a project or design default",
+  "operation": "equipment",
+  "payload": {
+    "schema": "equipment-design-agent-request-v1",
+    "request_id": "SYNTHETIC-HEAT-EXCHANGER",
+    "operation": "manual_match",
+    "payload": {
+      "selection_id": "family:family_fixed_tubesheet_exchanger",
+      "values": {"equipment_tag": "SYN-E1", "heat_duty_kw": 1000, "overall_u_w_m2k": 500,
+                 "lmtd_k": 40, "lmtd_correction_factor": 1}
+    }
+  }
+}

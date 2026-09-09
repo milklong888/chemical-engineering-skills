@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-customer-delivery-bundle-v1",
+  "title": "Authority-bound equipment customer delivery bundle",
+  "$defs": {
+    "estimate": {
+      "type": "object", "additionalProperties": true,
+      "required": ["field_id", "value", "state", "evidence_class", "result_status", "promotion_cap", "inference_basis", "assumptions", "context_refs", "lower_bound", "upper_bound", "registered_allowed_values", "registry_id", "confidence", "sensitivity_note"],
+      "properties": {
+        "field_id": {"type": "string", "minLength": 1},
+        "value": {"type": ["number", "string"]},
+        "state": {"type": "string", "minLength": 1},
+        "evidence_class": {"const": "J"},
+        "result_status": {"const": "PROVISIONAL"},
+        "promotion_cap": {"const": "TYPE_SCREENING"},
+        "inference_basis": {"enum": ["unit_conversion", "same_case_fact_interpretation", "engineering_requirement", "registered_range_interpolation", "conservative_screening_assumption"]},
+        "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "context_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "lower_bound": {"type": ["number", "null"]}, "upper_bound": {"type": ["number", "null"]},
+        "registered_allowed_values": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "registry_id": {"type": ["string", "null"]},
+        "confidence": {"enum": ["low", "medium"]},
+        "sensitivity_note": {"type": "string", "minLength": 1}
+      },
+      "anyOf": [
+        {"properties": {"value": {"type": "number"}, "lower_bound": {"type": "number"}, "upper_bound": {"type": "number"}}},
+        {"properties": {"value": {"type": "string"}, "lower_bound": {"type": "null"}, "upper_bound": {"type": "null"}, "registered_allowed_values": {"type": "array", "minItems": 1}, "registry_id": {"type": "string", "minLength": 1}}}
+      ]
+    },
+    "equipmentDisclosure": {
+      "type": "object", "additionalProperties": true,
+      "required": ["llm_used", "status", "model_estimate_fields", "applied_model_estimate_fields", "superseded_model_estimate_fields", "estimates", "evidence_class", "promotion_cap", "statement"],
+      "properties": {
+        "llm_used": {"type": "boolean"},
+        "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]},
+        "model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "applied_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "superseded_model_estimate_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "estimates": {"type": "array", "items": {"$ref": "#/$defs/estimate"}},
+        "evidence_class": {"type": ["string", "null"], "enum": ["J", null]},
+        "promotion_cap": {"type": ["string", "null"], "enum": ["TYPE_SCREENING", null]},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    },
+    "aggregateDisclosure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["llm_used", "status", "equipment", "statement"],
+      "properties": {
+        "llm_used": {"type": "boolean"},
+        "status": {"enum": ["NOT_USED", "PROVISIONAL_ESTIMATES_USED", "MODEL_ESTIMATES_SUPERSEDED"]},
+        "equipment": {"type": "array", "items": {"allOf": [{"$ref": "#/$defs/equipmentDisclosure"}, {"type": "object", "required": ["equipment_key"], "properties": {"equipment_key": {"type": "string", "minLength": 1}}}]}},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "version", "deterministic", "llm_used", "model_estimate_disclosure", "profile_authority",
+    "equipment_overview_table", "equipment_family_datasheet", "equipment_evidence_index"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-customer-delivery-bundle-v1"},
+    "version": {"type": "string"},
+    "deterministic": {"const": true},
+    "llm_used": {"type": "boolean"},
+    "model_estimate_disclosure": {"$ref": "#/$defs/aggregateDisclosure"},
+    "profile_authority": {"type": "object"},
+    "equipment_overview_table": {"type": "object"},
+    "equipment_family_datasheet": {"type": "object"},
+    "equipment_evidence_index": {"type": "object"}
+  }
+}

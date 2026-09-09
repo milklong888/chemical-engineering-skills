@@ -1,8 +1,8 @@
 # 常识 RAG 的读取与泛化
 
 在化工专家需要解释“为什么合理、怎样选择方法、哪里可能违反常识”时使用。
-构建细节来自用户的 `milklong888/chemical-engineering-rag-kg` 仓库，来源提交
-与本地可用性见工作区 `integrations/github_20260909/INTEGRATION_CONTRACT.md`。
+分层组织与准入方法结合 `milklong888/chemical-engineering-rag-kg` 的规范；
+实际正文及来源身份以本发行包 `knowledge/manifest.json` 为准，而非远端统计。
 
 ## 先定位判断层，再取证
 
@@ -47,10 +47,14 @@
 
 ## 当前可调用能力
 
-- `integrations/github_20260909/rag_bridge.py`：复用当前分层图谱与 687 页
-  本地 L0 证据查询，输出抽象层和来源轴、来源 hash、数据可用性。
-- `chemical_principles_knowledge/knowledge_graph/README.md`：现有思想/机制/
-  方法卡；数字和公式按原有页核验门使用。
+- `tools/expert_cli.py --query <问题>`：原节点与设备事实统一入口；安装后位于
+  `{CHEM_WORKSPACE}/chemical-engineering-runtime/tools/expert_cli.py`。
+- `knowledge/scripts/query_knowledge.py`：复用原V10评分逻辑的标准库查询，按
+  corpus、节点ID、宏观/细节需要定位。`--vector` 复用原工作区哈希向量与路由
+  评分，并非另训练语义模型；依赖随包NumPy，索引在 `knowledge/vectors/`。
+- `knowledge/chemical_principles/knowledge_graph/`：原有23张思想/机制/方法卡；
+  Sun Lanyi通用节点和V10细节分别在各自corpus内。来源页未随包时仍须按原页
+  核验门处理数字，不伪装已经查看原页。
 - 公开远端提供入库规范、合同与评测参考。其私有 8 源 3977 页及索引聚合统计
   是远端状态说明，当前不能作为已装载内容或生产激活证据。
 - S001/S002 与本地上下册仅有书目/页数对应时，记录为别名候选；未获得远端

@@ -1,0 +1,351 @@
+{
+  "schema": "chemical-principles-chapter-map-v1",
+  "source_basis": "supplied-book-toc-ocr-with-pdf-page-crosscheck",
+  "status": "validated_chapter_boundaries; subsection_text_remains_ocr_candidate",
+  "chapters": [
+    {
+      "chapter_id": "CEPR-CH01",
+      "volume": "upper",
+      "number": 1,
+      "title": "绪论",
+      "pdf_pages": [
+        12,
+        17
+      ],
+      "printed_pages": [
+        1,
+        6
+      ],
+      "layer_focus": [
+        "L3",
+        "L2"
+      ],
+      "themes": [
+        "单元操作共性",
+        "物料衡算",
+        "能量衡算",
+        "平衡关系",
+        "过程速率",
+        "推动力与阻力",
+        "单位与量纲"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH02",
+      "volume": "upper",
+      "number": 2,
+      "title": "流体流动与输送设备",
+      "pdf_pages": [
+        18,
+        120
+      ],
+      "printed_pages": [
+        7,
+        109
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "压力与剪应力",
+        "流动衡算",
+        "流动型态",
+        "量纲分析",
+        "阻力",
+        "管路计算",
+        "流量测量",
+        "输送设备"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH03",
+      "volume": "upper",
+      "number": 3,
+      "title": "机械分离及流态化",
+      "pdf_pages": [
+        121,
+        176
+      ],
+      "printed_pages": [
+        110,
+        165
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "颗粒与颗粒床层",
+        "重力沉降",
+        "离心沉降",
+        "过滤",
+        "流态化",
+        "节能与强化"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH04",
+      "volume": "upper",
+      "number": 4,
+      "title": "传热过程与换热器",
+      "pdf_pages": [
+        177,
+        300
+      ],
+      "printed_pages": [
+        166,
+        289
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "热量衡算",
+        "导热",
+        "对流传热",
+        "辐射传热",
+        "总传热阻力",
+        "换热器",
+        "传热强化",
+        "设计与选型"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH05",
+      "volume": "upper",
+      "number": 5,
+      "title": "蒸发",
+      "pdf_pages": [
+        301,
+        331
+      ],
+      "printed_pages": [
+        290,
+        320
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "单效蒸发",
+        "多效蒸发",
+        "物料与热量衡算",
+        "温差损失",
+        "蒸发器",
+        "节能强化",
+        "设计"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH06",
+      "volume": "lower",
+      "number": 6,
+      "title": "蒸馏",
+      "pdf_pages": [
+        14,
+        113
+      ],
+      "printed_pages": [
+        1,
+        100
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "气液相平衡",
+        "挥发能力差异",
+        "简单蒸馏",
+        "精馏",
+        "物料与热量衡算",
+        "回流",
+        "多组分分离序列",
+        "强化与节能",
+        "塔设备"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH07",
+      "volume": "lower",
+      "number": 7,
+      "title": "气体吸收",
+      "pdf_pages": [
+        114,
+        200
+      ],
+      "printed_pages": [
+        101,
+        187
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "气液相平衡",
+        "分子扩散",
+        "相际传质",
+        "总传质速率",
+        "吸收计算",
+        "解吸",
+        "填料塔",
+        "推动力与阻力强化"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH08",
+      "volume": "lower",
+      "number": 8,
+      "title": "液-液萃取",
+      "pdf_pages": [
+        201,
+        241
+      ],
+      "printed_pages": [
+        188,
+        228
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "液液相平衡",
+        "萃取计算",
+        "萃取设备",
+        "超临界流体萃取",
+        "过程强化"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH09",
+      "volume": "lower",
+      "number": 9,
+      "title": "干燥",
+      "pdf_pages": [
+        242,
+        271
+      ],
+      "printed_pages": [
+        229,
+        258
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "湿空气",
+        "热质同时传递",
+        "干燥平衡",
+        "干燥速率",
+        "连续干燥",
+        "干燥器"
+      ]
+    },
+    {
+      "chapter_id": "CEPR-CH10",
+      "volume": "lower",
+      "number": 10,
+      "title": "其他分离过程",
+      "pdf_pages": [
+        272,
+        310
+      ],
+      "printed_pages": [
+        259,
+        297
+      ],
+      "layer_focus": [
+        "L2",
+        "L1",
+        "L0"
+      ],
+      "themes": [
+        "膜分离",
+        "吸附",
+        "离子交换",
+        "结晶",
+        "分离方法选择",
+        "过程强化"
+      ]
+    }
+  ],
+  "supplementary_ranges": [
+    {
+      "volume": "upper",
+      "title": "附录",
+      "pdf_pages": [
+        332,
+        366
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "upper",
+      "title": "习题参考答案",
+      "pdf_pages": [
+        367,
+        369
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "upper",
+      "title": "参考文献",
+      "pdf_pages": [
+        370,
+        370
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "upper",
+      "title": "封底",
+      "pdf_pages": [
+        371,
+        371
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "lower",
+      "title": "习题参考答案",
+      "pdf_pages": [
+        311,
+        313
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "lower",
+      "title": "参考文献",
+      "pdf_pages": [
+        314,
+        315
+      ],
+      "knowledge_layer": "L0_reference_only"
+    },
+    {
+      "volume": "lower",
+      "title": "数字化来源说明",
+      "pdf_pages": [
+        316,
+        316
+      ],
+      "knowledge_layer": "L0_reference_only"
+    }
+  ]
+}

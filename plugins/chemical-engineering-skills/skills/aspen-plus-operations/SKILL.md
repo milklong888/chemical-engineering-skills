@@ -19,6 +19,9 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 4. Read only the relevant section of
    `references/operations_workflow.md` before executing detailed cards,
    graphical-file preservation, reaction, solve/control or delivery work.
+   For archive/layout preservation, APWZ backup companions, stale saved objects,
+   history generation or long Windows paths, also read
+   `references/archive_io_workflow.md`.
 
 ## Existing execution paths
 

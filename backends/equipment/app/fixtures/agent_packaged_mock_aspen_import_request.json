@@ -1,0 +1,11 @@
+{
+  "schema": "equipment-design-agent-request-v1",
+  "request_id": "PACKAGED-MOCK-ASPEN-20260718",
+  "operation": "aspen_import",
+  "payload": {
+    "mock_fixture": "../app/fixtures/mock_aspen_pump.json",
+    "output_dir": "packaged_mock_aspen_import_20260718",
+    "pressure_basis": "absolute",
+    "timeout_s": 60
+  }
+}

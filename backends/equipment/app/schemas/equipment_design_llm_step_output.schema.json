@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-llm-step-output-v1",
+  "title": "Equipment Design Controlled LLM Step Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "injection_point", "context_sha256", "summary", "citations",
+    "proposed_changes", "condition_assessments", "calculation_assists", "retrieval_plan",
+    "ambiguity_decision", "audit_findings", "output_composition"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-llm-step-output-v1"},
+    "injection_point": {
+      "enum": [
+        "semantic_extraction", "textual_condition_judgment", "ambiguity_resolution",
+        "kg_retrieval_planning", "audit"
+      ]
+    },
+    "context_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "summary": {"type": "string"},
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["context_id", "claim"],
+        "properties": {
+          "context_id": {"type": "string", "minLength": 1},
+          "claim": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "proposed_changes": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["field", "value", "reason", "citations"],
+        "allOf": [
+          {
+            "if": {"properties": {"field": {"const": "phase"}}, "required": ["field"]},
+            "then": {"properties": {"value": {"enum": ["liquid", "vapor", "mixed", "solid"]}}}
+          }
+        ],
+        "properties": {
+          "field": {"enum": ["equipment_type", "process_function", "phase"]},
+          "value": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "citations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "condition_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["condition_id", "status", "reason", "citations"],
+        "properties": {
+          "condition_id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["supported", "not_supported", "unknown"]},
+          "reason": {"type": "string", "minLength": 1},
+          "citations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "terminal_selection_assists": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assist_id", "terminal_rule_id", "condition_id", "selection_context_sha256",
+          "reason", "citations"
+        ],
+        "properties": {
+          "assist_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+          "terminal_rule_id": {"type": "string", "minLength": 1},
+          "condition_id": {"type": "string", "minLength": 1},
+          "selection_context_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "reason": {"type": "string", "minLength": 1},
+          "citations": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "calculation_assists": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {"properties": {"method": {"const": "model_inference"}}, "required": ["method"]},
+            "then": {
+              "required": [
+                "inference_basis", "assumptions", "lower_bound", "upper_bound",
+                "confidence", "sensitivity_note", "requested_preliminary_auto_apply"
+              ]
+            }
+          }
+        ],
+        "required": [
+          "assist_id", "target_field", "target_unit", "method", "recipe_id",
+          "proposed_value", "certainty", "uncertainty_note", "reason", "citations"
+        ],
+        "properties": {
+          "assist_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+          "target_field": {"type": "string", "minLength": 1},
+          "target_unit": {"type": "string", "minLength": 1},
+          "method": {"enum": ["deterministic_recipe", "model_inference"]},
+          "recipe_id": {"type": ["string", "null"]},
+          "proposed_value": {"type": ["number", "string", "null"]},
+          "certainty": {"enum": ["certain", "uncertain"]},
+          "uncertainty_note": {"type": ["string", "null"]},
+          "inference_basis": {
+            "enum": [
+              "unit_conversion", "same_case_fact_interpretation", "engineering_requirement",
+              "registered_range_interpolation", "conservative_screening_assumption"
+            ]
+          },
+          "assumptions": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "lower_bound": {"type": ["number", "null"]},
+          "upper_bound": {"type": ["number", "null"]},
+          "confidence": {"enum": ["low", "medium"]},
+          "sensitivity_note": {"type": "string", "minLength": 1},
+          "requested_preliminary_auto_apply": {"type": "boolean"},
+          "reason": {"type": "string", "minLength": 1},
+          "citations": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "retrieval_plan": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["query", "scope", "reason", "citations"],
+        "properties": {
+          "query": {"type": "string", "minLength": 1},
+          "scope": {"enum": ["minimum", "routed", "full_family", "full_bundle"]},
+          "reason": {"type": "string", "minLength": 1},
+          "citations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "ambiguity_decision": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": [
+            "status", "selected_candidate_id", "selected_designation",
+            "selection_feature_vector_sha256", "selection_context_sha256",
+            "reason", "citations"
+          ],
+          "properties": {
+            "status": {"enum": ["retain_most_general", "candidate_reference", "needs_evidence"]},
+            "selected_candidate_id": {"type": ["string", "null"]},
+            "selected_designation": {"type": ["string", "null"]},
+            "selection_feature_vector_sha256": {
+              "anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[A-F0-9]{64}$"}]
+            },
+            "selection_context_sha256": {
+              "anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[A-F0-9]{64}$"}]
+            },
+            "reason": {"type": "string", "minLength": 1},
+            "citations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+          }
+        }
+      ]
+    },
+    "audit_findings": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["finding_id", "severity", "message", "citations"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["info", "warning", "error"]},
+          "message": {"type": "string", "minLength": 1},
+          "citations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "output_composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "blocks"],
+      "properties": {
+        "title": {"type": "string"},
+        "blocks": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["block_id", "operation", "section_ref", "heading", "citations"],
+            "properties": {
+              "block_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+              "operation": {
+                "enum": [
+                  "explain_result", "propose_descriptive_change", "assess_conditions",
+                  "select_registered_terminal_form", "supplement_calculation_input",
+                  "plan_knowledge_retrieval", "resolve_ambiguity", "audit"
+                ]
+              },
+              "section_ref": {
+                "enum": [
+                  "summary", "proposed_changes", "condition_assessments", "terminal_selection_assists", "calculation_assists",
+                  "retrieval_plan", "ambiguity_decision", "audit_findings"
+                ]
+              },
+              "heading": {"type": "string", "minLength": 1},
+              "citations": {
+                "type": "array", "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

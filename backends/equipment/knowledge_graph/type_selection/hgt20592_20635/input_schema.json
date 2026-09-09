@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "class_rating": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "components": {
+      "items": {
+        "type": "object"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "composition_tags": {
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "dn_mm": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "flush_bore_required": {
+      "type": [
+        "boolean",
+        "string",
+        "null"
+      ]
+    },
+    "gasket_family_preference": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "module_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "module_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "object_family": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pn": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "pressure_tap_connection": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pressure_unit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pressure_value": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "property_evidence": {
+      "items": {
+        "type": "object"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "solid_fraction": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "system_series": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "temperature_unit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "temperature_value": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "user_forced_candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "vapor_fraction": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "object_family"
+  ],
+  "title": "HG/T 20592~20635 deterministic type-selection input",
+  "type": "object",
+  "x-evidence-layer-note": "原始字段与工程归一化字段分层；外部模型只能补候选/解释，不能绕过硬排除或改写程序结果。"
+}

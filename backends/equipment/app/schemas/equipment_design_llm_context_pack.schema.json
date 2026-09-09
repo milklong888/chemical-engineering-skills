@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-llm-context-pack-v1",
+  "title": "Equipment Design LLM Immutable Context Pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "injection_point", "mode", "context_scope", "coverage_status",
+    "included_assets", "truncated_assets", "char_count",
+    "deterministic_result_sha256", "kg_result_sha256", "kg_status",
+    "candidate_registry", "condition_registry", "terminal_type_rule_registry", "calculation_recipe_catalog",
+    "missing_input_registry", "model_estimate_policy",
+    "sources", "context_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-llm-context-pack-v1"},
+    "injection_point": {
+      "enum": [
+        "semantic_extraction", "textual_condition_judgment", "ambiguity_resolution",
+        "kg_retrieval_planning", "audit"
+      ]
+    },
+    "mode": {"enum": ["minimum", "routed", "full_family", "full_bundle"]},
+    "context_scope": {"enum": ["minimum", "routed", "full_family", "full_bundle"]},
+    "coverage_status": {"enum": ["BOUNDED_MINIMUM", "ROUTED_HITS", "PARTIAL", "COMPLETE"]},
+    "included_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_id", "path", "sha256", "coverage"],
+        "properties": {
+          "context_id": {"type": "string", "minLength": 1},
+          "path": {"type": ["string", "null"]},
+          "sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "coverage": {"enum": ["hit_excerpt", "full_asset", "partial_asset"]}
+        }
+      }
+    },
+    "truncated_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_id", "path", "reason"],
+        "properties": {
+          "context_id": {"type": ["string", "null"]},
+          "path": {"type": ["string", "null"]},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "char_count": {"type": "integer", "minimum": 0},
+    "deterministic_result_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "kg_result_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "kg_status": {"type": "string"},
+    "candidate_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id", "designation", "candidate_kind",
+          "selection_feature_vector_sha256", "selection_context_sha256"
+        ],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "designation": {"type": "string", "minLength": 1},
+          "candidate_kind": {"type": "string"},
+          "selection_feature_vector_sha256": {
+            "type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"
+          },
+          "selection_context_sha256": {
+            "type": ["string", "null"], "pattern": "^[A-F0-9]{64}$"
+          }
+        }
+      }
+    },
+    "condition_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["condition_id", "kind", "deterministic_status"],
+        "properties": {
+          "condition_id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["constraint_check", "candidate_predicate", "terminal_type_rule"]},
+          "deterministic_status": {}
+        }
+      }
+    },
+    "terminal_type_rule_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id", "condition_id", "family_id", "recommended_type", "condition_text",
+          "assumption", "promotion_cap", "selection_context_sha256",
+          "current_terminal_status", "current_terminal_rule_id", "current_recommended_type"
+        ],
+        "properties": {
+          "rule_id": {"type": "string", "minLength": 1},
+          "condition_id": {"type": "string", "minLength": 1},
+          "family_id": {"type": "string", "minLength": 1},
+          "recommended_type": {"type": "string", "minLength": 1},
+          "condition_text": {"type": "string", "minLength": 1},
+          "assumption": {"type": "string"},
+          "promotion_cap": {"const": "TYPE_SCREENING"},
+          "selection_context_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "current_terminal_status": {"type": "string"},
+          "current_terminal_rule_id": {"type": "string"},
+          "current_recommended_type": {"type": "string"}
+        }
+      }
+    },
+    "calculation_recipe_catalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recipe_id", "target_field", "target_unit", "applicable_family_ids",
+          "inputs", "formula"
+        ],
+        "properties": {
+          "recipe_id": {"type": "string", "minLength": 1},
+          "target_field": {"type": "string", "minLength": 1},
+          "target_unit": {"type": "string", "minLength": 1},
+          "applicable_family_ids": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "inputs": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "formula": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "missing_input_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "field_id", "label", "target_unit", "value_type", "allowed_values",
+          "program_guard", "required_for", "current_state",
+          "evidence_class_if_used", "promotion_cap"
+        ],
+        "properties": {
+          "field_id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "target_unit": {"type": "string", "minLength": 1},
+          "value_type": {"enum": ["number", "enum", "text"]},
+          "allowed_values": {"type": "array", "items": {"type": "string"}},
+          "program_guard": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["minimum", "maximum", "kind"],
+            "properties": {
+              "minimum": {"type": ["number", "null"]},
+              "maximum": {"type": ["number", "null"]},
+              "kind": {"const": "broad_non_design_sanity_guard"}
+            }
+          },
+          "required_for": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "current_state": {"type": "string"},
+          "evidence_class_if_used": {"const": "J"},
+          "promotion_cap": {"const": "TYPE_SCREENING"}
+        }
+      }
+    },
+    "model_estimate_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled", "use_only_after_registered_recipes", "missing_fields_only",
+        "structured_bounds_and_assumptions_required",
+        "preliminary_auto_apply_allowed_after_program_validation", "evidence_class",
+        "promotion_cap", "formal_model_promotion_allowed", "script_conflict_policy"
+      ],
+      "properties": {
+        "enabled": {"const": true},
+        "use_only_after_registered_recipes": {"const": true},
+        "missing_fields_only": {"const": true},
+        "structured_bounds_and_assumptions_required": {"const": true},
+        "preliminary_auto_apply_allowed_after_program_validation": {"const": true},
+        "evidence_class": {"const": "J"},
+        "promotion_cap": {"const": "TYPE_SCREENING"},
+        "formal_model_promotion_allowed": {"const": false},
+        "script_conflict_policy": {"const": "deterministic_script_wins"}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_id", "kind", "source_sha256", "content"],
+        "properties": {
+          "context_id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["deterministic_result", "knowledge_graph_hit", "knowledge_graph_asset"]},
+          "source_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+          "content": {}
+        }
+      }
+    },
+    "context_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+  }
+}

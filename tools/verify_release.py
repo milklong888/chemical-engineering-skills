@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
-"""Verify a text-only release. Integrity is not commercial-software validation."""
+"""Verify reviewed source and explicitly hash-admitted offline data/dependencies."""
 from __future__ import annotations
 
 import argparse
+import ast
+import gzip
 import hashlib
+import io
 import json
 import os
 from pathlib import Path, PurePosixPath
 import re
 import stat
 import sys
+import zipfile
 
 MANIFEST = "RELEASE_MANIFEST.json"
 CHECKSUMS = "SHA256SUMS.txt"
+BINARY_LEDGER = "BINARY_ASSETS.json"
 PLUGIN = "plugins/chemical-engineering-skills"
 SKILLS_PREFIX = PLUGIN + "/skills/"
 IGNORED_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
-TEXT_SUFFIXES = {".md", ".py", ".ps1", ".cmd", ".bat", ".json", ".jsonl", ".yaml", ".yml", ".toml", ".txt", ".csv", ".tsv", ".html", ".css", ".js", ".mjs", ".xml", ".ini", ".cfg", ".rst"}
+TEXT_SUFFIXES = {".md", ".py", ".ps1", ".cmd", ".bat", ".json", ".jsonl", ".yaml", ".yml", ".toml", ".txt", ".csv", ".tsv", ".html", ".css", ".js", ".mjs", ".xml", ".ini", ".cfg", ".rst", ".sql"}
 TEXT_NAMES = {"LICENSE", "NOTICE", ".gitignore", ".gitattributes"}
 FORBIDDEN_PARTS = {"source_pages", "rendered_pages", "raw_l0", "rawl0", "prior_state", "source_snapshot", "node_modules", ".venv", ".env", "credentials", "error_memory_events"}
 SECRET_PATTERNS = [
@@ -104,10 +109,10 @@ def public_text(relative: str, data: bytes, synthetic_templates: dict[str, str] 
         raise ReleaseError(f"Non-text/model/document payload rejected: {relative}")
     if any(word in p.name for word in ("化工原理", "Pdg2Pic", "z-library", "z-lib.sk")):
         raise ReleaseError(f"Textbook payload filename rejected: {relative}")
-    if data.startswith(b"\xef\xbb\xbf") or b"\x00" in data:
+    if (data.startswith(b"\xef\xbb\xbf") and p.suffix.lower() != ".csv") or b"\x00" in data:
         raise ReleaseError(f"BOM or binary bytes rejected: {relative}")
     try:
-        text = data.decode("utf-8")
+        text = data.decode("utf-8-sig" if p.suffix.lower() == ".csv" else "utf-8")
     except UnicodeDecodeError as exc:
         raise ReleaseError(f"Not UTF-8: {relative}") from exc
     if "\ufffd" in text:
@@ -117,6 +122,89 @@ def public_text(relative: str, data: bytes, synthetic_templates: dict[str, str] 
     if PRIVATE_PATH.search(text):
         raise ReleaseError(f"Unresolved private home path rejected: {relative}")
     return text
+
+
+def binary_policy(payload: dict[str, bytes]) -> dict[str, dict]:
+    if BINARY_LEDGER not in payload:
+        return {}
+    public_text(BINARY_LEDGER, payload[BINARY_LEDGER])
+    ledger = json.loads(payload[BINARY_LEDGER])
+    if ledger.get("schema") != "chemical-reviewed-binary-assets-v1":
+        raise ReleaseError("Unsupported binary asset ledger")
+    result = {}
+    for row in ledger.get("assets", []):
+        path = relative_path(row["path"])
+        if any(part.casefold() in FORBIDDEN_PARTS | IGNORED_DIRS for part in PurePosixPath(path).parts):
+            raise ReleaseError("Binary asset in excluded directory")
+        if (path in result or row.get("kind") not in {"python_wheel", "sqlite_gzip", "numpy_index"}
+                or not re.fullmatch(r"[0-9a-f]{64}", row.get("sha256", ""))
+                or not row.get("source_ledger") or not row.get("redistribution_basis")
+                or row.get("review_status") != "admitted"):
+            raise ReleaseError("Binary assets need exact identity, source and redistribution review")
+        if relative_path(row["source_ledger"]) not in payload:
+            raise ReleaseError("Binary source ledger missing")
+        data = payload.get(path)
+        if data is None or len(data) != row.get("bytes") or sha256(data) != row["sha256"]:
+            raise ReleaseError(f"Binary asset identity mismatch: {path}")
+        if row["kind"] == "python_wheel":
+            if not path.startswith("runtime/wheelhouse/") or not path.endswith(".whl"):
+                raise ReleaseError("Wheel outside dedicated runtime payload")
+            with zipfile.ZipFile(io.BytesIO(data)) as wheel:
+                names = wheel.namelist()
+                for member in names:
+                    relative_path(member.rstrip("/"))
+                if not any(name.endswith(".dist-info/METADATA") for name in names):
+                    raise ReleaseError("Wheel distribution identity absent")
+            lock = json.loads(payload[row["source_ledger"]])
+            if not any(item.get("filename") == PurePosixPath(path).name
+                       and str(item.get("sha256", "")).lower() == row["sha256"]
+                       and item.get("bytes") == len(data) for item in lock.get("wheels", [])):
+                raise ReleaseError("Wheel is not bound to its reviewed dependency lock")
+        elif row["kind"] == "sqlite_gzip":
+            if not path.startswith(("backends/equipment/data/", "knowledge/")) or not path.endswith(".sqlite.gz"):
+                raise ReleaseError("Database outside approved knowledge/backend payload")
+            size = row.get("uncompressed_bytes")
+            if type(size) is not int or not 16 <= size <= 256 * 1024 * 1024:
+                raise ReleaseError("Unbounded compressed database")
+            with gzip.GzipFile(fileobj=io.BytesIO(data)) as stream:
+                expanded = stream.read(size + 1)
+            if (len(expanded) != size or not expanded.startswith(b"SQLite format 3\x00")
+                    or sha256(expanded) != row.get("uncompressed_sha256")):
+                raise ReleaseError("Compressed database identity mismatch")
+        else:
+            if not path.startswith("knowledge/") or not path.endswith(".npy") or not data.startswith(b"\x93NUMPY"):
+                raise ReleaseError("Unexpected vector payload")
+            if row.get("dtype") not in {"float32", "float64"} or row.get("allow_pickle") is not False:
+                raise ReleaseError("Vector index must be a reviewed numeric, non-pickle array")
+            version = data[6:8]
+            nbytes = 2 if version == b"\x01\x00" else 4 if version in {b"\x02\x00", b"\x03\x00"} else 0
+            if not nbytes:
+                raise ReleaseError("Unsupported NPY version")
+            length = int.from_bytes(data[8:8+nbytes], "little")
+            if not 0 < length < 65536:
+                raise ReleaseError("Invalid NPY header size")
+            header = ast.literal_eval(data[8+nbytes:8+nbytes+length].decode("utf-8").strip())
+            element_size = 4 if row["dtype"] == "float32" else 8
+            if header.get("descr") not in {"<f" + str(element_size), ">f" + str(element_size), "=f" + str(element_size)}:
+                raise ReleaseError("NPY header is not the declared plain floating array")
+            shape = header.get("shape")
+            if not isinstance(shape, tuple) or not shape or any(type(n) is not int or n < 0 for n in shape):
+                raise ReleaseError("Invalid vector shape")
+            count = element_size
+            for dimension in shape:
+                count *= dimension
+            if len(data) != 8 + nbytes + length + count or list(shape) != row.get("shape"):
+                raise ReleaseError("Vector shape/byte size mismatch")
+        result[path] = row
+    return result
+
+
+def public_payload(relative: str, data: bytes, synthetic_templates: dict, binaries: dict) -> None:
+    if relative in binaries:
+        if sha256(data) != binaries[relative]["sha256"]:
+            raise ReleaseError("Admitted binary changed")
+        return
+    public_text(relative, data, synthetic_templates)
 
 
 def inventory(root: Path) -> dict[str, bytes]:
@@ -130,6 +218,8 @@ def inventory(root: Path) -> dict[str, bytes]:
         for d in directories:
             reject_links(Path(current) / d)
         for name in sorted(filenames):
+            if Path(current) == root and name == ".git":
+                continue  # Git worktree metadata is not release content.
             path = Path(current) / name
             reject_links(path)
             rel = relative_path(path.relative_to(root).as_posix())
@@ -172,18 +262,22 @@ def structure(payload: dict[str, bytes], expected_skill_count: int | None = None
 def make_manifest(root: Path, *, release_name: str, release_version: str, expected_skill_count: int, external_dependencies: list | None = None, synthetic_templates: list | None = None) -> tuple[bytes, bytes]:
     payload = {p: b for p, b in inventory(root).items() if p not in {MANIFEST, CHECKSUMS}}
     policy = synthetic_policy(synthetic_templates)
+    binaries = binary_policy(payload)
     if any(path not in payload or sha256(payload[path]) != digest for path, digest in policy.items()):
         raise ReleaseError("Synthetic INP differs from reviewed output identity")
     for path, data in payload.items():
-        public_text(path, data, policy)
+        public_payload(path, data, policy, binaries)
     skills = structure(payload, expected_skill_count)
     dependencies = external_dependencies or []
     for dep in dependencies:
         if not isinstance(dep, dict) or dep.get("status") not in {"not_bundled", "not_verified", "optional_external"}:
             raise ReleaseError("External dependencies must be explicitly unverified/not bundled")
-    manifest = {"schema": "chemical-public-release-v1", "release_name": release_name, "release_version": release_version,
-                "scope": "reviewed_text_rules_and_scripts_only", "skill_names": skills, "skill_count": len(skills),
-                "external_dependencies": dependencies, "commercial_software_verified": False, "knowledge_payload_bundled": False,
+    knowledge_bundled = ("knowledge/records.jsonl" in payload
+                         and any(row["kind"] == "sqlite_gzip" for row in binaries.values()))
+    manifest = {"schema": "chemical-public-release-v2" if binaries else "chemical-public-release-v1", "release_name": release_name, "release_version": release_version,
+                "scope": "reviewed_headless_offline_tools_and_knowledge" if binaries else "reviewed_text_rules_and_scripts_only", "skill_names": skills, "skill_count": len(skills),
+                "external_dependencies": dependencies, "commercial_software_verified": False, "knowledge_payload_bundled": knowledge_bundled,
+                "binary_asset_count": len(binaries),
                 "synthetic_templates": synthetic_templates or [],
                 "files": [{"path": p, "sha256": sha256(b), "bytes": len(b)} for p, b in payload.items()]}
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
@@ -201,11 +295,17 @@ def verify(root: Path) -> dict:
     public_text(MANIFEST, all_files[MANIFEST])
     manifest = json.loads(all_files[MANIFEST])
     policy = synthetic_policy(manifest.get("synthetic_templates", []))
+    binaries = binary_policy(all_files)
     if any(path not in all_files or sha256(all_files[path]) != digest for path, digest in policy.items()):
         raise ReleaseError("Synthetic INP allowlist identity mismatch")
     for path, data in all_files.items():
-        public_text(path, data, policy)
-    if manifest.get("schema") != "chemical-public-release-v1" or manifest.get("commercial_software_verified") is not False or manifest.get("knowledge_payload_bundled") is not False:
+        public_payload(path, data, policy, binaries)
+    knowledge_bundled = ("knowledge/records.jsonl" in all_files
+                         and any(row["kind"] == "sqlite_gzip" for row in binaries.values()))
+    schema = "chemical-public-release-v2" if binaries else "chemical-public-release-v1"
+    if (manifest.get("schema") != schema or manifest.get("commercial_software_verified") is not False
+            or manifest.get("knowledge_payload_bundled") is not knowledge_bundled
+            or manifest.get("binary_asset_count", 0) != len(binaries)):
         raise ReleaseError("Unsupported release schema or misleading external-validation state")
     for dependency in manifest.get("external_dependencies", []):
         if not isinstance(dependency, dict) or dependency.get("status") not in {"not_bundled", "not_verified", "optional_external"}:
@@ -237,7 +337,7 @@ def verify(root: Path) -> dict:
         raise ReleaseError("Checksum ledger differs from actual payload/manifest")
     return {"integrity_verified": True, "utf8_verified": True, "structure_verified": True,
             "file_count": len(expected) - 1, "skill_count": len(skills),
-            "commercial_software_verified": False, "knowledge_payload_bundled": False,
+            "commercial_software_verified": False, "knowledge_payload_bundled": knowledge_bundled,
             "external_dependencies": manifest.get("external_dependencies", []), "manifest": manifest}
 
 

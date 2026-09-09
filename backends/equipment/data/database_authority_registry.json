@@ -1,0 +1,320 @@
+{
+  "schema": "equipment-database-authority-registry-v1",
+  "revision": "2026-07-25",
+  "policy": {
+    "active_database_resolution": "registry_only",
+    "access_mode": "read_only",
+    "unknown_or_unregistered_build": "BLOCKED",
+    "quarantined_or_candidate_runtime_use": "FORBIDDEN",
+    "database_payloads_in_git": false,
+    "public_decomposition": [
+      "data/database_authority_registry.json",
+      "data/database_contracts/standards_knowledge_public_schema.sql",
+      "data/database_contracts/executable_standard_data_public_schema.sql",
+      "docs/DATABASE_STRUCTURE.md"
+    ],
+    "payload_distribution": "The large immutable SQLite payloads are bundled in release executables and verified by SHA-256; source control publishes contracts, status and structure only."
+  },
+  "consumers": [
+    {
+      "consumer_id": "standards_knowledge_search",
+      "database_id": "standards_knowledge_authority",
+      "code_path": "app/app_core.py#_standards_sqlite_search",
+      "access_mode": "read_only",
+      "allowed_scope": "retrieval_only_no_engineering_value_promotion",
+      "required_dataset_ids": []
+    },
+    {
+      "consumer_id": "pipe_standard_store",
+      "database_id": "executable_standard_data_current",
+      "code_path": "scripts/aspen_equipment_derivation.py#load_verified_pipe_standard_store",
+      "access_mode": "read_only",
+      "allowed_scope": "verified_PN_series_and_pipe_dimension_weight_records_only",
+      "required_dataset_ids": [
+        "gbt1048_nominal_pressure_series",
+        "gbt17395_pipe_dimensions_weights"
+      ]
+    }
+  ],
+  "databases": [
+    {
+      "database_id": "standards_knowledge_authority",
+      "logical_role": "standards_source_retrieval_authority",
+      "status": "ACTIVE",
+      "scope_status": "ACTIVE_RETRIEVAL_ONLY",
+      "runtime_use_allowed": true,
+      "runtime_required": true,
+      "relative_path": "knowledge_graph/standards_graph/source_layer/indexes/standards_knowledge.sqlite",
+      "manifest_relative_path": null,
+      "build_id": "standards-source-layer-index-20260720",
+      "expected_size_bytes": 322678784,
+      "expected_sha256": "B24192732565F47FE4378C04A253A6F48C4FD984BB489AE99C3C3E003F06D5A4",
+      "reason": "Full-text and structured retrieval carrier. Hits remain evidence context and cannot directly promote engineering values.",
+      "table_contracts": {
+        "documents": {
+          "row_count": 77,
+          "required_columns": [
+            "doc_id",
+            "relative_path",
+            "source_pdf_sha256",
+            "family",
+            "source_kind",
+            "evidence_default",
+            "package_status"
+          ]
+        },
+        "chunks": {
+          "row_count": 20237,
+          "required_columns": [
+            "chunk_id",
+            "doc_id",
+            "page_start",
+            "page_end",
+            "section_path",
+            "text_sha256",
+            "location_status",
+            "text"
+          ]
+        },
+        "tables_data": {
+          "row_count": 5198,
+          "required_columns": [
+            "table_id",
+            "doc_id",
+            "page_1based",
+            "caption",
+            "source_pdf_sha256",
+            "cell_text",
+            "numeric_reuse_allowed",
+            "asset_qa_status"
+          ]
+        },
+        "figures_data": {
+          "row_count": 3477,
+          "required_columns": [
+            "figure_id",
+            "doc_id",
+            "page_1based",
+            "caption",
+            "source_pdf_sha256"
+          ]
+        },
+        "formulas_data": {
+          "row_count": 91,
+          "required_columns": [
+            "formula_id",
+            "doc_id",
+            "page_1based",
+            "raw_text",
+            "qa_status",
+            "source_pdf_sha256"
+          ]
+        }
+      }
+    },
+    {
+      "database_id": "executable_standard_data_current",
+      "logical_role": "structured_executable_standard_data",
+      "status": "ACTIVE",
+      "scope_status": "CURRENT_VERIFIED_BASELINE_WITH_OPEN_PHASE1_GAPS",
+      "runtime_use_allowed": true,
+      "runtime_required": true,
+      "relative_path": "knowledge_graph/standards_graph/executable_data/build_20260720_visual_batch_v2/executable_store/executable_standard_data.sqlite",
+      "manifest_relative_path": "knowledge_graph/standards_graph/executable_data/build_20260720_visual_batch_v2/executable_store/build_manifest.json",
+      "build_id": "20260720-visual-batch-v2",
+      "expected_size_bytes": 107720704,
+      "expected_sha256": "27A1C4B0FA5CA9DAEACD727808A4758ECC156835BADC83461BF789DA0BA8F551",
+      "reason": "Only physically reproducible current executable baseline. Runtime consumers must additionally enforce dataset-level VERIFIED, CURRENT and DIRECT_REUSE_VERIFIED gates.",
+      "table_contracts": {
+        "datasets": {
+          "row_count": 24,
+          "required_columns": [
+            "dataset_id",
+            "standard_id",
+            "standard_version",
+            "authority_state",
+            "lifecycle_state",
+            "reuse_class",
+            "qa_status",
+            "record_count",
+            "build_id"
+          ]
+        },
+        "standard_records": {
+          "row_count": 24887,
+          "required_columns": [
+            "dataset_id",
+            "record_id",
+            "standard_id",
+            "standard_version",
+            "source_sha256",
+            "raw_value",
+            "normalized_number",
+            "source_payload_json",
+            "reuse_class",
+            "qa_status",
+            "record_sha256"
+          ]
+        },
+        "figure_datasets": {
+          "row_count": 14,
+          "required_columns": [
+            "dataset_id",
+            "representation_type",
+            "standard_id",
+            "lifecycle_state",
+            "reuse_class",
+            "qa_status",
+            "record_count"
+          ]
+        },
+        "figure_records": {
+          "row_count": 1844,
+          "required_columns": [
+            "dataset_id",
+            "figure_record_id",
+            "figure_id",
+            "record_kind",
+            "standard_id",
+            "source_sha256",
+            "payload_json",
+            "reuse_class",
+            "qa_status",
+            "record_sha256"
+          ]
+        }
+      }
+    },
+    {
+      "database_id": "executable_standard_data_reconciled_legacy",
+      "logical_role": "historical_executable_standard_data",
+      "status": "QUARANTINED",
+      "scope_status": "QUARANTINED_MANIFEST_INPUT_MISMATCH",
+      "runtime_use_allowed": false,
+      "runtime_required": false,
+      "relative_path": "knowledge_graph/standards_graph/executable_data/build_20260720_reconciled/executable_store/executable_standard_data.sqlite",
+      "manifest_relative_path": "knowledge_graph/standards_graph/executable_data/build_20260720_reconciled/executable_store/build_manifest.json",
+      "build_id": "20260720-reconciled-001",
+      "expected_size_bytes": 106627072,
+      "expected_sha256": "CFDA54ECA29A03B910A5D73266EB0F516BFC4A313919DD41F1A6B00E2FE794CB",
+      "reason": "Manifest registry SHA does not match the only registry present in the package. Historical audit evidence only; runtime binding is forbidden.",
+      "table_contracts": {
+        "datasets": {
+          "row_count": 14,
+          "required_columns": ["dataset_id", "qa_status", "reuse_class", "build_id"]
+        },
+        "standard_records": {
+          "row_count": 24477,
+          "required_columns": ["dataset_id", "record_id", "record_sha256"]
+        },
+        "figure_datasets": {
+          "row_count": 9,
+          "required_columns": ["dataset_id", "qa_status", "reuse_class"]
+        },
+        "figure_records": {
+          "row_count": 1775,
+          "required_columns": ["dataset_id", "figure_record_id", "record_sha256"]
+        }
+      }
+    },
+    {
+      "database_id": "gbt17261_delta_v1_invalid",
+      "logical_role": "isolated_candidate_evidence",
+      "status": "INVALID",
+      "scope_status": "INVALID_INCOMPLETE_DO_NOT_USE",
+      "runtime_use_allowed": false,
+      "runtime_required": false,
+      "relative_path": "knowledge_graph/standards_graph/candidate_evidence/build_20260721_gbt17261_delta_v1/executable_store/executable_standard_data.sqlite",
+      "manifest_relative_path": "knowledge_graph/standards_graph/candidate_evidence/build_20260721_gbt17261_delta_v1/executable_store/build_manifest.json",
+      "build_id": "20260721-gbt17261-delta-v1",
+      "expected_size_bytes": 107728896,
+      "expected_sha256": "E0C578CEAFFA93A60CF6A902744B29B063D970C37E67A50E14D4EA1414BF767E",
+      "reason": "Incomplete candidate built against a stale parent. Superseded by delta v2 and forbidden for runtime or promotion.",
+      "table_contracts": {}
+    },
+    {
+      "database_id": "gbt17261_delta_v2_candidate",
+      "logical_role": "isolated_candidate_evidence",
+      "status": "CANDIDATE",
+      "scope_status": "CANDIDATE_DELTA_VERIFIED_NOT_CURRENT_BASELINE",
+      "runtime_use_allowed": false,
+      "runtime_required": false,
+      "relative_path": "knowledge_graph/standards_graph/candidate_evidence/build_20260721_gbt17261_delta_v2/executable_store/executable_standard_data.sqlite",
+      "manifest_relative_path": "knowledge_graph/standards_graph/candidate_evidence/build_20260721_gbt17261_delta_v2/executable_store/build_manifest.json",
+      "build_id": "20260721-gbt17261-delta-v2",
+      "expected_size_bytes": 107728896,
+      "expected_sha256": "A63A3615330896F3E793CF8050A376E44D41828C5D99BAB4F27BDDF3B8E77908",
+      "reason": "Isolated verified delta candidate with 741 unresolved key tables and 691 unresolved figures. It is not the current baseline and cannot be used at runtime.",
+      "table_contracts": {
+        "datasets": {
+          "row_count": 24,
+          "required_columns": ["dataset_id", "qa_status", "reuse_class", "build_id"]
+        },
+        "standard_records": {
+          "row_count": 24887,
+          "required_columns": ["dataset_id", "record_id", "record_sha256"]
+        },
+        "figure_datasets": {
+          "row_count": 15,
+          "required_columns": ["dataset_id", "qa_status", "reuse_class"]
+        },
+        "figure_records": {
+          "row_count": 1846,
+          "required_columns": ["dataset_id", "figure_record_id", "record_sha256"]
+        }
+      }
+    }
+  ],
+  "non_sql_catalogs": [
+    {
+      "catalog_id": "equipment_match_rules",
+      "relative_path": "knowledge_graph/equipment_match_rules.json",
+      "role": "equipment_family_and_candidate_rules"
+    },
+    {
+      "catalog_id": "equipment_model_recommendation_rules",
+      "relative_path": "knowledge_graph/equipment_model_recommendation_rules.json",
+      "role": "registered_model_candidate_rules"
+    },
+    {
+      "catalog_id": "equipment_parameter_chain_templates",
+      "relative_path": "knowledge_graph/equipment_parameter_chain_templates.json",
+      "role": "equipment_family_required_parameter_chains"
+    },
+    {
+      "catalog_id": "terminal_type_catalog",
+      "relative_path": "knowledge_graph/type_selection/hgt20592_20635/type_catalog.csv",
+      "role": "registered_terminal_equipment_types"
+    },
+    {
+      "catalog_id": "terminal_type_hard_exclusions",
+      "relative_path": "knowledge_graph/type_selection/hgt20592_20635/hard_exclusions.csv",
+      "role": "terminal_type_forbidden_conditions"
+    },
+    {
+      "catalog_id": "terminal_type_compatibility_matrix",
+      "relative_path": "knowledge_graph/type_selection/hgt20592_20635/compatibility_matrix.csv",
+      "role": "terminal_type_compatibility"
+    },
+    {
+      "catalog_id": "terminal_type_selection_rules",
+      "relative_path": "knowledge_graph/type_selection/hgt20592_20635/selection_rules.csv",
+      "role": "terminal_type_deterministic_selection"
+    },
+    {
+      "catalog_id": "equipment_selection_graph",
+      "relative_path": "equipment_selection_graph/equipment_selection_graph_v2.json",
+      "role": "equipment_model_authority_graph"
+    },
+    {
+      "catalog_id": "public_pipe_dn_od_catalog",
+      "relative_path": "data/pipe_gbt12459_2025_dn_od_catalog.csv",
+      "role": "public_small_DN_outer_diameter_catalog"
+    },
+    {
+      "catalog_id": "public_pump_design_points",
+      "relative_path": "data/pump_gbt5662_2013_design_points.csv",
+      "role": "public_small_pump_design_point_catalog"
+    }
+  ]
+}

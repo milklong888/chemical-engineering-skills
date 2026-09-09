@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "equipment-design-source-code-manifest-v1",
+  "title": "Equipment Design Fixed Core Source Code Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_paths",
+    "path_set_sha256",
+    "files",
+    "source_code_set_sha256",
+    "manifest_payload_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "equipment-design-source-code-manifest-v1"},
+    "source_paths": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "app/app_core.py"},
+        {"const": "app/aspen_com_import.py"},
+        {"const": "app/aspen_pfd.py"},
+        {"const": "app/authority_revision.py"},
+        {"const": "app/customer_delivery.py"},
+        {"const": "app/equipment_design_agent.py"},
+        {"const": "app/equipment_design_app.py"},
+        {"const": "app/llm_bridge.py"},
+        {"const": "app/pfd_canvas.py"},
+        {"const": "app/result_presentation.py"},
+        {"const": "app/runtime_bundle.py"},
+        {"const": "app/source_code_manifest.py"},
+        {"const": "app/tk_gui.py"},
+        {"const": "app/user_guide.py"},
+        {"const": "scripts/aspen_equipment_derivation.py"},
+        {"const": "scripts/connection_component_selection.py"},
+        {"const": "scripts/equipment_calc.py"},
+        {"const": "scripts/equipment_design_match.py"},
+        {"const": "scripts/equipment_service_profile.py"}
+      ],
+      "items": false,
+      "minItems": 19,
+      "maxItems": 19
+    },
+    "path_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "files": {
+      "type": "array",
+      "minItems": 19,
+      "maxItems": 19,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_path", "size_bytes", "sha256"],
+        "properties": {
+          "source_path": {
+            "enum": [
+              "app/app_core.py",
+              "app/aspen_com_import.py",
+              "app/aspen_pfd.py",
+              "app/authority_revision.py",
+              "app/customer_delivery.py",
+              "app/equipment_design_agent.py",
+              "app/equipment_design_app.py",
+              "app/llm_bridge.py",
+              "app/pfd_canvas.py",
+              "app/result_presentation.py",
+              "app/runtime_bundle.py",
+              "app/source_code_manifest.py",
+              "app/tk_gui.py",
+              "app/user_guide.py",
+              "scripts/aspen_equipment_derivation.py",
+              "scripts/connection_component_selection.py",
+              "scripts/equipment_calc.py",
+              "scripts/equipment_design_match.py",
+              "scripts/equipment_service_profile.py"
+            ]
+          },
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+        }
+      }
+    },
+    "source_code_set_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"},
+    "manifest_payload_sha256": {"type": "string", "pattern": "^[A-F0-9]{64}$"}
+  }
+}

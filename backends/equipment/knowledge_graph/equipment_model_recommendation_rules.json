@@ -1,0 +1,483 @@
+{
+  "schema": "equipment-model-recommendation-rules-v1",
+  "version": "1.9.0",
+  "decision_policy": "COLLECT",
+  "selection_input_contract": "equipment-design-parameter-package-v1",
+  "formal_model_policy": "candidate_generation_never_equals_formal_model",
+  "design_fallback_policy": {
+    "schema": "equipment-design-fallback-policy-v1",
+    "version": "1.0.0",
+    "hierarchy": [
+      "same_case_user_or_aspen_value",
+      "exact_deterministic_derivation",
+      "knowledge_graph_or_standard_conditional_recommendation",
+      "built_in_recommended_formula",
+      "explicit_final_fallback_default"
+    ],
+    "purpose": "Keep preliminary design calculations running when process basis is usable but specialist software, vendor evidence, or secondary design preferences are absent.",
+    "auto_apply_scope": "preliminary_calculation_and_candidate_screening_only",
+    "formal_promotion_allowed": false,
+    "llm_policy": "An optional LLM may select only registered alternatives inside this policy; it may not invent values, overwrite supplied data, or promote a fallback result.",
+    "common_defaults": {
+      "atmospheric_pressure_mpa": 0.101325,
+      "design_pressure_factor": 1.1,
+      "design_temperature_margin_c": 20.0,
+      "design_temperature_c_when_no_process_temperature": 60.0,
+      "manual_pressure_basis": "gauge",
+      "aspen_pressure_basis": "absolute",
+      "head_type": "2:1_ellipsoidal",
+      "weld_efficiency": 0.85,
+      "allowable_stress_mpa": 120.0,
+      "generic_material": "碳钢（预设计经济基线）"
+    },
+    "material_profiles": [
+      {
+        "id": "corrosive_or_chloride_service",
+        "markers": ["腐蚀", "盐酸", "氯化", "氯离子", "chloride", "hcl", "酸性", "强酸", "强碱"],
+        "recommended_value": "耐蚀材料路线（316L/双相钢/镍基或衬里候选）",
+        "warning": "介质组成、浓度、温度及腐蚀数据未闭合，不能据此确定正式牌号。"
+      },
+      {
+        "id": "clean_or_sanitary_service",
+        "markers": ["食品", "医药", "卫生", "纯水", "洁净", "food", "pharma", "sanitary", "high purity"],
+        "recommended_value": "不锈钢洁净路线（304/316L 候选）",
+        "warning": "表面粗糙度、清洗、钝化和介质相容性仍需项目确认。"
+      },
+      {
+        "id": "low_temperature_service",
+        "temperature_max_c": -20.0,
+        "recommended_value": "低温韧性材料路线",
+        "warning": "最低设计金属温度和冲击韧性要求未闭合。"
+      },
+      {
+        "id": "high_temperature_service",
+        "temperature_min_c": 400.0,
+        "recommended_value": "耐热钢/高温合金路线",
+        "warning": "持久强度、蠕变和高温腐蚀边界未闭合。"
+      }
+    ],
+    "family_defaults": {
+      "family_fixed_tubesheet_exchanger": {
+        "heat_duty_kw": 100.0,
+        "overall_u_w_m2k": 300.0,
+        "lmtd_k": 20.0,
+        "lmtd_correction_factor": 0.85,
+        "tube_outer_diameter_mm": 25.0,
+        "tube_length_mm": 3000.0,
+        "shell_pass_count": 1,
+        "design_pressure_mpa": 0.6,
+        "design_pressure_basis": "gauge"
+      },
+      "family_other_heat_exchanger": {
+        "heat_duty_kw": 100.0,
+        "overall_u_w_m2k": 300.0,
+        "lmtd_k": 20.0,
+        "lmtd_correction_factor": 0.85,
+        "tube_outer_diameter_mm": 25.0,
+        "tube_length_mm": 3000.0,
+        "shell_pass_count": 1,
+        "design_pressure_mpa": 0.6,
+        "design_pressure_basis": "gauge"
+      },
+      "family_tower": {
+        "minimum_screening_inner_diameter_mm": 600.0,
+        "height_mm": 12000.0,
+        "stage_count": 20,
+        "tower_design_velocity_m_s": 1.0,
+        "tower_downcomer_area_fraction": 0.12,
+        "tower_receiving_area_fraction": 0.08,
+        "tower_inactive_area_fraction": 0.05,
+        "tower_open_area_fraction": 0.10,
+        "tower_top_bottom_allowance_mm": 3000.0,
+        "tower_weir_length_ratio": 0.70,
+        "tower_weir_height_mm": 50.0,
+        "tower_downcomer_residence_time_s": 4.0,
+        "design_pressure_mpa": 0.1,
+        "design_pressure_basis": "gauge"
+      },
+      "family_reactor_vessel_separator": {"fill_fraction": 0.80, "retention_time_min": 10.0, "volume_m3": 5.0, "volume_basis": "nominal_total", "diameter_mm": 1600.0, "height_mm": 3000.0, "design_pressure_mpa": 0.6, "design_pressure_basis": "gauge"},
+      "family_storage_vessel": {"fill_fraction": 0.80, "retention_time_min": 10.0, "volume_m3": 10.0, "volume_basis": "nominal_total", "design_pressure_mpa": 0.1, "design_pressure_basis": "gauge"},
+      "family_pump": {"phase": "liquid", "efficiency_percent": 70.0, "flow_m3_h": 10.0, "head_m": 30.0, "density_kg_m3": 1000.0},
+      "family_compressor": {"phase": "vapor", "flow_m3_h": 1000.0, "inlet_pressure_mpa": 0.1, "outlet_pressure_mpa": 0.3, "pressure_basis": "absolute", "efficiency_percent": 75.0, "gas_molecular_weight": 28.97, "compressibility_factor": 1.0, "heat_capacity_ratio_k": 1.3, "inlet_temperature_c": 25.0, "driver_efficiency_percent": 95.0, "auxiliary_power_fraction": 0.05},
+      "family_agitator": {"volume_m3": 5.0, "volume_basis": "effective_working", "rotational_speed_rpm": 100.0, "shaft_power_kw": 5.0, "mixing_metric": "预设计一般液体均匀混合目标"},
+      "family_static_mixer": {"flow_m3_h": 10.0, "target_velocity_m_s": 1.5, "allowable_pressure_drop_kpa": 50.0, "element_count": 6, "mixing_metric": "预设计均匀混合目标"},
+      "family_membrane": {"membrane_geometry_type": "cylindrical_channels", "element_count": 10, "channel_count": 1000, "channel_inner_diameter_mm": 1.0, "element_length_m": 1.0, "flux": 20.0, "selectivity": 25.0, "recovery_percent": 80.0, "design_pressure_mpa": 1.6, "design_pressure_basis": "gauge"},
+      "family_package_equipment": {"capacity": 100.0, "cycle_time_h": 8.0, "allowable_pressure_drop_kpa": 50.0, "design_pressure_mpa": 1.1, "design_pressure_basis": "gauge"},
+      "family_liquid_power_recovery_turbine": {"phase": "liquid", "flow_m3_h": 50.0, "inlet_pressure_mpa": 2.0, "outlet_pressure_mpa": 0.5, "pressure_basis": "absolute", "density_kg_m3": 1000.0, "efficiency_percent": 70.0},
+      "family_gas_expander_turbine": {"phase": "vapor", "flow_m3_h": 1000.0, "inlet_pressure_mpa": 1.0, "outlet_pressure_mpa": 0.3, "pressure_basis": "absolute", "efficiency_percent": 70.0, "gas_molecular_weight": 28.97, "compressibility_factor": 1.0, "inlet_temperature_c": 25.0},
+      "family_process_piping": {"flow_m3_h": 10.0, "target_velocity_m_s": 1.5, "selected_dn": "DN50", "selected_outer_diameter_mm": 60.3, "selected_wall_thickness_mm": 4.0, "design_pressure_mpa": 0.6, "design_pressure_basis": "gauge"},
+      "family_pipe_fitting": {"selected_dn": "DN50", "wall_series": "SCH40", "fitting_type": "90 degree elbow", "connection_type": "butt weld"},
+      "family_flange_gasket": {"selected_dn": "DN50", "pressure_class": "PN16", "flange_face": "RF", "gasket_material": "spiral wound graphite"},
+      "family_valve": {"valve_function": "control", "flow_m3_h": 10.0, "pressure_drop_kpa": 50.0, "maximum_pressure_drop_factor": 1.25, "density_kg_m3": 1000.0, "selected_dn": "DN50", "pressure_class": "PN16", "design_pressure_mpa": 0.6, "design_pressure_basis": "gauge"}
+    },
+    "source_routes": {
+      "process_or_property": "Prefer Aspen/current process data; if absent, expose the applied fallback and sensitivity.",
+      "construction_or_material": "Return a context-conditioned candidate, not a formal material or construction decision.",
+      "software_or_vendor": "Continue preliminary calculation, but keep the formal evidence gate open."
+    }
+  },
+  "families": [
+    {
+      "family_id": "family_fixed_tubesheet_exchanger",
+      "recommendation_class": "standard_marking",
+      "generic_type": "固定管板式管壳换热器",
+      "generic_identity_inputs": ["换热器", "固定管板式换热器", "heat exchanger", "exchanger"],
+      "terminal_default_type": "固定管板式管壳换热器",
+      "terminal_default_rule_id": "fixed_tubesheet_exchanger:registered_default",
+      "terminal_default_assumption": "设备族已明确为固定管板式管壳换热器，结构型式直接作为终点型式。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["heat_transfer_area_m2", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["heat_duty_kw", "heat_transfer_area_m2", "diameter_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "GB/T 28712.2 series lookup plus same-equipment EDR and GB/T 151 or SW6 closure",
+      "prohibited_claim": "Do not compose a complete exchanger model string from duty or area alone."
+    },
+    {
+      "family_id": "family_other_heat_exchanger",
+      "recommendation_class": "engineered_designation",
+      "generic_type": "非标或其他型式换热器",
+      "generic_identity_inputs": ["换热设备", "换热器", "其他换热器", "heat exchanger", "exchanger"],
+      "terminal_default_type": "固定管板式管壳流程换热器",
+      "terminal_default_rule_id": "heat_exchanger:registered_default:fixed_tubesheet_shell_and_tube",
+      "terminal_default_assumption": "未给出足以改选板式、螺旋板式、套管式、空冷式或其他专门结构的条件时，按通用固定管板式管壳换热器终选。",
+      "terminal_type_rules": [
+        {
+          "rule_id": "heat_exchanger:heater_positive_duty",
+          "recommended_type": "固定管板式管壳加热器",
+          "assumption": "Aspen HEATER 的正热负荷按流程加热服务解释。",
+          "default_applied": true,
+          "all": [
+            {"field": "aspen_block_type", "operator": "eq", "value": "HEATER"},
+            {"field": "heat_duty_kw", "operator": "gt", "value": 0.0}
+          ]
+        },
+        {
+          "rule_id": "heat_exchanger:heater_negative_duty",
+          "recommended_type": "固定管板式管壳冷却器",
+          "assumption": "Aspen HEATER 的负热负荷按流程冷却服务解释。",
+          "default_applied": true,
+          "all": [
+            {"field": "aspen_block_type", "operator": "eq", "value": "HEATER"},
+            {"field": "heat_duty_kw", "operator": "lt", "value": 0.0}
+          ]
+        },
+        {
+          "rule_id": "heat_exchanger:heatx_two_stream",
+          "recommended_type": "固定管板式管壳流程换热器",
+          "assumption": "Aspen HEATX 两股物流换热在无专门结构条件时按固定管板式管壳换热器终选。",
+          "default_applied": true,
+          "all": [
+            {"field": "aspen_block_type", "operator": "eq", "value": "HEATX"}
+          ]
+        }
+      ],
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["heat_transfer_area_m2", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["process_function", "heat_duty_kw", "heat_transfer_area_m2", "diameter_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "same-equipment thermal-hydraulic evidence plus mechanical design",
+      "prohibited_claim": "Do not transfer a fixed-tubesheet designation to another exchanger structure."
+    },
+    {
+      "family_id": "family_tower",
+      "recommendation_class": "engineered_designation",
+      "generic_type": "塔器（板式或填料型式待工艺与内件闭合）",
+      "generic_identity_inputs": ["塔器", "塔", "精馏塔", "吸收塔", "column", "tower"],
+      "terminal_default_type": "单溢流筛板塔",
+      "terminal_default_rule_id": "tower:registered_default:single_pass_sieve_tray",
+      "terminal_default_assumption": "未给出足以改选填料塔、浮阀塔或多溢流塔的专门条件时，按通用板式精馏/吸收任务默认单溢流筛板塔；该默认终选须随同字段显示。",
+      "terminal_type_rules": [
+        {
+          "rule_id": "tower:diameter:double_pass_sieve_tray",
+          "recommended_type": "双溢流筛板塔",
+          "assumption": "初算内径达到 2400 mm 时，按通用大直径板式塔路线默认双溢流筛板塔。",
+          "default_applied": true,
+          "all": [
+            {"field": "inner_diameter_mm", "operator": "gte", "value": 2400.0}
+          ]
+        }
+      ],
+      "api_condition_rules": [
+        {
+          "rule_id": "tower:semantic:vacuum_low_pressure_drop_structured_packing",
+          "condition_id": "tower_condition:vacuum_low_pressure_drop_clean_service",
+          "recommended_type": "规整填料塔",
+          "condition_text": "工艺明确要求真空或低压降，并且物料为清洁体系、无明显结垢或固体堵塞倾向。",
+          "assumption": "API 只判断文字工况是否满足登记条件；程序据此重算为规整填料塔。该结论仍为 J/provisional，须由塔内件或厂家证据闭合。",
+          "promotion_cap": "TYPE_SCREENING"
+        },
+        {
+          "rule_id": "tower:semantic:wide_turndown_valve_tray",
+          "condition_id": "tower_condition:wide_turndown_variable_load",
+          "recommended_type": "单溢流浮阀塔",
+          "condition_text": "工艺明确存在较宽负荷调节范围或显著变负荷运行需求，且未给出必须采用填料的低压降条件。",
+          "assumption": "API 只在文字工况明确支持宽操作弹性时选择浮阀塔；该条件选型仍为 J/provisional，须由水力学与内件证据闭合。",
+          "promotion_cap": "TYPE_SCREENING"
+        }
+      ],
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["inner_diameter_mm", "height_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["process_function", "diameter_mm", "inner_diameter_mm", "straight_shell_length_mm", "height_mm", "stage_count", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "process basis plus Column Internals or vendor internals plus mechanical design",
+      "prohibited_claim": "A custom tower has no universal catalog model."
+    },
+    {
+      "family_id": "family_reactor_vessel_separator",
+      "recommendation_class": "engineered_designation",
+      "generic_type": "反应器、压力容器或分离器（功能子类待确认）",
+      "generic_identity_inputs": ["反应器/容器/分离器", "反应器", "容器", "压力容器", "分离器", "reactor", "vessel", "separator"],
+      "terminal_default_type": "立式工艺分离罐",
+      "terminal_default_rule_id": "reactor_vessel_separator:registered_default:vertical_process_separator",
+      "terminal_default_assumption": "模块身份不能给出更具体构造时，按通用立式工艺分离罐终选并保留功能复核提示。",
+      "block_type_default_types": {
+        "RPLUG": {"recommended_type": "管式平推流反应器", "rule_id": "reactor:RPLUG:tubular_plug_flow", "assumption": "RPLUG 按管式平推流反应器实现。"},
+        "RCSTR": {"recommended_type": "连续搅拌釜式反应器", "rule_id": "reactor:RCSTR:cstr", "assumption": "RCSTR 按连续搅拌釜式反应器实现。"},
+        "RBATCH": {"recommended_type": "间歇搅拌釜式反应器", "rule_id": "reactor:RBATCH:batch_stirred_tank", "assumption": "RBATCH 按间歇搅拌釜式反应器实现。"},
+        "RSTOIC": {"recommended_type": "连续搅拌釜式反应器（RSTOIC 默认实现）", "rule_id": "reactor:RSTOIC:default_cstr_realization", "assumption": "RSTOIC 只规定转化关系；未指定机械反应器时默认连续搅拌釜实现。"},
+        "FLASH2": {"recommended_type": "立式气液闪蒸分离罐", "rule_id": "separator:FLASH2:vertical_vl_drum", "assumption": "FLASH2 未给构型时默认立式气液闪蒸分离罐。"},
+        "FLASH3": {"recommended_type": "卧式三相分离器", "rule_id": "separator:FLASH3:horizontal_three_phase", "assumption": "FLASH3 未给构型时默认卧式三相分离器。"},
+        "DECANTER": {"recommended_type": "卧式液液倾析器", "rule_id": "separator:DECANTER:horizontal_ll_decanter", "assumption": "液液倾析任务未给构型时默认卧式倾析器。"},
+        "SEP": {"recommended_type": "立式工艺分离罐", "rule_id": "separator:SEP:vertical_process_separator", "assumption": "SEP 未给分离构型时默认立式工艺分离罐。"},
+        "SEP2": {"recommended_type": "立式工艺分离罐", "rule_id": "separator:SEP2:vertical_process_separator", "assumption": "SEP2 未给分离构型时默认立式工艺分离罐。"},
+        "BATCHSEP": {"recommended_type": "间歇筛板精馏塔", "rule_id": "separator:BATCHSEP:batch_sieve_tray_column", "assumption": "BATCHSEP 未给内件时默认间歇筛板精馏塔。"},
+        "CRYSTALLIZER": {"recommended_type": "连续结晶器（预设计）", "rule_id": "crystallizer:CRYSTALLIZER:continuous_preliminary_default", "assumption": "Aspen CRYSTALLIZER 只证明连续流程中的结晶任务；它不证明冷却/蒸发路线、搅拌构型、晶体粒度分布或结晶动力学。该名称仅用于不中停的 TYPE_SCREENING，正式定型须用同工况溶解度/过饱和度、粒度或动力学、停留时间、热量衡算、机械与材料证据复核。"}
+      },
+      "candidate_strategy": "engineering_designation",
+      "block_type_recommended_types": {
+        "RPLUG": "管式反应器工艺候选",
+        "RCSTR": "连续搅拌釜式反应器工艺候选",
+        "RBATCH": "间歇搅拌釜式反应器工艺候选",
+        "FLASH2": "闪蒸分离器工艺候选",
+        "DECANTER": "液液倾析分离器工艺候选",
+        "SEP": "通用分离设备工程规格候选（结构型式待分离任务确认）",
+        "SEP2": "通用分离设备工程规格候选（结构型式待分离任务确认）",
+        "BATCHSEP": "间歇分离设备工程规格候选（结构型式待批次任务确认）",
+        "CRYSTALLIZER": "连续结晶器预设计规格候选（冷却/蒸发路线、结晶动力学、热负荷与机械构型待确认）"
+      },
+      "candidate_required_fields": ["volume_m3", "volume_basis", "diameter_mm", "height_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["process_function", "flow_m3_h", "mass_flow_kg_h", "phase", "volume_m3", "volume_basis", "straight_shell_geometric_volume_m3", "diameter_mm", "inner_diameter_mm", "straight_shell_length_mm", "height_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "same-equipment process basis, design conditions and mechanical design",
+      "prohibited_claim": "An Aspen reactor or separator block is not a mechanical equipment model."
+    },
+    {
+      "family_id": "family_storage_vessel",
+      "recommendation_class": "engineered_designation",
+      "generic_type": "储罐、缓冲罐或回流罐",
+      "generic_identity_inputs": ["储罐/缓冲罐/回流罐", "储罐", "缓冲罐", "回流罐", "tank", "storage vessel"],
+      "terminal_default_type": "立式圆筒储罐",
+      "terminal_default_rule_id": "storage_vessel:registered_default:vertical_cylindrical",
+      "terminal_default_assumption": "未给卧式、球形、低温或特殊储存条件时默认立式圆筒储罐。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["volume_m3", "volume_basis", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["process_function", "required_volume_m3", "volume_m3", "volume_basis", "straight_shell_geometric_volume_m3", "fill_fraction", "retention_time_min", "diameter_mm", "inner_diameter_mm", "straight_shell_length_mm", "height_mm", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "inventory or residence basis, fill fraction, relief or pressure design and mechanical design",
+      "prohibited_claim": "Do not invent a catalog vessel model from volume alone."
+    },
+    {
+      "family_id": "family_pump",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "流程泵（泵型待介质、黏度、汽蚀和密封条件确认）",
+      "generic_identity_inputs": ["泵", "流程泵", "pump", "离心泵", "centrifugal pump"],
+      "terminal_default_type": "轴向吸入离心泵",
+      "terminal_default_rule_id": "pump:registered_default:end_suction_centrifugal",
+      "terminal_default_assumption": "液体增压未给专门泵型条件时默认轴向吸入离心泵。",
+      "terminal_type_rules": [
+        {
+          "rule_id": "pump:high_head:multistage_centrifugal",
+          "recommended_type": "多级离心泵",
+          "assumption": "扬程达到 150 m 时按多级离心泵路线终选。",
+          "default_applied": false,
+          "all": [{"field": "head_m", "operator": "gte", "value": 150.0}]
+        },
+        {
+          "rule_id": "pump:very_high_flow:axial_flow",
+          "recommended_type": "轴流泵",
+          "assumption": "流量达到 2000 m3/h 且未命中高扬程规则时按轴流泵路线终选。",
+          "default_applied": false,
+          "all": [{"field": "flow_m3_h", "operator": "gte", "value": 2000.0}]
+        }
+      ],
+      "candidate_strategy": "gbt5662_design_point_collect",
+      "candidate_required_fields": ["flow_m3_h", "head_m"],
+      "designation_fields": ["flow_m3_h", "head_m", "density_kg_m3", "efficiency_percent", "inlet_pressure_mpa", "outlet_pressure_mpa", "temperature_c", "material"],
+      "formal_model_gate": "same-duty Q-H-eta, BEP, allowable operating region, NPSHa/NPSHr, material, seal and vendor curve closure",
+      "prohibited_claim": "A GB/T 5662 marking is not a vendor product model and does not prove the duty point."
+    },
+    {
+      "family_id": "family_compressor",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "压缩机、风机或真空机组（机械型式待气体工况闭合）",
+      "generic_identity_inputs": ["压缩机/风机/真空机组", "压缩机", "风机", "真空机组", "compressor", "blower", "vacuum package"],
+      "terminal_default_type": "离心式压缩机",
+      "terminal_default_rule_id": "compressor:registered_default:centrifugal",
+      "terminal_default_assumption": "气体增压未给足以改选往复式、螺杆式、风机或真空机组的专门条件时默认离心式压缩机。",
+      "terminal_type_rules": [
+        {
+          "rule_id": "compressor:MCOMPR:multistage_centrifugal",
+          "recommended_type": "多级离心式压缩机",
+          "assumption": "Aspen MCOMPR 未给机械型式时按多级离心式压缩机默认实现。",
+          "default_applied": true,
+          "all": [{"field": "aspen_block_type", "operator": "eq", "value": "MCOMPR"}]
+        },
+        {
+          "rule_id": "compressor:low_flow:reciprocating",
+          "recommended_type": "往复式压缩机",
+          "assumption": "入口体积流量不大于 500 m3/h 时优先按往复式压缩机终选。",
+          "default_applied": false,
+          "all": [{"field": "flow_m3_h", "operator": "lte", "value": 500.0}]
+        }
+      ],
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "pressure_basis", "gas_molecular_weight", "compressibility_factor"],
+      "designation_fields": ["process_function", "flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "inlet_temperature_c", "gas_molecular_weight", "compressibility_factor", "heat_capacity_ratio_k", "efficiency_percent", "shaft_power_kw", "total_power_kw"],
+      "formal_model_gate": "same-gas performance map, surge and choke margins, intercooling, driver and anti-surge control closure",
+      "prohibited_claim": "Do not infer a vendor compressor model from Aspen COMPR and pressure ratio alone."
+    },
+    {
+      "family_id": "family_agitator",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "机械搅拌设备",
+      "generic_identity_inputs": ["机械搅拌设备", "搅拌器", "搅拌设备", "agitator", "mixer"],
+      "terminal_default_type": "顶入式斜叶涡轮搅拌器",
+      "terminal_default_rule_id": "agitator:registered_default:top_entry_pitched_blade",
+      "terminal_default_assumption": "未给高黏、固体悬浮、气液分散或剪切敏感条件时默认顶入式斜叶涡轮搅拌器。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["volume_m3", "volume_basis", "rotational_speed_rpm", "shaft_power_kw", "mixing_metric"],
+      "designation_fields": ["process_function", "volume_m3", "volume_basis", "straight_shell_geometric_volume_m3", "inner_diameter_mm", "straight_shell_length_mm", "rotational_speed_rpm", "shaft_power_kw", "mixing_metric", "material"],
+      "formal_model_gate": "mixing duty, impeller, speed, power, shaft, seal, gearbox and critical-speed mechanical closure",
+      "prohibited_claim": "Do not produce a complete agitator model from vessel volume alone."
+    },
+    {
+      "family_id": "family_static_mixer",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "静态混合器",
+      "generic_identity_inputs": ["静态混合器", "管道混合器", "static mixer", "inline mixer"],
+      "terminal_default_type": "螺旋元件静态混合器",
+      "terminal_default_rule_id": "static_mixer:registered_default:helical_element",
+      "terminal_default_assumption": "未给多相分散或高黏专门条件时默认螺旋元件静态混合器。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["flow_m3_h", "allowable_pressure_drop_kpa", "mixing_metric", "element_count", "material"],
+      "designation_fields": ["flow_m3_h", "selected_dn", "allowable_pressure_drop_kpa", "mixing_metric", "element_count", "material"],
+      "formal_model_gate": "flow regime, pressure drop, mixing metric, element count and vendor performance closure",
+      "prohibited_claim": "Do not select a static-mixer model from line diameter or flow alone."
+    },
+    {
+      "family_id": "family_membrane",
+      "recommendation_class": "standard_marking",
+      "generic_type": "膜组件或膜装置",
+      "generic_identity_inputs": ["膜组件/膜装置", "膜组件", "膜装置", "membrane", "membrane module"],
+      "terminal_default_type": "卷式膜组件",
+      "terminal_default_rule_id": "membrane:registered_default:spiral_wound",
+      "terminal_default_assumption": "未给中空纤维、管式、平板或特殊污染条件时默认卷式膜组件。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["membrane_geometry_type", "membrane_area_m2", "flux", "selectivity", "recovery_percent", "design_pressure_mpa", "design_pressure_basis"],
+      "designation_fields": ["process_function", "membrane_geometry_type", "membrane_area_m2", "flux", "selectivity", "recovery_percent", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c", "material"],
+      "formal_model_gate": "national naming clause plus same-product material, area, flux, selectivity, recovery, purity, pressure, temperature and lifetime evidence",
+      "prohibited_claim": "A standard naming code does not prove membrane performance."
+    },
+    {
+      "family_id": "family_package_equipment",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "吸附、干燥或撬装成套设备",
+      "generic_identity_inputs": ["吸附/干燥/撬装成套设备", "成套设备", "撬装设备", "package equipment", "skid package"],
+      "terminal_default_type": "双塔变温吸附成套装置",
+      "terminal_default_rule_id": "package_equipment:registered_default:twin_bed_tsa",
+      "terminal_default_assumption": "未给再生方式、吸附剂和周期条件时默认双塔变温吸附成套装置。",
+      "block_type_default_types": {
+        "FILTER": {"recommended_type": "固液过滤机（预设计）", "rule_id": "filter:FILTER:solid_liquid_preliminary_default", "assumption": "Aspen FILTER 只证明固液过滤任务；它不证明压滤/真空路线、连续性、滤饼性质或洗涤方式。该名称仅用于不中停的 TYPE_SCREENING，正式定型须用同工况滤饼性质/比阻或通量、面积/周期、压差、洗涤、材质及厂家试验证据复核。"},
+        "DRYER": {"recommended_type": "连续固体干燥器（预设计）", "rule_id": "dryer:DRYER:continuous_solids_preliminary_default", "assumption": "Aspen DRYER 只证明连续流程中的固体干燥任务；它不证明热风/间接/真空路线或带式构型。该名称仅用于不中停的 TYPE_SCREENING，正式定型须用同工况进出含湿、蒸发负荷、干燥曲线、停留时间、热源、尾气及粉尘/溶剂安全证据复核。"}
+      },
+      "block_type_recommended_types": {
+        "FILTER": "固液过滤机预设计规格候选（过滤路线、面积、周期与滤饼性质待确认）",
+        "DRYER": "连续固体干燥器预设计规格候选（热源路线、蒸发负荷、停留时间与安全边界待确认）"
+      },
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["capacity", "cycle_time_h", "allowable_pressure_drop_kpa", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["process_function", "capacity", "cycle_time_h", "allowable_pressure_drop_kpa", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "formal_model_gate": "process guarantee, cycle, pressure drop, utilities, controls, package P&ID and vendor datasheet closure",
+      "prohibited_claim": "Do not invent a package model without a vendor guarantee."
+    },
+    {
+      "family_id": "family_liquid_power_recovery_turbine",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "液体动力回收透平",
+      "generic_identity_inputs": ["液体动力回收透平", "液力透平", "hydraulic turbine", "liquid power recovery turbine"],
+      "terminal_default_type": "液力透平",
+      "terminal_default_rule_id": "liquid_power_recovery:registered_default:hydraulic_turbine",
+      "terminal_default_assumption": "未给流量、压差和回收路线专门条件时默认液力透平。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "pressure_basis", "expansion_pressure_ratio", "density_kg_m3", "pressure_drop_head_component_m", "efficiency_percent", "pressure_drop_power_component_kw", "pressure_component_shaft_power_screening_kw"],
+      "designation_fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "expansion_pressure_ratio", "density_kg_m3", "pressure_drop_head_component_m", "efficiency_percent", "pressure_drop_power_component_kw", "pressure_component_shaft_power_screening_kw", "shaft_power_kw", "material"],
+      "formal_model_gate": "same-duty Q-H, efficiency, speed, cavitation, shaft-train and vendor curve closure",
+      "prohibited_claim": "Do not reuse a pump model gate for a hydraulic recovery turbine."
+    },
+    {
+      "family_id": "family_gas_expander_turbine",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "气体膨胀机或透平",
+      "generic_identity_inputs": ["气体透平/膨胀机/汽轮机", "气体膨胀机", "透平", "expander", "gas turbine"],
+      "terminal_default_type": "径向膨胀透平",
+      "terminal_default_rule_id": "gas_expander:registered_default:radial_inflow",
+      "terminal_default_assumption": "未给大流量轴流或容积式膨胀条件时默认径向膨胀透平。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "pressure_basis", "inlet_temperature_c", "efficiency_percent"],
+      "designation_fields": ["flow_m3_h", "inlet_pressure_mpa", "outlet_pressure_mpa", "inlet_temperature_c", "gas_molecular_weight", "compressibility_factor", "efficiency_percent", "shaft_power_kw"],
+      "formal_model_gate": "same-gas composition, flow, pressure ratio, inlet temperature, enthalpy drop, efficiency, speed and vendor map closure",
+      "prohibited_claim": "A turbine standard for another working fluid cannot establish the model."
+    },
+    {
+      "family_id": "family_process_piping",
+      "recommendation_class": "engineered_designation",
+      "generic_type": "工业管道",
+      "generic_identity_inputs": ["工业管道", "工艺管道", "管道", "process piping", "pipe"],
+      "terminal_default_type": "无缝钢制工艺管道",
+      "terminal_default_rule_id": "process_piping:registered_default:seamless_steel",
+      "terminal_default_assumption": "未给非金属、衬里、卫生级或大口径焊管条件时默认无缝钢制工艺管道。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["selected_dn", "selected_wall_thickness_mm", "material", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "designation_fields": ["selected_dn", "selected_outer_diameter_mm", "selected_wall_thickness_mm", "wall_series", "material", "design_pressure_mpa", "design_pressure_basis", "design_temperature_c"],
+      "formal_model_gate": "same-line hydraulic sizing, pressure design, material class, stress and test evidence",
+      "prohibited_claim": "A pipe material standard alone does not select DN, wall or line class."
+    },
+    {
+      "family_id": "family_pipe_fitting",
+      "recommendation_class": "component_marking",
+      "generic_type": "管件",
+      "generic_identity_inputs": ["管件", "管路附件", "pipe fitting", "fitting"],
+      "terminal_default_type": "对焊钢制管件",
+      "terminal_default_rule_id": "pipe_fitting:registered_default:butt_welded_steel",
+      "terminal_default_assumption": "未给螺纹、承插焊、卡箍或非金属连接条件时默认对焊钢制管件。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["selected_dn", "wall_series", "fitting_type", "material", "connection_type"],
+      "designation_fields": ["fitting_type", "selected_dn", "wall_series", "material", "connection_type", "pressure_class"],
+      "formal_model_gate": "same piping class, DN, wall series, fitting type, material and connection closure",
+      "prohibited_claim": "Do not select fittings independently of the current line class."
+    },
+    {
+      "family_id": "family_flange_gasket",
+      "recommendation_class": "component_marking",
+      "generic_type": "法兰与垫片配对",
+      "generic_identity_inputs": ["法兰与垫片", "法兰", "垫片", "flange and gasket", "flange", "gasket"],
+      "terminal_default_type": "带颈对焊法兰配缠绕垫片",
+      "terminal_default_rule_id": "flange_gasket:registered_default:weld_neck_spiral_wound",
+      "terminal_default_assumption": "未给低压平焊、非金属或卫生连接条件时默认带颈对焊法兰配缠绕垫片。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["selected_dn", "pressure_class", "flange_face", "material"],
+      "designation_fields": ["selected_dn", "pressure_class", "flange_face", "material", "gasket_material", "connection_type"],
+      "formal_model_gate": "matched DN, PN or Class, face, pipe wall, material and media-temperature gasket compatibility",
+      "prohibited_claim": "Do not select a flange or gasket without pair compatibility."
+    },
+    {
+      "family_id": "family_valve",
+      "recommendation_class": "vendor_candidate",
+      "generic_type": "工业阀门（阀型待功能和控制要求确认）",
+      "generic_identity_inputs": ["阀门", "工业阀门", "调节阀", "valve", "control valve"],
+      "terminal_default_type": "单座直通调节阀",
+      "terminal_default_rule_id": "valve:registered_default:single_seat_globe_control",
+      "terminal_default_assumption": "Aspen VALVE 压降任务未给开关/止回/安全等特殊功能时，默认单座直通调节阀。",
+      "candidate_strategy": "engineering_designation",
+      "candidate_required_fields": ["valve_function", "selected_dn", "pressure_class", "material", "pressure_drop_kpa"],
+      "designation_fields": ["valve_function", "selected_dn", "pressure_class", "material", "connection_type", "cv", "pressure_drop_kpa", "maximum_pressure_drop_kpa"],
+      "formal_model_gate": "line class, function, DN, PN or Class, Cv, pressure drop, material, leakage, actuator, fail position and vendor datasheet closure",
+      "prohibited_claim": "An Aspen VALVE block is not a complete valve model."
+    }
+  ]
+}
