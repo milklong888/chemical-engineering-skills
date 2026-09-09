@@ -1,0 +1,60 @@
+{
+  "project_name": "example_project",
+  "objective": "Toy config showing hard-gate shape only.",
+  "source_basis": [
+    "source_docs/current_taskbook.pdf",
+    "source_docs/current_design_note.docx"
+  ],
+  "hard_gates": {
+    "forbidden_block_types": [
+      "SEP",
+      "SEP2"
+    ],
+    "required_inventory": {
+      "block_types": {
+        "RCSTR": 1,
+        "RADFRAC": 1
+      },
+      "reaction_types": {}
+    },
+    "product_targets": [
+      {
+        "stream": "PROD",
+        "component": "TARGET",
+        "min_mass_fraction": 0.995,
+        "min_component_mass_kg_h": 50.0
+      }
+    ],
+    "terminal_boundaries": {
+      "enabled": true,
+      "allowed": [
+        "PROD",
+        "WASTE"
+      ],
+      "required": [
+        "PROD"
+      ],
+      "suspicious_name_regex": "(REC|RETURN|SOLV|PROD|PURGE|VENT|WASTE)"
+    },
+    "terminal_tail_operation_check": {
+      "enabled": true,
+      "allowed_terminal_outputs": [
+        "PROD",
+        "WASTE"
+      ]
+    },
+    "solve_fit_linkage": {
+      "enabled": true,
+      "required_design_specs": [
+        "DS_PROD"
+      ],
+      "required_calculators": [
+        "CALC_FEED"
+      ],
+      "require_sensitivity": true
+    }
+  },
+  "molecular_weights": {
+    "TARGET": 100.0
+  }
+}

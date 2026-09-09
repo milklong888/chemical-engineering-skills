@@ -1,0 +1,19 @@
+{
+  "name": "chemical-engineering-skills",
+  "version": "0.1.0",
+  "description": "化工设计、Aspen流程建模、设备校核与知识检索的分层技能集。",
+  "author": {
+    "name": "milklong888",
+    "url": "https://github.com/milklong888"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "化工设计技能集",
+    "shortDescription": "工艺设计、流程建模、设备校核与工程证据管理。",
+    "longDescription": "按设计任务调用宏观工艺判断、Aspen操作、塔与换热设备校核、费用分析和知识检索模块。计算软件和原始资料由使用环境提供。",
+    "developerName": "milklong888",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "根据项目资料确定设计基准、主工作流及需要调用的专业模块。"
+  }
+}

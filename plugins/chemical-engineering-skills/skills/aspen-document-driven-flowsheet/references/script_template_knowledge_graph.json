@@ -1,0 +1,671 @@
+{
+  "version": "public-schema-index-2026-09-09",
+  "node_count": 61,
+  "rule": "Copy a base template into the active project, keep project values outside the generic skill, and return evidence plus next allowed action.",
+  "nodes": [
+    {
+      "id": "AUTH-01",
+      "cluster": "authority",
+      "name": "project script inventory",
+      "base": "project_script_inventory_template.py",
+      "next": [
+        "LIB-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "AUTH-02",
+      "cluster": "authority",
+      "name": "authority file locator",
+      "base": "project_script_inventory_template.py",
+      "next": [
+        "AUTH-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "AUTH-03",
+      "cluster": "authority",
+      "name": "change-offset bootstrap",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "BUILD-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "AUTH-04",
+      "cluster": "authority",
+      "name": "source route extractor",
+      "base": "project document parser",
+      "next": [
+        "BUILD-01"
+      ],
+      "implementation_status": "external_adapter_required"
+    },
+    {
+      "id": "AUTH-05",
+      "cluster": "authority",
+      "name": "current status digest",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "RUN-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "AUTH-06",
+      "cluster": "authority",
+      "name": "stale branch quarantine",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "AUTH-05"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "AUTH-07",
+      "cluster": "authority",
+      "name": "source taskbook completeness gate",
+      "base": "source_taskbook_gate_audit_template.py",
+      "next": [
+        "BUILD-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-01",
+      "cluster": "operation",
+      "name": "Aspen COM lock",
+      "base": "aspen_com_lock_watchdog_template.py",
+      "next": [
+        "RUN-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-02",
+      "cluster": "operation",
+      "name": "case open/export probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-03",
+      "cluster": "operation",
+      "name": "tree path probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-04",
+      "cluster": "operation",
+      "name": "node set audit",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-05",
+      "cluster": "operation",
+      "name": "Control Panel capture",
+      "base": "control_panel_repair_loop_template.py",
+      "next": [
+        "REPAIR-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-06",
+      "cluster": "operation",
+      "name": "block stream status export",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "DELIV-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-07",
+      "cluster": "operation",
+      "name": "clean reopen start-run proof",
+      "base": "open_run_readiness_template.py",
+      "next": [
+        "DELIV-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-08",
+      "cluster": "operation",
+      "name": "same-version export bundle",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "DELIV-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "RUN-09",
+      "cluster": "operation",
+      "name": "batch queue runner",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-01",
+      "cluster": "build",
+      "name": "process skeleton",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "BUILD-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-02",
+      "cluster": "build",
+      "name": "component alias probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "BUILD-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-03",
+      "cluster": "build",
+      "name": "property method probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "BUILD-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-04",
+      "cluster": "build",
+      "name": "yield SEP scaffold",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "BUILD-05"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-05",
+      "cluster": "build",
+      "name": "split target ledger",
+      "base": "static_inp_audit_template.py",
+      "next": [
+        "BUILD-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-06",
+      "cluster": "build",
+      "name": "recycle calculator link",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "BUILD-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-07",
+      "cluster": "build",
+      "name": "design spec sensitivity setup",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "BUILD-08",
+      "cluster": "build",
+      "name": "pressure HX audit",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "DELIV-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "KIN-01",
+      "cluster": "kinetics",
+      "name": "kinetic source table",
+      "base": "project document parser",
+      "next": [
+        "KIN-02"
+      ],
+      "implementation_status": "external_adapter_required"
+    },
+    {
+      "id": "KIN-02",
+      "cluster": "kinetics",
+      "name": "unit conversion ledger",
+      "base": "script_generalization_manifest_template.py",
+      "next": [
+        "KIN-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "KIN-03",
+      "cluster": "kinetics",
+      "name": "reaction microcase validator",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "KIN-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "KIN-04",
+      "cluster": "kinetics",
+      "name": "PowerLaw freeze audit",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "KIN-05",
+      "cluster": "kinetics",
+      "name": "LHHW freeze audit",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "KIN-06",
+      "cluster": "kinetics",
+      "name": "provisional reactor route",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "BUILD-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-01",
+      "cluster": "separation",
+      "name": "tower candidate matrix",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "SEP-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-02",
+      "cluster": "separation",
+      "name": "tower matrix queue",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "SEP-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-03",
+      "cluster": "separation",
+      "name": "DSTWU to RadFrac sidecar",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "SEP-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-04",
+      "cluster": "separation",
+      "name": "RadFrac Required Input probe",
+      "base": "open_run_readiness_template.py",
+      "next": [
+        "RUN-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-05",
+      "cluster": "separation",
+      "name": "tower pressure drop audit",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "BUILD-08"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-06",
+      "cluster": "separation",
+      "name": "solvent recycle audit",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "BUILD-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-07",
+      "cluster": "separation",
+      "name": "flash train candidates",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "RUN-09"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-01",
+      "cluster": "repair",
+      "name": "one-family repair loop",
+      "base": "control_panel_repair_loop_template.py",
+      "next": [
+        "REPAIR-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-02",
+      "cluster": "repair",
+      "name": "import error bisect",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "RUN-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-03",
+      "cluster": "repair",
+      "name": "convergence trial queue",
+      "base": "aspen_candidate_matrix_template.py",
+      "next": [
+        "REPAIR-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-04",
+      "cluster": "repair",
+      "name": "tear initialization probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "RUN-06"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-05",
+      "cluster": "repair",
+      "name": "forbidden precision detector",
+      "base": "static_inp_audit_template.py",
+      "next": [
+        "REPAIR-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-06",
+      "cluster": "repair",
+      "name": "over-tight spec detector",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "BUILD-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-07",
+      "cluster": "repair",
+      "name": "property failure probe",
+      "base": "aspen_operation_template.py",
+      "next": [
+        "BUILD-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "REPAIR-08",
+      "cluster": "repair",
+      "name": "missing Required Input diff",
+      "base": "open_run_readiness_template.py",
+      "next": [
+        "RUN-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-01",
+      "cluster": "delivery",
+      "name": "static INP support audit",
+      "base": "static_inp_audit_template.py",
+      "next": [
+        "DELIV-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-02",
+      "cluster": "delivery",
+      "name": "delivery hard-gate audit",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "RUN-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-03",
+      "cluster": "delivery",
+      "name": "open-run readiness record",
+      "base": "open_run_readiness_template.py",
+      "next": [
+        "DELIV-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-04",
+      "cluster": "delivery",
+      "name": "migrated path portability proof",
+      "base": "path_migration_readiness_template.py",
+      "next": [
+        "DELIV-05"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-05",
+      "cluster": "delivery",
+      "name": "portable package manifest",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "DELIV-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-06",
+      "cluster": "delivery",
+      "name": "physical plausibility gate",
+      "base": "physical_plausibility_gate_template.py",
+      "next": [
+        "DELIV-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-07",
+      "cluster": "delivery",
+      "name": "accepted delivery manifest",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "LIB-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "DELIV-08",
+      "cluster": "delivery",
+      "name": "report evidence gate",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "DELIV-07"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "LIB-01",
+      "cluster": "material",
+      "name": "process slice recorder",
+      "base": "record_process_slice.py",
+      "next": [
+        "LIB-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "LIB-02",
+      "cluster": "material",
+      "name": "script reuse manifest",
+      "base": "script_generalization_manifest_template.py",
+      "next": [
+        "LIB-03"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "LIB-03",
+      "cluster": "material",
+      "name": "script sanitizer",
+      "base": "script_generalization_manifest_template.py",
+      "next": [
+        "LIB-04"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "LIB-04",
+      "cluster": "material",
+      "name": "post-closure skill candidate review",
+      "base": "self_evolve_skill.py",
+      "next": [
+        "AUTH-01"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence",
+      "requires": [
+        "current_user_task_closure",
+        "qualified_lineage",
+        "root_binding"
+      ]
+    },
+    {
+      "id": "EQUIP-01",
+      "cluster": "equipment",
+      "name": "equipment formula ledger",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "EQUIP-02"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "EQUIP-02",
+      "cluster": "equipment",
+      "name": "standards source classifier",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "DELIV-08"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "EQUIP-03",
+      "cluster": "equipment",
+      "name": "EDR SW6 vendor boundary audit",
+      "base": "delivery_gate_audit_template.py",
+      "next": [
+        "DELIV-08"
+      ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "EQUIP-04",
+      "cluster": "equipment",
+      "name": "report table extraction",
+      "base": "project document parser",
+      "next": [
+        "EQUIP-01"
+      ],
+      "implementation_status": "external_adapter_required"
+    }
+  ],
+  "canonical_paths": {
+    "new_build": [
+      "AUTH-02",
+      "AUTH-03",
+      "AUTH-04",
+      "AUTH-07",
+      "BUILD-01",
+      "BUILD-04",
+      "KIN-01",
+      "SEP-01",
+      "RUN-06",
+      "DELIV-02"
+    ],
+    "repair": [
+      "AUTH-05",
+      "RUN-05",
+      "REPAIR-01",
+      "REPAIR-05",
+      "RUN-06",
+      "DELIV-02"
+    ],
+    "tower_island": [
+      "SEP-01",
+      "SEP-02",
+      "SEP-04",
+      "SEP-05",
+      "RUN-07",
+      "DELIV-03"
+    ],
+    "delivery": [
+      "DELIV-01",
+      "DELIV-02",
+      "RUN-07",
+      "DELIV-03",
+      "DELIV-04",
+      "DELIV-06",
+      "DELIV-07",
+      "LIB-01"
+    ],
+    "script_reuse": [
+      "AUTH-01",
+      "LIB-02",
+      "LIB-03",
+      "LIB-04"
+    ]
+  },
+  "distribution_scope": "original_template_index_no_case_evidence",
+  "candidate_write_boundary": "Only after explicit current user task closure and qualified lineage; no automatic canonical write."
+}
+

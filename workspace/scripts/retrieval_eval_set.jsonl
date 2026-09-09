@@ -1,0 +1,9 @@
+{"id":"public_macro_design","query":"宏观设计 系统边界 工艺顺序 方案合理性","expected_any":["MACRO_DESIGN_QUALITY.md","HIGHEST_LEVEL_GUARDS.md","REASONING_PROTOCOL.md"],"expected_top_any":["MACRO_DESIGN_QUALITY.md","HIGHEST_LEVEL_GUARDS.md","REASONING_PROTOCOL.md"],"expected_top_group_any":["chemical-engineering-expert"],"top_k":5}
+{"id":"public_method_and_derivation","query":"指定方法 资料不足 可推导 缺失变量","expected_any":["REASONING_PROTOCOL.md","chemical-engineering-expert"],"expected_top_group_any":["chemical-engineering-expert"],"top_k":5}
+{"id":"public_evolution_closure","query":"用户确认结束 自进化 提示词进化 宏观原则","expected_any":["EVOLUTION_LOOP.md"],"expected_top_group_any":["chemical-engineering-expert"],"top_k":5}
+{"id":"public_equipment_feedback","query":"设备选型反馈 换热器拆分 压缩机分级 流程复算","expected_any":["PROCESS_EQUIPMENT_FEEDBACK.md","process_feedback_bridge.md"],"top_k":5}
+{"id":"public_heat_utility","query":"高温公用工程 预热 热回收 蒸汽再压缩","expected_any":["MACRO_DESIGN_QUALITY.md","PROCESS_EQUIPMENT_FEEDBACK.md","replacement_workflow.md"],"top_k":5}
+{"id":"public_document_workflow","query":"文档驱动 流程建模 任务书 骨架 严格单元","expected_any":["aspen-document-driven-flowsheet","REASONING_PROTOCOL.md"],"top_k":5}
+{"id":"public_tower_workflow","query":"塔优化 回流比 塔板数 同产品基准 液力学","expected_any":["aspen-tower-optimization-workflow","chemical-tower-design"],"top_k":5}
+{"id":"public_edr_workflow","query":"EDR HeatX 换热器热工校核 同设备结果","expected_any":["aspen-edr-rating-delivery"],"top_k":5}
+{"id":"public_no_forced_learning","query":"没有新增价值 no_change 数据规律 更快收敛","expected_any":["EVOLUTION_LOOP.md","MEMORY_MAINTENANCE.md"],"expected_top_group_any":["chemical-engineering-expert"],"top_k":5}

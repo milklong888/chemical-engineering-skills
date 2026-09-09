@@ -1,0 +1,820 @@
+{
+  "version": 3,
+  "description": "Composable route-aware reranking rules for the workspace knowledge vector index. One domain route may be combined with cross-domain guard routes. Values are retrieval priors only; they do not change project authority.",
+  "default_min_score": 1.15,
+  "routes": [
+    {
+      "name": "chemical_expert_reasoning",
+      "kind": "guard",
+      "label": "Chemical-engineering evidence, derivation, macro design, and memory guard",
+      "triggers": [
+        "化工专家",
+        "化工设计",
+        "化学工程",
+        "指定方法",
+        "按这个方法",
+        "必须按",
+        "禁止替代",
+        "不能替换",
+        "方法锁",
+        "method lock",
+        "required method",
+        "forbidden substitution",
+        "宏观",
+        "宏观设计",
+        "好设计",
+        "怎样算好",
+        "方案合理性",
+        "流程合理",
+        "流程安排",
+        "拓扑合理",
+        "工艺顺序",
+        "全局闭合",
+        "系统边界",
+        "化工常识",
+        "常识检查",
+        "物料衡算",
+        "能量衡算",
+        "组分去向",
+        "循环闭合",
+        "设备职责",
+        "高温公用工程",
+        "高热公用工程",
+        "高品位公用工程",
+        "进料预热",
+        "流程预热",
+        "热回收",
+        "蒸汽再压缩",
+        "机械蒸汽再压缩",
+        "热泵",
+        "MVR",
+        "vapor recompression",
+        "heat pump",
+        "可推导",
+        "推算",
+        "算出来",
+        "简单计算",
+        "原文没给",
+        "资料不足",
+        "缺失变量",
+        "没有数据",
+        "找不到就说没有",
+        "证据分级",
+        "外部知识",
+        "预训练",
+        "幻觉",
+        "臆造",
+        "用户纠错",
+        "犯错集",
+        "重复错误",
+        "新知识",
+        "error memory",
+        "new knowledge",
+        "模型蒸馏",
+        "知识蒸馏",
+        "自进化",
+        "提示词进化",
+        "用户确认结束",
+        "用户说结束",
+        "数据规律",
+        "no_change",
+        "Skill蒸馏",
+        "skill distillation",
+        "model distillation",
+        "knowledge distillation",
+        "derivation before missing",
+        "macro design"
+      ],
+      "source_group_bonus": {
+        "chemical-engineering-expert": 0.28,
+        "chemical_principles_knowledge": 0.08,
+        "workspace_router": 0.08,
+        "aspen-document-driven-flowsheet": 0.06,
+        "chemical-equipment-selection-audit": 0.04,
+        "aspen_sun_lanyi_knowledge": 0.03,
+        "equipment_knowledge": 0.03
+      },
+      "source_type_bonus": {
+        "router": 0.05,
+        "skill_chain_file": 0.04,
+        "knowledge_graph_file": 0.02
+      },
+      "knowledge_role_bonus": {
+        "error_memory": 0.12,
+        "canonical_router": 0.08,
+        "canonical_reference": 0.04,
+        "evolution_history": -0.12,
+        "template": -0.06
+      },
+      "knowledge_status_bonus": {
+        "verified_memory": 0.06,
+        "empty_memory": -0.08,
+        "candidate_or_historical": -0.08,
+        "mixed_or_candidate": -0.05
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.08
+      },
+      "source_path_contains_bonus": {
+        "REASONING_PROTOCOL.md": 0.12,
+        "ERROR_MEMORY.md": 0.10,
+        "MEMORY_MAINTENANCE.md": 0.09,
+        "EVOLUTION_LOOP.md": 0.14,
+        "HIGHEST_LEVEL_GUARDS.md": 0.10,
+        "MACRO_DESIGN_QUALITY.md": 0.14,
+        "KNOWLEDGE_DISTILLATION_PIPELINE.md": 0.12,
+        "EXTERNAL_CHEMICAL_SKILL_AUDIT.md": 0.08,
+        "ACTIVE_ASSET_REGISTRY.md": 0.05,
+        "PROJECT_CHANGE_OFFSET_TABLE_TEMPLATE.md": 0.05,
+        "AGENTS.md": 0.06,
+        "evolution_records/": -0.10,
+        "source_pages/": -0.06
+      }
+    },
+    {
+      "name": "chemical_engineering_principles",
+      "label": "Chemical-engineering principles, physical worldview, mechanisms, and textbook methods",
+      "triggers": [
+        "化工原理",
+        "单元操作",
+        "推动力与阻力",
+        "平衡与速率",
+        "守恒与传递",
+        "量纲分析",
+        "相似理论",
+        "流体流动",
+        "流体输送",
+        "机械分离",
+        "沉降",
+        "过滤",
+        "流态化",
+        "传热过程",
+        "蒸发",
+        "气体吸收",
+        "液液萃取",
+        "干燥过程",
+        "膜分离",
+        "吸附分离",
+        "结晶",
+        "工程常识",
+        "工程思维",
+        "unit operations",
+        "transport phenomena",
+        "chemical engineering principles",
+        "driving force and resistance",
+        "equilibrium and rate"
+      ],
+      "source_group_bonus": {
+        "chemical_principles_knowledge": 0.28,
+        "chemical-engineering-expert": 0.05,
+        "workspace_router": 0.03,
+        "aspen_sun_lanyi_knowledge": -0.05,
+        "aspen-flowsheet-error-repair": -0.08
+      },
+      "source_type_bonus": {
+        "knowledge_graph_file": 0.06,
+        "router": 0.02,
+        "skill_chain_file": -0.02
+      },
+      "knowledge_role_bonus": {
+        "canonical_reference": 0.06,
+        "canonical_router": 0.03,
+        "error_memory": -0.04,
+        "evolution_history": -0.12,
+        "template": -0.08
+      },
+      "knowledge_status_bonus": {
+        "active": 0.04,
+        "active_or_scoped": 0.01,
+        "candidate_or_historical": -0.12,
+        "mixed_or_candidate": -0.08
+      },
+      "source_path_contains_bonus": {
+        "knowledge_graph/concept_nodes/L3-": 0.12,
+        "knowledge_graph/chapter_nodes/": 0.08,
+        "knowledge_graph/method_nodes/": 0.05,
+        "knowledge_graph/00_HIERARCHY.md": 0.10,
+        "source_pages/": -0.14,
+        "project_cases_": -0.10,
+        "recycle_scale_control_repair": -0.12
+      }
+    },
+    {
+      "name": "macro_process_design",
+      "label": "Macro process design quality, flowsheet arrangement, and utility hierarchy",
+      "triggers": [
+        "宏观设计",
+        "好设计",
+        "怎样算好",
+        "方案合理性",
+        "流程合理",
+        "流程安排",
+        "拓扑合理",
+        "工艺顺序",
+        "设备职责",
+        "组分去向",
+        "终端物流",
+        "循环闭合",
+        "purge",
+        "高温公用工程",
+        "高热公用工程",
+        "高品位公用工程",
+        "进料预热",
+        "流程预热",
+        "热回收",
+        "蒸汽再压缩",
+        "机械蒸汽再压缩",
+        "热泵",
+        "MVR",
+        "vapor recompression",
+        "heat pump",
+        "process synthesis",
+        "plantwide",
+        "flowsheet quality",
+        "unit order"
+      ],
+      "source_group_bonus": {
+        "chemical-engineering-expert": 0.06,
+        "chemical_principles_knowledge": 0.05,
+        "workspace_router": 0.06,
+        "aspen-document-driven-flowsheet": 0.04,
+        "aspen_sun_lanyi_knowledge": 0.02
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.01,
+        "router": 0.04,
+        "knowledge_graph_file": 0.01
+      },
+      "knowledge_role_bonus": {
+        "canonical_reference": 0.06,
+        "canonical_router": 0.00,
+        "error_memory": 0.00,
+        "evolution_history": -0.12,
+        "template": -0.06
+      },
+      "knowledge_status_bonus": {
+        "verified_memory": 0.01,
+        "empty_memory": -0.08,
+        "candidate_or_historical": -0.10,
+        "mixed_or_candidate": -0.06
+      },
+      "source_path_contains_bonus": {
+        "MACRO_DESIGN_QUALITY.md": 0.24,
+        "EVOLUTION_LOOP.md": -0.24,
+        "MEMORY_MAINTENANCE.md": -0.16,
+        "REASONING_PROTOCOL.md": 0.06,
+        "SKILL.md": 0.00,
+        "ERROR_MEMORY.md": -0.08,
+        "OFFICIAL_PLUGIN_MIGRATION.md": -0.10,
+        "KNOWLEDGE_DISTILLATION_PIPELINE.md": -0.10,
+        "EXTERNAL_CHEMICAL_SKILL_AUDIT.md": -0.08,
+        "source_pages/": -0.08,
+        "project_cases_": -0.05
+      }
+    },
+    {
+      "name": "process_equipment_feedback",
+      "label": "Bounded process-to-equipment realizability, adjustment, and traceability feedback",
+      "min_score": 2.0,
+      "triggers": [
+        "设备可实现性",
+        "设备选型反馈",
+        "设备反馈",
+        "换热器拆分",
+        "换热器分段",
+        "压缩机分级",
+        "流程设备追溯",
+        "逐设备追溯",
+        "工况回退",
+        "回退调整流程",
+        "流程设备迭代",
+        "process equipment feedback",
+        "equipment realizability"
+      ],
+      "source_group_bonus": {
+        "chemical-engineering-expert": 0.16,
+        "equipment-design-app": 0.20,
+        "chemical_principles_knowledge": 0.12,
+        "workspace_router": 0.02
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.02,
+        "knowledge_graph_file": 0.02
+      },
+      "knowledge_role_bonus": {
+        "canonical_reference": 0.04,
+        "canonical_router": 0.01,
+        "evolution_history": -0.12,
+        "new_knowledge": -0.06,
+        "template": -0.06
+      },
+      "source_path_contains_bonus": {
+        "PROCESS_EQUIPMENT_FEEDBACK.md": 0.24,
+        "equipment-design-app/references/process_feedback_bridge.md": 0.18,
+        "equipment-design-app/SKILL.md": 0.09,
+        "L3-08-equipment-realizability-feedback.md": 0.18,
+        "L1-05-process-equipment-iteration.md": 0.16,
+        "knowledge_graph/chapter_nodes/CEPR-CH02": 0.04,
+        "knowledge_graph/chapter_nodes/CEPR-CH04": 0.04,
+        "external_sources/": -0.14,
+        "prior_state/": -0.14,
+        "source_pages/": -0.14
+      }
+    },
+    {
+      "name": "aspen_edr_rating",
+      "label": "Aspen EDR exchanger rating and exact-file delivery",
+      "triggers": [
+        "EDR",
+        ".EDR",
+        "TASCPLUS-RIG",
+        "BJACWIN.BJACApp",
+        "TascMsg",
+        "EDRBLK",
+        "EDR_PGM",
+        "Advanced Rating",
+        "Standard Rating",
+        "area margin",
+        "vibration indication",
+        "all exchangers must have EDR",
+        "HeatX coverage",
+        "EDR HeatX",
+        "EDR 换热器",
+        "换热器热工校核",
+        "换热器不能遗漏",
+        "换热器都要EDR",
+        "EDR评级",
+        "无GUI EDR"
+      ],
+      "source_group_bonus": {
+        "aspen-edr-rating-delivery": 0.24,
+        "equipment_knowledge": 0.18,
+        "aspen_sun_lanyi_knowledge": 0.13,
+        "aspen-plus-operations": 0.10,
+        "chemical-equipment-selection-audit": 0.08,
+        "workspace_router": 0.04,
+        "aspen_user_guide_v10": -0.05
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.07,
+        "knowledge_graph_file": 0.06,
+        "router": 0.03
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.06
+      },
+      "source_path_contains_bonus": {
+        "project_overlays/aspen_edr_rating_delivery": 0.12,
+        "aspen-edr-rating-delivery": 0.10,
+        "ch06_heat_exchanger_modules": 0.04,
+        "source_pages/": -0.06
+      }
+    },
+    {
+      "name": "aspen_error_repair",
+      "label": "Aspen flowsheet error repair",
+      "triggers": [
+        "修复",
+        "改错",
+        "过门槛",
+        "通过门槛",
+        "精馏塔修复",
+        "惰性气",
+        "不凝气",
+        "放空",
+        "部分冷凝",
+        "partial condenser",
+        "inert vent",
+        "noncondensable",
+        "RadFrac",
+        "external reboiler",
+        "thermosyphon",
+        "duplicate reboiler",
+        "Required Input",
+        "NextIncomplete",
+        "incomplete input",
+        "所需输入不完整",
+        "REBOILER",
+        "REB_UTIL",
+        "TH_VFRAC",
+        "temperature cross",
+        "jet flood",
+        "FSPLIT recycle",
+        "APW preserve PFD",
+        "no INP final import",
+        "外置再沸器",
+        "热虹吸",
+        "重复再沸",
+        "不改 PFD",
+        "保留流程图",
+        "DB:F-PARAMS",
+        "DB_COMPS",
+        "RemoveAll",
+        "bad block",
+        "convergence",
+        "warning",
+        "error",
+        "修复",
+        "改错",
+        "过门槛",
+        "循环失控",
+        "循环越大",
+        "回收越大",
+        "恶性循环",
+        "规模漂移",
+        "原始规模",
+        "高低根",
+        "多稳态",
+        "保护器",
+        "保护计算器",
+        "补料失控",
+        "启动瞬态",
+        "停留时间",
+        "总相转化率",
+        "气相带走",
+        "循环接通",
+        "拓扑"
+      ],
+      "source_group_bonus": {
+        "aspen-flowsheet-error-repair": 0.16,
+        "aspen-plus-operations": 0.10,
+        "aspen_sun_lanyi_knowledge": 0.09,
+        "aspen-document-driven-flowsheet": 0.05,
+        "aspen_user_guide_v10": -0.04
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.04,
+        "knowledge_graph_file": 0.03,
+        "router": 0.02
+      },
+      "scope_bonus": {
+        "chapter-node": -0.02,
+        "page-fallback-node": -0.05
+      },
+      "source_path_contains_bonus": {
+        "knowledge_graph/": 0.04,
+        "project_cases_": 0.07,
+        "classic_cases_playbook": 0.05,
+        "aspen_operation_playbook": 0.04,
+        "recycle_scale_control_repair": 0.14,
+        "source_pages/": -0.04
+      }
+    },
+    {
+      "name": "aspen_operations",
+      "label": "Aspen card, COM, run, export, and delivery operations",
+      "triggers": [
+        "COM",
+        "script",
+        "Run2",
+        "Export",
+        "SaveAs",
+        "APW",
+        "BKP",
+        "INP",
+        "MCP",
+        "继续COM",
+        "没有MCP",
+        "不装MCP",
+        "卡片",
+        "card",
+        "tree",
+        "node",
+        "RStoic",
+        "HeatX",
+        "Design Spec",
+        "Calculator",
+        "Sensitivity",
+        "Column Internals",
+        "USER subroutine",
+        "控制面板",
+        "消息截断",
+        "OnControlPanelMessage",
+        "Run2(False)",
+        "异步运行",
+        "零警告审计",
+        "总相转化率"
+      ],
+      "source_group_bonus": {
+        "aspen-plus-operations": 0.18,
+        "workspace_router": 0.04,
+        "aspen-document-driven-flowsheet": 0.04,
+        "aspen_user_guide_v10": -0.02
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.06,
+        "router": 0.03
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.04
+      },
+      "source_path_contains_bonus": {
+        "manual_knowledge_graph": 0.04,
+        "operation_graph": 0.05,
+        "aspen_mcp_invocation": 0.05,
+        "aspen_clean_delivery_audit.py": 0.12,
+        "recycle_scale_control_repair": 0.08,
+        "evolution_records": 0.02
+      }
+    },
+    {
+      "name": "kinetics",
+      "label": "Reaction kinetics and source-to-card freeze",
+      "triggers": [
+        "动力学",
+        "反应动力学",
+        "kinetics",
+        "LHHW",
+        "PowerLaw",
+        "RPlug",
+        "RCSTR",
+        "rate basis",
+        "adsorption",
+        "catalyst",
+        "activation energy",
+        "freeze ledger",
+        "source-to-card",
+        "USER",
+        "subroutine",
+        "k",
+        "E"
+      ],
+      "source_group_bonus": {
+        "aspen_sun_lanyi_knowledge": 0.12,
+        "aspen-plus-operations": 0.10,
+        "aspen-document-driven-flowsheet": 0.04,
+        "aspen_user_guide_v10": -0.03
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.04,
+        "knowledge_graph_file": 0.04
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.04
+      },
+      "source_path_contains_bonus": {
+        "kinetics_expert_system": 0.08,
+        "kinetics_freeze_template": 0.08,
+        "ch08b": 0.05,
+        "manual_knowledge_graph": 0.04
+      }
+    },
+    {
+      "name": "tower_workflow",
+      "label": "Tower, column, and separation workflow",
+      "triggers": [
+        "塔",
+        "精馏",
+        "吸收",
+        "汽提",
+        "塔优化",
+        "回流比",
+        "进料板",
+        "塔板数",
+        "tower",
+        "column",
+        "distillation",
+        "RadFrac",
+        "DSTWU",
+        "reflux",
+        "feed stage",
+        "condenser",
+        "reboiler",
+        "external reboiler",
+        "thermosyphon",
+        "bottom heater",
+        "vapor return",
+        "外置再沸器",
+        "热虹吸",
+        "重复再沸"
+      ],
+      "suppress_triggers": [
+        "模型蒸馏",
+        "蒸馏模型",
+        "知识蒸馏",
+        "蒸馏知识",
+        "skill蒸馏",
+        "蒸馏skill",
+        "skill distillation",
+        "model distillation",
+        "knowledge distillation",
+        "不是化工意义上的蒸馏",
+        "不是精馏"
+      ],
+      "source_group_bonus": {
+        "aspen-tower-optimization-workflow": 0.16,
+        "aspen_sun_lanyi_knowledge": 0.10,
+        "aspen-document-driven-flowsheet": 0.06,
+        "aspen-plus-operations": 0.04,
+        "aspen_user_guide_v10": -0.02
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.04,
+        "knowledge_graph_file": 0.03
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.04
+      },
+      "source_path_contains_bonus": {
+        "classic_cases_playbook": 0.06,
+        "special_columns": 0.06,
+        "chapter_extracts/": 0.02
+      }
+    },
+    {
+      "name": "property_method",
+      "label": "Property method, components, and missing property support",
+      "triggers": [
+        "物性",
+        "物性方法",
+        "热力学",
+        "二元参数",
+        "缺失物性",
+        "property method",
+        "property-method-first",
+        "binary parameter",
+        "binary parameters",
+        "missing property",
+        "databank",
+        "Henry",
+        "electrolyte",
+        "NRTL",
+        "UNIQUAC",
+        "PR-BM",
+        "PCES",
+        "component_property"
+      ],
+      "source_group_bonus": {
+        "aspen_sun_lanyi_knowledge": 0.12,
+        "aspen-document-driven-flowsheet": 0.08,
+        "aspen-plus-operations": 0.07,
+        "aspen_user_guide_v10": 0.01
+      },
+      "source_type_bonus": {
+        "knowledge_graph_file": 0.04,
+        "skill_chain_file": 0.04
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.04
+      },
+      "source_path_contains_bonus": {
+        "aspen_operation_playbook": 0.08,
+        "unknowns_router": 0.04,
+        "ch03": 0.05,
+        "component_property": 0.04,
+        "source_pages/": -0.04
+      }
+    },
+    {
+      "name": "equipment_standards",
+      "label": "Equipment selection, standards, and hydraulic overlays",
+      "triggers": [
+        "设备",
+        "选型",
+        "设备一览表",
+        "设备选型一览表",
+        "型号",
+        "型号确定",
+        "型号命名",
+        "国标",
+        "标准型号",
+        "封头",
+        "人孔",
+        "支座",
+        "泵",
+        "压缩机",
+        "膜组件",
+        "静态混合器",
+        "储罐",
+        "标准",
+        "参数来源",
+        "水力",
+        "液泛",
+        "塔板",
+        "塔设计",
+        "塔设备",
+        "降液管",
+        "受液盘",
+        "受液板",
+        "有效面积",
+        "无效区",
+        "开孔率",
+        "连等式",
+        "公式链",
+        "工程绘图",
+        "SW6",
+        "vendor",
+        "forbidden_transfer",
+        "direct_reuse",
+        "method_only",
+        "hydraulic",
+        "tray",
+        "Column Internals"
+      ],
+      "source_group_bonus": {
+        "equipment_knowledge": 0.12,
+        "chemical-equipment-selection-audit": 0.14,
+        "chemical-tower-design": 0.20,
+        "aspen-pressure-pfd-delivery": 0.04,
+        "workspace_router": 0.03,
+        "aspen_user_guide_v10": -0.05,
+        "aspen_sun_lanyi_knowledge": -0.02
+      },
+      "source_type_bonus": {
+        "knowledge_graph_file": 0.05,
+        "skill_chain_file": 0.04
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.05
+      },
+      "source_path_contains_bonus": {
+        "00-authority-registry": 0.10,
+        "10-equipment-family-router": 0.10,
+        "15-standard-designation-rules": 0.10,
+        "16-dynamic-vendor-rules": 0.10,
+        "20-model-determination-card": 0.10,
+        "40-legacy-model-quarantine": 0.08,
+        "standards_graph": 0.02,
+        "skills/chemical-tower-design": 0.12,
+        "parameter_source_nodes": 0.07,
+        "evidence_boundary_nodes": 0.06,
+        "standards_graph/standards_index": -0.10,
+        "source_pages/": -0.05
+      }
+    },
+    {
+      "name": "v10_user_guide",
+      "label": "Aspen Plus V10 user-guide UI and workflow lookup",
+      "triggers": [
+        "V10",
+        "用户指南",
+        "界面",
+        "菜单",
+        "窗口",
+        "表单",
+        "报告",
+        "plot",
+        "help",
+        "form",
+        "chapter",
+        "manual",
+        "user guide",
+        "ActiveX"
+      ],
+      "source_group_bonus": {
+        "aspen_user_guide_v10": 0.16,
+        "aspen-plus-operations": 0.03
+      },
+      "source_type_bonus": {
+        "knowledge_graph_structured": 0.05
+      },
+      "scope_bonus": {
+        "detail-node": 0.02,
+        "chapter-node": 0.02
+      },
+      "source_path_contains_bonus": {}
+    },
+    {
+      "name": "document_flowsheet",
+      "label": "Document-driven flowsheet authority and route extraction",
+      "triggers": [
+        "文档",
+        "报告",
+        "原始资料",
+        "权威",
+        "change-offset",
+        "change offset",
+        "ledger",
+        "freeze",
+        "source",
+        "route extraction",
+        "scaffold",
+        "section",
+        "fullflow",
+        "VAC",
+        "物料衡算",
+        "流程构建"
+      ],
+      "source_group_bonus": {
+        "aspen-document-driven-flowsheet": 0.16,
+        "aspen_sun_lanyi_knowledge": 0.06,
+        "workspace_router": 0.04,
+        "aspen-plus-operations": 0.03,
+        "aspen_user_guide_v10": -0.04
+      },
+      "source_type_bonus": {
+        "skill_chain_file": 0.05,
+        "router": 0.03,
+        "knowledge_graph_file": 0.02
+      },
+      "scope_bonus": {
+        "page-fallback-node": -0.04
+      },
+      "source_path_contains_bonus": {
+        "PROJECT_CHANGE_OFFSET": 0.08,
+        "project_cases_": 0.04,
+        "source_pages/": -0.04
+      }
+    }
+  ]
+}

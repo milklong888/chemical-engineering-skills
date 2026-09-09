@@ -1,0 +1,69 @@
+; Generic Aspen Plus INP skeleton for empty-column VRC heat-pump distillation.
+; Replace names, pressures, stages, property method, and targets per project.
+; Standard retrofit uses one reflux/product splitter. Tune tower equivalence
+; first with stage/feed-return location, splitter reflux fraction, and the
+; liquid-side flash temperature; polish HeatX/compressor settings only after
+; the tower outlets are back to the baseline/design target.
+
+FLOWSHEET
+    BLOCK <TOWER> IN=<FEED> <REFLUX> <VAP_RETURN> OUT=<OVHD_VAP> <BOTTOM_TO_HX>
+    BLOCK <DRY_GUARD> IN=<OVHD_VAP> OUT=<COMP_IN>
+    BLOCK <COMP> IN=<COMP_IN> OUT=<HP_VAP>
+    BLOCK <HEATX> IN=<HP_VAP> <BOTTOM_TO_HX> OUT=<HOT_OUT> <REB_OUT>
+    BLOCK <TRIM_COOLER> IN=<HOT_OUT> OUT=<COND_OUT>
+    BLOCK <VALVE> IN=<COND_OUT> OUT=<LET_DOWN>
+    BLOCK <REFLUX_SPLIT> IN=<LET_DOWN> OUT=<DISTILLATE> <REFLUX>
+    BLOCK <REB_FLASH> IN=<REB_OUT> OUT=<VAP_RETURN> <BOTTOMS>
+
+BLOCK <DRY_GUARD> HEATER
+    ; Optional only. Use a tiny dry-vapor guard or delete this block and send
+    ; <OVHD_VAP> directly to <COMP>.
+    PARAM TEMP=<COMP_IN_TEMP_C> PRES=<TOWER_TOP_PRESSURE> DPPARMOPT=NO
+    PROPERTIES <PROP_METHOD>
+
+BLOCK <COMP> COMPR
+    PARAM TYPE=ISENTROPIC PRES=<COMP_OUT_PRESSURE> SEFF=.750  &
+        SB-MAXIT=30 SB-TOL=.00010
+    PROPERTIES <PROP_METHOD>
+    UTILITY UTILITY-ID=UELEC
+
+BLOCK <HEATX> HEATX
+    PARAM T-COLD=<REB_OUT_TEMP_C> CALC-TYPE=DESIGN PRES-HOT=<HOT_DP>  &
+        PRES-COLD=<COLD_DP> U-OPTION=PHASE F-OPTION=CONSTANT  &
+        CALC-METHOD=SHORTCUT
+    FEEDS HOT=<HP_VAP> COLD=<BOTTOM_TO_HX>
+    OUTLETS-HOT <HOT_OUT>
+    OUTLETS-COLD <REB_OUT>
+    HOT-SIDE DP-OPTION=CONSTANT DPPARMOPT=NO
+    COLD-SIDE DP-OPTION=CONSTANT DPPARMOPT=NO
+    TQ-PARAM CURVE=YES
+
+BLOCK <TRIM_COOLER> HEATER
+    PARAM TEMP=<COND_TEMP_C> PRES=<COND_PRESSURE> DPPARMOPT=NO
+    PROPERTIES <PROP_METHOD>
+    UTILITY UTILITY-ID=UCW
+
+BLOCK <VALVE> VALVE
+    PARAM P-OUT=<TOWER_TOP_PRESSURE>
+    PROPERTIES <PROP_METHOD>
+
+BLOCK <REFLUX_SPLIT> FSPLIT
+    ; Prefer specifying the reflux outlet fraction as the reflux-ratio knob:
+    ; first guess reflux_frac = baseline_RR / (baseline_RR + 1).
+    FRAC <REFLUX> <REFLUX_FRACTION>
+
+BLOCK <REB_FLASH> FLASH2
+    ; Liquid-side flash temperature is a primary tower-equivalence knob.
+    ; Start near the original bottom/reboiler-side temperature and pressure.
+    PARAM TEMP=<BOTTOM_FLASH_TEMP_C> PRES=<BOTTOM_PRESSURE>
+
+BLOCK <TOWER> RADFRAC
+    PARAM NSTAGE=<EMPTY_STAGE_COUNT> ALGORITHM=STANDARD MAXOL=<MAXOL>  &
+        DAMPING=NONE
+    PARAM2
+    COL-CONFIG CONDENSER=NONE REBOILER=NONE
+    FEEDS <FEED> <FEED_STAGE> / <REFLUX> 1 / <VAP_RETURN> <EMPTY_STAGE_COUNT_PLUS_1>
+    PRODUCTS <OVHD_VAP> 1 V / <BOTTOM_TO_HX> <EMPTY_STAGE_COUNT> L
+    P-SPEC 1 <TOWER_TOP_PRESSURE>
+    COL-SPECS DP-COL=<COLUMN_DP>
+    PROPERTIES <PROP_METHOD>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "设备设计应用"
+  short_description: "集成三种导入、设备知识图谱、确定性计算与受控大模型补算/审核"
+  default_prompt: "Use $equipment-design-app to import Aspen or manual equipment data and run the deterministic equipment-design workflow."

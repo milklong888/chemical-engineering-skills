@@ -1,0 +1,5 @@
+stream,mass_flow_kg_h,mol_TARGET
+FEED,120.0,1.00
+RXOUT,110.0,0.40
+PROD,100.0,0.80
+RECYCLE,10.0,0.00

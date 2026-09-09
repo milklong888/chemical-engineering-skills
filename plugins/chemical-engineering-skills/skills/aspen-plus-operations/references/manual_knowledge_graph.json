@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "purpose": "Public local-help access contract; commercial manual bodies and historical cases are not distributed.",
+  "source_policy": [
+    "The user supplies lawfully installed version-specific Aspen help or an independently qualified local graph.",
+    "Source path/hash/version/location and current card/units must be verified before use.",
+    "No bundled historical tested example establishes current process values."
+  ],
+  "manual_root": "{ASPEN_HELP_ROOT}",
+  "content_status": "LOCAL_USER_HELP_REQUIRED",
+  "bundled_manual_nodes": 0,
+  "nodes": [],
+  "local_intake_contract": {
+    "required_fields": [
+      "software_version",
+      "source_path",
+      "source_sha256",
+      "source_locator",
+      "card_field",
+      "unit_and_basis",
+      "current_case_applicability"
+    ],
+    "query_fallback": "scripts/search_aspen_help.py",
+    "unavailable_behavior": "No graph hits are evidence of unavailable local data, not an accepted card value.",
+    "publication_boundary": "Do not republish licensed local help or private tested cases."
+  }
+}
+

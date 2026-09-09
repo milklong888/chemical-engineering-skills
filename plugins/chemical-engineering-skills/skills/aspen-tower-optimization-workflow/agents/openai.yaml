@@ -1,0 +1,7 @@
+interface:
+  display_name: "Aspen Tower Optimization"
+  short_description: "Reusable tower-island workflow for Aspen Design Specs."
+  default_prompt: "Use $aspen-tower-optimization-workflow to optimize this Aspen tower island and reconnect it with pressure and Design Spec evidence."
+
+policy:
+  allow_implicit_invocation: true

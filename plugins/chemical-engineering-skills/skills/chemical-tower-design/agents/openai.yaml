@@ -1,0 +1,7 @@
+interface:
+  display_name: "化工塔设备设计"
+  short_description: "以证据追溯驱动塔设计、液力核算、机械衔接与独立审查"
+  default_prompt: "使用 $chemical-tower-design 按权威来源完成塔设备设计并输出可追溯审查链。"
+
+policy:
+  allow_implicit_invocation: true

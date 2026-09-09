@@ -1,0 +1,46 @@
+{
+  "project_name": "example_project",
+  "created": "YYYY-MM-DD",
+  "current_authority_case": "cases/current",
+  "current_goal": {
+    "primary_objective": "Build a document-supported Aspen flowsheet with no accepted warnings.",
+    "source_basis": "source_docs/current_taskbook.pdf and source_docs/current_design_note.docx",
+    "hard_evidence_required": [
+      "latest exported input file",
+      "latest block status CSV",
+      "latest stream results CSV",
+      "Aspen status/out/history warning scan",
+      "PDF text/render validation if delivery text is required"
+    ]
+  },
+  "branch_status": [
+    {
+      "case": "cases/baseline",
+      "role": "scaffold_baseline",
+      "status": "diagnostic",
+      "hard_gates_passed": [],
+      "open_gates": [
+        "strict kinetic reactors",
+        "physical separation equipment",
+        "closed recycle evidence"
+      ]
+    },
+    {
+      "case": "cases/current",
+      "role": "current_candidate",
+      "status": "candidate",
+      "hard_gates_passed": [],
+      "open_gates": [
+        "zero warnings",
+        "product concentration target",
+        "reactor conversion target"
+      ]
+    }
+  ],
+  "promotion_rules": [
+    "Promote only same-run evidence from the latest exported artifacts.",
+    "Keep Design Spec, Calculator, Sensitivity, or Optimization records with the promoted case.",
+    "Do not promote purity from a failed block, stale calculator value, or impossible fixed draw.",
+    "Do not copy values from examples or old cases without current-document support."
+  ]
+}

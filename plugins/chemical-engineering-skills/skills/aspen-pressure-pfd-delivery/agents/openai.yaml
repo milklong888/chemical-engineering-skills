@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen Pressure PFD Delivery"
+  short_description: "Aspen pressure topology and PFD/PDF delivery checks"
+  default_prompt: "Use $aspen-pressure-pfd-delivery to audit an Aspen full-flow pressure topology and regenerate checked PFD/PDF deliverables."

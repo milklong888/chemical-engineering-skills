@@ -1,0 +1,6 @@
+interface:
+  display_name: "Aspen Adaptive Generalization"
+  short_description: "Generalize Aspen seed cases into robust templates."
+  default_prompt: "Use $aspen-adaptive-generalization-loop to seed, classify, generalize, batch-test, and freeze a reusable Aspen template, including scale-vector invariants, recycle-root fingerprints, transient guards that return to steady-state floors, and copied-delivery hard gates."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,83 @@
+{
+  "pass_fixture": {
+    "project_name": "toy_audit_pass",
+    "passed": true,
+    "failure_gates": [],
+    "block_type_counts": {
+      "RCSTR": 1,
+      "RADFRAC": 1
+    },
+    "product_results": [
+      {
+        "stream": "PROD",
+        "component": "TARGET",
+        "fraction": 0.999000999000999,
+        "component_mass_flow_kg_h": 100.0,
+        "min_mass_fraction": 0.995,
+        "min_component_mass_kg_h": 50.0,
+        "passed": true
+      }
+    ],
+    "solve_fit_controls": {
+      "calculators": {
+        "CALC_FEED": {
+          "read_vars": [
+            "READ-VARS STREAM FEED MASS-FLOW"
+          ],
+          "write_vars": [
+            "WRITE-VARS BLOCK C1 DIST-RATE"
+          ],
+          "executes": [
+            "EXECUTE BEFORE BLOCK C1"
+          ]
+        }
+      },
+      "design_specs": [
+        {
+          "name": "DS_PROD",
+          "lines": [
+            "DESIGN-SPEC DS_PROD",
+            "SPEC 1 MASS-FRAC .995 COMPS=TARGET STREAMS=PROD",
+            "VARY 1 MOLE-RR .2 20.0"
+          ]
+        }
+      ],
+      "sensitivity_count": 1,
+      "optimization_count": 0
+    }
+  },
+  "fail_fixture": {
+    "project_name": "toy_audit_fail",
+    "passed": false,
+    "failure_gates": [
+      "forbidden_block_types",
+      "required_block_type",
+      "required_block_type",
+      "block_status",
+      "product_targets",
+      "terminal_boundaries",
+      "solve_fit_linkage"
+    ],
+    "block_type_counts": {
+      "RSTOIC": 1,
+      "SEP": 1
+    },
+    "product_results": [
+      {
+        "stream": "PROD",
+        "component": "TARGET",
+        "fraction": 0.8,
+        "component_mass_flow_kg_h": 80.0,
+        "min_mass_fraction": 0.995,
+        "min_component_mass_kg_h": 50.0,
+        "passed": false
+      }
+    ],
+    "solve_fit_controls": {
+      "calculators": {},
+      "design_specs": [],
+      "sensitivity_count": 0,
+      "optimization_count": 0
+    }
+  }
+}

@@ -1,0 +1,7 @@
+               ***  Summary of Simulation Errors  ***
+                   Physical
+                   Property         System        Simulation
+  Terminal Errors      0               0               0
+    Severe Errors      0               0               6
+           Errors      0               0             145
+         Warnings      1               0               0

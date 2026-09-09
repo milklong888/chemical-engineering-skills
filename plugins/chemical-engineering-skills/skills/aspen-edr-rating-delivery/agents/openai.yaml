@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen EDR Rating Delivery"
+  short_description: "Build, audit, and deliver Aspen EDR exchanger ratings"
+  default_prompt: "Use $aspen-edr-rating-delivery to add or audit EDR ratings for every eligible HeatX and verify the final Aspen delivery."

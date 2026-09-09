@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen Document Flowsheet"
+  short_description: "Build and repair document-driven Aspen flowsheets with reuse-first routing, zero-warning polishing, recycle closure, rigorous separations, solve/fit tools, and PDF checks"
+  default_prompt: "Build or repair an Aspen flowsheet from the source process documents, preserve the document route, and when a runnable case still has report errors/warnings use the zero-warning repair protocol before broad solver waits. Before generating a subflowsheet/island from scratch, reuse the closest already-executed thread, subagent, handoff note, or branch artifact with a compact delta contract. Route detailed work through the skill knowledge graph, use Aspen special-separation and built-in solve/fit patterns when appropriate, validate kinetic/recycle/solvent-loop/terminal-boundary gates from exported files, and deliver synchronized or PDF-only notes according to the request."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen Error Repair"
+  short_description: "Aspen errors, recycle roots, and scale drift"
+  default_prompt: "Use $aspen-flowsheet-error-repair to diagnose and repair an Aspen flowsheet using current authority, same-case history, and run/export evidence."

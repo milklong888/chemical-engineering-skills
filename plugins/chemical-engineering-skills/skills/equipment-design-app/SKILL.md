@@ -1,0 +1,128 @@
+---
+name: equipment-design-app
+description: Operate or audit the local “设备设计图谱与脚本” application and its deterministic equipment-design workflow. Use for Aspen BKP/APW imports, manual equipment-parameter entry, equipment-family matching, formula-chain derivation, evidence-gated model selection, knowledge-graph lookup, optional controlled AI calculation assistance/output orchestration/review, or packaging/maintaining the Windows app.
+---
+
+# Equipment Design App
+
+Use the local application as a thin execution interface over the existing parent package “设备设计图谱与脚本”. The application and this skill are adapters; they do not contain or outrank the graph and deterministic scripts.
+
+## Start
+
+1. Open the workspace `LOCAL_KNOWLEDGE_GRAPH_LINKS.md`.
+2. Open `设备设计选型工作包/README.md` and `设备设计选型工作包/knowledge_graph/README.md`.
+3. Read [references/ERROR_MEMORY.md](references/ERROR_MEMORY.md), then [references/app_contract.md](references/app_contract.md).
+4. Read [references/NEW_KNOWLEDGE.md](references/NEW_KNOWLEDGE.md) only when recently ingested application knowledge is relevant.
+5. Prefer the agent-native JSON interface at `设备设计选型工作包/app/equipment_design_agent.py`. Launch with `scripts/launch_app.ps1` only when a human explicitly wants the GUI.
+
+## Agent-first execution
+
+### Flow-design feedback use
+
+When checking a built process or changed process parameters/modules, use the
+chemical expert's `references/PROCESS_EQUIPMENT_FEEDBACK.md`. In this workspace,
+the current GitHub source bridge is
+`integrations/github_20260909/selector_bridge.py`, pointing to the pinned LF
+runtime `external_sources/github/milklong888/equipment-design-selector-runtime`.
+Use its versioned Agent API and verified local assets. Keep the legacy package
+as an explicit compatibility/source path rather than silently mixing versions.
+
+Return parameter/formula/rule provenance, attributable capacity or physical
+diagnostics, catalog/evidence gaps, and adjustment-plan hashes to process design.
+Exchanger parallel/section alternatives and compressor staged/parallel
+alternatives require their own duty/pressure/phase/flow rationale and downstream
+replay. A program adjustment is a candidate until the flowsheet is actually
+changed and rerun; no-match, a default terminal form, or open vendor evidence
+alone must not trigger blind splitting or imply whole-process acceptance.
+See `references/process_feedback_bridge.md` for invocation and return paths.
+
+Do not use mouse coordinates or desktop control for normal data input/output. Create an `equipment-design-agent-request-v1` JSON object, invoke `equipment_design_agent.py --request <path> --output <path> --pretty`, and parse the `equipment-design-agent-response-v1` result. For repeated equipment or workflow calls, start `EquipmentDesignAgentCLI.exe --session-jsonl` once and exchange one UTF-8 request/response object per line so runtime verification, catalog loading, and one shared API instance are reused for the process. Preserve each response's own `exit_code`; one failed line must not stop or contaminate later equipment. The packaged CLI exposes both modes; the windowed EXE also accepts `--agent-request` plus `--agent-response`.
+
+For script-visible GUI report health, add `--report-status <path>` to a
+windowed EXE `render_report` file call. The resulting
+`equipment-design-report-status-v1` sidecar must be read-only and verify the
+request/response identity, deterministic presentation, nonempty equipment
+parameter content, report artifact markers, and artifact SHA-256. It is a
+diagnostic channel, not an authorization or runtime-verification bypass.
+
+Use `capabilities`, `schema_get`, or `catalog` to discover operations, exact JSON contracts, and per-equipment fields before constructing requests. Use `manual_batch` for multiple manual records and `aspen_import` for full block/stream traversal. Preserve the returned request hash, exit code, errors, and artifact paths. For Agent/CLI calls, read API keys only from the fixed `EQUIPMENT_DESIGN_LLM_API_KEY` environment variable and remote compatible endpoints only from `EQUIPMENT_DESIGN_LLM_BASE_URL`; reject request-level endpoint or environment-variable overrides, and never place a key in JSON.
+
+For a machine-readable Aspen flowsheet, call `pfd_build` with a read-only
+`aspen-equipment-export-v1` `bundle_path`. Use `pfd_override` with the current
+override map, block ID, and a catalog selection ID; use `AUTO` to restore the
+automatic route. Use `pfd_recalculate` / `aspen.pfd.recalculate` with at least
+`bundle_path + block_id`; carry the complete `parameter_overrides` returned by
+the prior call as the current state and put this block's nonblank replacement
+row in `values`. Omit blank fields to retain Aspen/existing values; use
+`clear=true` to remove this block's parameter layer. Recalculate only the
+changed block, then keep incident streams and immediate upstream/downstream
+blocks stale until they are replayed separately. Never write the mapping or
+parameter layer over the bundle/BKP, and never treat a user type/parameter
+override as mechanical-design or model evidence. Consume the frozen
+compact/standard/detailed display contract: standard is the default canvas and
+compresses equipment ID, source module type, mapped type, and selection state
+into two non-overlapping lines. A pipeline normally shows only its stream ID and
+adds a compact type/model result only when the deterministic result actually
+exists. Open full parameters in the left-click detail surface rather than
+dumping them onto the PFD. Build the right-click type menu from the current
+catalog, keep overrides in a separate layer, and invalidate stale selection
+overlays before recalculation. Every row in the parameter-supplement dialog must
+have a transient `ⓘ` explanation covering its existing value, blank behavior,
+unit, formula consumer, and evidence boundary.
+
+Route every new model-assisted call through protocol `1.9` rather than the legacy one-shot review path. Its primary model role is calculation assistance and avoidable-stop reduction; output composition and review are secondary:
+
+1. Call `hybrid_prepare` with `input.operation + input.payload`; it reruns the current deterministic engine and freezes the result, replay contract, allowlisted knowledge context, candidate/condition registries, calculation-recipe catalog, coverage state, and hashes. Never accept a caller-supplied naked deterministic result.
+2. For an external Agent, send only that prepared package and validate its strict `equipment-design-llm-step-output-v1` JSON with `hybrid_continue`; this must replay the source input and rebuild the prepared package before accepting the output.
+3. For the built-in provider, call `hybrid_run`; it must reuse the same `hybrid_continue` validator and always return `equipment-design-hybrid-result-v2`, preserving the initial deterministic result on disabled, failed, or successful LLM paths. A model may select an allowlisted simple recipe, but the program computes its value. When every recipe input is frozen and the target is missing, `manual_match/auto_match` may inject that verified value and automatically return a separate deterministic recalculation. A model may also upgrade a visibly default-selected terminal equipment form only by returning an exact registered family condition/rule and the frozen selection-context hash; the program must replay the deterministic engine. Free-text types, invented rules, unsupported conditions, and changes to explicit or already condition-selected forms are invalid.
+4. Treat unknown recipes, missing recipe inputs, existing-value conflicts, and model-only inferred values as item-local nonblocking outcomes. Exhaust the registered recipe dependency graph first. A remaining allowlisted preliminary field may use `model_inference` only with `uncertain`, a cited same-case/engineering/conservative-screening basis, nonempty assumptions, numeric bounds or a registered enum, confidence, sensitivity, and an explicit preliminary-auto-apply request. The program must validate it, fill only a missing field, replay the deterministic matcher, expose it as `J/provisional`, and cap it at `TYPE_SCREENING`; a deterministic result always supersedes it. A certain program-verified recipe needs no uncertainty warning.
+5. Let the model order and title only its own intermediate operation blocks. Preserve the program's initial and recalculated result blocks as immutable authoritative anchors on either side of those AI operations.
+6. Apply descriptive changes or candidate references only through `llm_apply` with explicit approval bound to both `context_sha256` and `orchestration_sha256`.
+
+The prepared and orchestration objects must also bind the current `authority_revision`: Agent/matcher versions, hashes of core rules/model rules/parameter templates/pump points/model graph, every protocol Schema hash, and—when packaged—the verified runtime manifest hash and bundle revision. Reject continue/apply when any bound revision differs, even if a caller recomputes outer hashes.
+
+Choose one injection point: `semantic_extraction`, `textual_condition_judgment`, `ambiguity_resolution`, `kg_retrieval_planning`, or `audit`. Choose `minimum`, `routed`, `full_family`, or `full_bundle` context deliberately. Treat `PARTIAL` coverage as incomplete; never describe a full deterministic JSON object as full graph coverage. Model calls may fail without deleting or changing the deterministic result.
+
+For human-readable output, call `render_report` with a replayable `input.operation + input.payload`; the current engine must recalculate before producing `equipment-design-presentation-v1` or self-contained HTML. Reject caller-supplied result/response objects so a forged model state cannot be rendered as deterministic authority. Do not reconstruct parameter tables by scraping GUI text.
+
+For customer-facing equipment schedules, call `customer_export` with the same replayable input contract. It must return the overview table, family datasheet, and evidence index from the frozen 19-profile authority file. Keep every required field even when missing; show customer-table gaps separately from algorithm/evidence-gate gaps; keep standard reference routes separate from formally adopted standards; and never promote a standard marking or engineering designation into a vendor-final model.
+
+## Calculate before selecting
+
+Enforce this order for every family:
+
+`raw/Aspen values -> normalization -> family -> all closable calculations -> equipment-design-parameter-package-v1 -> checks -> selection_feature_vector -> candidate matching -> evidence promotion`.
+
+Read `设备设计选型工作包/knowledge_graph/equipment_parameter_chain_templates.json` for the 17 family layouts and `equipment_model_recommendation_rules.json` for candidate classes and gates. Require every derived target to appear in `derived_parameters` and the parameter package before selection. Verify that `model_recommendation.selection_execution.context_sha256` equals the package selection-context hash.
+
+Partial input must return the known parameter rows, candidate family, minimum missing sets, next fields, and a deterministic most-general model/engineering-specification candidate for every physical equipment record. It may not promote that screening candidate to a catalog/vendor final choice until the candidate feature vector and same-equipment evidence gates are ready. Never map a screening result to a final result: calculated pipe diameter is not selected DN; a GB/T pump marking is not a vendor model; a custom tower or vessel uses an engineering designation rather than an invented commercial model.
+
+## Route the input
+
+- Aspen file: copy the source, hash it, open the staged copy in an isolated worker, traverse every block/stream, preserve raw paths/units/status/connectivity, generate the deterministic `aspen_pfd_mapping.json`, and pass the export to `aspen_equipment_derivation.py`. Treat `NOT_RUN/NORESULTS` Output zero/blank-unit nodes as unavailable placeholders, not process zeros. Apply deliberately broad non-design hard-sanity ranges to finite Aspen flow, mass-flow, heat-duty, power, area and geometry values; isolate sentinel-scale values and mass/volume/density conflicts as field-local diagnostics before the parameter package, formulas and designation are built. Preserve the physical equipment identity and most-general candidate. Classify exact `FSPLIT`/`MIXER`/`HIERARCHY` blocks as non-equipment simulation logic nodes by default: retain their PFD/connectivity/override surface, but never invent an independent physical device or model, and exclude only those exact records from the equipment-closure aggregate. When run is requested, use only the staged copy, capture and hash the finalized raw `.his` through an isolated SaveAs, and retain REP/SUM/MSG as diagnostics; without clean raw-history evidence the process basis remains provisional. COM is optional; its absence must never block the other routes.
+- Manual input: select the Aspen module or generic equipment family and expose one physical parameter per input box. Run `equipment_design_match.py` without a model or network.
+- LLM-assisted calculation/review: require a human-configured endpoint profile/model/key for remote calls. Keep the key outside request artifacts. Use protocol 1.9 first to close simple missing inputs through allowlisted recipes and program recalculation, then to upgrade a visible terminal default through a registered condition/rule and deterministic replay, and finally for semantic extraction, textual conditions, ambiguity handling, graph-retrieval planning, output organization, or audit. Descriptive changes and candidate references remain approval-bound.
+- Knowledge lookup: query the workspace vector index when present; otherwise use the bundled deterministic graph search. Do not invent an unindexed route.
+
+## Preserve authority
+
+- Deterministic matching, units, pressure basis, physical direction, source hashes, run status, evidence gates, and model status are authoritative.
+- Aspen supplies process-side conditions and properties, not automatic mechanical design, materials, internals, vendor curves, or final model evidence.
+- When several valid branches remain, retain their common most-general family/type and candidate set. Do not silently choose a specialized subtype.
+- Keep equations as a coherent chain: `target = formula = substituted calculation = answer`. Omit needless repetition; every displayed number must serve the substitution or result.
+- Every value generated by a built-in formula or fallback must carry a structured, visible notice in JSON and presentation stating that it is not an Aspen/user-direct value. Apply the registered hierarchy `same-case/Aspen/user value -> exact deterministic derivation -> graph/standard conditional recommendation -> built-in recommended formula -> explicit final fallback`. Class-A identities remain `D`; every recommendation/formula/default branch is `J/provisional`, assumption- and sensitivity-tagged, may not overwrite a supplied same-case result, and is capped at type screening. Registered defaults may cover density, efficiency, velocity, retention time, fill fraction, material route, LMTD correction factor and similar preliminary inputs, but never a vendor-final value or an approved same-equipment evidence package. Every physical device must also expose exactly one terminal equipment form with `EXPLICIT_TERMINAL_TYPE_SELECTED`, `CONDITIONED_TERMINAL_TYPE_SELECTED`, or `DEFAULTED_TERMINAL_TYPE_SELECTED`; broad family labels are identity inputs, not explicit forms. Terminal form remains separate from vendor-final model evidence.
+- Do not close a heat-exchanger area chain or promote a candidate on `Q=0`; zero duty does not prove that a zero-area exchanger has been designed. Retain the most-general preliminary exchanger specification with the duty gap visible. Show `design_pressure_mpa` with neutral `MPa`, require or visibly recommend `design_pressure_basis` for a direct value, normalize absolute pressure to gauge with explicit or registered-and-warned atmospheric pressure, and route nonpositive normalized gauge pressure to the external-pressure branch instead of an internal-pressure thickness equation.
+- Require `volume_basis` with selected `volume_m3`. Keep minimum total required volume separate from straight-shell geometric volume: compare `nominal_total` and `geometric_total` directly with the required total, and compare `effective_working` with `required_total * fill_fraction`.
+- Treat `ΔP/(ρg)`, `ΔP·Q`, and efficiency-adjusted liquid-turbine results only as pressure-head component, pressure-power component, and shaft-power screening. They are not total machine duty or a final unit selection. Treat tower `πDi²/4` as total shell cross-section, not active area after downcomer, receiving-pan, or inactive-zone deductions.
+- Use the built-in membrane-area geometry only for `cylindrical_channels`; every other geometry needs a same-duty external `membrane_area_m2`. Keep material visible as an optional preference, never as an implicit required field or silently selected formal material.
+- Preserve full numeric values in JSON and use compact engineering precision only in presentation fields.
+- Never let an LLM overwrite existing design numbers, units, pressure basis, evidence state, hard blockers, or final equipment model. It may select an allowlisted recipe for a missing input, or an exact registered terminal condition/rule for a currently default-selected form; the program must compute, replay, and verify the resulting value or form. After recipes are exhausted, a structured estimate may be auto-applied only to an allowlisted still-missing preliminary field after bounds, enum, physical and cross-field validation; it remains visible `J/provisional`, carries assumptions/confidence/sensitivity, and cannot promote beyond `TYPE_SCREENING`. An unregistered or unbounded free inference is rejected, and a free equipment type is always rejected.
+- Do not accept free-text `candidate_model`. A model may reference only an existing deterministic candidate with exact `candidate_id`, `designation`, `selection_feature_vector_sha256`, and `selection_context_sha256`; revalidate all four after deterministic recalculation.
+- Require every nested LLM claim to cite a `context_id` from the immutable prepared package. Condition judgments may use only registered deterministic condition IDs.
+- `final_model` requires the package’s evidence manifest and independent audit approval. Otherwise stop at the highest supported provisional state.
+
+## Verify delivery
+
+Run the agent protocol, app, and core unit suites; JSON file, one-shot stdin/stdout, and resident `--session-jsonl` round trips; schema discovery; deterministic replay and tamper rejection; `pfd_build`, catalog-bounded `pfd_override/AUTO`, and stateful `pfd_recalculate/clear=true` replay; `hybrid_prepare -> hybrid_continue` and offline-mock `hybrid_run`; the mock Aspen worker; both packaged EXE self-tests; and the GUI visual check. Test a verified recipe that fills only a missing field, returns a separate program recalculation, and preserves the initial result; test multi-step recipes independent of model order; test a structured bounded model estimate that closes the remaining preliminary selection while staying visible `J/provisional`; test unregistered, unbounded, out-of-guard and existing-value estimates as nonblocking rejections; and test that a deterministic recipe supersedes any conflicting estimate. Test a registered terminal condition that upgrades only a visible default and an invented terminal rule that is rejected without blocking; test model-controlled AI block order between immutable program anchors. Require a resident-session test to prove multiple requests use one process/API instance and retain independent response exit codes. Require nonempty parameter groups for all 17 families, units on numeric rows, structured formula chains on every derived row, candidate source/gate traces, and separate Aspen device pages. Run `scripts/audit_multi_bkp_model_gate.py` on the fixed ten-case replay and require every physical equipment record to expose one unambiguous terminal selection plus `recommended_type`, a candidate list, and a leading designation; only exact simulation-logic nodes may be N/A. The same gate must fail if any sentinel-scale canonical or derived value remains unisolated or contaminates a designation. Verify PFD node/edge topology, mapping hash, source immutability, current-block recalculation, adjacent stale propagation, and the compact/standard/detailed display contract without promoting overrides. The compact runtime bundle must preserve queryable core/model/standards assets and pass exact path-set, size, SHA-256 and SQLite integrity/count verification; packaged startup must fail closed on a missing, changed, or extra asset. Test the packaged program from a different working directory and confirm its embedded engine/rule/schema/knowledge-asset hashes match the frozen source. Review the interface for optional-COM wording, one-value-per-field inputs and `ⓘ` blank semantics, staged-LLM wording, equation typography, readable result cards, and a standard PFD canvas that is concise but not bare. For a real Aspen candidate, apply the workspace all-zero run-status and raw-history gate to the exact reopened delivery file.
+
+Do not declare the app or a design result ready until an independent chemical-equipment/knowledge-graph reviewer has checked the deterministic boundary, formula chains, evidence propagation, and packaging result.

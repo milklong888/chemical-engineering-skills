@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen 流程费用方法生成器"
+  short_description: "核对费用来源和设备映射，建立项目专用批量费用分析方法。"
+  default_prompt: "Use $aspen-flowsheet-cost-skill-builder to inspect this Aspen flowsheet, qualify sources, and generate a project-specific equipment-cost batch skill."

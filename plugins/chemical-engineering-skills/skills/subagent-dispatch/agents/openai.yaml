@@ -1,0 +1,6 @@
+interface:
+  display_name: "Subagent Dispatch"
+  short_description: "Delegate simple factual chores"
+  default_prompt: "Use $subagent-dispatch to split factual read/search/run chores from main-agent synthesis."
+policy:
+  allow_implicit_invocation: true

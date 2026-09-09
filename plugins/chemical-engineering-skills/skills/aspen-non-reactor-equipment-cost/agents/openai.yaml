@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen Non-Reactor Equipment Cost"
+  short_description: "Generate and extract AEPA equipment costs"
+  default_prompt: "Use $aspen-non-reactor-equipment-cost to generate AEPA Scenario1 files from one Aspen BKP if needed, then extract non-reactor equipment costs."

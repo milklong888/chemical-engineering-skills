@@ -1,0 +1,7 @@
+interface:
+  display_name: "Chemical Engineering Expert"
+  short_description: "Judge chemical flowsheets from macro quality to verified detail"
+  default_prompt: "Use $chemical-engineering-expert to judge this chemical-engineering task from flowsheet arrangement and hard feasibility gates through source-backed derivation and verified detail."
+
+policy:
+  allow_implicit_invocation: true

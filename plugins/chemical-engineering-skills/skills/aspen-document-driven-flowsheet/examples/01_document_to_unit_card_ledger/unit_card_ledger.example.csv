@@ -1,0 +1,6 @@
+item,source_ref,source_value,source_units,conversion_formula,aspen_value,aspen_units,destination_card,card_meaning,exported_input_check,gate
+annual_capacity,taskbook table 1,100000,t/y,"100000000 kg/y / 8000 h/y",12500,kg/h,STREAM FEED MASS-FLOW,total fresh feed basis,"STREAM FEED ... MASS-FLOW 12500",capacity sanity
+reactor_R1_target,source excerpt,0.85,fraction,"no conversion; target for Design Spec residual",0.85,fraction,DESIGN-SPEC DS_R1CONV,target conversion from live inlet/outlet,DESIGN-SPEC DS_R1CONV,reactor conversion
+reactor_R1_volume,trial bracket,10,m3,"10 m3 * 1000 L/m3",10000,L,BLOCK R1 PARAM VOL,manipulated physical reactor volume,BLOCK R1 RCSTR ... VOL=10000,solve-fit evidence
+column_product_purity,source excerpt,99.5,wt%,"99.5 / 100",0.995,mass fraction,DESIGN-SPEC DS_PROD,product concentration target,"SPEC MASS-FRAC .995 COMPS=TARGET STREAMS=PROD",product purity
+solvent_ratio,source excerpt,2.0,kg/kg,"Calculator uses live solvent/feed mass flows",2.0,kg/kg,CALCULATOR CALC_SOLV,feed-forward set point from current stream inventory,CALCULATOR CALC_SOLV,stale calculator audit

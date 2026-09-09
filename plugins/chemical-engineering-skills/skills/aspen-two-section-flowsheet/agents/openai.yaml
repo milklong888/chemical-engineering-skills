@@ -1,0 +1,4 @@
+interface:
+  display_name: "Aspen Sectioned Flowsheet"
+  short_description: "Aspen section-boundary repair"
+  default_prompt: "Use $aspen-two-section-flowsheet to define section contracts and validate cross-section streams against the current project sources."

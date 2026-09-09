@@ -1,0 +1,62 @@
+; Reusable Design Spec patterns for empty-column VRC replacement.
+; Use only after a fixed-guess heat-pump loop runs.
+; Tuning order: first recover tower outlets with the single reflux splitter,
+; liquid-side flash temperature/pressure, and only if needed stage/feed-return
+; location. Then polish HeatX/compressor variables for heat-transfer
+; reasonableness.
+
+; Pattern A: preserve a key component flow in a product by varying reflux split.
+DESIGN-SPEC <DS_KEY_RECOVERY>
+    DEFINE KEYFLOW MOLE-FLOW STREAM=<PRODUCT_STREAM> SUBSTREAM=MIXED  &
+        COMPONENT=<KEY_COMPONENT> UOM="kmol/hr"
+    SPEC "KEYFLOW" TO "<BASELINE_KEYFLOW>"
+    TOL-SPEC "<PROJECT_TOL>"
+    VARY BLOCK-VAR BLOCK=<REFLUX_SPLIT> SENTENCE=FRAC VARIABLE=FRAC  &
+        ID1=<PRODUCT_STREAM>
+    LIMITS "<LOWER_SPLIT>" "<UPPER_SPLIT>"
+
+; Pattern B: preserve bottoms/product flow by varying liquid-side flash
+; temperature. This is a tower-equivalence actuator and should usually be tried
+; before HeatX polishing.
+DESIGN-SPEC <DS_FLASH_TEMP>
+    DEFINE TOTFLOW MOLE-FLOW STREAM=<BOTTOMS_OR_OUTPUT> SUBSTREAM=MIXED  &
+        UOM="kmol/hr"
+    SPEC "TOTFLOW" TO "<BASELINE_TOTAL_FLOW>"
+    TOL-SPEC "<PROJECT_TOL>"
+    VARY BLOCK-VAR BLOCK=<REB_FLASH> VARIABLE=TEMP SENTENCE=PARAM  &
+        UOM="C"
+    LIMITS "<LOWER_FLASH_TEMP>" "<UPPER_FLASH_TEMP>"
+
+; Pattern C: preserve a bottoms or section-output total flow by varying HeatX
+; cold outlet temperature. Use after tower-equivalence knobs are already close.
+DESIGN-SPEC <DS_TOTAL_FLOW>
+    DEFINE TOTFLOW MOLE-FLOW STREAM=<BOTTOMS_OR_OUTPUT> SUBSTREAM=MIXED  &
+        UOM="kmol/hr"
+    SPEC "TOTFLOW" TO "<BASELINE_TOTAL_FLOW>"
+    TOL-SPEC "<PROJECT_TOL>"
+    VARY BLOCK-VAR BLOCK=<HEATX> VARIABLE=T-COLD SENTENCE=PARAM  &
+        UOM="C"
+    LIMITS "<LOWER_T_COLD>" "<UPPER_T_COLD>"
+
+; Pattern D: preserve a recovery ratio when feed scale can move.
+DESIGN-SPEC <DS_REC_RATIO>
+    DEFINE GOOD MOLE-FLOW STREAM=<GOOD_PRODUCT> SUBSTREAM=MIXED  &
+        COMPONENT=<KEY_COMPONENT> UOM="kmol/hr"
+    DEFINE LOSS MOLE-FLOW STREAM=<LOSS_STREAM> SUBSTREAM=MIXED  &
+        COMPONENT=<KEY_COMPONENT> UOM="kmol/hr"
+    SPEC "GOOD/(GOOD+LOSS+1D-12)" TO "<BASELINE_RECOVERY>"
+    TOL-SPEC "<PROJECT_TOL>"
+    VARY BLOCK-VAR BLOCK=<REFLUX_SPLIT> SENTENCE=FRAC VARIABLE=FRAC  &
+        ID1=<GOOD_PRODUCT>
+    LIMITS "<LOWER_SPLIT>" "<UPPER_SPLIT>"
+
+; Pattern E: preserve heat-pump temperature lift by varying compressor outlet
+; pressure. Use only after checking compressor inlet remains vapor.
+DESIGN-SPEC <DS_TEMP_LIFT>
+    DEFINE HOTTEMP BLOCK-VAR BLOCK=<HEATX> VARIABLE=<HOT_OR_COLD_TEMP_VAR>  &
+        SENTENCE=PARAM UOM="C"
+    SPEC "HOTTEMP" TO "<TARGET_TEMP_C>"
+    TOL-SPEC "<PROJECT_TOL>"
+    VARY BLOCK-VAR BLOCK=<COMP> VARIABLE=PRES SENTENCE=PARAM  &
+        UOM="bar"
+    LIMITS "<LOWER_PRESSURE>" "<UPPER_PRESSURE>"
