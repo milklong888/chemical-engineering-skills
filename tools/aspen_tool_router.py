@@ -13,7 +13,10 @@ from backends.process.selector_analysis import canonical_sha
 
 INTENTS = ("read_value", "derive_once", "live_relation", "scan_range", "match_target",
            "optimize", "fit_data", "discrete_scenarios", "diagnose")
-FIELDS = {"question", "intents", "external_request", "fit_data", "fit_authority"}
+FIELDS = {"question", "intents", "external_request", "fit_data", "fit_authority", "study_context"}
+STUDY_MODES = ("unspecified", "fixed_controls", "same_targets")
+STUDY_LISTS = ("varied_variables", "fixed_conditions", "maintained_targets", "inner_controls")
+STUDY_INTENTS = {"scan_range", "match_target", "optimize", "discrete_scenarios"}
 REFERENCES = (
     "aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md",
     "aspen-plus-operations/references/operation_graph.md",
@@ -29,7 +32,7 @@ HINTS = {
     "optimize": r"优化|最小化|最大化|最低.{0,8}(?:能耗|公用工程|成本)|optimi[sz]|minimi[sz]|maximi[sz]",
     "fit_data": r"拟合|回归|regression|fit data",
     "discrete_scenarios": r"离散|不同.{0,6}(?:拓扑|结构|流程路线|并联台数)|比较.{0,8}(?:两种|几种|不同).{0,8}流程|方案枚举|discrete|topolog(?:y|ies) comparison",
-    "diagnose": r"不收敛|收敛失败|报错|诊断|diagnos|nonconvergen",
+    "diagnose": r"不收敛|收敛失败|报错|诊断|控制变量.{0,6}(?:缺失|没配|不对)|参数.{0,8}(?:不适应|没跟着变)|diagnos|nonconvergen",
 }
 ROUTES = {
     "read_value": {
@@ -89,6 +92,77 @@ ROUTES = {
 }
 
 
+def study_contract(value, intents):
+    """Preserve declared experiment roles, never certify their physical meaning."""
+    if not isinstance(value, dict) or set(value) - {"mode", *STUDY_LISTS}:
+        raise ValueError("study_context accepts only mode and declared variable-role lists")
+    mode = value.get("mode", "unspecified")
+    if not isinstance(mode, str) or mode not in STUDY_MODES:
+        raise ValueError("Unknown study_context mode")
+    for field in STUDY_LISTS:
+        items = value.get(field, [])
+        if not isinstance(items, list) or any(not isinstance(x, str) or not x.strip() for x in items):
+            raise ValueError("study_context variable roles must be arrays of nonempty strings")
+    applicable = bool(set(intents) & STUDY_INTENTS)
+    missing = []
+    policy = "NOT_APPLICABLE"
+    if applicable:
+        if mode == "unspecified":
+            missing.append("comparison_mode")
+        missing.extend(field for field in ("varied_variables", "fixed_conditions") if not value.get(field))
+        policy = {"unspecified": "CLASSIFY_COMPARISON_FIRST", "fixed_controls": "KEEP_DECLARED_SETTINGS",
+                  "same_targets": "RE_SOLVE_AUTHORIZED_TARGET_CONTROLS"}[mode]
+        if mode == "same_targets":
+            if not value.get("maintained_targets"):
+                missing.append("maintained_targets")
+            if not value.get("inner_controls"):
+                missing.append("inner_controls_or_passive_target_justification")
+            if not value.get("maintained_targets") or not value.get("inner_controls"):
+                policy = "CLASSIFY_COMPARISON_FIRST"
+    return {"status": "AGENT_REVIEW_REQUIRED" if applicable else "NOT_APPLICABLE",
+        "comparison_mode": mode, "declaration": value, "missing_parts": missing,
+        "inner_control_policy": policy, "semantic_verified": False,
+        "boundary": "Declared names are not a degree-of-freedom, unit, control, or same-case proof. Empty inner controls may be justified by naturally satisfied targets; never invent a controller to fill a field."}
+
+
+def decision_chain(intents, study):
+    """Observable next-action guidance, not hidden reasoning or an executed plan."""
+    selected = set(intents)
+    steps = [{"id": "define_engineering_question", "action": "先用工程含义说明要查值、研究响应、匹配目标还是找更优点；控制变量先按物理作用理解，不先等同界面槽位。"}]
+    feedback = []
+    if not selected:
+        steps.append({"id": "classify_next_action", "action": "从当前请求与资料确认任务意图；有限关键词未命中不是工具不可用，不自行开始试算。"})
+    elif selected <= {"read_value", "derive_once"}:
+        steps.append({"id": "use_current_results_or_derive", "action": "读取当前有效结果或做有据的一次推导；只补影响该结论的缺项，不加控制器、扫描或全流程审计。"})
+    else:
+        if "diagnose" in selected:
+            steps.append({"id": "classify_failure_before_interface_probe", "action": "先依据当前报错分清物理/输入/控制关系与接口问题；识别变量影响谁、由谁维持指标，再针对性查映射、单位和卡片，不盲扫掩盖根因。"})
+        if selected & STUDY_INTENTS:
+            steps.extend([
+                {"id": "define_comparison_basis", "action": "确认研究条件：fixed_controls保持约定操作设置看响应，不强开内层控制；same_targets按约定目标逐点重解必要的授权控制，或核实目标自然满足。不能算前者却宣称后者最优。", "policy": study["inner_control_policy"]},
+                {"id": "derive_seed_or_reuse_valid_bracket", "action": "用当前可行基准、守恒/代数关系给初值；有未失效的同案区间就复用，未知响应才有界稀疏扫描。初值不是永久固定规格。"},
+                {"id": "map_controls_and_degrees_of_freedom", "action": "分清研究变量、保持条件、目标和授权操纵量；检查目标—操纵量配对、自由度和唯一主写入者。接口字段检查实现这个关系，不能替代它。"},
+            ])
+        if "live_relation" in selected:
+            steps.append({"id": "audit_live_dependency_and_writer", "action": "显式关系才用Calculator；列出本轮读值、公式、写入者和下游消费者，区分初始化与每轮执行，不覆盖Design Spec的操纵量。"})
+        if "fit_data" in selected:
+            steps.append({"id": "verify_fit_authority_and_identifiability", "action": "先核实原始数据、当前拟合授权、单位与可辨识性，不能为达标任意改模型常数。"})
+        steps.extend([
+            {"id": "select_existing_method", "action": "按已确认问题使用现有方法owner和routes；先解决diagnose分支的相关前置问题，多个工具标签不是要求全部同时执行。"},
+            {"id": "verify_native_definition_and_current_execution", "action": "在保护候选通过既有操作路径建立适用对象，核对当前版本导出、执行顺序与结果；工具名、哈希、旧检索缺口都不证明执行或能力。"},
+        ])
+        if selected & STUDY_INTENTS:
+            steps.append({"id": "evaluate_result_and_restore_selected_case", "action": "逐点核对约定比较基准、控制残差/状态及相关全流程约束，再比较目标；保留失败点。恢复选定工况并说明分析启停状态，交付时复验精确文件。"})
+            feedback = [
+                {"signal": "response_flat_or_controls_unchanged", "next_action": "先核对真实写入、当前读值、控制残差和状态；数值不变既不证明未求解，也不证明已求解。"},
+                {"signal": "local_objective_improves_but_required_gate_fails", "next_action": "该点不进入可行优选；回查目标完整性、物理机制和受影响下游，不只扩大变量边界。"},
+                {"signal": "best_sample_near_failed_boundary", "next_action": "识别物理或数值失败原因，再按需要局部细化；声明实际范围和分辨率，不把采样优选说成全局最优。"},
+                {"signal": "feed_property_topology_or_basis_changed", "next_action": "只使受影响的区间、控制和结果证据失效并重算；未受影响证据可继续复用。"},
+            ]
+    return {"status": "AGENT_REVIEW_REQUIRED", "steps": steps, "feedback_triggers": feedback,
+            "execution_proven": False, "feedback_events_evaluated": False}
+
+
 def reference_inventory(intents):
     from tools.product_contract import skill_location
     location = skill_location()
@@ -142,10 +216,13 @@ def solve_route(payload, evidence_root):
     # domain agent must resolve that ambiguity, rather than silently bypass it.
     conflicts = sorted(set(hinted) - set(explicit)) if explicit else []
     intents = list(dict.fromkeys([*explicit, *hinted]))
+    study = study_contract(payload.get("study_context", {}), intents)
     ambiguous_multivariable = bool(re.search(r"多变量|多个连续变量|多参数|几个参数|multivariable|multiple variables", question, re.I)) and not intents
     needs = []
     if not intents or conflicts:
         needs.append({"code": "AGENT_CLASSIFICATION_REQUIRED", "detail": "Resolve current task intent; finite language hints are not semantic proof", "conflicting_hints": conflicts})
+    if study["missing_parts"]:
+        needs.append({"code": "STUDY_CONTEXT_REVIEW_REQUIRED", "scope": "study_context", "detail": "Resolve only the relevant comparison roles from current authority; do not invent missing controls or block unrelated work", "missing_parts": study["missing_parts"]})
     plans = [{"intent": intent, **ROUTES[intent], "execution_status": "NOT_EXECUTED_BY_ROUTER"} for intent in intents]
     for plan in plans:
         needs.append({"code": "DOMAIN_TOOL_ACTION_REQUIRED", "intent": plan["intent"], "detail": plan["purpose"]})
@@ -181,6 +258,7 @@ def solve_route(payload, evidence_root):
             "semantic_completeness": False, "conflicts": conflicts, "ambiguous_multivariable": ambiguous_multivariable},
         "strong_trigger": bool(intents or ambiguous_multivariable or external["requested"]),
         "routes": plans, "needs": needs, "required_reading": refs, "fitting": fitting, "external_request": external,
+        "study": study, "decision_chain": decision_chain(intents, study),
         "vendor_sensitivity": {"classification": "EXTERNAL_POINT_SWEEP_NOT_NATIVE", "native_sensitivity_evidence": False,
             "implementation": "vendor/aspen-mcp-toolkit/src/aspen_mcp/tools/sensitivity_advanced.py",
             "boundary": "Python values loop writes parameters and reruns; it does not create native SENSITIVITY or DESIGN-SPEC objects"},

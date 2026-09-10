@@ -132,9 +132,11 @@ wait for closure of an unrelated engineering task.
 For model-value lookup, live derived relations, target matching, response
 analysis or multi-variable tuning, use the
 [native-tool decision route](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
-after the authority/error reads and before proposing trials. Classify the
-problem even when no tool name is used. Keep the detailed method there;
-this layer does not implement another solver.
+after the authority/error reads and before proposing trials. First identify the
+engineering question, what stays fixed, and what must adapt to maintain the
+intended comparison; then follow the returned decision chain and relevant
+method even when no tool name is used. Fixed-control response is not automatically
+same-product optimization. Keep details in that owner, not a second solver here.
 
 ## Output contract
 

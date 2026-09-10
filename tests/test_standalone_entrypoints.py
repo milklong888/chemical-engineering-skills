@@ -142,6 +142,14 @@ async def main():
                 solve=await call('aspen_solve_route',{'payload':{'question':'读取当前物流的焓','intents':['read_value']},'evidence_root':str(output)})
                 assert solve['native_tools_executed'] is False and solve['engineering_accepted'] is False
                 assert solve['routes'][0]['tools'][0]=='EXISTING_OUTPUT_READBACK'
+                study_context={'mode':'fixed_controls','varied_variables':['pressure'],'fixed_conditions':['current operating settings']}
+                study=await call('aspen_solve_route',{'payload':{'question':'扫描变化规律','intents':['scan_range'],'study_context':study_context},'evidence_root':str(output)})
+                assert study['study']['inner_control_policy']=='KEEP_DECLARED_SETTINGS'
+                assert study['study']['declaration']==study_context and study['study']['semantic_verified'] is False
+                assert study['decision_chain']['execution_proven'] is False
+                study_stage=await call('design_stage_check',{'payload':{'stage':'source','question':'扫描变化规律','solve_request':{'intents':['scan_range'],'study_context':study_context}},'evidence_root':str(output)})
+                assert study_stage['solve_route']['result']['study']['declaration']==study_context
+                assert study_stage['engineering_accepted'] is False and study_stage['stage_advanced'] is False
                 stage=await call('design_stage_check',{'payload':{'stage':'source','question':'高温公用工程 预热 压缩'},'evidence_root':str(output)})
                 assert stage['engineering_accepted'] is False and stage['stage_advanced'] is False
                 assert len(stage['queries'])==2 and stage['queries'][0]['returned_nodes'][0]['node_id']=='L3-03'

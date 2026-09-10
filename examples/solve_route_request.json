@@ -2,6 +2,13 @@
   "operation": "solve_route",
   "payload": {
     "question": "进料变化时自动补充溶剂，同时在产品约束下联合调整连续参数以降低能耗",
-    "intents": ["live_relation", "optimize"]
+    "intents": ["live_relation", "optimize"],
+    "study_context": {
+      "mode": "same_targets",
+      "varied_variables": ["连续操作参数"],
+      "fixed_conditions": ["当前物性方法", "系统边界"],
+      "maintained_targets": ["产品质量要求", "共同比较基准"],
+      "inner_controls": ["授权的内层质量控制"]
+    }
   }
 }

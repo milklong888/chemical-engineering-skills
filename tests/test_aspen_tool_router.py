@@ -62,6 +62,105 @@ class AspenToolRouterTests(unittest.TestCase):
         self.assertEqual(result["vendor_sensitivity"]["classification"], "EXTERNAL_POINT_SWEEP_NOT_NATIVE")
         self.assertFalse(result["vendor_sensitivity"]["native_sensitivity_evidence"])
 
+    def test_study_context_same_targets_requires_inner_control_review(self):
+        context = {"mode": "same_targets", "varied_variables": ["COMP/PRES"],
+                   "fixed_conditions": ["CURRENT_PROPERTY_METHOD"], "maintained_targets": ["product purity"],
+                   "inner_controls": []}
+        result = self.route("scan_range", study_context=context)
+        self.assertEqual(result["study"]["status"], "AGENT_REVIEW_REQUIRED")
+        self.assertEqual(result["study"]["comparison_mode"], "same_targets")
+        self.assertIn("inner_controls_or_passive_target_justification", result["study"]["missing_parts"])
+        self.assertEqual(result["study"]["inner_control_policy"], "CLASSIFY_COMPARISON_FIRST")
+        self.assertFalse(result["decision_chain"]["execution_proven"])
+
+    def test_study_context_fixed_controls_does_not_claim_same_target_comparison(self):
+        context = {"mode": "fixed_controls", "varied_variables": ["COMP/PRES"],
+                   "fixed_conditions": ["S1", "S2"], "maintained_targets": ["power"],
+                   "inner_controls": ["none"]}
+        result = self.route("scan_range", study_context=context)
+        self.assertEqual(result["study"]["comparison_mode"], "fixed_controls")
+        self.assertEqual(result["study"]["inner_control_policy"], "KEEP_DECLARED_SETTINGS")
+        self.assertNotEqual(result["study"]["inner_control_policy"], "RE_SOLVE_AUTHORIZED_TARGET_CONTROLS")
+        self.assertEqual(result["study"]["declaration"], context)
+
+    def test_missing_study_context_is_review_need_not_pass(self):
+        result = self.route("match_target")
+        self.assertEqual(result["study"]["status"], "AGENT_REVIEW_REQUIRED")
+        self.assertIn("study_context", [item["scope"] for item in result["needs"]
+                                         if item["code"] == "STUDY_CONTEXT_REVIEW_REQUIRED"])
+        self.assertFalse(result["engineering_accepted"])
+        self.assertFalse(result["native_tools_executed"])
+
+    def test_illegal_study_context_self_reported_pass_is_rejected(self):
+        context = {"mode": "same_targets", "passed": True}
+        with self.assertRaises(ValueError):
+            self.route("scan_range", study_context=context)
+
+    def test_read_value_uses_pure_lookup_chain_without_study(self):
+        result = self.route("read_value")
+        self.assertEqual(result["study"]["status"], "NOT_APPLICABLE")
+        self.assertEqual([step["id"] for step in result["decision_chain"]["steps"]],
+                         ["define_engineering_question", "use_current_results_or_derive"])
+
+    def test_diagnose_orders_failure_classification_before_interface_probe(self):
+        result = self.route("diagnose", question="收敛失败，先诊断压缩机")
+        ids = [step["id"] for step in result["decision_chain"]["steps"]]
+        self.assertLess(ids.index("classify_failure_before_interface_probe"),
+                        ids.index("verify_native_definition_and_current_execution"))
+
+    def test_receipt_changes_when_study_context_changes(self):
+        base = {"mode": "same_targets", "varied_variables": ["PRES"],
+                "fixed_conditions": [], "maintained_targets": ["purity"], "inner_controls": ["reflux"]}
+        a = self.route("scan_range", study_context=base)
+        b = self.route("scan_range", study_context={**base, "varied_variables": ["TEMPERATURE"]})
+        self.assertNotEqual(a["receipt_sha256"], b["receipt_sha256"])
+
+    def test_complete_same_target_declaration_requires_resolve_but_is_not_verified(self):
+        result = self.route("scan_range", study_context={"mode": "same_targets",
+            "varied_variables": ["pressure"], "fixed_conditions": ["current feed"],
+            "maintained_targets": ["contract product requirements"], "inner_controls": ["authorized reflux"]})
+        self.assertEqual(result["study"]["inner_control_policy"], "RE_SOLVE_AUTHORIZED_TARGET_CONTROLS")
+        self.assertEqual(result["study"]["missing_parts"], [])
+        self.assertFalse(result["study"]["semantic_verified"])
+        self.assertFalse(result["native_tools_executed"])
+
+    def test_invalid_context_types_and_whitespace_are_rejected(self):
+        for value in (None, [], {"mode": True}, {"mode": "approved"}, {"inner_controls": True},
+                      {"varied_variables": [3]}, {"maintained_targets": ["  "]}):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.route("scan_range", study_context=value)
+
+    def test_control_relationship_question_triggers_engineering_diagnosis_without_tool_name(self):
+        result = solve_route({"question": "你看看是不是控制变量缺失"}, self.root)
+        self.assertIn("diagnose", result["classification"]["intents"])
+        self.assertFalse(result["classification"]["semantic_completeness"])
+        self.assertIn("classify_failure_before_interface_probe", [s["id"] for s in result["decision_chain"]["steps"]])
+
+    def test_feedback_is_pending_and_not_injected_into_simple_lookup(self):
+        study = self.route("scan_range")
+        signals = {row["signal"] for row in study["decision_chain"]["feedback_triggers"]}
+        self.assertIn("local_objective_improves_but_required_gate_fails", signals)
+        self.assertIn("best_sample_near_failed_boundary", signals)
+        self.assertFalse(study["decision_chain"]["feedback_events_evaluated"])
+        self.assertEqual(self.route("read_value")["decision_chain"]["feedback_triggers"], [])
+
+    def test_stage_passes_study_context_without_replacing_identity_or_equipment(self):
+        fixture = stage_fixtures.DesignStageTests()
+        fixture.setUp()
+        try:
+            fixture.payload["question"] = "扫描操作范围"
+            declared = {"mode": "fixed_controls", "varied_variables": ["pressure"], "fixed_conditions": ["reflux"]}
+            fixture.payload["solve_request"] = {"intents": ["scan_range"], "study_context": declared}
+            result = fixture.check()
+            routed = result["solve_route"]["result"]
+            self.assertEqual(routed["question"], fixture.payload["question"])
+            self.assertEqual(routed["study"]["declaration"], declared)
+            self.assertEqual(routed["study"]["inner_control_policy"], "KEEP_DECLARED_SETTINGS")
+            self.assertEqual(fixture.requests, [fixture.native])
+            self.assertFalse(result["engineering_accepted"])
+        finally:
+            fixture.tearDown()
+
     def test_target_match_keeps_bracket_reuse_and_real_vary(self):
         result = self.route("match_target")
         self.assertEqual(self.tools(result), ["REUSE_SAME_CASE_BRACKET_OR_NATIVE_SENSITIVITY", "NATIVE_DESIGN_SPEC_VARY"])
@@ -145,6 +244,10 @@ class AspenToolRouterTests(unittest.TestCase):
     def test_contract_is_discoverable_without_backend(self):
         result = product_contract.schema("solve-route", mock.Mock(side_effect=AssertionError("Unexpected backend")))
         self.assertEqual(set(result["properties"]["intents"]["items"]["enum"]), set(INTENTS))
+        study = result["properties"]["study_context"]
+        self.assertFalse(study["additionalProperties"])
+        self.assertEqual(set(study["properties"]), {"mode", "varied_variables", "fixed_conditions", "maintained_targets", "inner_controls"})
+        self.assertEqual(product_contract.schema("design-stage", None)["properties"]["solve_request"]["properties"]["study_context"], study)
         self.assertIn("solve_request", product_contract.schema("design-stage", None)["properties"])
 
     def test_stage_strong_trigger_calls_router_but_keeps_declared_equipment_calls(self):

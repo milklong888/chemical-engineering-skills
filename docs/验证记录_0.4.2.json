@@ -1,0 +1,244 @@
+{
+  "schema": "chemical-skills-public-validation-v1",
+  "version": "0.4.2",
+  "metadata": {
+    "plugin_and_skills_valid": true,
+    "skills": 19,
+    "python_files_parsed": 287,
+    "handbook_links_checked": 1018,
+    "missing_links": []
+  },
+  "baseline_commit": "35ad35ae87c40e8625536b0fb7f8e7e670d0bc72",
+  "boundary": {
+    "aspen_started": false,
+    "native_analysis_built_or_executed": false,
+    "engineering_accepted": false,
+    "agent_behavior_certified": false,
+    "finite_natural_language_hints": true,
+    "study_context_semantically_verified_by_router": false
+  },
+  "source_regression": {
+    "tests": 367,
+    "passed_count": 365,
+    "skipped": 2,
+    "passed": true,
+    "suites": [
+      {
+        "name": "public_contract",
+        "tests": 10,
+        "skipped": 0,
+        "log_sha256": "95da03a36d9e52697c2e65034b05b7d13b0a4a3b550145032386989a29bc62cf",
+        "passed": true
+      },
+      {
+        "name": "public_connection",
+        "tests": 6,
+        "skipped": 0,
+        "log_sha256": "3009ecffdb7f3f5fcdb72c5349c7265fb55e5e36f3ee0f136c2fb7ca8b230013",
+        "passed": true
+      },
+      {
+        "name": "binary_assets",
+        "tests": 10,
+        "skipped": 0,
+        "log_sha256": "22b5657ac3c7abb58f3b2c4d0c65bebf8044b834c6b64974b761066decdae7ef",
+        "passed": true
+      },
+      {
+        "name": "equipment",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "23b82fe73d7b4f98c84ddcde7d6a969097ca012a7aa2baa1b3c16b43453e55b8",
+        "passed": true
+      },
+      {
+        "name": "tower",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "43a481c26cc57163d06f295931ea017497ec8769192a7f7767d10fce565ce7ad",
+        "passed": true
+      },
+      {
+        "name": "two_section",
+        "tests": 13,
+        "skipped": 0,
+        "log_sha256": "ef7649a74e3d61fb574ef14876a9f54130f7de803e27276b27c5dddef9b48994",
+        "passed": true
+      },
+      {
+        "name": "installation",
+        "tests": 28,
+        "skipped": 0,
+        "log_sha256": "5eea87532e87f9b152c27007e8b0628708eb67b85265d94c1e146e67e0dbecd4",
+        "passed": true
+      },
+      {
+        "name": "aspen_parser",
+        "tests": 31,
+        "skipped": 0,
+        "log_sha256": "693b3d25dd2acd2e21d5d23c22b0af3709c7a8887b925711b6c5cfe77c375e59",
+        "passed": true
+      },
+      {
+        "name": "history_encoding",
+        "tests": 14,
+        "skipped": 0,
+        "log_sha256": "d666ff8c43dda8c99d4e1315e8ebdefa551492d1d875c343cf32176c29426059",
+        "passed": true
+      },
+      {
+        "name": "f1",
+        "tests": 11,
+        "skipped": 0,
+        "log_sha256": "4c766708c01832afd0f2ea1c65468af543bd9755f492ffaa5534fb5b2a41400c",
+        "passed": true
+      },
+      {
+        "name": "windows_ownership",
+        "tests": 5,
+        "skipped": 0,
+        "log_sha256": "fd33dcc346eb26230a0808c597ceadb33d6c95b08342db81d36e7e5e28f40c72",
+        "passed": true
+      },
+      {
+        "name": "feedback_integrity",
+        "tests": 38,
+        "skipped": 0,
+        "log_sha256": "b3edd57b5fa5434ba9cbf9bbc221dd4ef42932be01e150531466c32e1ce57189",
+        "passed": true
+      },
+      {
+        "name": "mcp_installer",
+        "tests": 13,
+        "skipped": 0,
+        "log_sha256": "6c1c4b3be9859249cf4f48ecbc3683d0112555da0246de5bb770657a77cf9d59",
+        "passed": true
+      },
+      {
+        "name": "learning_cli",
+        "tests": 24,
+        "skipped": 0,
+        "log_sha256": "c9c2e882130de015ee258ab4dbeaa2775603f3674fb32257060c509d0219526b",
+        "passed": true
+      },
+      {
+        "name": "aspen_owned_runtime",
+        "tests": 21,
+        "skipped": 0,
+        "log_sha256": "aa8d7932b2e5ad6162596dfa8962aa163487f2f7900402ef81b8de10281ca3b0",
+        "passed": true
+      },
+      {
+        "name": "learning_eligibility",
+        "tests": 18,
+        "skipped": 2,
+        "log_sha256": "2217dea2ad15d62e9636402790c986eeb1a77aee57e6bc2d7493eb9948c41093",
+        "passed": true
+      },
+      {
+        "name": "evolution_forward",
+        "tests": 38,
+        "skipped": 0,
+        "log_sha256": "363faa7edc8dcdae92fa3bd249e8c9808172fdb4c8d1817d03e92eb27158b58b",
+        "passed": true
+      },
+      {
+        "name": "design_stage",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "33ca67742cb7d9e8ca2af6cbe7f608a51c1376edf8a2ece4e1a8c3300ccd4c89",
+        "passed": true
+      },
+      {
+        "name": "workflow_contract",
+        "tests": 5,
+        "skipped": 0,
+        "log_sha256": "8f05d03ca25d318236d05827dd8e27fde6e200a6c731b21280d7a9dc7f72e48f",
+        "passed": true
+      },
+      {
+        "name": "aspen_tool_router",
+        "tests": 34,
+        "skipped": 0,
+        "log_sha256": "7533eaab1ce2da5a165ba0a7d4d418e6e3079fc423e8db94992ee9d156280ddc",
+        "passed": true
+      }
+    ]
+  },
+  "independent_installed_runtime": {
+    "passed": true,
+    "tools_byte_identical": true,
+    "tests": [
+      {
+        "name": "entrypoints",
+        "tests": 7,
+        "log_sha256": "3e940f664a238a5db7222e21abc1b7e1c803077218f0c8cda28242434befc139",
+        "passed": true
+      },
+      {
+        "name": "design_stage",
+        "tests": 16,
+        "log_sha256": "914c8cc5c9ee0ec94a90e4dc92203a1a77f81cd45887611b7f6d450e8735d5a8",
+        "passed": true
+      },
+      {
+        "name": "aspen_tool_router",
+        "tests": 34,
+        "log_sha256": "e2a77e2f7811bc4e838bc1f37039d06ae79bab50acd40ceb1bc97a7cc89291ae",
+        "passed": true
+      },
+      {
+        "name": "feedback_example",
+        "tests": 6,
+        "log_sha256": "ee4b7aa05a35ab1f960f54f329671c61955c556ede5c58656cfce3c6957c31da",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_integrity",
+        "tests": null,
+        "log_sha256": "319e0db86756410fd8b7208ee5d3053e4d4b406cc417bb4a95fb24d3b052211a",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_owner",
+        "tests": null,
+        "log_sha256": "fbfb1d40939a92388d9050ffba61b4d86aa50e7424402809d551f574ee2c9df0",
+        "passed": true
+      }
+    ],
+    "actual_mcp_tools": 9,
+    "guarded_process_count": 22,
+    "unexpected_guard_blocks": [],
+    "guard_scope": "Python process audit hooks, not a hostile-code OS sandbox"
+  },
+  "source_only_extra_regressions": {
+    "equipment": 18,
+    "knowledge_lifecycle": 25,
+    "scope": "Source-located tests, separately passed; not installed-runtime proof."
+  },
+  "preservation": {
+    "original_files_removed": 0,
+    "protected_file_count": 679,
+    "all_protected_byte_identical": true,
+    "scope": "Knowledge, backends, vendor, wheels and original professional scripts relative to v0.4.1"
+  },
+  "behavioral_review": {
+    "scenarios": 8,
+    "scope": "Independent next-action plans and read-only solve_route calls only; not executed engineering behavior or a model-wide reliability certificate.",
+    "review_sha256": "f820a8ceaa8edadc9c732f61cc9f628d40a26860feddac2b8e749fcec9653b0b",
+    "main_review": "Plans preserved fixed-control study, same-target constraints, current bracket reuse, one-off derivation, writer ownership, diagnosis before interface edits and native capability boundaries."
+  },
+  "tested_runtime_tools": {
+    "tools\\aspen_tool_router.py": "05d59ca4c66533197854edfd4b032ab79e1008a6fdfe797a8d699b5e664de403",
+    "tools\\build_release.py": "cf85c8903d8c5867745a9d0ab827993d473bd9c73b212d169f1bf59de227b267",
+    "tools\\design_stage.py": "500b7f78835d539a145ae6dfa488edc593be1fc1976cfdd4b64b0d28f9682208",
+    "tools\\equipment_gateway.py": "273bdae1ffdc9ab86d80f6b8488052e41fd2fa8fa4180881c8a9cdf9c3b3190c",
+    "tools\\expert_cli.py": "c9f28f3aec0d379d1652e865ddad62ea2d99cf87aeba96c38694902816a1dae3",
+    "tools\\expert_mcp.py": "395521b0130b4d9eb5f394f00505bfbc4d86369237f1098a1999ae533e5cccb5",
+    "tools\\install.py": "eecd583939bacd64f83c2d60a29cac6c6e5cc568966016f128dd021350ae5969",
+    "tools\\install_offline_runtime.py": "9a3cd722f259b2d99e4a2a5253388fbd26e97c24949d2da2107453b0b50008b0",
+    "tools\\product_contract.py": "7fc61acea6e10e0941f18873b0f4c9be6c775e0ed60f8f4ee86e86971c977d36",
+    "tools\\test_install.py": "9de47b17e389553d4566ebeb803e5edf51e87c711a1050bf550fe5a129446077",
+    "tools\\verify_release.py": "d41b436d7b2803ac0e965c40e1c75858c864b6f0bbd9f5e5fe4f5faa0f793351"
+  }
+}

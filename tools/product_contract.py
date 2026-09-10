@@ -93,12 +93,18 @@ def schema(schema_id, runner):
                 "validator_owner": "backends/process/feedback.py:audit_replay",
                 "boundary": "Only registered validators verify a gate. Labels, synthetic examples and self-declared passed booleans do not prove a real flowsheet passed."}
     if schema_id == "solve-route":
-        from tools.aspen_tool_router import INTENTS
+        from tools.aspen_tool_router import INTENTS, STUDY_LISTS, STUDY_MODES
         reference = {"type": "object", "additionalProperties": False, "required": ["path", "sha256"],
             "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}
+        study_context = {"type": "object", "additionalProperties": False,
+            "properties": {
+                "mode": {"enum": list(STUDY_MODES)},
+                **{field: {"type": "array", "items": {"type": "string", "minLength": 1, "pattern": r"\S"}} for field in STUDY_LISTS},
+            }, "description": "Optional declared study roles; not a physical or execution proof. Fixed-control response and same-target comparison are distinct. Only relevant study needs are reported."}
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object", "additionalProperties": False,
             "required": ["question"], "properties": {"question": {"type": "string", "minLength": 1},
                 "intents": {"type": "array", "items": {"enum": list(INTENTS)}},
+                "study_context": study_context,
                 "fit_data": reference, "fit_authority": reference,
                 "external_request": {"type": "object", "additionalProperties": False, "required": ["reason", "evidence"],
                     "properties": {"reason": {"type": "string", "minLength": 1}, "evidence": {"type": "array", "items": reference}}}},

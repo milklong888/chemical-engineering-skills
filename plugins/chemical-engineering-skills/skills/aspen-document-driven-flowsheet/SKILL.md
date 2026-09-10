@@ -35,7 +35,7 @@ detail, read the relevant section of `references/document_driven_workflow.md`.
 | Tower/solvent/entrainer island | `aspen-tower-optimization-workflow` |
 | Heat-pump replacement | `aspen-heat-pump-distillation-replacement` |
 | Kinetic reactor | Sun Lanyi kinetics expert system + current freeze ledger |
-| 查值、随进料联动、匹配目标、范围分析、多变量调参/优化（不限工具关键词） | `references/aspen_builtin_solve_fit_tools.md`；先 `solve_route` 再操作层实施 |
+| 查值、随进料联动、匹配目标、范围分析、多变量调参/优化（不限工具关键词） | `references/aspen_builtin_solve_fit_tools.md`；先明确研究问题、固定量与联动量，再 `solve_route` 并执行相关判断链 |
 | Section boundary | `aspen-two-section-flowsheet` |
 | Shared operation template | `references/script_template_catalog.md` |
 | Strict final file | `aspen-plus-operations` complete schema/history and exact-path gate |
