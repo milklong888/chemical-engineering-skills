@@ -5,6 +5,12 @@ description: "Coordinate two-section or sectioned Aspen Plus process-boundary wo
 
 # Aspen Two-Section Flowsheet
 
+## 工作过程
+
+先检查现有模型和最新项目决定，按反应、净化、溶剂循环或中间产品等工程边界划分工段，不按旧块编号机械分成两半。每个工段都要说明由谁提供入口、处理哪些反应与分离、拥有哪些循环，以及向下一工段交付什么组成、流量、温压和相态。
+
+在这个边界合同下逐段建立或修复模型，专业问题交塔、动力学或热泵模块，具体操作交操作模块。工段有可用工况及接回后按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际检查设备和跨界影响。只有局部结果与跨段物流都成立，才逐段接回；最终返回边界合同、同版物流和验收证据，不把临时边界进料描述成已闭合的内部循环。
+
 ## Network Position
 
 Upstream authority is `aspen-document-driven-flowsheet` plus the current

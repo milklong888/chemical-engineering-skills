@@ -16,7 +16,7 @@
 - 验收、用户放宽、错误学习或知识晋升：必须读 STRICT_ACCEPTANCE_AND_LEARNING.md；默认严格，放宽来源链只审计不学习，表头/公式纠错须靠真实来源。
 
 - 做工艺安排/合理性判断：先读 MACRO_DESIGN_QUALITY.md；向常识 RAG 检索该问题的 L3/L2 约束，需计算再下钻 L1/L0。
-- 建成流程或改变负荷/温压/相态/模块：必须读 PROCESS_EQUIPMENT_FEEDBACK.md 并调用当前 equipment-design-app 路由；不能仅凭程序READY结束。
+- 从资料选路线、骨架已有负荷、严化岛、接回或改变负荷/温压/相态/模块：按 DESIGN_STAGE_ROUTING.md 执行实际阶段调用并保存结果；设备约束按 PROCESS_EQUIPMENT_FEEDBACK.md 返回工艺复算。不能仅列模块名或凭程序READY结束。
 - 需要换热器拆分、压缩分级或其他设备回退：先检索该机制/方法和当前设备证据，读取相关规则后再执行；区分输入缺口、目录覆盖和真实能力限制。具体实现从现有专业Skill继续路由。
 
 RAG入口与资格见 COMMON_SENSE_RAG.md。以上触发不是只“搜过”即可：实际使用的节点、适用条件、关键计算与证据缺口要进入当前任务账本。

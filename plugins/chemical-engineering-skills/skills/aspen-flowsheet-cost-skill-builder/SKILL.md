@@ -5,6 +5,12 @@ description: Inspect a new Aspen flowsheet, discover and qualify equipment-cost 
 
 # Aspen Flowsheet Cost Skill Builder
 
+## 工作过程
+
+面对一个尚无适用费用方法的新流程，先读取当前导出，把模拟块对应到真实的非反应器设备，弄清哪些辅助设备属于同一套装置。随后按设备用途查找并核实原始费用来源，逐项固定尺寸变量、单位、适用范围、年份、币种、材料和压力修正，再生成这个项目专用的计算说明、脚本入口与审计表。
+
+设备尺寸来自当前设备计算或经核验的同案结果，不能由费用曲线反过来凑数。来源锚点、边界、缺项和代表工况测试通过后，才把生成的项目Skill交给批量分析使用。没有随包费用数据时，先交付来源需求与方法草案，不制造费用总额；这项任务不自动触发共享经验学习。
+
 ## Purpose
 
 Generate a new project-specific Skill with this fixed structure:
@@ -90,7 +96,7 @@ python {CHEM_SKILLS}\aspen-flowsheet-cost-skill-builder\scripts\scaffold_cost_sk
   --inventory-dir <absolute_inventory_directory> `
   --data-dir <user_reviewed_cost_csv_directory> `
   --skill-name <lowercase-hyphen-name> `
-  --skills-root {CHEM_SKILLS}
+  --skills-root <project-local-draft-skills-directory>
 ```
 
    Add `--require-ready` only after all mapping and source gates are approved.

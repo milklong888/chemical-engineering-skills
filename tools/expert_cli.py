@@ -71,6 +71,16 @@ def execute(request, evidence_root, *, equipment_runner=None):
     runner = equipment_runner or equipment
     operation = request["operation"]
     payload = request.get("payload", {})
+    if operation == "design_stage":
+        from tools.design_stage import check_stage
+        def coordinated(active_runner):
+            return check_stage(payload, evidence_root,
+                search_runner=lambda **query: search(**query, equipment_runner=active_runner),
+                equipment_runner=active_runner)
+        if equipment_runner is not None:
+            return coordinated(equipment_runner)
+        with EquipmentSession() as session:
+            return coordinated(session.request)
     if operation == "search":
         if "equipment_runner" in payload:
             raise ValueError("Internal runner cannot be supplied in a request")

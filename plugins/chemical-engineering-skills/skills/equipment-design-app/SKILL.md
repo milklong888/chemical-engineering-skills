@@ -5,6 +5,12 @@ description: Run the bundled headless equipment-design backend for parameter der
 
 # Equipment Calculation and Selection
 
+## 工作过程
+
+接到同案流程导出或人工参数后，先发现设备族和字段合同，将数值、单位、来源与设备位号对齐，再让本地程序完成所有输入已齐的公式链。程序据此形成参数包、进行适用性检查并给出有条件的设备型式或候选；缺少数据时仍保留已算结果，区分最少补充输入、目录覆盖不足与真实能力限制。
+
+如果任务涉及流程建设或工况变化，就按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)在相应阶段执行，而不是等用户索要设备表。存在同案约束时，反馈入口把选型问题送回工艺层，列出需要重算的物流、设备和压力热量关系；采用修改后再次读取新版本结果。最终可生成设备表和来源索引，但初筛型式不等于厂家最终型号，程序也不会替代真实Aspen、EDR或机械设计验收。
+
 Use this product's deterministic equipment engine through JSON, CLI or MCP.
 The engine, rules, structured database and schemas are included in this
 repository. This workflow does not outrank current-project authority or

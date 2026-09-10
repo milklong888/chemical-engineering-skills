@@ -5,6 +5,12 @@ description: Build, audit, repair, and deliver Aspen Plus EDR shell-and-tube exc
 
 # Aspen EDR Rating Delivery
 
+## 工作过程
+
+从当前流程逐台列出需要EDR的双流体换热器，先核对每台的冷热侧、负荷、温压、允许压降和已有文件，再判断它只是流程估算、详细HeatX，还是已经执行了真实EDR。对需要建立或修复的设备，用同一台设备的数据运行EDR，检查面积、流速、压降、振动、物性范围和材料依据，然后通过操作模块绑定到Aspen并复开读取，证明绑定没有丢失。
+
+EDR改变面积、压降或出口状态时，不能只更新换热器表；按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)回到工艺层复算受影响的循环、产品和公用工程。最后同时交付逐台覆盖记录、EDR依据和精确Aspen文件的验收证据。包内提供方法及接口，不提供商业软件，也不把热工评级当作厂家机械设计批准。
+
 ## Role
 
 Operate the EDR-specific layer between process HeatX definition and final Aspen
@@ -60,14 +66,16 @@ accepted EDR mode, file path, geometry, materials, process target, or method.
 
 ### 1. Freeze Complete Coverage
 
-Export or inspect the accepted case and inventory every exchanger-like block.
+Freeze the authorized coverage first: named exchangers for a single-device task,
+or every eligible exchanger when full-flow EDR coverage is requested. Export or
+inspect the accepted case and inventory every exchanger-like block in that scope.
 
 - Route two-stream `HeatX` blocks to the EDR coverage ledger.
 - Keep one-stream `Heater` blocks outside EDR unless the source authorizes a
   second side and the topology change.
 - Record tag, block type, hot/cold streams, process target, current method,
   EDR file, evidence, status, and next action.
-- Stop completion claims if any eligible HeatX is absent.
+- Stop scope-completion claims if any eligible HeatX in that authorized scope is absent.
 
 ### 2. Classify The Starting State
 
@@ -213,4 +221,3 @@ Exact delivery file and SHA256:
 Quarantined branches:
 Open SW6/vendor actions:
 ```
-

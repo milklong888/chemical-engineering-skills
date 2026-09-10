@@ -5,6 +5,12 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 
 # Aspen Document Driven Flowsheet
 
+## 工作过程
+
+拿到任务书、论文或现有模型后，先把路线、产品、物性、反应依据和修改权限整理成当前项目合同。需要从零建模且允许简化时，先用最简单但连接完整的模块建立全流程骨架，检查规模、组分去向、压力和循环；随后用最新导出的入口条件切出反应或分离岛，交给动力学、塔优化或热泵模块逐一严化，再一次接回一个已核验的岛。已有模型从它实际所在阶段继续，不重复从零开始。
+
+图谱在选择方法和处理未知问题时介入，设备程序在骨架有负荷、岛内工况确定及接回后分别复核，执行[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。若设备限制要求改工况或结构，先更新项目决定，再交操作模块修改和重算。最终交付的是同一版本的模型、来源和修改记录、全流程结果及真实验收证据；简化骨架和单岛收敛不冒充最终全流程。
+
 ## Authority First
 
 Read `references/ERROR_MEMORY.md`, the chemical expert, and its

@@ -5,6 +5,12 @@ description: Evidence-driven workflow for designing, recalculating, auditing, an
 
 # Chemical Tower Design
 
+## 工作过程
+
+从已核实的塔进料、产品、温压、级数和回流基准出发，先调用设备程序识别塔型和可计算参数，再查询适用的塔盘、填料与标准方法。随后按各段实际汽液负荷推算直径、有效面积和内部几何，计算压降、漏液、夹带与液泛等边界，形成各负荷工况的性能范围，才继续确定塔高及机械设计交接条件。
+
+操作点、负荷或几何变化时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)刷新相关检查，把新压降与能力限制送回塔优化和全流程复算。图纸、重量、材料与报告都随同一计算账本更新。F1负荷图只在相应任务下读取专用入口；缺少实测、软件或厂家依据的项目，不因曲线画出来了就算正式通过。
+
 Use this skill to produce a traceable tower design whose process basis, hydraulic geometry, mechanical envelope, figures, and report equations remain mutually consistent.
 
 Read [references/ERROR_MEMORY.md](references/ERROR_MEMORY.md) before the ordinary workflow. Read [references/NEW_KNOWLEDGE.md](references/NEW_KNOWLEDGE.md) when recent candidate knowledge may affect the active design.
@@ -16,11 +22,11 @@ enter learning/default retrieval, including through descendants.
 
 ## Start with authority and retrieval
 
-1. Open the workspace knowledge-graph link map and the top-level `设备设计图谱与脚本` entry before changing a design. This skill consumes the equipment graph, standards evidence subgraph, and deterministic scripts; it does not contain or supersede them.
-2. When tower inputs come from Aspen, first run the top-level deterministic `aspen_equipment_derivation.py` so every process-side parameter keeps its stream/block field, unit conversion, export hash, clean-run gate, and equation chain; then consume its embedded `equipment_design_match.py` result. For already-canonical tower parameters, run `equipment_design_match.py` directly. Treat the deterministic equipment-family, formula-route, standard-route, and model-status output as the primary match; use this skill only to audit and execute the tower workflow.
+1. Open the workspace knowledge-graph link map and `equipment-design-app` before changing a design. Resolve the bundled runtime, equipment graph and standards evidence there; no separate desktop app or repository is required.
+2. For Aspen exports, use the bundled equipment derivation route through the unified interface so every process-side parameter keeps its stream/block field, unit conversion, export hash, run-evidence state and equation chain. For canonical parameters use its registered manual matching request. Discover exact fields with `tools/expert_cli.py --describe` and `--schema`; do not guess top-level script paths. Treat deterministic family/formula/standard/model-status output as the primary match, then audit and execute this tower workflow.
 3. If several tray/packing/structural branches remain feasible, retain the most general tower family/type and candidate set until their required inputs close one branch; do not select a specialized internal merely by score or convention.
 4. Freeze project inputs, approved deviations, software outputs, and unresolved values in a source ledger.
-5. Query the standards source layer with `scripts/query_tower_sources.py`; do not browse folders manually when the script can retrieve the evidence.
+5. Query bundled standards facts through the unified `equipment_standards` search. Use `scripts/query_tower_sources.py` only with its explicitly configured local source profile; do not treat private original pages as bundled.
 6. Classify every retrieved source as `direct_reuse`, `method_only`, `software_boundary`, `vendor_boundary`, or `forbidden_transfer` before using it.
 7. Never copy example geometry, vendor capacity, stream data, or another equipment tag's values into the active tower.
 
@@ -29,6 +35,10 @@ Read [references/evidence_routing.md](references/evidence_routing.md) whenever a
 ## Execute the design chain
 
 Follow [references/tower_design_workflow.md](references/tower_design_workflow.md) in order. Do not skip directly from Aspen results to mechanical dimensions.
+
+The complete chain applies to a complete tower-design request. A formula lookup,
+pressure-drop check or geometry audit executes only its dependent segment and
+reports that scope, without manufacturing a full mechanical-design assignment.
 
 At minimum, freeze and propagate:
 

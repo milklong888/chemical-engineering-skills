@@ -5,6 +5,12 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 # Aspen Plus Operations
 
+## 工作过程
+
+接收上层已经确定的模型、单位、允许修改范围和取证要求后，先查操作图谱或当前版本帮助，选择已有脚本处理卡片、文件读写、运行及导出。操作始终在受控文件和自有会话内进行，完成后读取实际输入与结果，确认修改被软件接受，而不是只根据调用返回值判断成功。
+
+它不替上层挑工艺路线。发现要求涉及未冻结的反应、分离或工况变更时先交回专业模块，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)补齐需要的检索与设备检查。正式交付时复用唯一错误汇总与原始历史检查器，并对最终路径文件无编辑复开运行；返回操作、运行、产品及交付的不同状态和对应证据。
+
 ## Start here
 
 1. Read `references/ERROR_MEMORY.md` and the chemical expert's current

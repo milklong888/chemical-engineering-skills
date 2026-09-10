@@ -5,6 +5,12 @@ description: Apply an evidence-led, macro-to-micro chemical-engineering reasonin
 
 # Chemical Engineering Expert
 
+## 工作过程
+
+收到化工问题后，先弄清要完成什么、依据哪份资料、哪些方法不能改变，再从系统边界、组分去向、热量和压力路径判断方案是否成立。随后选一个主专业工作流，让图谱提供适用原理和计算方法，让当前项目资料提供数值；能提取或推导的量先算出来，只有缺少不可替代输入的判断才暂缓。
+
+涉及新建流程、切岛、接回或工况变化时，按[阶段调用规则](references/DESIGN_STAGE_ROUTING.md)实际调用检索和设备程序。设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；简单查问只走所需分支，不强制重建整厂。
+
 Act as the process-design and evidence-governance layer above the existing
 Aspen, equipment, document, and calculation skills. Do not replace those
 skills or duplicate their card-level knowledge.
@@ -37,6 +43,9 @@ skills or duplicate their card-level knowledge.
    the process; this is part of design validation, not only report preparation.
    Use `references/COMMON_SENSE_RAG.md` for source-backed common-sense retrieval
    and cross-computer RAG intake.
+8. For route/scaffold/island/reconnect/change/delivery events, read
+   `references/DESIGN_STAGE_ROUTING.md` and execute its actual stage check.
+   A tool name, self-reported completion or old receipt is not a current call.
 
 ## Non-negotiable workflow
 
@@ -76,7 +85,8 @@ skills or duplicate their card-level knowledge.
    block, polished report, or detailed equipment calculation does not excuse a
    broken balance, impossible phase/heat/pressure path, unbounded recycle,
   missing terminal stream, unsafe service, or wrong product basis.
-10. After process construction, map physical duties to equipment and run the
+10. At the first available scaffold duties, during island design, after
+    reconnect and after material process changes, map physical duties to equipment and run the
     current selector on same-candidate exports. Separate capacity/physical
     failures from data, catalog, and evidence gaps. For an attributable limit,
     compare staged/parallel equipment, operating changes, or a different
@@ -107,11 +117,15 @@ Place incoming external knowledge in the relevant `NEW_KNOWLEDGE.md` as
 applicability, conflicts, and verification are recorded. Never dump raw source
 material directly into a canonical skill or graph.
 
-Before any learning/promotion, run the governed eligibility check and preserve
+Before task-derived cross-task learning/promotion, run the governed eligibility check and preserve
 its receipt. A relaxed case and all descendants are audit-only and permanently
 excluded from learning, success examples, default retrieval and rule updates.
 No user-approved local completion changes this exclusion. Source-backed rule
 correction is distinct from lowering a case's requirements.
+
+Explicit source-ingestion maintenance follows the source review and candidate
+knowledge-version process. It is not task-performance evolution and does not
+wait for closure of an unrelated engineering task.
 
 ## Output contract
 
@@ -121,6 +135,9 @@ Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 
 ## References
+
+- `references/DESIGN_STAGE_ROUTING.md`: actual stage-triggered retrieval and
+  equipment calls, local gaps, receipts and separate engineering gates.
 
 - `references/EVOLUTION_LOOP.md`: user-confirmed closure, macro prompt/data
   channels, bounded validation, Skill placement and rollback.

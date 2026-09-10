@@ -5,6 +5,12 @@ description: Enforce conscious delegation of simple factual work to subagents wh
 
 # Subagent Dispatch
 
+## 工作过程
+
+先把当前任务拆成可以独立核对的事实工作和必须统筹判断的工作。文件定位、参数提取、脚本执行及独立检查可分给范围明确的子代理，每项都说明输入、允许改动的文件、停止条件和返回证据；工艺取舍、跨模块耦合、验收以及最终交付仍由主代理负责。
+
+主代理在并行期间继续处理不重叠的工作，收到结果后核对来源和范围，再合并到当前项目。默认最多三个子代理，后续任务优先复用；完成或空闲时停止不再需要的工作并释放自有资源，不删除用户成果。若当前环境没有并行能力，按同一分工顺序执行，不能把没有委派过的检查写成独立复核。
+
 ## Trigger Rule
 
 Before starting a nontrivial task, run a quick dispatch check:
@@ -57,7 +63,9 @@ Task: Read/search/run <exact target>.
 Return only facts: paths, line numbers, command status, key values, and blockers.
 Do not give opinions or recommendations.
 Do not edit files unless explicitly assigned these exact paths.
-If evidence is missing, say missing.
+Complete the assigned targeted extraction and justified deterministic checks.
+If indispensable evidence remains unavailable, report the exact missing input
+and its affected claim; do not replace retrievable data with a generic gap.
 ```
 
 For code edits, add:
@@ -71,12 +79,12 @@ Your write scope is limited to <paths>. List changed files in your final reply.
 
 When multi-agent tools are available:
 
-- Use `multi_agent_v1.spawn_agent` for new bounded subtasks.
-- Use `agent_type="explorer"` for factual codebase/file questions.
-- Use `agent_type="worker"` only for bounded edits with disjoint write scopes.
-- Use `multi_agent_v1.send_input` to reuse an existing agent.
-- Use `multi_agent_v1.wait_agent` only when the main path needs the result now.
-- Use `multi_agent_v1.close_agent` after consuming a completed result.
+- Use the currently available delegation tool and its actual schema for bounded
+  factual subtasks or disjoint edits; do not invent legacy API names or fields.
+- Reuse an existing relevant agent for follow-up work within the active cap.
+- Wait only when its result is needed and useful independent work is exhausted.
+- Stop unneeded work and close resources through the available lifecycle tools;
+  a completed idle agent need not be sent new work solely for cleanup.
 
 If multi-agent tools are not visible, use `tool_search` for `multi-agent` before falling back to local execution.
 

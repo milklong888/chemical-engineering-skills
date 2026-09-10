@@ -91,5 +91,16 @@ def process_replay_audit(payload: dict, evidence_root: str) -> dict:
     return execute({"operation": "replay_audit", "payload": payload}, Path(evidence_root))
 
 
+@mcp.tool()
+def design_stage_check(payload: dict, evidence_root: str) -> dict:
+    """Run current-stage knowledge/equipment modules; return needs, never engineering acceptance.
+
+    Discover payload fields through product_describe(schema_id="design-stage").
+    Source can start with only stage/question. Later stages require current
+    source/authority identity and per-physical-device requests for coverage.
+    """
+    return execute({"operation": "design_stage", "payload": payload}, Path(evidence_root), equipment_runner=equipment_runner)
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

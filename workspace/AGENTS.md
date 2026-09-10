@@ -22,6 +22,11 @@ Aspen, equipment or engineering-report work:
 7. Use same-candidate exports for equipment checks. Distinguish physical limits
    from incomplete data or catalog coverage; justify extra stages or parallel
    equipment by applicable constraints or whole-system benefits.
+   At source/scaffold/island/reconnect/change/delivery events, follow the expert's
+   `references/DESIGN_STAGE_ROUTING.md` and actually execute `design_stage`
+   through the bundled CLI or MCP. Preserve its real query/calculation receipt.
+   It is not an engineering pass. Narrow lookup, template and formatting tasks
+   use only their relevant workflow; do not manufacture a full-flow scope.
 8. Keep readout, preliminary calculation, software execution, clean convergence,
    product compliance and formal delivery as separate states. Apply the version-
    bound evidence checks in the expert and operation skills.

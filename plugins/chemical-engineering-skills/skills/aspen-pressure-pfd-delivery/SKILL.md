@@ -5,6 +5,12 @@ description: Audit and repair Aspen Plus full-flow pressure topology, PFD-style 
 
 # Aspen Pressure PFD Delivery
 
+## 工作过程
+
+先沿当前流程的真实连接逐段核对压力：入口是什么压力，哪些地方需要泵或压缩机升压，哪些单元产生压降，哪里允许节流。用当前几何、物性和适用计算方法建立压降账本，检查热块是否隐藏升压、循环是否有回流压差，以及串联损失和并联共同压差是否处理正确。
+
+需要改变压力设备或工况时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)调用设备检查，再由操作模块修改受保护模型和重跑。确认后才同步PFD、设备标签和报告，让图中的顺序、压力和回流路径都来自同版导出。最后检查模型验收、图文一致性和渲染页面；仅修改排版时不无故重算全流程。
+
 ## Network Position
 
 Use this as a pressure/PFD overlay under `aspen-document-driven-flowsheet` or a
@@ -31,7 +37,7 @@ patterns, not example values. Ignore this hook outside that workspace.
 
 ## Aspen Editing Rules
 
-- Do not hand-edit `.bkp` or `.apwz` internals. Edit the `.inp` source/generation script, then regenerate through Aspen COM.
+- Do not hand-edit `.bkp` or `.apwz` internals. Use the existing operations path on a protected candidate. Regenerate from INP only when that route is authorized and preserves the required graphical/layout authority; do not rebuild an accepted intermediate model merely for a pressure check.
 - Freeze each fresh/boundary feed pressure from current source evidence; do not assume natural high pressure or a universal low-pressure value.
 - Put pressure changes in explicit equipment:
   - Gas to higher pressure: `COMPR`, with the current pressure target and source-backed efficiency/basis.
@@ -87,7 +93,9 @@ Select-String -LiteralPath '.\*_after_run.inp' `
 
 ## Delivery Package
 
-For final handoff, package at least:
+For a requested combined model/PFD/report handoff, package the following
+applicable artifacts. A pressure-only or formatting-only task returns its scoped
+evidence without inventing additional model or document deliverables:
 
 - Correct PDF, `.tex`, Markdown source, and report generation script.
 - Root `.bkp/.apwz` files for the deliverable Aspen case and any standalone reactor case.

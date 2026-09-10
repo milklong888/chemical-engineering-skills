@@ -5,6 +5,12 @@ description: Build self-evolving Aspen Plus templates by tuning representative s
 
 # Aspen Adaptive Generalization Loop
 
+## 工作过程
+
+当一个流程需要处理多种进料或负荷时，先固定物理边界、允许调节的变量和有代表性的测试范围，再用少量代表工况查清哪些量应随入口改变。优先从衡算、空速、回收和压力关系推导控制规律，分别落实为Calculator、Design Spec或有依据的分类规则，避免为每个原料名称另写一套流程。
+
+操作模块执行受保护副本的试算，修复模块处理具体异常；结构或工况变更按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)重新检索和校核设备。规律要经过相反工况、边界工况及完整约定样本复跑，才能用于当前任务的模板交付。当前任务调参不等于共享自进化；只有用户确认结束后，才把符合严格来源条件的宏观原则和数据规律送入中央审查。
+
 ## Purpose
 
 Use this skill when an Aspen island must accept many feedstocks or route cases without case-by-case hand repair. The target is a reusable template whose calculators, design specs, and classifiers adapt operating variables while preserving feed composition and process physics.
@@ -73,6 +79,12 @@ Use this skill when an Aspen island must accept many feedstocks or route cases w
   transient guards to return to their source floors at accepted steady states.
 
 ## Generalization Workflow
+
+This workflow can tune and verify templates inside the user's current project.
+Project-local iteration and delivery are not cross-task publication. References
+below to shared laws, learning evidence or reusable promotion require explicit
+current-revision closure and the central eligibility gate before any shared
+candidate generation; strict local runs alone do not open that gate.
 
 1. Freeze the island boundary, allowed manipulations, current strict baseline,
    acceptance gates, and evidence files. Separate any authorized case-local

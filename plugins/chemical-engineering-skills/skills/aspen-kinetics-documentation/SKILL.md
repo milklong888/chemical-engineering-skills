@@ -5,6 +5,12 @@ description: Write source-faithful Aspen kinetics documentation from papers, led
 
 # Aspen Kinetics Documentation
 
+## 工作过程
+
+从当前采用的论文、动力学账本、Aspen导出卡片和USER源码开始，逐个反应对齐原始速率式、参数出处、单位和反应基准，再把换算写到Aspen卡片或子程序实际接收的数值为止。需要USER时，继续核对组分顺序、REAL/INT参数、编译文件和加载方式，让读者能够从文献一路追到当前模型的真实输入。
+
+缺口先通过原文定位、量纲和换算核查解决，仍缺必要依据的参数明确保留边界。正文不堆砌并未作为输入的演示速率，也不借说明书改动模型。若发现必须改反应表达式或参数，先交回流程负责人更新来源合同，再由操作模块实施；说明文件最后与同版卡片、源码和附件逐项核对。
+
 ## Core Rule
 
 Write only to the parameter value that Aspen or the USER subroutine can actually receive.

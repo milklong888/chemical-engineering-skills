@@ -5,12 +5,20 @@ description: Audit and script chemical equipment design/selection calculations f
 
 # Chemical Equipment Selection Audit
 
-## Optional Local Retrieval
+## 工作过程
 
-If the user configured a graph under `{CHEM_WORKSPACE}`, read its current
-asset registry and use its read-only query interface for equipment methods,
-standards and evidence boundaries. No textbook body, standards database,
-project overlay or vector payload is bundled with this skill.
+从当前设备说明书和同案流程导出开始，先确认每台设备的用途、位号、介质和最新数据，再把报告中的公式、输入、单位与结果拆成可复算的账本。通过本产品设备计算入口执行可闭合的推导，查询适用方法和标准事实，随后逐项比较脚本、原文和软件证据；出现差异先查提取、单位、公式适用性和旧模板污染，不靠改容差消除问题。
+
+能够判定的错误直接给出纠正及依据，确需EDR、SW6、塔内件或厂家证据的结论留在相应边界。设计值变化时按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)交回工艺与设备负责人复核影响，再更新报告、图表和设备清单。最后交付逐项计算及正文级修改情况，不用章节提纲冒充完整报告。
+
+## Product Retrieval And Optional Local Sources
+
+Resolve this product's runtime through `LOCAL_KNOWLEDGE_GRAPH_LINKS.md`.
+Use its `tools/expert_cli.py` search/equipment/feedback entry for the bundled
+knowledge, equipment rules and structured standards facts. Read
+`equipment-design-app` for the actual backend contracts. Private project
+overlays and textbook/standard source pages are optional user-supplied sources;
+their absence does not mean the bundled calculation backend is absent.
 
 The vector index is retrieval support only. It does not replace source
 documents, calculation ledgers, software/vendor evidence or decision gates.
@@ -18,7 +26,7 @@ documents, calculation ledgers, software/vendor evidence or decision gates.
 ## Quick Start
 
 1. Read the project instructions and source documents first. Current project documents outrank templates and historical examples.
-2. When same-case Aspen data is available, invoke the current user-configured equipment derivation/matching bridge. Preserve raw fields, explicit units, equations, export hash and run evidence. Canonical JSON/CSV parameters may enter the registered deterministic matcher directly. If the bridge or its licensed data is absent, report that dependency as unavailable; this skill does not supply a hidden substitute or private catalog.
+2. When same-case Aspen exports are available, invoke the bundled equipment derivation/matching route through `equipment-design-app`. Preserve raw fields, explicit units, equations, export hash and run evidence. Canonical parameters may enter the registered deterministic matcher directly. Actual live Aspen import is separately authorized and licensed; missing COM does not block manual/exported-parameter calculations. Report genuinely missing source or formal evidence locally without inventing a private catalog.
 3. Run a route/component/template-contamination scan before writing equipment roles, media, products, materials, or process names. If current project Aspen/components/reactions do not support a copied chemistry, solvent, product purity, material, or route, quarantine it as wrong even when it appears in an old handoff or generated draft.
 4. Build an equipment map: equipment family, tag, source document, role, reusable methods, forbidden value transfers.
 5. Build a calculation ledger: formula, inputs, units, source location, script value, document value, tolerance, reliability class, status, note.
@@ -168,10 +176,10 @@ Required behavior:
 
 ## Optional Project Knowledge Graph
 
-Use the user's configured `{CHEM_WORKSPACE}` asset registry to locate the
-current equipment graph. If available, route through its unknowns, family,
-parameter-source, evidence-boundary and mismatch-audit nodes. Local graph data
-and standards are not part of this public skill.
+Use this product's link map to locate its bundled equipment graph and query
+interface. Route through family, parameter-source, evidence-boundary and
+mismatch-audit nodes. A user's private overlay can add current-project evidence,
+but is not a prerequisite for the bundled methods and structured standards facts.
 
 Read a source-backed standards crosswalk before reclassifying parameters from
 manuals, textbooks or course examples; unavailable source data stays an
@@ -213,4 +221,3 @@ single computation alone.
   `needs evidence`.
 - When a conflict ruling is possible, write the corrected value, mark the old
   value wrong, and record the root cause in the ledger or handoff artifact.
-

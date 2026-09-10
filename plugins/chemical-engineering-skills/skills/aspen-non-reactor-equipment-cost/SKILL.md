@@ -5,6 +5,12 @@ description: "Generate or reuse Aspen Plus Economic Evaluation Scenario1 package
 
 # Aspen Non-Reactor Equipment Cost
 
+## 工作过程
+
+先根据当前模型身份检查是否已有可用的AEPA Scenario1文件，优先直接读取同案设备明细，逐项分清购置费、安装费和项目总投资，并核对真实设备覆盖情况。对塔等被软件拆成多行的设备按所属单元汇总，反应器单独保留为范围外项目，不能把缺失行当作零费用。
+
+本模块优先处理已有文件，但随包封装仍需要用户明确提供兼容的提取和设备锚点脚本；不具备这些依赖时只完成可读证据整理，不声称自动解析成功。生成新的AEPA文件还需要另行授权、商业软件和已验证的自动化环境，历史界面生成路径不是离线必需步骤。最终输出逐项来源、非反应器合计、未覆盖设备和口径差异，交回流程比较。工况或设备数量变化后费用结果失效，应从新版本的设备与经济文件重新计算。
+
 ## Scope And Safety
 
 Use this skill for ordinary non-reactor equipment cost only. Do not run
@@ -19,8 +25,11 @@ directory. Never touch unrelated Aspen sessions.
 
 ## One-BKP Entry Point
 
-Use the bundled wrapper. It pre-detects an existing usable package, optionally
-generates one through Aspen GUI, parses it, and writes one final summary.
+Use the bundled wrapper with explicitly supplied compatible extraction and
+anchor scripts. It first detects an existing usable package, parses it and
+writes a summary. The two external scripts below are required, not bundled
+aliases. GUI generation is a separately authorized optional route, never a
+default stage-check dependency.
 
 ```powershell
 C:\Python314\python.exe {CHEM_SKILLS}\aspen-non-reactor-equipment-cost\scripts\single_bkp_aepa_non_reactor_cost.py `
@@ -30,7 +39,8 @@ C:\Python314\python.exe {CHEM_SKILLS}\aspen-non-reactor-equipment-cost\scripts\s
   --stage <stage> `
   --product <product> `
   --route <route> `
-  --force-gui `
+  --engine-script <absolute-reviewed-extractor.py> `
+  --anchor-script <absolute-reviewed-anchor-reader.py> `
   --compact-paths `
   --precheck-timeout-s 180 `
   --launch-timeout-s 120 `
@@ -40,11 +50,17 @@ C:\Python314\python.exe {CHEM_SKILLS}\aspen-non-reactor-equipment-cost\scripts\s
   --gui-timeout-s 480
 ```
 
-Omit `--force-gui` to parse an already usable package. Use `--force-gui` when
-the package is stale, backup-only, tied to another BKP identity, or lacks
-`EQUIP.ICS`.
+The normal entry above does not launch GUI. Only with explicit generation
+authorization and the required licensed environment, add `--force-gui` and
+`--gui-engine-script <absolute-reviewed-generation-engine.py>` when a package
+must be regenerated. Missing, stale or wrong-identity input otherwise remains
+an explicit dependency; it does not authorize desktop operation.
 
 ## Deterministic GUI State Machine
+
+This retained procedure is only for the separately authorized software-generation
+route above. It is not the standalone product's ordinary equipment calculation
+path and must not be activated by `design_stage`.
 
 Run these states in order. Do not skip forward based on an estimate or on the
 mere existence of `.szp/.izp` files.

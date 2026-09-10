@@ -5,6 +5,12 @@ description: Optimize and reconnect a source-frozen Aspen distillation or solven
 
 # Aspen Tower Optimization
 
+## 工作过程
+
+先固定当前塔的进料、物性、产品纯度、产量和回收要求，判断指定的快捷方法是否适用；适用时用DSTWU给严谨塔初始化，不适用时说明原因并按获准方法建立基准。基准稳定后，先做有边界的敏感性分析，再用在线Design Spec保持产品目标，比较不同操作点的热量、回流和设备负荷。
+
+每个候选都必须在同一产品基准下比较。流量、级数、温压或负荷变化时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)调用知识与设备检查，再交塔设计模块核对水力学；有真实能力限制才评估并联等方案。合格塔岛逐个接回全流程，并用新的入口和循环重新验证，不能把岛内最优点直接当整厂最优。
+
 ## Authority First
 
 Read `references/ERROR_MEMORY.md`, the chemical expert's strict
@@ -29,6 +35,10 @@ rigorous route. Do not silently substitute a different required method.
 `target/property freeze -> shortcut or justified rigorous initialization ->
 converged baseline -> bounded sensitivity -> live SPEC/VARY -> full-flow
 reconnect -> hydraulics/equipment/pressure -> strict same-file verification`
+
+Reconnect applies when a real parent section/full-flow is in the authorized
+task. A standalone tower task returns an accepted-for-scope island and its
+boundary contract; it does not fabricate a larger plant.
 
 Read `references/tower_optimization_workflow.md` when executing the stage,
 special-column or hydraulic details. Use an optional user-supplied local textbook graph and the legally installed
@@ -63,4 +73,3 @@ history must pass; products and full-flow gates remain additional requirements.
 A relaxed local result is labeled case-only and excluded with all descendants
 from learning/default retrieval. Historical case examples and prior entry archives are not distributed; optional
 same-case local evidence never becomes a generic default.
-

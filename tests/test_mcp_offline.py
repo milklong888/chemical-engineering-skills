@@ -324,7 +324,7 @@ def objects(value, path=''):
 async def main():
     output, repository = Path(sys.argv[1]), Path(sys.argv[2])
     expected = sorted(['knowledge_search', 'equipment_calculate', 'pressure_calculate',
-                       'process_feedback', 'process_replay_audit', 'equipment_batch', 'product_describe'])
+                       'process_feedback', 'process_replay_audit', 'equipment_batch', 'product_describe', 'design_stage_check'])
     bootstrap = r"""
 import sitecustomize,runpy,sys,subprocess
 from pathlib import Path

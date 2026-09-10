@@ -5,6 +5,12 @@ description: "Coordinate narrow SW6 scripting work after equipment evidence has 
 
 # SW6 Scripted Equipment Design
 
+## 工作过程
+
+只有任务明确要求SW6字段传递、文件回读或计算书核验时才进入本模块。先由设备审计确认同一设备的结构、设计条件、材料和证据等级，再核实目标SW6版本、模块以及用户提供的已验证字段映射，将能证明安全序列化的字段写入受控副本，并逐项回读比较单位、数值和文件身份。
+
+未验证的材料、字符串或几何不猜偏移写入。最后用同一设备的SW6计算书核验正式结论，并把差异交回设备审计；没有映射程序或商业软件证据时，交付具体待补项和已完成的账本，不声称包内自带可运行的SW6引擎。
+
 ## Scope
 
 This skill is a narrow implementation layer. It must not replace:
@@ -54,4 +60,3 @@ instruction-only skill includes a working SW6 automation engine.
 No project configs, binary field maps, proprietary SW6 files or local automation
 implementation are bundled. Never patch materials or unmapped geometry before
 same-version sample comparison or legitimate SW6 export proves serialization.
-

@@ -1,6 +1,6 @@
 {
   "name": "chemical-engineering-skills",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "独立的化工设计工作库，包含专业Skill、知识与标准数据库、设备计算、流程反馈和离线接口。",
   "author": {
     "name": "milklong888",

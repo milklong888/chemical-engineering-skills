@@ -132,13 +132,17 @@ async def main():
         async with stdio_client(params,errlog=errors) as (reader,writer):
             async with ClientSession(reader,writer,read_timeout_seconds=timedelta(seconds=75)) as session:
                 await session.initialize();listed=await session.list_tools()
-                expected={'knowledge_search','equipment_calculate','equipment_batch','product_describe','pressure_calculate','process_feedback','process_replay_audit'}
+                expected={'knowledge_search','equipment_calculate','equipment_batch','product_describe','pressure_calculate','process_feedback','process_replay_audit','design_stage_check'}
                 assert {tool.name for tool in listed.tools}==expected
                 async def call(name,arguments):
                     raw=await session.call_tool(name,arguments);result=unpack(raw)
                     calls.append({'tool':name,'result':result});return result
                 description=await call('product_describe',{})
                 assert description['standalone_product'] and description['skill']['available']
+                stage=await call('design_stage_check',{'payload':{'stage':'source','question':'高温公用工程 预热 压缩'},'evidence_root':str(output)})
+                assert stage['engineering_accepted'] is False and stage['stage_advanced'] is False
+                assert len(stage['queries'])==2 and stage['queries'][0]['returned_nodes'][0]['node_id']=='L3-03'
+                assert any(row['kind']=='equipment_capabilities' and row['status']=='EXECUTED' for row in stage['calls'])
                 caps=description['original_backend_capabilities']['response']['result']
                 schema_id=caps['schemas'][0]['schema_id']
                 schema=await call('product_describe',{'schema_id':schema_id})
@@ -164,7 +168,7 @@ async def main():
                 replay=await call('process_replay_audit',{'payload':{'plan':plan,'replay':{'case_id':'SYN-ENTRY','run_id':'SYN-RUN','plan_sha256':plan['plan_sha256'],'candidate':candidate,'source_export':export,'gates':{}}},'evidence_root':str(output)})
                 assert replay['engineering_accepted'] is False and replay['evidence_chain_complete'] is False
                 assert {row['gate'] for row in replay['failed_gates']}==set(plan['required_replay_gates'])
-                report={'schema':'standalone-seven-tool-test-v1','tool_names':sorted(expected),'calls':calls,'worker_pid':worker,'engineering_accepted':False}
+                report={'schema':'standalone-eight-tool-test-v1','tool_names':sorted(expected),'calls':calls,'worker_pid':worker,'engineering_accepted':False}
                 (output/'mcp_result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 asyncio.run(asyncio.wait_for(main(),timeout=150))
 '''
@@ -257,15 +261,15 @@ class StandaloneEntrypoints(unittest.TestCase):
         self.assertTrue(any(row['kind']=='gateway_closed' and row['detail']=={'worker_pid':pid,'returncode':0} for row in guards))
         self.assertTrue(any(row['pid']==pid and row['kind']=='guard_ready' for row in guards))
 
-    @unittest.skipUnless(importlib.util.find_spec('mcp') and importlib.util.find_spec('fastmcp'),'Use the installed offline MCP runtime for seven-tool integration')
-    def test_05_real_stdio_mcp_all_seven_tools(self):
+    @unittest.skipUnless(importlib.util.find_spec('mcp') and importlib.util.find_spec('fastmcp'),'Use the installed offline MCP runtime for eight-tool integration')
+    def test_05_real_stdio_mcp_all_eight_tools(self):
         output=self.work/'mcp';output.mkdir()
         result=subprocess.run([sys.executable,'-B','-X','utf8',str(self.client),str(output),str(ROOT),str(self.bootstrap),str(self.guard)],
             stdin=subprocess.DEVNULL,capture_output=True,text=True,encoding='utf-8',cwd=self.work,env=self.env,timeout=180)
         (output/'client.stdout.txt').write_text(result.stdout,encoding='utf-8');(output/'client.stderr.txt').write_text(result.stderr,encoding='utf-8')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         report=json.loads((output/'mcp_result.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(report['tool_names']),7)
+        self.assertEqual(len(report['tool_names']),8)
         self.assertEqual(set(report['tool_names']),{row['tool'] for row in report['calls']})
         pid=report['worker_pid'];guards=self.guard_records()
         self.assertTrue(any(row['pid']==pid and row['kind']=='guard_ready' for row in guards))

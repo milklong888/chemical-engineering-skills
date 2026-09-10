@@ -5,6 +5,12 @@ description: Replace an Aspen Plus RadFrac distillation column with an empty-col
 
 # Aspen Heat-Pump Distillation Replacement
 
+## 工作过程
+
+先运行并固定原塔的进料、产品和热量基准，再切出边界明确的塔岛，按本模块的等效替换方法建立外部换热、蒸汽压缩、回流和汽化返回回路。先恢复原塔的分离结果，再调节压缩和换热条件，比较外供热量的减少是否值得新增的电耗、设备和控制要求；不会为了节能数字好看而悄悄降低产品要求。
+
+塔的分离计算交塔优化模块，卡片和运行交操作模块；压缩与换热条件形成后，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际查适用方法并校核设备。温差、排气状态、压降或能力不满足时先修岛内方案，经过边界核验后再接回全流程复算。结果同时说明等效替换、节能收益、设备证据和整体验收各自达到的程度。
+
 ## Trigger Contract
 
 Use this skill for heat-pump distillation replacement, not for generic heat
@@ -48,7 +54,9 @@ product boundary before considering any additional polishing equipment.
 ## Quick Workflow
 
 1. Freeze the original tower/section baseline.
-   Run the unmodified tower island and the larger section island. Export
+   Run the unmodified tower island and, when full-flow/section integration is
+   in scope, its actual larger section island. A standalone tower request does
+   not require inventing a parent flowsheet. Export
    after-run INP, stream results, block status, energy summary, and boundary
    stream table.
 2. Cut scope conservatively.
@@ -151,4 +159,3 @@ Stop and report a blocker instead of promoting when any of these remain:
 - Design Specs hit bounds or fight each other without a project decision;
 - the large section cannot rerun after the single-tower island passes;
 - the delivered BKP was not saved after the accepted run.
-

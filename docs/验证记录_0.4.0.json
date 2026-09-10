@@ -1,0 +1,269 @@
+{
+  "schema": "chemical-engineering-skills-public-validation-v040",
+  "version": "0.4.0",
+  "passed": true,
+  "aspen_started": false,
+  "engineering_accepted": false,
+  "scope": "Professional workflow documentation and actual local stage orchestration; synthetic software inputs, not a chemical plant or agent-behavior certification.",
+  "public_regression": {
+    "tests": 333,
+    "skipped": 2,
+    "passed_tests": 331,
+    "skip_reason": "Two private-project learning fixtures are unavailable and not required by the public profile.",
+    "suites": [
+      {
+        "name": "public_contract",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "a479bb25e08c3a777044c90bdf01788f0f14747fe7a337dde3a03f4c18342440"
+      },
+      {
+        "name": "public_connection",
+        "tests": 6,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "1d8fef81016f93c1cae2badb67b244188e27cbd7d208cb63c244bd0f946648a9"
+      },
+      {
+        "name": "binary_assets",
+        "tests": 10,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "79d3746e6f4487374c55f3a68ce66256088fd35cf08ff7287b0b1e8331d70e20"
+      },
+      {
+        "name": "equipment",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "bfdeeb4f2ecb0d4e1ed5c22ce88f21dc2ebdba10a7c960ba4f2f6f0734bd237d"
+      },
+      {
+        "name": "tower",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "9c606168d6570060107c574fc59d278e42d613d4b9d1930eb1a33ebabeaa83b9"
+      },
+      {
+        "name": "two_section",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "6db145828f23547b7ba3ecd4fcd5b1aed5e0c3a076fc4ceef6738865730a356f"
+      },
+      {
+        "name": "installation",
+        "tests": 28,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "52ced2352b7e721465121acbf1effbfaeeb0b3b6b90c2ba94eb3881780bb4db8"
+      },
+      {
+        "name": "aspen_parser",
+        "tests": 31,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "a2652168d6811fbbb0cffe4738b3037417e9db4da6dc14a49874b7fc59739430"
+      },
+      {
+        "name": "history_encoding",
+        "tests": 14,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "af3350f5a83b24b30502ef8fce25c099d97eae1859da81f78a58a9b04fc3b34b"
+      },
+      {
+        "name": "f1",
+        "tests": 11,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "ed01b6c89c7f9ec0ec74665b415976f7122d51ec2ea1dd9739737643053af401"
+      },
+      {
+        "name": "windows_ownership",
+        "tests": 5,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "21eeef4623c995132fa1d50d7f9a848ea8a40ea1db02f9188dac5be624821a27"
+      },
+      {
+        "name": "feedback_integrity",
+        "tests": 38,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "f7fd0d4d657f52395616e6c4fb20d5300dcc36233430d68055e121f0a77af7fa"
+      },
+      {
+        "name": "mcp_installer",
+        "tests": 13,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "45ea5daa79bfb819a1fe85438c5ec52a0c6a78e7fd3f3d202405a337a532382d"
+      },
+      {
+        "name": "learning_cli",
+        "tests": 24,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "4884c6c35c7e181dec70baa97a4eab92804a4a71f6bbaed5da9605885a050368"
+      },
+      {
+        "name": "aspen_owned_runtime",
+        "tests": 21,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "36226c6b5d51dc4987528efe257892e33c1f0824eeeef6fd7d82709aae59f292"
+      },
+      {
+        "name": "learning_eligibility",
+        "tests": 18,
+        "skipped": 2,
+        "passed": true,
+        "log_sha256": "0d8bc4b6030ebafc28633872bcf8950047d87eccf764f48123d8fa58d06843d5"
+      },
+      {
+        "name": "evolution_forward",
+        "tests": 38,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "5f2463a1044acd0896e57ab32d489970e840deb526bea0b3aa1539df8a3ba74a"
+      },
+      {
+        "name": "design_stage",
+        "tests": 16,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "907f40241f80a96dcc78436523238c6e96751408b08eca2d199a9e71615c375a"
+      },
+      {
+        "name": "workflow_contract",
+        "tests": 5,
+        "skipped": 0,
+        "passed": true,
+        "log_sha256": "4ccd7ede992ca6717d4e339e43bf6743ec654a0d6dea6414c174acbf7077b82f"
+      }
+    ]
+  },
+  "independent_installed_final": {
+    "tests": [
+      {
+        "name": "entrypoints",
+        "returncode": 0,
+        "tests": 7,
+        "seconds": 43.961,
+        "log_sha256": "f328f5ffc0ed9cfc4229cdd5b1b38b9e1e78aaff567b6a26df1b287375e34ee3",
+        "passed": true
+      },
+      {
+        "name": "design_stage",
+        "returncode": 0,
+        "tests": 16,
+        "seconds": 16.639,
+        "log_sha256": "c7a7494973021aaa41652488f3c36ef3da377c1a2c8cac112a163026e6773299",
+        "passed": true
+      },
+      {
+        "name": "feedback_example",
+        "returncode": 0,
+        "tests": 6,
+        "seconds": 18.903,
+        "log_sha256": "9fa23b366d41a36e24ba0d1e91f1e1bb5f10b7c4c9f1ee001101d66f6b75c1df",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_integrity",
+        "returncode": 0,
+        "tests": null,
+        "seconds": 2.876,
+        "log_sha256": "319e0db86756410fd8b7208ee5d3053e4d4b406cc417bb4a95fb24d3b052211a",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_owner",
+        "returncode": 0,
+        "tests": null,
+        "seconds": 0.247,
+        "log_sha256": "0c0ef2df3787936e8d3370e21ad2890fdef121dbec1089f432901cea55bf6a33",
+        "passed": true
+      }
+    ],
+    "runtime_tools_byte_identical": true,
+    "actual_mcp_tool_count": 8,
+    "unexpected_network_com_or_source_guard_blocks": 0,
+    "entrypoint_guard_process_count": 20,
+    "entrypoint_guard_processes_exited": true,
+    "scope": "Disjoint runtime/Skill directories outside the original workspace; CLI, JSONL and actual MCP stdio reuse installed code. Guarded Python host/worker calls do not read the original workspace, use network/DNS or create COM; only exact stdlib socketpair wakeup IPC is allowed. Not an OS sandbox for hostile native code.",
+    "source_only_suites_excluded": [
+      "equipment",
+      "knowledge"
+    ]
+  },
+  "additional_source_regression": [
+    {
+      "name": "equipment",
+      "returncode": 0,
+      "seconds": 44.901,
+      "log_sha256": "8ff10d969187ce4dbbc758075d2dd73bf5f94936e1f5be958f6f60d2cb8d7df8",
+      "passed": true,
+      "tests": 18,
+      "scope": "source repository regression; not an installed-runtime test"
+    },
+    {
+      "name": "knowledge",
+      "returncode": 0,
+      "seconds": 297.428,
+      "log_sha256": "e3c6b138d282fd96ccba49a5a9985763621f4c7551dbb79d876cb8b5f60af441",
+      "passed": true,
+      "tests": 25,
+      "scope": "source repository regression; not an installed-runtime test"
+    }
+  ],
+  "checked_behavior": [
+    "L3 system node before current-question retrieval",
+    "source-stage discovery without invented equipment inputs",
+    "real current equipment calculation and source-bound feedback",
+    "single malformed device/pressure record does not erase later valid calculations",
+    "malformed canonical inventory remains a local reference gap",
+    "scoped island does not force unrelated full-plant calculation",
+    "changed/reconnected conditions require new checks; old values and passed booleans do not advance a stage",
+    "delivery without a change plan uses original domain workflow; supplied replay runs the existing validator",
+    "module execution never sets engineering acceptance or simulates Aspen"
+  ],
+  "unchanged_scope": "No deletions or changes in backends, knowledge, vendor or runtime payloads relative to v0.3.0. Existing physical algorithms, source records, SQLite projection, vectors and wheel assets retained.",
+  "implementation": [
+    {
+      "path": "tools/design_stage.py",
+      "sha256": "8ce38e9a7bc41b7275e2b61db76caec49ee10b57f15c828c3aeb20313b877276"
+    },
+    {
+      "path": "tools/expert_cli.py",
+      "sha256": "267c2931f5de1295110e004aa05cd9c0875b2fab1be0eeabf644d3ed31061604"
+    },
+    {
+      "path": "tools/product_contract.py",
+      "sha256": "48a5619de5016445b509c1202d81e9979d91d72e39b3b85a69096e304dbf2600"
+    },
+    {
+      "path": "tools/expert_mcp.py",
+      "sha256": "0dc9d93edd7b3b063e2a621e65dd6f23fd894eda5fde57ca3d75fec5044cf551"
+    },
+    {
+      "path": "tests/test_design_stage.py",
+      "sha256": "56c6d088bcb52a765dc2472e24e5397fab01d9dd737baf783028e3c5243787f3"
+    },
+    {
+      "path": "tests/test_standalone_entrypoints.py",
+      "sha256": "b55d78bb63bd72a35176ff36d10e7a2c3cfc90ebaddcc89c71b5610e051be3c1"
+    },
+    {
+      "path": "tests/test_workflow_contract.py",
+      "sha256": "876b3f7d444bbe69ca3f0a55af01e8f9f0628e6e7fe83613851d4a45175d3f59"
+    },
+    {
+      "path": "examples/prepare_design_stage_case.py",
+      "sha256": "8e9743a94f31308d08018fdb07bd97d3f62bbaeafa2ec0ea621f7c4e92080759"
+    }
+  ]
+}

@@ -15,7 +15,7 @@ when the task crosses several skills or the route is unclear.
 | Migrated path cannot open or package is not portable | `delivery_portability_and_plausibility_gates.md` | path-migration gate, then open-run readiness |
 | Run converges but process is unrealistic | `delivery_portability_and_plausibility_gates.md` | physical plausibility gate, then process authority repair |
 | Tower design or tower replacement | `aspen-tower-optimization-workflow` | `aspen_distillation_patterns.md` only for special/complex towers |
-| Pressure/HX/PFD issue | `aspen-pressure-pfd-delivery` | standards/equipment graph only if report parameters are changed |
+| Pressure/HX/PFD issue | `aspen-pressure-pfd-delivery` | process-duty/temperature/pressure/phase/module changes invoke the expert's `DESIGN_STAGE_ROUTING.md`; formatting alone stays scoped |
 | Explicit section split | `aspen-two-section-flowsheet` | case reference only if historical family matches |
 | Formal kinetics | local Aspen graph `kinetics_expert_system.md` | `kinetics_freeze_template.md`, then operation contract |
 | Calculator/Design Spec/Sensitivity | `aspen_builtin_solve_fit_tools.md` | operation contract |
@@ -35,6 +35,10 @@ when the task crosses several skills or the route is unclear.
   before reusing any scoped statement.
 
 ## Return Rule
+
+For source/scaffold/island/reconnect/change/delivery events, use the expert's
+`DESIGN_STAGE_ROUTING.md` actual call contract. A returned node path is
+navigation, not proof that knowledge or equipment checks executed.
 
 Every route returns to `aspen-document-driven-flowsheet` with:
 

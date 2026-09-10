@@ -5,6 +5,12 @@ description: Create and verify component-only Aspen Plus templates from a tracea
 
 # Aspen Plus Component Template
 
+## 工作过程
+
+先核实用户给出的组分名称、CAS、来源、目标数据库和Aspen版本，再把确认的组分表交给现有模板脚本，通过Aspen自身解析和导出生成文件。之后复开生成的模板，逐个比较导出的组分身份与原始清单，记录未匹配、额外或临时占位的组分，避免相似名称被误当作同一种物质。
+
+这个模块只交付组分模板及读写核验证据，不为没有物流的模板虚构一次工艺运行，也不调用无关的设备选型。需要继续建反应、塔或完整流程时，带着已核实的组分清单交给流程模块，从对应阶段继续。
+
 ## Authority and scope
 
 Read `references/ERROR_MEMORY.md` and the chemical expert's
