@@ -7,6 +7,7 @@ already chosen the process target and acceptance gates.
 
 | Node | Call When | Minimum Evidence |
 | --- | --- | --- |
+| `read-value` | Need an existing result, internal variable, unit or one-time derived value | Current export/table or `aspen_runtime.py:read_node`, path, UnitString and result freshness; no input/output mutation for a lookup |
 | `case-io` | Need to create, open, import, export, rename, or verify `.inp/.bkp/.apwz` | Source path, generated path, reopen/export proof; query `case_io.import_export` |
 | `component-property` | Need component IDs, aliases, property method, phase behavior, BIP/property checks | Component list, property method card, warning/property notes; query `component_property.components_method` |
 | `block-stream` | Need to create or reconnect blocks/streams | `FLOWSHEET` lines, stream IDs under Aspen length limits, connection map; query `block_stream.connectivity` |
@@ -116,6 +117,12 @@ delivery QA.
    violations, if any, in the gate report.
 
 ### Add Calculator And Design Spec
+
+First classify the intent using
+[the shared native-tool rule](../../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md).
+Read-only indicators run after their producers; input writers run after valid
+producers and before consumers, with a reviewed convergence sequence for cycles.
+Reuse a still-valid bracket. Do not infer native execution from a wrapper name.
 
 1. `calculator`: query `calculator.define_sequence`, define every read variable
    and write variable, and choose execution point before the consuming block.
@@ -239,4 +246,3 @@ hydraulic gates still pass.
   exact next command and stop condition instead of blocking the conversation.
 - When COM is unstable, stop broad retries and preserve the last successful
   exported run as authority only if it already satisfies the upstream gates.
-

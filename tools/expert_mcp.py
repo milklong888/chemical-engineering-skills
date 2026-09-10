@@ -92,6 +92,17 @@ def process_replay_audit(payload: dict, evidence_root: str) -> dict:
 
 
 @mcp.tool()
+def aspen_solve_route(payload: dict, evidence_root: str) -> dict:
+    """Choose existing native solve/read/fit methods; never creates, runs or accepts Aspen.
+
+    Payload: current question and optional registered intents. Does not require
+    an equipment inventory. Discover the contract with schema_id='solve-route'.
+    Finite language rules are hints; unrecognized intent requires agent review.
+    """
+    return execute({"operation": "solve_route", "payload": payload}, Path(evidence_root))
+
+
+@mcp.tool()
 def design_stage_check(payload: dict, evidence_root: str) -> dict:
     """Run current-stage knowledge/equipment modules; return needs, never engineering acceptance.
 

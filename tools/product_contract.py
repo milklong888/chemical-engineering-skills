@@ -44,8 +44,8 @@ def describe(runner):
             "skill": skill_location(), "equipment_gateway": describe_policy(),
             "original_backend_capabilities": original,
             "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
-            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "capabilities", "schema"],
-            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage"],
+            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "capabilities", "schema"],
+            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "solve-route"],
             "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
                           "query_modes": ["lexical", "hash_vector", "exact_node_id"],
                           "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
@@ -60,7 +60,7 @@ def schema(schema_id, runner):
     if schema_id == "expert-request":
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
                 "required": ["operation", "payload"], "properties": {
-                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "capabilities", "schema"]},
+                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "capabilities", "schema"]},
                     "payload": {"type": "object"}},
                 "description": "equipment payload is an original Agent request; equipment_batch payload has requests[]. Use original schema_get IDs for detailed backend inputs."}
     if schema_id == "pressure-methods":
@@ -92,6 +92,20 @@ def schema(schema_id, runner):
                 "evidence_root": "Explicit directory of hash-bound current model and domain receipts",
                 "validator_owner": "backends/process/feedback.py:audit_replay",
                 "boundary": "Only registered validators verify a gate. Labels, synthetic examples and self-declared passed booleans do not prove a real flowsheet passed."}
+    if schema_id == "solve-route":
+        from tools.aspen_tool_router import INTENTS
+        reference = {"type": "object", "additionalProperties": False, "required": ["path", "sha256"],
+            "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}
+        return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object", "additionalProperties": False,
+            "required": ["question"], "properties": {"question": {"type": "string", "minLength": 1},
+                "intents": {"type": "array", "items": {"enum": list(INTENTS)}},
+                "fit_data": reference, "fit_authority": reference,
+                "external_request": {"type": "object", "additionalProperties": False, "required": ["reason", "evidence"],
+                    "properties": {"reason": {"type": "string", "minLength": 1}, "evidence": {"type": "array", "items": reference}}}},
+            "operation": "solve_route", "mcp_tool": "aspen_solve_route",
+            "description": "Payload only. No equipment inventory needed. Finite language hints need agent judgment; hashes bind bytes, never authorize substitution or prove native execution.",
+            "example": {"operation": "solve_route", "payload": {"question": "读取当前物流的焓", "intents": ["read_value"]}},
+            "state_boundary": "AGENT_CLASSIFICATION_REQUIRED or ACTION_REQUIRED; never native creation/execution or engineering acceptance"}
     if schema_id == "design-stage":
         from tools.design_stage import STAGES
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
@@ -105,6 +119,8 @@ def schema(schema_id, runner):
                     "required": ["equipment_id", "request"], "properties": {"equipment_id": {"type": "string", "minLength": 1},
                     "request": {"type": "object", "description": "Original manual_match or auto_match request for one current physical device"}}}},
                 "context": {"type": "object", "description": "Optional process-feedback constraints/topology; identity must agree with the stage"},
+                "solve_request": {"type": "object", "description": "Optional solve-route inputs; stage question is supplied automatically and cannot be replaced. Tool action needs do not erase equipment calculations.",
+                    "additionalProperties": False, "properties": schema("solve-route", runner)["properties"]},
                 "pressure_checks": {"type": "array", "items": {"type": "object", "additionalProperties": False, "required": ["method", "input_basis", "inputs"],
                     "properties": {"method": {"enum": list(PRESSURE_METHODS)}, "input_basis": {"type": "string", "minLength": 1}, "inputs": {"type": "object"}}}},
                 "plan": {"type": "object"}, "replay": {"type": "object"}},

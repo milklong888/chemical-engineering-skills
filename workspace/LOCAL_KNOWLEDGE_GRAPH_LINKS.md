@@ -23,7 +23,8 @@
 | 原设备图谱/标准事实 | `backends/equipment/knowledge_graph/`与`backends/equipment/data/` | 保持原单位、适用分类、QA和消费者范围。 |
 | 设备选型器 | `backends/equipment/app/equipment_design_agent.py` | 原JSON接口，先计算后选择；COM单独显式允许。 |
 | 设备结果返回工艺模型 | `backends/process/feedback.py` | 有来源超限才生成修改候选；模型实施与同版复算仍须专业工作流。 |
-| 本地MCP连接 | `tools/expert_mcp.py` | 七项无界面发现/查询/计算/反馈工具；不自动启动Aspen。 |
+| 求解工具选择 | `tools/aspen_tool_router.py` | `solve_route`按读值、运行关系、目标匹配和优化分类；返回待办，不运行Aspen。 |
+| 本地MCP连接 | `tools/expert_mcp.py` | 九项无界面发现/查询/计算/反馈/路由工具；不自动启动Aspen。 |
 | 原Aspen MCP封装 | `vendor/aspen-mcp-toolkit/run_offline_mcp.py` | 可选70工具；工程操作仍受输入、会话所有权和交付约束。 |
 
 专业技能中保留的旧图谱名称先按此表解析，不在缺少原目录时重新造图谱或仅返回

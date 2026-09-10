@@ -1,0 +1,248 @@
+{
+  "schema": "chemical-skills-public-validation-v1",
+  "version": "0.4.1",
+  "baseline_commit": "acb16570427d6426ad4bbcb2e61c1983423a56b8",
+  "boundary": {
+    "aspen_started": false,
+    "native_analysis_built_or_executed": false,
+    "engineering_accepted": false,
+    "agent_behavior_certified": false,
+    "finite_natural_language_hints": true
+  },
+  "source_regression": {
+    "tests": 355,
+    "passed_count": 353,
+    "skipped": 2,
+    "passed": true,
+    "suites": [
+      {
+        "name": "public_contract",
+        "tests": 10,
+        "skipped": 0,
+        "log_sha256": "711cac81de8126a532d0e0535e928e7d8b63bb2847c0f89bd6363fc504939fc1",
+        "passed": true
+      },
+      {
+        "name": "public_connection",
+        "tests": 6,
+        "skipped": 0,
+        "log_sha256": "a1ccdcc719739081c1d2a68d5ec831c9a4e8ebbb9a31c18701c527d1ba7a150f",
+        "passed": true
+      },
+      {
+        "name": "binary_assets",
+        "tests": 10,
+        "skipped": 0,
+        "log_sha256": "9ca274196dae7b94da27019590dbb8e71bc241e0036196e9d3cfc1b934cfc562",
+        "passed": true
+      },
+      {
+        "name": "equipment",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "fb0f065b7005ebc151173c12cb66ace7c3546b1fedde715c32c4ca722f3f3948",
+        "passed": true
+      },
+      {
+        "name": "tower",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "8919e8b3cebbf5532e6b1b336519afe0e11d9c0edf50999282c93f979491f2ea",
+        "passed": true
+      },
+      {
+        "name": "two_section",
+        "tests": 13,
+        "skipped": 0,
+        "log_sha256": "6c3d522960c4bc065bff15689790bff173326143fcc6acbca0791045c7745940",
+        "passed": true
+      },
+      {
+        "name": "installation",
+        "tests": 28,
+        "skipped": 0,
+        "log_sha256": "bf6bb4597ecda0639ddac7279fd8a6c402a7a706df87ab55c64cc8d148692fda",
+        "passed": true
+      },
+      {
+        "name": "aspen_parser",
+        "tests": 31,
+        "skipped": 0,
+        "log_sha256": "4345072c8c2d759668395dbbf1054f775f59d843b02fd376e7b8733c5f02bb4e",
+        "passed": true
+      },
+      {
+        "name": "history_encoding",
+        "tests": 14,
+        "skipped": 0,
+        "log_sha256": "8933b7b10f9822e63b079c5ffb8ad0950ebff8c792951be0a68d07bcdfabd6ce",
+        "passed": true
+      },
+      {
+        "name": "f1",
+        "tests": 11,
+        "skipped": 0,
+        "log_sha256": "6de8801be95ddab09cf34409688bf321b355ac877329386aeaa344733f80a6c4",
+        "passed": true
+      },
+      {
+        "name": "windows_ownership",
+        "tests": 5,
+        "skipped": 0,
+        "log_sha256": "38cd97a1460fead9b0cabb0d0a593a2d84647d50ced03c917921a6f1bc282f69",
+        "passed": true
+      },
+      {
+        "name": "feedback_integrity",
+        "tests": 38,
+        "skipped": 0,
+        "log_sha256": "86ba4e4dc77f63fdd7a681e3616dfe3bc0103c3d4c181217a3b5487cb14b3000",
+        "passed": true
+      },
+      {
+        "name": "mcp_installer",
+        "tests": 13,
+        "skipped": 0,
+        "log_sha256": "c2ffd8f81ffa8f6b46462cc01f054945169beeba42c6f7b2fdf0e5c583b1331c",
+        "passed": true
+      },
+      {
+        "name": "learning_cli",
+        "tests": 24,
+        "skipped": 0,
+        "log_sha256": "f923d88b94a7a99512d1c6386bb30983333fec2013598cc9ade37b691b36b428",
+        "passed": true
+      },
+      {
+        "name": "aspen_owned_runtime",
+        "tests": 21,
+        "skipped": 0,
+        "log_sha256": "0490d711021c2bad60313bd5b4104ae6ea2b8a91f8184ebdcd135108d2986451",
+        "passed": true
+      },
+      {
+        "name": "learning_eligibility",
+        "tests": 18,
+        "skipped": 2,
+        "log_sha256": "1c90d0b70b74cd6842b21110af6989b145e8060df1c3270b9d366ce524cb8a3c",
+        "passed": true
+      },
+      {
+        "name": "evolution_forward",
+        "tests": 38,
+        "skipped": 0,
+        "log_sha256": "8630f0f8bc532a6ea8a0b94ab2194fa71e3b434f9912a5660f6cf1d6fc12e236",
+        "passed": true
+      },
+      {
+        "name": "design_stage",
+        "tests": 16,
+        "skipped": 0,
+        "log_sha256": "6df58b8e842460469aab9f4bfba4be30122f4a9925c08cb299ebd6aabe75cda5",
+        "passed": true
+      },
+      {
+        "name": "workflow_contract",
+        "tests": 5,
+        "skipped": 0,
+        "log_sha256": "a0bd2cc0bddec896cec20bcdf6f2d0b4b91388913feb521b2c8b3ed53470c930",
+        "passed": true
+      },
+      {
+        "name": "aspen_tool_router",
+        "tests": 22,
+        "skipped": 0,
+        "log_sha256": "35d9b476a3f661afb657fd5db6fe58d39e9746514bf3f20aff82dcbb281cd5c3",
+        "passed": true
+      }
+    ]
+  },
+  "prior_attempt": {
+    "retained": true,
+    "passed": false,
+    "issue": "One existing fake-worker supervisor opening-phase test returned supervisor_error on a PermissionError reading worker_stage.json. No winerror was recorded; transient sharing/AV access is a hypothesis, not proven sole cause. The owned worker exited. Unmodified serial 21-test replay and full second regression passed. No production runtime code or assertion was weakened.",
+    "failed_suites": [
+      {
+        "name": "aspen_owned_runtime",
+        "log_sha256": "2fb6bb7a656801ac084f1b03631413904578bf48a57697cc0ceb0ca53b8235c1"
+      }
+    ]
+  },
+  "independent_installed_runtime": {
+    "passed": true,
+    "tools_byte_identical": true,
+    "tests": [
+      {
+        "name": "entrypoints",
+        "tests": 7,
+        "log_sha256": "1d977150ff7c93ab0ef4a248a8e9a5923a959850ec17c97f3ecfb200f646120a",
+        "passed": true
+      },
+      {
+        "name": "design_stage",
+        "tests": 16,
+        "log_sha256": "735933f89c160ac88cb58e1cb655dca9cae59b4b90f1fd14cb0ba3681d3f0ec7",
+        "passed": true
+      },
+      {
+        "name": "aspen_tool_router",
+        "tests": 22,
+        "log_sha256": "f52c9c2bfbf29cb3ad6e52d477d186ee74044368fba61d836612feb22dac0e5d",
+        "passed": true
+      },
+      {
+        "name": "feedback_example",
+        "tests": 6,
+        "log_sha256": "97a9afacd81e31400534af760e56658902fb34d3c49ea2a131b6facb2611b3d7",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_integrity",
+        "tests": null,
+        "log_sha256": "319e0db86756410fd8b7208ee5d3053e4d4b406cc417bb4a95fb24d3b052211a",
+        "passed": true
+      },
+      {
+        "name": "installed_knowledge_owner",
+        "tests": null,
+        "log_sha256": "efa05386dc79066979cc25a2d7bfd28b25fea671178d1cee3bc78da0d2b21fbd",
+        "passed": true
+      }
+    ],
+    "actual_mcp_tools": 9,
+    "guarded_process_count": 20,
+    "unexpected_guard_blocks": [],
+    "guard_scope": "Python process audit hooks, not a hostile-code OS sandbox"
+  },
+  "source_only_extra_regressions": {
+    "equipment": 18,
+    "knowledge_lifecycle": 25,
+    "scope": "These tests use source file locations; not installed-runtime proof."
+  },
+  "preservation": {
+    "original_files_removed": 0,
+    "protected_file_count": 679,
+    "all_protected_byte_identical": true,
+    "scope": "Knowledge, backends, vendor, wheels and original professional scripts relative to v0.4.0"
+  },
+  "metadata": {
+    "plugin_and_skills_valid": true,
+    "skills": 19,
+    "python_files_parsed": 287,
+    "handbook_links_checked": 1017,
+    "missing_links": []
+  },
+  "tested_runtime_tools": {
+    "tools\\aspen_tool_router.py": "8ea87fa92c88aa3e297857128920a95164d3b22c07d2bc791212545593dd4708",
+    "tools\\build_release.py": "cf85c8903d8c5867745a9d0ab827993d473bd9c73b212d169f1bf59de227b267",
+    "tools\\design_stage.py": "500b7f78835d539a145ae6dfa488edc593be1fc1976cfdd4b64b0d28f9682208",
+    "tools\\equipment_gateway.py": "273bdae1ffdc9ab86d80f6b8488052e41fd2fa8fa4180881c8a9cdf9c3b3190c",
+    "tools\\expert_cli.py": "c9f28f3aec0d379d1652e865ddad62ea2d99cf87aeba96c38694902816a1dae3",
+    "tools\\expert_mcp.py": "395521b0130b4d9eb5f394f00505bfbc4d86369237f1098a1999ae533e5cccb5",
+    "tools\\install.py": "eecd583939bacd64f83c2d60a29cac6c6e5cc568966016f128dd021350ae5969",
+    "tools\\install_offline_runtime.py": "9a3cd722f259b2d99e4a2a5253388fbd26e97c24949d2da2107453b0b50008b0",
+    "tools\\product_contract.py": "a7cb282fdb3ee812fe34d474510b68c8deddb9da14067c9210978e48ce2c9e66",
+    "tools\\test_install.py": "9de47b17e389553d4566ebeb803e5edf51e87c711a1050bf550fe5a129446077",
+    "tools\\verify_release.py": "d41b436d7b2803ac0e965c40e1c75858c864b6f0bbd9f5e5fe4f5faa0f793351"
+  }
+}

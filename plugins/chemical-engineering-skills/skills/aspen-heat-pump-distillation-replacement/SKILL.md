@@ -53,6 +53,12 @@ product boundary before considering any additional polishing equipment.
 
 ## Quick Workflow
 
+等效替换开始调参及改变压缩压力前，按
+[内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
+调用 `solve_route`。原产品边界由活跃 Design Specs 闭合，压缩/换热外层
+采用原生 Sensitivity 或适用的 Optimization；每个点都重解内层分离规格，
+再比较供热、压缩功及设备。只读某股焓或某点温差不因此启动优化。
+
 1. Freeze the original tower/section baseline.
    Run the unmodified tower island and, when full-flow/section integration is
    in scope, its actual larger section island. A standalone tower request does

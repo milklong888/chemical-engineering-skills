@@ -38,6 +38,11 @@ executes and supplies the single strict version-bound evidence gate.
 
 ## At the relevant failure, read the detailed method
 
+出现逐点改参数仍无进展、Vary不动、重复写入或缺少随进料联动时，先按
+[内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
+分类，并检查实际自由度和依赖顺序；不能把“每轮只改一类故障”的诊断原则误用为
+任何优化都要外部逐点试跑。工具结构完整后才继续有界响应分析或目标求解。
+
 - Phase/specification or external-reboiler/APW consistency:
   `references/repair_workflow.md`.
 - Recycle inventory, scale/root, Calculator ordering or startup state:

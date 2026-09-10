@@ -6,11 +6,12 @@ absent; do not require installation merely to perform supported local work.
 
 ## Explicit local setup
 
-Use only a user-selected, separately installed MCP provider whose license and
-current interface have been reviewed. Configure its actual interpreter and
-arguments through the host's supported settings. This public skill includes
-no MCP server implementation, third-party Python interface, virtualenv,
-credentials or preconfigured machine path.
+Use a user-selected MCP provider whose license and current interface have been
+reviewed. The complete distribution includes an optional MIT-licensed provider
+under `vendor/aspen-mcp-toolkit/` and an offline launcher; this individual Skill
+does not contain a second server. Configure the actual interpreter and arguments
+through the host's supported settings. No credentials, Aspen license, machine
+path or active server connection is preconfigured.
 
 A configured server may offer open/run/get/set/close, block/stream editing or
 export tools. Discover its real tool list, identify the exact provider/version,
@@ -37,7 +38,21 @@ quantities and source-to-card conversions. Use legally installed version-specifi
 Aspen help for card meanings. Do not merge third-party defaults or copied
 commercial help into the public manual registry.
 
-Any installed provider, licensed Aspen runtime and local help data are external
-dependencies. If unavailable, report the exact unsupported operation; no
-placeholder server declaration is supplied here.
+An installed provider, licensed Aspen runtime and local help data remain
+execution prerequisites even when provider source and Python wheels are bundled.
+If unavailable, report the exact unsupported operation; use the existing
+COM/script path when it covers the authorized work.
 
+## 原生分析与外部循环的区别
+
+随包 provider 的 `sensitivity` 调用 `tools/sensitivity_advanced.py`，逐点
+写值并重新运行，是外部参数扫描，不创建 Aspen 原生 SENSITIVITY 对象。
+`linked_params` 只按固定倍率改参数，不会自动求解产品目标。其公开 `unit`
+参数没有转交底层扫描实现；使用前须独立核对实际节点单位，不能据传参声称换算。
+
+`get_value`、`set_value`、`explore` 和 `run_script` 是可用的底层通道，
+不是已验证的原生 Calculator/Design Spec/Optimization 自动创建协议。
+设置存在的节点不等于建立一个完整对象。按
+[内置工具规则](../../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
+选工具，再经版本帮助、节点探测和真实导出核实执行；缺一个专用 MCP 方法不
+代表 Aspen 没有该功能，也不自动授权用外部循环替代。

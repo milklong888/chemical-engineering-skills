@@ -31,6 +31,12 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 ## Existing execution paths
 
+查当前值先复用同案导出或 `aspen_runtime.py` 的只读节点接口；不要改 Output
+或为一次换算添加 Calculator。涉及运行关系、匹配目标或调参时，先读取
+[统一内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
+并接收其工具方案，再查版本帮助实施原生卡片。外部脚本建卡是自动化，外部逐点
+SetValue/Run 不是原生 Sensitivity；卡片、结果表、残差和依赖顺序要同案核对。
+
 | Task | Entry | What it proves |
 | --- | --- | --- |
 | Common session, units, version and resources | `scripts/aspen_runtime.py` | Structured operation/lifecycle evidence, not process feasibility |

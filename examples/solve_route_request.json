@@ -1,0 +1,7 @@
+{
+  "operation": "solve_route",
+  "payload": {
+    "question": "进料变化时自动补充溶剂，同时在产品约束下联合调整连续参数以降低能耗",
+    "intents": ["live_relation", "optimize"]
+  }
+}

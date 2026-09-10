@@ -18,7 +18,7 @@ from backends.process.selector_analysis import canonical_sha, equipment_records
 
 STAGES = ("source", "scaffold", "island", "reconnect", "change", "delivery")
 FIELDS = {"stage", "question", "case_id", "run_id", "source_export", "authority",
-          "equipment_requests", "context", "pressure_checks", "plan", "replay", "detail"}
+          "equipment_requests", "context", "pressure_checks", "plan", "replay", "detail", "solve_request"}
 IDENTITY_FIELDS = ("case_id", "run_id", "source_export", "authority")
 CALCULATIONS = {"manual_match", "auto_match", "equipment.match"}
 ROOT = Path(__file__).resolve().parents[1]
@@ -103,6 +103,22 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         if value.get("equipment") is not None and value["equipment"].get("backend_exit_code") != 0:
             gap("EQUIPMENT_KNOWLEDGE_QUERY_FAILED", "knowledge", value["equipment"])
         queries.append(query)
+
+    from tools.aspen_tool_router import solve_route
+    solve_action_required = False
+    solve_input = payload.get("solve_request", {})
+    if not isinstance(solve_input, dict) or ("question" in solve_input and solve_input["question"] != question):
+        solve = {"status": "FAILED", "error": "solve_request must be an object using the current stage question"}
+        gap("SOLVE_REQUEST_INVALID", "solve_route", solve["error"])
+    else:
+        solve_input = {**solve_input, "question": question}
+        solve = call("aspen_solve_route", solve_input, lambda: solve_route(solve_input, root))
+        decision = solve.get("result", {})
+        if decision.get("strong_trigger") or "solve_request" in payload:
+            solve_action_required = True
+            gap("SOLVE_TOOL_ACTION_REQUIRED", "solve_route", {
+                "status": decision.get("status"), "needs": decision.get("needs", []),
+                "boundary": "Route is not native creation/execution; continue existing computations and resolve the domain action"})
 
     if stage == "source":
         request = {"schema": "equipment-design-agent-request-v1", "request_id": "DESIGN-STAGE-DISCOVERY",
@@ -233,6 +249,9 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
                 gap("DOMAIN_REPLAY_INCOMPLETE", "delivery", replay_result.get("result"))
 
     reads = domain_reads(stage, question)
+    for required in solve.get("result", {}).get("required_reading", []) if solve_action_required else []:
+        if required["logical_path"] not in {item["logical_path"] for item in reads}:
+            reads.append(required)
     for item in reads:
         if not item["available"]: gap("DOMAIN_INSTRUCTIONS_UNAVAILABLE", "domain", item["logical_path"])
     receipt = {"schema": "chemical-design-stage-receipt-v1", "execution_id": str(uuid.uuid4()),
@@ -241,7 +260,7 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "identity_status": "HASH_BOUND_CURRENT_CANONICAL_DOCUMENTS" if len(documents) == 2 else "INCOMPLETE_OR_SOURCE_STAGE",
         "frozen_method": documents.get("authority", {}).get("required_method"),
         "status": "ACTION_REQUIRED" if needs else "MODULE_CHECKS_EXECUTED", "needs": needs,
-        "queries": queries, "equipment": equipment, "pressure": pressure, "replay": replay_result,
+        "queries": queries, "equipment": equipment, "pressure": pressure, "replay": replay_result, "solve_route": solve,
         "calls": calls, "domain_reads": reads,
         "inventory_coverage": {"declared_count": len(requests), "declared_ids": sorted(declared),
             "export_declared_ids": sorted(export_ids), "exported_not_requested": sorted(export_ids - declared),
@@ -254,6 +273,6 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "engineering_accepted": False, "flowsheet_modified": False, "stage_advanced": False,
         "acceptance_boundary": "Module execution and hashes are not engineering acceptance, real Aspen provenance, or proof of inventory completeness"}
     receipt["implementation"] = [{"path": name, "sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
-        for name in ("tools/design_stage.py", "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")]
+        for name in ("tools/design_stage.py", "tools/aspen_tool_router.py", "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")]
     receipt["receipt_sha256"] = canonical_sha(receipt)
     return receipt

@@ -93,7 +93,9 @@ candidate generation; strict local runs alone do not open that gate.
    acceptance contract, covering applicable route, product target, composition,
    contaminants, pressure, and wet/dry extremes. Historical 20-case panels are
    examples, not a universal count or permission to omit required coverage.
-3. Hand tune seed cases and log every setting and failed attempt. Only cases
+3. Tune seed cases through the shared native-tool route and log every setting
+   and failed attempt; manual intervention is for diagnosed setup/repair, not
+   the default point-by-point numerical search. Only cases
    eligible under the unchanged current strict baseline may support learning;
    relaxed case-local work remains in a separate audit ledger.
 4. Convert each seed into scalar features such as H2/CO, H2O/CO2, H2S/CO2, CO2 load, water load, pressure gap, route, product target, and gasifier branch.
@@ -215,6 +217,12 @@ Goal: run all production cases in order, using low-judgment workers for executio
    cases, or when the user explicitly requests another generalization cycle.
 
 ## Rule Types
+
+工具触发与插入时机统一见
+[内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)；
+开始代表工况调参时先调用 `solve_route`。这里保留模板泛化的专业要求：
+已知运行关系先实现为实时规则，未知响应才试算；多变量不自动转外部搜索。
+一次性换算不加 Calculator，固定设备容量评估不让尺寸随流量偷偷变化。
 
 - Calculator: forward translator from measured feed/process features to Aspen inputs, makeup flows, initial guesses, utility loads, or design-spec starting values.
 - Design Spec: feedback goal for one scalar target with one manipulated variable and engineering bounds, such as syngas ratio, CO2 removal, solvent recovery, or makeup closure.

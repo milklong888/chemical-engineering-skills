@@ -127,6 +127,15 @@ Explicit source-ingestion maintenance follows the source review and candidate
 knowledge-version process. It is not task-performance evolution and does not
 wait for closure of an unrelated engineering task.
 
+## Native analysis and control trigger
+
+For model-value lookup, live derived relations, target matching, response
+analysis or multi-variable tuning, use the
+[native-tool decision route](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
+after the authority/error reads and before proposing trials. Classify the
+problem even when no tool name is used. Keep the detailed method there;
+this layer does not implement another solver.
+
 ## Output contract
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations

@@ -71,6 +71,9 @@ def execute(request, evidence_root, *, equipment_runner=None):
     runner = equipment_runner or equipment
     operation = request["operation"]
     payload = request.get("payload", {})
+    if operation == "solve_route":
+        from tools.aspen_tool_router import solve_route
+        return solve_route(payload, evidence_root)
     if operation == "design_stage":
         from tools.design_stage import check_stage
         def coordinated(active_runner):

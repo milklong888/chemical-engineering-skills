@@ -1,6 +1,22 @@
 # Solve/Fit Trigger Scorecard
 
-Create this scorecard before broad manual sweeps.
+Complete this record before proposing repeated trials. Read
+[the shared tool rule](../../references/aspen_builtin_solve_fit_tools.md) first.
+
+## Intent And Execution Contract
+
+| Field | Current-case entry |
+| --- | --- |
+| User objective and method | Exact current requirement; equality, inequality, response analysis or objective |
+| Intent classification | read_value / derive_once / live_relation / scan_range / match_target / optimize / fit_data / discrete_scenarios / diagnose |
+| Route receipt | New solve_route receipt path; classification is not Aspen execution |
+| Continuous/discrete variables | Names, units, authorized bounds, physical degrees of freedom and current writers |
+| Existing response evidence | Same-case valid interval or reason a new native Sensitivity is needed |
+| Calculator timing | Producer, current-run read basis, formula, target input, consumer, convergence order |
+| Native implementation | Current-version help/node evidence, actual objects and protected candidate |
+| External substitution if needed | Specific native gap and supporting evidence; missing MCP wrapper alone is insufficient |
+| Execution evidence | Exported objects, table/residual/status and same-run downstream gates |
+| Final scope | Analysis executed / target met / sampled or local optimum / engineering acceptance separately |
 
 ## Reactor Replacement
 
@@ -8,12 +24,12 @@ Create this scorecard before broad manual sweeps.
 | --- | --- |
 | Current source basis | `source_docs/current_document` |
 | Key reactant and inlet/outlet streams | `A`, `RIN` -> `ROUT` |
-| Target conversion window | `0.80-0.90`, from current document plus external anchor |
+| Target conversion window | Current authorized source value, units/basis and source location; no example default |
 | Scaffold evidence | `RYIELD/RSTOIC case`, material balance only |
 | Original full-flow yield audit | product/feed, recycle loss, purge loss, separation loss |
 | Kinetic island | `RCSTR` or `RPLUG` with exported reaction set |
 | Manipulated physical variable | volume, length, residence time, temperature, pressure, feed ratio |
-| Aspen tool | Sensitivity bracket, then Design Spec or Optimization |
+| Aspen tool | Reuse a valid response bracket or native Sensitivity, then Design Spec or Optimization as appropriate |
 | Promotion evidence | exported input, block status, stream results, residual/status, warning scan |
 | Back-substitution gate | full-flow rerun keeps solve/fit record and downstream gates pass |
 
@@ -25,7 +41,7 @@ Create this scorecard before broad manual sweeps.
 | Target | mass or mole fraction, recovery, or impurity limit |
 | Feed inventory check | key component feed rate and feasible product rate |
 | Manipulated variable | reflux ratio, distillate rate, bottoms rate, pressure, solvent rate, side draw |
-| Aspen tool | Design Spec after a Sensitivity bracket |
+| Aspen tool | Design Spec with a valid response bracket; reuse current evidence instead of rescanning |
 | Failure stop | after three focused same-topology failures, build special-separation option table |
 | Promotion evidence | concentration spec residual, block status, stream composition, warning scan |
 

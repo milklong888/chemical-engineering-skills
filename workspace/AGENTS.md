@@ -36,6 +36,13 @@ Aspen, equipment or engineering-report work:
     method review only after explicit user closure of the current revision.
     Case-specific relaxations and their descendants remain project audit only.
 
+Before lookup, live relations, target matching, response studies or multi-variable
+tuning, read the document-driven workflow's
+`references/aspen_builtin_solve_fit_tools.md` and call `solve_route`.
+Classify intent even without tool names. Native analysis is preferred when
+applicable; scripts may configure it, but an external point sweep is not a native
+Sensitivity object. The routing receipt is not execution or acceptance evidence.
+
 Read `LOCAL_KNOWLEDGE_GRAPH_LINKS.md` before resolving knowledge/software paths.
 The installed `chemical-engineering-runtime/` provides bundled headless knowledge,
 equipment, pressure and process-feedback interfaces. Resolve legacy graph names
