@@ -1,6 +1,6 @@
 # Aspen Skill And Knowledge Routing Graph
 
-Use this file when an Aspen task mixes source-document authority, local
+Use this file within an active document-driven flowsheet that mixes source-document authority, local
 knowledge-graph lookups, process decisions, mechanical Aspen operations,
 equipment-design standards, and final delivery claims. The graph keeps every
 layer strong and prevents a lower layer from inventing process authority.
@@ -29,6 +29,10 @@ User goal
   -> process authority skill
      promotion, quarantine, or blocker
 ```
+
+Scope: the topology above describes the document-driven full-flow workflow,
+not every task containing an Aspen term. Independent specialist work uses the
+[task registry](../../chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md).
 
 Rule: evidence flows back upward before a branch is promoted. A specialist or
 operation skill may produce files, but only `aspen-document-driven-flowsheet`
@@ -69,39 +73,11 @@ affected row `provisional` or `blocked`.
 | Operation layer | `aspen-plus-operations` | Create/set/run/export/reopen/check Aspen actions through MCP, COM, or scripts; Calculator/Design Spec/Sensitivity mechanics | Chemistry choice, target values, acceptance claims |
 | Component template | `aspen-plus-template` | Component/template generation through Aspen COM | Process-route repair |
 
-## Trigger Routing
+## 选专业与选阶段
 
-| Task Trigger | Route |
-| --- | --- |
-| New document-driven flowsheet | Project authority -> Aspen graph -> `aspen-document-driven-flowsheet` -> operations |
-| Existing case after compaction/resume | Project authority files first -> `aspen-document-driven-flowsheet` |
-| Taskbook/source requirements may be incomplete | `source_taskbook_and_gate_protocol.md` -> two-pass source ledger -> process skill |
-| Property method choice or proposed method change | Aspen graph ch03 route -> `source_taskbook_and_gate_protocol.md` property-method freeze -> process skill |
-| User adds or tightens a process requirement | change-offset table -> source/taskbook gate overlay -> affected specialist/operation route |
-| Pure flowsheet error/warning repair | startup triad: `aspen-document-driven-flowsheet` -> `aspen-flowsheet-error-repair` -> `aspen-plus-operations` |
-| Every design step or repair attempt | `aspen-document-driven-flowsheet` learning log -> continue work |
-| Completed chunk/island/repair family | `material_library_protocol.md` -> process slice -> continue work |
-| Successful completed task | learning log -> `references/self_evolution_protocol.md` -> `scripts/self_evolve_skill.py` candidate record |
-| Unknown Aspen card/choice | Aspen graph `unknowns_router.md` -> chapter node -> process skill |
-| Property method choice | Aspen graph ch03 route -> process skill property-method gate -> operations |
-| Formal kinetics | Aspen graph kinetics expert -> freeze ledger -> process skill -> operations `reaction-card` |
-| Yield/SEP scaffold | Process skill `Operational Architecture` -> operations `block-stream`/`equipment-card` |
-| Explicit section split | `aspen-two-section-flowsheet` -> process skill promotion audit |
-| SEP replacement | Process skill separation target ledger -> tower skill if tower-like -> operations |
-| Tower design/optimization | Aspen graph special-column route if needed -> `aspen-tower-optimization-workflow` -> operations |
-| Calculator/Design Spec/Sensitivity | Process skill target/bounds -> `aspen-plus-operations` solve/fit nodes -> process audit |
-| Recycle convergence | Process skill scaffold/recycle ledger -> Aspen graph convergence nodes -> operations short probes |
-| Bad block or failed run | `aspen-flowsheet-error-repair` -> repeated Control Panel/history -> operations |
-| Pressure/HX/PFD | `aspen-pressure-pfd-delivery` + pressure graph/standards as needed -> operations |
-| Equipment sizing report | Equipment graph -> `chemical-equipment-selection-audit` -> standards graph if used |
-| Component/template generation | `aspen-plus-template` -> operations case evidence if process model needs it |
-| Zero-warning polish | Process skill zero-warning gate -> `references/aspen_zero_warning_repair.md` -> operations |
-| Open-run readiness | `open_run_readiness_protocol.md` -> operations clean-session reopen/Required Input/start-run QA |
-| Migrated path opens fail or stale absolute paths | `delivery_portability_and_plausibility_gates.md` -> migrated-path QA -> packaging/path repair before process edits |
-| Converged run looks physically unrealistic | `delivery_portability_and_plausibility_gates.md` -> physical plausibility ledger -> process authority repair |
-| Need script template or reusable script promotion | `script_template_catalog.md` -> `script_template_knowledge_graph.md` if broad selection is needed -> project-local template copy -> material-library slice/reuse manifest |
-| Final package | Process skill accepted authority -> operations `run-export`/`delivery-qa` -> final audit |
-| Final preflight | material-library digest -> heating/pressurization/pressure-drop audit -> final response |
+专业能力、适用边界和交回对象统一见[任务登记](../../chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md)。
+本流程内的来源、建模、修复、运行和交付资料见[快速路由](quick_router.md)。
+先确定当前主线，再按需要下钻；不因关键词同时启动多个写入同一模型的主工作流。
 
 ## Standard Handoff Contracts
 

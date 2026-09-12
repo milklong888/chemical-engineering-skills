@@ -43,6 +43,9 @@ python -B -X utf8 "{CHEM_WORKSPACE}/chemical-engineering-runtime/tools/observati
 
 ## 进入实际更新
 
+整理结构或比较组织方案时，按需查[论文机制与评估边界](SKILL_RESEARCH_APPLICATION.md)。
+专业分组统一维护在[任务登记](ACTIVE_ASSET_REGISTRY.md)，不分别改写多份专业选择表。
+
 1. 固定当前源、拟改文件和问题；仅查受影响范围，不要求每次加载全库。
 2. 保留旧版，形成候选改动；已有等价规则优先复用，分类见[决策树](TASK_DECISION_TREES.md)。
 3. 按实际行为和原工程规则验证；拒绝场景、离线替身、真实软件成绩分开。

@@ -23,7 +23,7 @@ case generation, run/export, and package QA still go through
 
 ## Scope
 
-Use this as an overlay on top of `aspen-plus-template`, `aspen-two-section-flowsheet`, and `pdf`. It captures the failure modes from full-flow Aspen work: hidden pressure changes in heaters, stale `.bkp/.apwz` files, forced sequence causing recycle mass imbalance, and PDF/PFD statements drifting away from the actual model.
+Use this on an existing process flowsheet, section or tower when its pressure topology or PFD/delivery evidence needs work. A component-only template does not by itself trigger a pressure workflow. Use the relevant document skill for PDF layout when needed. This skill covers hidden pressure changes in heaters, stale `.bkp/.apwz` files, forced sequences causing recycle mass imbalance, and PDF/PFD claims drifting from the actual model.
 
 When the current workspace contains
 `aspen_sun_lanyi_knowledge/knowledge_graph/README.md`, read it as a local Aspen

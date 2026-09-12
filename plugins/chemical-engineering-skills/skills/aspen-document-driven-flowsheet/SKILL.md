@@ -24,21 +24,11 @@ an indispensable unsupported value blocks only its dependent claim.
 
 ## Fast Entry
 
-Use `references/quick_router.md`. When a source/build/reconnect question needs
-detail, read the relevant section of `references/document_driven_workflow.md`.
-
-| Current task | Next existing entry |
-| --- | --- |
-| Source/required-method extraction | `references/source_taskbook_and_gate_protocol.md` |
-| New scaffold or rigorous island replacement | `references/aspen_workflow_playbooks.md` |
-| Existing run errors/warnings | `aspen-flowsheet-error-repair` then `aspen-plus-operations` |
-| Tower/solvent/entrainer island | `aspen-tower-optimization-workflow` |
-| Heat-pump replacement | `aspen-heat-pump-distillation-replacement` |
-| Kinetic reactor | Sun Lanyi kinetics expert system + current freeze ledger |
-| 查值、随进料联动、匹配目标、范围分析、多变量调参/优化（不限工具关键词） | `references/aspen_builtin_solve_fit_tools.md`；先明确研究问题、固定量与联动量，再 `solve_route` 并执行相关判断链 |
-| Section boundary | `aspen-two-section-flowsheet` |
-| Shared operation template | `references/script_template_catalog.md` |
-| Strict final file | `aspen-plus-operations` complete schema/history and exact-path gate |
+当前文档流程的阶段入口见[快速路由](references/quick_router.md)；
+跨专业模块的主导、协作与交接见[任务登记](../chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md)。
+来源、建模或接回需要细节时，只读 `references/document_driven_workflow.md` 的相关段。
+查值、随进料联动、目标匹配、范围分析和多变量调参不限工具关键词：先读
+[原生工具规则](references/aspen_builtin_solve_fit_tools.md)，明确固定量与联动量，再实际调用 `solve_route`。
 
 ## Operational Architecture
 

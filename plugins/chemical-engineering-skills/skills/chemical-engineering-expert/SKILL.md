@@ -1,6 +1,6 @@
 ---
 name: chemical-engineering-expert
-description: Apply an evidence-led, macro-to-micro chemical-engineering reasoning layer to any chemistry or chemical-engineering task, including process-route and flowsheet-quality review, reaction systems, thermodynamics and property methods, material/energy balances, separation, heat and pressure integration, recycle/control, safety/environment, equipment selection, Aspen Plus/EDR/SW6 work, and chemical-design reports. Use automatically when chemical-engineering terms or artifacts appear, including Chinese triggers such as 化学、化工、工艺、流程安排、宏观设计、方案合理性、好设计、高温公用工程、预热、压缩、反应、物性、衡算、分离、换热、设备、选型、Aspen, especially when the user specifies a required method, supplied documents must remain authoritative, missing values may be derivable, external knowledge must be separated from project facts, or corrections/new knowledge must be persisted.
+description: Review chemical-engineering tasks from design basis and macro feasibility through source-backed derivation, equipment feedback and verified delivery. Use for chemical/process reasoning, Aspen flowsheets, equipment and engineering reports; choose the relevant specialist for implementation and keep narrow questions scoped.
 ---
 
 # Chemical Engineering Expert
@@ -15,46 +15,24 @@ Act as the process-design and evidence-governance layer above the existing
 Aspen, equipment, document, and calculation skills. Do not replace those
 skills or duplicate their card-level knowledge.
 
-## Required read order
+## 入口与按需读取
 
-When the next workflow or failure branch is unclear, consult only the relevant
-tree in [task decisions](references/TASK_DECISION_TREES.md). Unknown evidence
-has its own route; this navigation does not replace the factual rule owners.
+先读当前项目依据和变更记录、[错误记忆](references/ERROR_MEMORY.md)、
+[核心原则](references/HIGHEST_LEVEL_GUARDS.md)及[推理协议](references/REASONING_PROTOCOL.md)。
+已读取的当前版本不重复加载。选定专业后，按[任务与资产登记](references/ACTIVE_ASSET_REGISTRY.md)
+进入该 Skill 并读其错误记忆。登记按任务分组，区分主导、按需协作和交回结果；
+专业事实归各自入口，[规则归属表](references/CANONICAL_RULE_OWNERSHIP.md)处理重复与冲突。
 
-For authorized Skill maintenance or comparison of execution records, use the
-on-demand [maintenance tools](references/MAINTENANCE_TOOLS.md) to inspect file
-consumers and explicitly listed evidence. Neither index authorizes learning or
-certifies agent behavior; ordinary process tasks do not require a full inventory.
-
-1. Read the active project's current authority files, change-offset table,
-   source-freeze ledgers, and latest verified results when they exist.
-2. Read `references/ERROR_MEMORY.md`, then the relevant skill/knowledge-graph
-   companion `ERROR_MEMORY.md` listed in
-   `references/ACTIVE_ASSET_REGISTRY.md`. Treat these as first-read procedural
-   guards, not as permission to override fresher project evidence.
-3. Read `references/HIGHEST_LEVEL_GUARDS.md` for the three compact resident
-   principles and mandatory just-in-time learning triggers, then
-   `references/REASONING_PROTOCOL.md`. Keep detailed methods in the routed
-   references rather than expanding the always-loaded instruction layer.
-   For acceptance, exceptions, corrections, or learning/promotion, also read
-   `references/STRICT_ACCEPTANCE_AND_LEARNING.md`: strict is default; an
-   explicit case-only relaxation never becomes a shared rule or learning sample.
-4. For route, flowsheet, feasibility, optimization, or “is this a good design”
-   work, read `references/MACRO_DESIGN_QUALITY.md` before unit-level detail.
-5. Route to the relevant active domain skill and graph through the workspace
-   link map and vector index. Apply the hard scope/authority boundaries in
-   `references/VECTOR_KNOWLEDGE_BASE_DESIGN.md` before similarity ranking.
-6. Read the relevant `NEW_KNOWLEDGE.md` only when the task needs recently
-   ingested knowledge or the canonical graph has a gap.
-7. For a constructed flowsheet or a material process-parameter/module change,
-   read `references/PROCESS_EQUIPMENT_FEEDBACK.md`. Use the equipment selector
-   to test physical implementation and feed attributable constraints back into
-   the process; this is part of design validation, not only report preparation.
-   Use `references/COMMON_SENSE_RAG.md` for source-backed common-sense retrieval
-   and cross-computer RAG intake.
-8. For route/scaffold/island/reconnect/change/delivery events, read
-   `references/DESIGN_STAGE_ROUTING.md` and execute its actual stage check.
-   A tool name, self-reported completion or old receipt is not a current call.
+| 当前需要 | 继续读取或执行 |
+|---|---|
+| 不确定任务范围、下一步或失败分支 | [决策树](references/TASK_DECISION_TREES.md)中的相关一棵；未知证据先走区分查询 |
+| 路线、流程安排、可行性或优化 | [宏观设计质量](references/MACRO_DESIGN_QUALITY.md)，先于单元细节 |
+| 查询专业依据 | 工作区链接图与[检索边界](references/VECTOR_KNOWLEDGE_BASE_DESIGN.md)，先范围/权威再相似度；跨电脑常识资料见[常识检索](references/COMMON_SENSE_RAG.md) |
+| 构建流程或实质改变工况/模块 | [工艺—设备反馈](references/PROCESS_EQUIPMENT_FEEDBACK.md)；source/scaffold/island/reconnect/change/delivery 事件按[阶段规则](references/DESIGN_STAGE_ROUTING.md)实际调用并保留当前回执 |
+| 查值、联动关系、目标匹配、响应分析或调参 | 下方 Native analysis and control trigger；先明确固定量和联动量 |
+| 验收、例外、纠正、学习或晋级 | [严格验收与学习](references/STRICT_ACCEPTANCE_AND_LEARNING.md)和下方 Corrections and learning |
+| 新近知识或原图谱确有缺口 | 相关模块的 NEW_KNOWLEDGE.md；本层入口为[新知识](references/NEW_KNOWLEDGE.md)，候选状态不自动成为事实 |
+| 授权的 Skill 更新、研究或执行记录比较 | [维护工具](references/MAINTENANCE_TOOLS.md)；不要求普通流程任务做全库盘点 |
 
 ## Non-negotiable workflow
 
@@ -154,46 +132,11 @@ or calculations, assumptions, uncertainty/status, and decisive macro checks.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 
-## References
+## 仅在来源维护时继续下钻
 
-- `references/DESIGN_STAGE_ROUTING.md`: actual stage-triggered retrieval and
-  equipment calls, local gaps, receipts and separate engineering gates.
-
-- `references/EVOLUTION_LOOP.md`: user-confirmed closure, macro prompt/data
-  channels, bounded validation, Skill placement and rollback.
-- `references/HIGHEST_LEVEL_GUARDS.md`: compact macro judgment, justified
-  complexity, closed-loop provenance, and mandatory on-demand RAG/skill reads.
-- `references/STRICT_ACCEPTANCE_AND_LEARNING.md`: strict version-bound
-  acceptance, explicit case-local exceptions, and transitive no-learning gates.
-- `references/REASONING_PROTOCOL.md`: evidence classes, derivation ladder,
-  macro design contract, sanity gates, and completion states.
-- `references/MACRO_DESIGN_QUALITY.md`: non-compensable feasibility gates,
-  flowsheet-sequence review, high-grade-utility hierarchy, quality axes, and
-  macro red flags.
-- `references/PROCESS_EQUIPMENT_FEEDBACK.md`: equipment capability feedback,
-  exchanger splitting, compressor staging, affected-consumer replay, and
-  per-device same-candidate traceability.
-- `references/COMMON_SENSE_RAG.md`: hierarchical common-sense retrieval,
-  source-tree versus abstraction axes, semantic eligibility and remote-payload
-  availability boundaries.
-- `references/ERROR_MEMORY.md`: verified cross-domain failure patterns; read
-  before all chemical-engineering tasks.
-- `references/NEW_KNOWLEDGE.md`: promoted and candidate cross-domain knowledge.
-- `references/MEMORY_MAINTENANCE.md`: correction capture, weighting,
-  deduplication, promotion, and quarantine rules.
-- `references/ACTIVE_ASSET_REGISTRY.md`: one canonical authority and companion
-  memory paths for every active skill and knowledge graph.
-- `references/CANONICAL_RULE_OWNERSHIP.md`: assigns each repeated hard rule to
-  one factual owner and limits other skills to routing or implementation.
-- `references/EXTERNAL_AGENT_RESEARCH.md`: source-backed mechanisms distilled
-  from public chemistry and process-engineering agents.
-- `references/EXTERNAL_CHEMICAL_SKILL_AUDIT.md`: GitHub chemical Skill/Agent
-  coverage, license/quality audit, adopted mechanisms, and rejected content.
-- `references/KNOWLEDGE_DISTILLATION_PIPELINE.md`: source-preserving knowledge,
-  vector retrieval, candidate generation, blind evaluation, promotion, and
-  rollback rules for behavioral/Skill distillation.
-- `references/VECTOR_KNOWLEDGE_BASE_DESIGN.md`: role, metadata schema,
-  hard-scope filters, hybrid retrieval, graph expansion, and migration plan for
-  the workspace vector knowledge base.
-- `references/OFFICIAL_PLUGIN_MIGRATION.md`: OpenAI/GitHub plugin architecture,
-  build/lock/validation flow, distribution boundary, and future MCP gate.
+行为/知识蒸馏与候选验证见[蒸馏流程](references/KNOWLEDGE_DISTILLATION_PIPELINE.md)。
+公开化工代理来源见[代理研究](references/EXTERNAL_AGENT_RESEARCH.md)和
+[化工 Skill 审查](references/EXTERNAL_CHEMICAL_SKILL_AUDIT.md)；论文机制与本库采用边界见
+[研究落地记录](references/SKILL_RESEARCH_APPLICATION.md)。
+包结构、构建及锁定流程见[发行迁移](references/OFFICIAL_PLUGIN_MIGRATION.md)。
+这些是按需来源索引，不是每次工程任务的前置阅读。

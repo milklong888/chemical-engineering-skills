@@ -1,5 +1,7 @@
 # 化工设计专家工作库
 
+先按交付目标查[任务入口与协作图](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md)，再进入有关专业；19 个模块按六类职责组织，详情按需读取。
+
 这套Skill用于把化工设计要求逐步做成有依据的流程、模型和设备方案。你可以交给它
 任务书、论文、参数表或已有Aspen模型，让它梳理工艺路线、建立完整流程、优化
 反应与分离工段、检查热量和压力安排，再用设备计算反查方案能否实现。已有模型

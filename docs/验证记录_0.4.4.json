@@ -1,0 +1,95 @@
+{
+  "schema": "chemical-skills-public-validation-v1",
+  "version": "0.4.4",
+  "status": "documentation_structure_checks_passed",
+  "baseline_commit": "718f930388d58d5fa600a8ed2a7cbfdbb18358d7",
+  "scope": "Task navigation, progressive disclosure and paper-grounded maintenance evaluation. Runtime algorithms unchanged.",
+  "boundary": {
+    "engineering_accepted": false,
+    "agent_behavior_certified": false,
+    "aspen_executed_this_revision": false,
+    "automatic_evolution_implemented": false
+  },
+  "targeted_regression": {
+    "suites": [
+      "tests.test_workflow_contract",
+      "tests.test_skill_organization",
+      "tests.test_observation_index"
+    ],
+    "tests": 53,
+    "passed": 51,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "skip_reason": "Host cannot create real symbolic links; simulated rejection branches passed.",
+    "completion_chunk_sha256": "81dd5065d56c1129ab78a18523922f2e7fb9252aacc30c583e15ffb6ee40e86e",
+    "log_scope": "Completion chunk only; earlier output remains in the maintenance task transcript.",
+    "after_pressure_scope_clarification": {
+      "suite": "tests.test_workflow_contract",
+      "rerun_tests": 5,
+      "passed": 5,
+      "distinct_from_53": false
+    }
+  },
+  "structure": {
+    "skill_entries_validated": 19,
+    "registered_skills": 19,
+    "relative_links_checked": 1072,
+    "failures": [],
+    "preserved_expert_sections": {
+      "Non-negotiable workflow": true,
+      "Corrections and learning": true,
+      "Native analysis and control trigger": true,
+      "Output contract": true
+    },
+    "metrics": [
+      {
+        "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md",
+        "before_lines": 199,
+        "after_lines": 142,
+        "before_characters": 12853,
+        "after_characters": 8467
+      },
+      {
+        "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/SKILL.md",
+        "before_lines": 94,
+        "after_lines": 84,
+        "before_characters": 5236,
+        "after_characters": 4501
+      },
+      {
+        "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/quick_router.md",
+        "before_lines": 50,
+        "after_lines": 49,
+        "before_characters": 3170,
+        "after_characters": 2264
+      },
+      {
+        "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/skill_routing_graph.md",
+        "before_lines": 259,
+        "after_lines": 235,
+        "before_characters": 14206,
+        "after_characters": 10988
+      },
+      {
+        "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md",
+        "before_lines": 47,
+        "after_lines": 92,
+        "before_characters": 3078,
+        "after_characters": 5155
+      }
+    ]
+  },
+  "runtime_preservation": {
+    "python_files_compared": 292,
+    "all_byte_identical_to_baseline": true,
+    "prior_full_regression": "docs/验证记录_0.4.3.json",
+    "full_regression_repeated_this_revision": false
+  },
+  "papers": {
+    "unique_papers_reviewed": 15,
+    "technical_reports": 1,
+    "targeted_sections_not_full_replication": true
+  },
+  "textual_review": "Scoped review of specialist selection and handoffs; not a blind A/B test or live software run."
+}
