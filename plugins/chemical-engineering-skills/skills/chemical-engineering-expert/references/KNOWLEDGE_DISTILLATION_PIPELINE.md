@@ -189,8 +189,9 @@ snapshot. Reject or revert a candidate that does not improve the gate.
 
 - User corrections update the live task and project incident first; canonical
   atomic memory updates wait for user-requested consolidation and task closure.
-- At every delivery ask whether the task is finished or needs improvement;
-  do not infer closure from assistant completion or ambiguous acknowledgements.
+- Report delivery scope and remaining work. Follow EVOLUTION_LOOP.md for an
+  unresolved closure needed by user-requested formal promotion; do not repeat
+  confirmed or pending requests or infer closure from assistant completion.
 - Repeated root causes raise retrieval priority, not factual authority.
 - New external material remains candidate until the full gate passes.
 - Superseded entries remain traceable; do not silently erase history.

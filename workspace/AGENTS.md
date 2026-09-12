@@ -5,6 +5,13 @@ Aspen, equipment or engineering-report work:
 
 `{CHEM_SKILLS}/chemical-engineering-expert/SKILL.md`
 
+本工作区的交付还包括配套脚本、文件处理和工具维护。收尾出现新的可复用成果，
+或用户让你整理/确认经验时，先读
+`{CHEM_SKILLS}/chemical-engineering-expert/references/EXPERIENCE_INBOX.md`，
+再按该规则交付；这条入口不依赖是否正在运行工程模型。简短回复仍须保留当前
+合格候选的具体摘要、已验证范围和投稿入口。没有发布授权时只停止发布，仍完成
+本地提醒并就展示的摘要询问一次；已拒绝、已询问待答或已有有效授权时按对应分支处理。
+
 1. Establish the current objective, system boundary, design basis, required
    method, allowed changes and acceptance criteria.
 2. Read the current project authority and change record, then the expert's
@@ -32,22 +39,12 @@ Aspen, equipment or engineering-report work:
    bound evidence checks in the expert and operation skills.
 9. Keep project inputs and results outside the skill directory. Use controlled
    working copies, record file identities and preserve original sources.
-10. At a meaningful stage handoff, have the main assistant proactively surface
-    supported reusable experience with the exact proposed summary and submission
-    route in the expert's `references/EXPERIENCE_INBOX.md`. Respect prior refusal
-    and existing valid authorization; a reminder is not publication consent.
-    When a new candidate is supported, show the actual candidate text, its
-    verified scope and the [submission entry](https://github.com/milklong888/chemical-engineering-experience-inbox)
-    in the handoff. Missing public authorization stops posting, not this local
-    draft and reminder. When consent is still needed, ask once about publishing
-    that specific displayed summary. For an unconfirmed principle, first ask
-    once about its exact content. After a prior refusal, keep the stated
-    reminder/posting boundary. Read the
-    referenced inbox rules before choosing which branch applies.
-    Keep authorized temporary submissions on that route; they do not enter canonical/default
-    knowledge. Formal promotion requires user-requested consolidation and
-    explicit closure of the current revision. Case-specific relaxations and
-    their descendants remain project audit only.
+10. 收尾按上面的经验入口读取对应分支，由主助手展示当前候选和
+    [投稿入口](https://github.com/milklong888/chemical-engineering-experience-inbox)。
+    已授权准备就交实际摘要/草稿；思想先确认同一原文，再审核；不得用“待确认”
+    代替需要的当次请求，已有有效授权不重复索取，拒绝后不催促。没有新可复用
+    增量则不凑经验。临时收件不进入正式 Skill/默认检索；正式晋升仍需用户发起
+    整理并明确关闭相关版本，放宽标准的案例及派生内容仅留项目审计。
 
 Before lookup, live relations, target matching, response studies or multi-variable
 tuning, read the document-driven workflow's

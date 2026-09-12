@@ -87,8 +87,12 @@ class CostGuards(unittest.TestCase):
         if result.returncode:
             raise RuntimeError(result.stdout + result.stderr)
         cls.template = generated / "synthetic-cost-fixture"
-        if read_json(cls.template / "generation_audit.json")["status"] != "generated_ready":
+        generation = read_json(cls.template / "generation_audit.json")
+        if generation["status"] != "generated_ready":
             raise AssertionError("synthetic complete fixture must qualify structurally")
+        if (generation["external_data_dir"] != str(cls.data.resolve())
+                or generation["external_data_is_project_supplied"] is not True):
+            raise AssertionError("explicit project data directory identity must be retained")
 
     def setUp(self):
         self.case = WORK / self._testMethodName
@@ -229,7 +233,10 @@ class CostGuards(unittest.TestCase):
                      ["--inventory-dir", self.inventory, "--draft-only", "--skill-name", "synthetic-draft", "--skills-root", root], self.case / "draft-receipt.json")
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.skill = root / "synthetic-draft"
-        self.assertEqual(read_json(self.skill / "generation_audit.json")["status"], "generated_draft")
+        generation = read_json(self.skill / "generation_audit.json")
+        self.assertEqual(generation["status"], "generated_draft")
+        self.assertIsNone(generation["external_data_dir"])
+        self.assertIs(generation["external_data_is_project_supplied"], False)
         self.assertEqual(read_csv(self.skill / "references" / "netl-equipment-cost-points.csv"), [])
         self.assertEqual(read_csv(self.skill / "references" / "batch-manifest-template.csv")[0]["enabled"], "no")
         self.assert_blocked_before_cost()

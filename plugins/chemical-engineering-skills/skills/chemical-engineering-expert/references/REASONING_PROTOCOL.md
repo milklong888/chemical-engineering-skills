@@ -86,6 +86,20 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    A unit-label edit does not convert stored numbers. Bind each numeric value
    to its original unit, transform the pair together, and check the physical
    quantity is unchanged before downstream calculations use the new representation.
+   Composition ratios are not throughput ratios. For mass fraction `w` and total
+   wet mass flow `F`, component flow is `W = w * F`, so
+   `W_new/W_old = (w_new/w_old) * (F_new/F_old)`. Define the remaining mass
+   flow `D = (1-w) * F`; then `W = [w/(1-w)] * D`. This is dry-material flow
+   only when `w` is the moisture fraction and the remainder defines dry material.
+   If the flow basis is unknown, report only the fraction ratio or the component
+   to remaining-mass ratio; absolute duty/load change remains unknown.
+   A fixed-flow assumption must accompany the reported ratio itself, not appear
+   later as a future check. Omit an optional numeric comparison if its basis
+   cannot be stated correctly and it adds nothing to the task decision.
+   Check dimensions in the explanation as well as the calculation: a symbol
+   keeps the same unit wherever it appears, products carry the multiplied units,
+   and arguments of exponentials and logarithms must be dimensionless. A correct
+   converted number does not excuse a contradictory unit definition beside it.
 4. Derive with algebra, ratios, chemical stoichiometry, composition closure,
    reaction extent, recovery/selectivity/yield identities, and time ordering.
 5. Close material and component balances; then energy and pressure relations
@@ -108,6 +122,22 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    Define ideal versus actual states and each efficiency when writing work or
    energy equations. Do not apply an isentropic efficiency again to an enthalpy
    change already taken from the actual compression state.
+   For heat integration, distinguish partial process-heat recovery from complete
+   replacement of an external heater. Partial recovery need only satisfy the
+   duty and local temperature approaches for the recovered portion; retain the
+   remaining heating duty as an explicit utility requirement. A hot stream below
+   the cold stream's final target temperature may still preheat it over a lower
+   temperature interval. Full-load coverage and reaching the final temperature
+   are requirements only for a claim that this heat source supplies the complete
+   target duty. Check both profiles, phase changes and operating constraints;
+   neither heat quantity nor a single endpoint temperature proves feasibility.
+   Define the sign of an energy comparison before writing it: for a common
+   boundary and time basis, change is `sum(E_new) - sum(E_old)` and saving is
+   its negative. Use that same ordering for every purchased-energy carrier;
+   extra electric consumption reduces a claimed saving. Convert power to energy
+   over the stated period, or compare all terms as power. Heat, electricity,
+   primary energy, money and carbon need their explicitly chosen accounting
+   factors; do not mix their signs, dimensions or conversion conventions.
 6. Use physical bounds, monotonicity, interpolation, bracketing, scaling, and
    limiting cases to obtain a range or consistency test.
 7. Use an explicit engineering estimate only when its source/correlation,

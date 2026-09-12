@@ -39,9 +39,15 @@ actual read/check evidence; validator pending or a Skill-read event alone cannot
 stand in for that comparison. This remains preparatory fact checking even when
 complete: it does not create the later, post-confirmation approval event or
 upgrade memory status. Restricted lineage keeps these records audit-only.
-For requested batch consolidation, EVOLUTION_LOOP.md owns concrete placement,
-available counterexample checks and the version/rollback proposal, using this
-record rather than deferring the technical comparison again.
+For requested batch consolidation, read and execute
+[the batch review workflow](EVOLUTION_LOOP.md#批次事实核查与处置交付) now. It owns
+the current-definition search, executable positive/counterexample checks and
+the concrete owner/baseline/patch/rollback proposal. Reuse this comparison
+record, then attach the actual check outputs and item-level disposition before
+calling consolidation complete. Admission status and later promotion approval
+remain separate; neither pending admission nor missing closure defers available
+authorized fact checks. Do not mark a predicted test result as executed or
+borrow the source identity of an unrelated script.
 
 Do not use raw conversation summaries, self-confidence, or synthetic examples
 as verified long-term memory.

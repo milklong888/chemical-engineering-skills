@@ -9,7 +9,9 @@ description: Review chemical-engineering tasks from design basis and macro feasi
 
 收到化工问题后，先弄清要完成什么、依据哪份资料、哪些方法不能改变，再从系统边界、组分去向、热量和压力路径判断方案是否成立。随后选一个主专业工作流，让图谱提供适用原理和计算方法，让当前项目资料提供数值；能提取或推导的量先算出来，只有缺少不可替代输入的判断才暂缓。
 
-涉及新建流程、切岛、接回或工况变化时，按[阶段调用规则](references/DESIGN_STAGE_ROUTING.md)实际执行 `design_stage`，包括只审设计安排、暂不运行模型的阶段；仅调用工具路由或单独检索不能替代该阶段检查。设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；简单查问只走所需分支，不强制重建整厂。
+先判断本题是否报告了已经发生或拟实施的工况、几何或流程配置变化，再选专业入口。已有变化导致相态、产品、循环或设备行为改变时，即使用户只要求解释原因、暂不调参，也从 `change` 执行[阶段调用](references/DESIGN_STAGE_ROUTING.md)，把缺少模型和工况的状态留在实际回执中；单独检索、读完专业规则或调用求解路由都不替代它。新建路线用 `source`、既有岛内设计/优化用 `island`、工段接回用 `reconnect`，具体范围按阶段规则。只审既有结果表或做身份核对、文件/措辞审查、纯原理等窄任务时，遵守相应专业的范围例外，不为取得阶段回执编造新流程事件。
+
+设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；阶段查询不授权修改模型，也不要求重建整厂。
 
 Act as the process-design and evidence-governance layer above the existing
 Aspen, equipment, document, and calculation skills. Do not replace those
@@ -30,8 +32,9 @@ skills or duplicate their card-level knowledge.
 | 塔改造的节能/新增电耗比较，包括只审标题 | [热泵与改造审查入口](../aspen-heat-pump-distillation-replacement/SKILL.md#trigger-contract)，先识别耗电设备，使用其中的审查分支 |
 | 工段间气液交接、溶剂返回或设备归属未定 | [工段边界入口](../aspen-two-section-flowsheet/SKILL.md)，依据实际接口保留未定分支，不能从缺资料直接决定新增分相位置 |
 | 查询专业依据 | 工作区链接图与[检索边界](references/VECTOR_KNOWLEDGE_BASE_DESIGN.md)，先范围/权威再相似度；跨电脑常识资料见[常识检索](references/COMMON_SENSE_RAG.md) |
-| 构建流程或实质改变工况/模块 | [工艺—设备反馈](references/PROCESS_EQUIPMENT_FEEDBACK.md)；source/scaffold/island/reconnect/change/delivery 事件按[阶段规则](references/DESIGN_STAGE_ROUTING.md)实际调用并保留当前回执 |
+| 构建流程、拟修改工况/模块，或解释已发生变化后的异常 | source/scaffold/island/reconnect/change/delivery 按[阶段规则](references/DESIGN_STAGE_ROUTING.md)实际调用并保留当前回执；设备反馈按[工艺—设备反馈](references/PROCESS_EQUIPMENT_FEEDBACK.md)继续 |
 | 查值、联动关系、目标匹配、响应分析或调参 | 下方 Native analysis and control trigger；先明确固定量和联动量 |
+| 文件或说明改变、重新打包、旧验证能否覆盖新交付 | 先读[文件范围与证据复用](references/STRICT_ACCEPTANCE_AND_LEARNING.md#文件范围与证据复用)，逐资产判断；有当前验收问题不能只转经验收件规则 |
 | 验收、例外、纠正、学习或晋级 | [严格验收与学习](references/STRICT_ACCEPTANCE_AND_LEARNING.md)和下方 Corrections and learning |
 | 新近知识或原图谱确有缺口 | 相关模块的 NEW_KNOWLEDGE.md；本层入口为[新知识](references/NEW_KNOWLEDGE.md)，候选状态不自动成为事实 |
 | 授权的 Skill 更新、研究或执行记录比较 | [维护工具](references/MAINTENANCE_TOOLS.md)；不要求普通流程任务做全库盘点 |
@@ -138,6 +141,15 @@ finishing, complete applicable checks that the available inputs support; a
 missing permission or source blocks its dependent action, not independent review.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
+
+多阶段流程或修复交接，以及会影响当前判断的跨基准数值/条件结论，在交付前做一次
+范围有限的短审。环境有可用的只读子代理时，使用它核对当前用户范围、相关 owner
+交付条目、实际草稿和已取得的回执/产物；每次交付最多一个审查子代理，不另开用户任务。
+只查四点：承诺的动作是否真的完成；工具状态与结论是否一致；数值的基准和条件是否
+紧邻对应结论；交接对象与后续验证是否齐全。审查者只指出有据的实质差异，不扩大任务、
+索取额外许可或要求无关商业软件计算。主助手核对问题、改好实际交付内容后再发送；
+审查完成本身不代表验收通过。代理不可用时按相同四点自检，不阻断任务。无流程事件
+的简单身份、措辞或原理问答不因这一条增加审查流程。
 
 阶段收尾出现值得复用的新方法或原则时，先读取并执行
 [经验提醒分支](references/EXPERIENCE_INBOX.md#主动提醒使用者)。主助手完成工程结论后，

@@ -70,8 +70,9 @@ Use the current `self_evolution_protocol.md` and the chemical expert's
 project is not learning eligibility. Audit failing islands and major corrections
 locally; do not infer a shared default from them. Canonical candidate generation requires
 the user's explicit current-task/revision closure and independently verified
-strict evidence with a hash-bound complete lineage. At every delivery ask
-whether the task is finished or needs improvement; do not start canonical promotion while
+strict evidence with a hash-bound complete lineage. Report delivery scope and
+remaining work; obtain an unresolved closure only when needed for user-requested
+formal promotion, without repeating confirmed or pending requests. Do not start canonical promotion while
 adjustments remain. The central EVOLUTION_LOOP.md distinguishes macro prompt
 principles from data-pattern hypotheses and chooses one existing Skill owner.
 Case-local relaxation, unassessed legacy sources and their descendants remain

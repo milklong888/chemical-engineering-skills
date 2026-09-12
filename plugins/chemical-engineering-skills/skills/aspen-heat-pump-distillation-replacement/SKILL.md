@@ -17,18 +17,24 @@ Select one of two modes: review a distillation retrofit claim, or implement an
 authorized equivalent heat-pump replacement. For a claim review, use the review
 contract below; the subsequent model-building workflow is not required.
 
-When reviewing a retrofit's savings claim without editing a model, retain the
-same product/capacity basis and assess heat, power, economics, emissions and
-the actual equipment's operability. Apply the equipment-specific branch below.
+In a claim review, deliver a finding or a specific conditional gap for each item
+below. Brief prose is enough; reading this contract or returning only a revised
+headline does not complete the review.
 
-In a claim review, identify what consumes the added power first. If compression
-is involved, check inlet and discharge temperature, pressure and phase against
-operability and equipment limits; if its identity is unknown, leave that branch
-conditional and request the relevant equipment duty/state record. Do not infer a
-compressor from an electrical-load number alone. The handoff must state both the
-common product/capacity and energy-accounting basis and the affected equipment's
-feasibility evidence gaps. Economics and carbon each need their own factors.
-Keep a heat reduction, net purchased-energy change and economic benefit separate.
+| Review item | Finding to include in this handoff |
+| --- | --- |
+| Common basis | Product quality/capacity, time and system boundary, pressure constraints, heat and added power on comparable bases; state which changes prevent comparison. |
+| Added-power consumer | Identify it from current evidence, or explicitly leave its identity unknown and name the duty/state record needed. Electrical load alone does not establish a compressor. |
+| Equipment feasibility | Use the identified equipment's limits. If compression is involved, check inlet/discharge temperature, pressure, phase and operability; if identity is unknown, retain that conditional branch and its missing evidence. |
+| Economics | State the applicable heat/power prices and relevant cost scope, or mark those factors missing; a heat reduction alone is not economic benefit. |
+| Carbon | State the corresponding energy-specific emission factors and common emissions boundary, or mark them missing; economic factors do not substitute for carbon factors. |
+| Supported conclusion | Separate heat reduction, net purchased-energy change, economic benefit and carbon effect; report only the claim supported now and its remaining conditions. |
+
+Before handing back the review, check that these findings appear in the answer
+or its linked artifact, including unresolved equipment identity when applicable.
+Do not assume compression, prescribe construction, or run a model to fill a
+review-only contract. All implementation and acceptance gates below remain for
+the separately authorized replacement mode.
 
 The accepted pattern is an equivalent tower retrofit:
 

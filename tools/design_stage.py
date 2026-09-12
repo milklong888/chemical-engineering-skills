@@ -6,6 +6,7 @@ inject them or provide a completed/skip flag.
 """
 from __future__ import annotations
 
+import copy
 from datetime import datetime, timezone
 import hashlib
 from pathlib import Path
@@ -50,6 +51,42 @@ def domain_reads(stage, question):
             "available": exists, "sha256": hashlib.sha256(path.read_bytes()).hexdigest() if exists else None,
             "reading_status": "AGENT_READING_REQUIRED_NOT_PROVEN_BY_HASH"})
     return result
+
+
+def change_planning_requirements(receipt, documents):
+    """Preserve handoff obligations; this does not choose or execute a repair."""
+    return {
+        "schema": "change-stage-planning-requirements-v1",
+        "status": "PLANNING_REQUIREMENTS_ONLY", "execution_status": "NOT_EXECUTED",
+        "authorization_granted_by_receipt": False, "project_specific_plan_complete": False,
+        "stage_execution_id": receipt["execution_id"],
+        "input_identity": copy.deepcopy(receipt["identity"]),
+        "identity_status": receipt["identity_status"],
+        "hash_bound_reference_names": sorted(documents),
+        "unresolved_needs": copy.deepcopy(receipt["needs"]),
+        "needs_sha256": canonical_sha(receipt["needs"]),
+        "native_baseline": None, "protected_candidate": None, "selected_change": None,
+        "consumer_scopes_to_assess": list(receipt["recalculation"]["consumers"]),
+        "steps": [
+            {"id": "protect_current_baseline_and_candidate", "action":
+             "先定位实际当前模型、路径、哈希和运行身份，并在已有授权范围内准备受保护候选。"
+             "原模型及原始诊断保留；缺文件时明确列为待补，不称已定位、复制或保护。"},
+            {"id": "select_one_evidenced_change", "action":
+             "根据当前故障原件或拟变更目标，选择一项有证据支持的修改并说明作用对象、理由与允许范围。"
+             "没有故障不编造故障，没有依据不选择修复动作；保留未受影响的已接受部分。"},
+            {"id": "replay_same_case_before_and_after", "action":
+             "沿同一当前工况的基线—候选版本谱系，记录唯一声明的修改，保持其余约定输入和比较基准。"
+             "按既有操作路径重放修改前后，比较原故障或变更目标、物料/产品、残差与状态及实际受影响消费者。"
+             "绑定各次真实输入、输出、日志和文件身份；本字段不证明已重放。"},
+            {"id": "review_differences_and_rollback_if_needed", "action":
+             "核对差异是否由声明修改造成；原问题未消除或必要约束退化时，保留失败证据，"
+             "在受保护候选上回退到已保存的前一版本，再决定下一项有据修改。不得覆盖原基线或隐藏失败。"},
+        ],
+        "boundary": "Generic handoff requirements only. Canonical references and hashes do not identify or verify a native model, "
+                    "authorize edits, prove a copy/replay/rollback, or supply a project-specific repair. "
+                    "The agent must fill the actual candidate, evidence-dependent change and comparison outputs. "
+                    "Existing stage, engineering acceptance and strict delivery gates remain authoritative.",
+    }
 
 
 def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
@@ -107,9 +144,17 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     from tools.aspen_tool_router import solve_route
     solve_action_required = False
     solve_input = payload.get("solve_request", {})
-    if not isinstance(solve_input, dict) or ("question" in solve_input and solve_input["question"] != question):
-        solve = {"status": "FAILED", "error": "solve_request must be an object using the current stage question"}
+    if not isinstance(solve_input, dict):
+        solve = {"status": "FAILED", "error": "solve_request must be an object"}
         gap("SOLVE_REQUEST_INVALID", "solve_route", solve["error"])
+    elif "question" in solve_input and solve_input["question"] != question:
+        conflict = {"current_stage_question": question,
+                    "nested_solve_question": copy.deepcopy(solve_input["question"]),
+                    "repair_hint": "保留本次失败回执；删除嵌套solve_request中的重复question以继承当前阶段问题，"
+                                   "或核实为同一实际问题后更正并重新调用。程序没有改写请求或自动重试。"}
+        solve = {"status": "FAILED", "error": "solve_request.question differs from the current stage question",
+                 "request_conflict": conflict}
+        gap("SOLVE_REQUEST_INVALID", "solve_route", {"error": solve["error"], **copy.deepcopy(conflict)})
     else:
         solve_input = {**solve_input, "question": question}
         solve = call("aspen_solve_route", solve_input, lambda: solve_route(solve_input, root))
@@ -272,6 +317,16 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "next_action": "Read the routed domain instructions, resolve item-local needs, and continue the authorized current model/section; do not restart accepted work or change the required method",
         "engineering_accepted": False, "flowsheet_modified": False, "stage_advanced": False,
         "acceptance_boundary": "Module execution and hashes are not engineering acceptance, real Aspen provenance, or proof of inventory completeness"}
+    if stage == "change":
+        receipt["planning_requirements"] = change_planning_requirements(receipt, documents)
+    solve_result = solve.get("result") if isinstance(solve.get("result"), dict) else {}
+    receipt["execution_summary"] = {
+        "stage": receipt["stage"], "stage_status": receipt["status"],
+        "solve_call_status": solve.get("status") or "NOT_AVAILABLE",
+        "solve_result_status": solve_result.get("status") or "NOT_AVAILABLE",
+        "solve_call_error": copy.deepcopy(solve.get("error")),
+        "solve_result_error": copy.deepcopy(solve_result.get("error")),
+    }
     receipt["implementation"] = [{"path": name, "sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
         for name in ("tools/design_stage.py", "tools/aspen_tool_router.py", "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")]
     receipt["receipt_sha256"] = canonical_sha(receipt)

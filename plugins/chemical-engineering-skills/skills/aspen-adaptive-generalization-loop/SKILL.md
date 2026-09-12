@@ -61,6 +61,12 @@ user asks for a summary only, state this limit without launching new runs.
 - Freeze scale as a vector of all independent fresh boundaries and component
   bases. Do not infer capacity from one headline feed or force the internal
   recycle inlet to equal fresh feed.
+  Even a comparison-only handoff must state the boundary freeze explicitly:
+  each known independent fresh feed, its mass/molar and wet/dry basis,
+  composition and relevant moisture/ash, and whether its flow stays fixed or
+  follows a named control relation. List unprovided boundaries or relations as
+  unknown; do not invent streams or replace this register with "same feed basis".
+  Internal recycle is separate from the fresh-boundary vector.
 - Preserve material composition unless the process unit itself changes it by reaction or separation.
 - Control only defensible variables: feed amounts, makeup utilities, reactor temperature, pressure within engineering bounds, duties, reflux, solvent rate, recovery targets, and initial guesses.
 - Keep steam, water, solvent, MEA, oxygen, and hydrogen as explicit boundary or utility streams; never let them appear without a block, heater, pump, compressor, or makeup rule.

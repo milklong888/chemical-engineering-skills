@@ -78,8 +78,9 @@ Authorized temporary submissions follow the expert's
 [inbox route](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md);
 they may precede closure and never authorize default retrieval or canonical writes.
 
-At each delivery ask whether the task is finished or needs improvement. At
-user-requested consolidation after explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
+At delivery report the completed scope and remaining work. Request current-revision
+closure only when needed for user-requested formal promotion and not already confirmed
+or awaiting an answer. After explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
 principles and test data-pattern hypotheses separately; keep specific values
 and operations below the prompt layer. No reusable increment means no change.
 
@@ -89,6 +90,23 @@ Return the engineering conclusion, current source/change-offset identity, key
 verified results, unresolved/relaxed gates and the next scoped action. Keep
 operation completion, local repair, simulation cleanliness, products and final
 delivery separate. Report only relevant artifacts actually produced.
+
+For a `source` or `scaffold` arrangement, deliver these two checks now, even
+when the model is not available or must not run:
+
+- **Boundary and connections**: name the control volume and show each stream's
+  origin, destination and crossing direction. An unsupported connection stays
+  explicitly unresolved. Match every displayed balance term to that ledger;
+  define whether an input includes recycle and keep outlet categories disjoint.
+  Apply the expert's reaction/recycle balance rule rather than inventing a
+  second formula. A sketch, equation and explanation must describe the same boundary.
+- **Placeholder-to-rigorous handoff**: for each allowed placeholder, return its
+  purpose/valid scope, the inputs or evidence that enable rigorous replacement,
+  the receiving professional owner (or the discriminator still needed to select
+  it), and the results it must return: applicable method/basis, same-case boundary
+  states, relevant closure/target checks and execution status. Mark unavailable
+  inputs in this handoff; a missing-data list alone does not deliver it. Selection
+  and future verification remain conditional where evidence is absent.
 
 阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
 [主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)

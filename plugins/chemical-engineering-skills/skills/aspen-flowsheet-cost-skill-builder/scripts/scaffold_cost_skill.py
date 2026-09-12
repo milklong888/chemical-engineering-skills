@@ -349,8 +349,8 @@ def main() -> int:
         "input_contract_status": "pass",
         "costs_calculated": False,
         "missing_data": missing_data,
-        "external_data_dir": str(data_dir),
-        "external_data_is_project_supplied": True,
+        "external_data_dir": str(data_dir) if data_dir is not None else None,
+        "external_data_is_project_supplied": data_dir is not None,
         "open_reasons": reasons,
     }
     if not args.draft_only and audit.returncode != 0:

@@ -139,7 +139,8 @@ class DesignStageTests(unittest.TestCase):
 
     def test_boolean_skip_old_results_and_json_runners_cannot_advance_stage(self):
         for key, value in (("skip", True), ("passed", True), ("results", {"old": "PASS"}),
-                           ("search_runner", "replace"), ("equipment_runner", "replace")):
+                           ("search_runner", "replace"), ("equipment_runner", "replace"),
+                           ("approved", True), ("planning_requirements", {"execution_status": "COMPLETED"})):
             with self.subTest(field=key), self.assertRaises(ValueError):
                 self.check({**self.payload, key: value})
 
@@ -154,6 +155,108 @@ class DesignStageTests(unittest.TestCase):
                 result = self.check({**self.payload, "stage": stage, "pressure_checks": [check]})
                 self.assertEqual(result["pressure"][0]["result"]["checks"][0]["result"]["outlet_pressure_pa"], 450000)
                 self.assertEqual(result["recalculation"]["state"], "NATIVE_FLOWSHEET_RERUN_REQUIRED")
+                self.assertFalse(result["engineering_accepted"])
+
+    def test_change_without_model_preserves_needs_without_claiming_a_plan_or_writing_files(self):
+        before = {p.name: p.read_bytes() for p in self.root.iterdir() if p.is_file()}
+        payload = {"stage": "change", "question": "冷却后相态改变，先核查当前假设"}
+        original = copy.deepcopy(payload)
+        result = self.check(payload)
+        plan = result["planning_requirements"]
+        self.assertEqual(plan["status"], "PLANNING_REQUIREMENTS_ONLY")
+        self.assertEqual(plan["execution_status"], "NOT_EXECUTED")
+        self.assertFalse(plan["authorization_granted_by_receipt"])
+        self.assertFalse(plan["project_specific_plan_complete"])
+        self.assertEqual(plan["input_identity"], {key: None for key in self.identity})
+        self.assertEqual(plan["hash_bound_reference_names"], [])
+        self.assertEqual(plan["unresolved_needs"], result["needs"])
+        self.assertTrue(plan["unresolved_needs"])
+        for field in ("native_baseline", "protected_candidate", "selected_change"):
+            self.assertIsNone(plan[field])
+        self.assertEqual(result["status"], "ACTION_REQUIRED")
+        self.assertEqual([row["kind"] for row in result["calls"]],
+                         ["knowledge_search", "knowledge_search", "aspen_solve_route"])
+        self.assertEqual(self.requests, [])
+        self.assertEqual(payload, original)
+        self.assertEqual(before, {p.name: p.read_bytes() for p in self.root.iterdir() if p.is_file()})
+
+    def test_change_with_valid_inputs_does_not_turn_planning_into_acceptance(self):
+        pressure = {"method": "series_pressure", "input_basis": "SYNTHETIC absolute Pa, not native simulation",
+                    "inputs": {"inlet_pressure_pa": 500000, "losses_pa": [20000, 30000]}}
+        result = self.check({**self.payload, "stage": "change", "pressure_checks": [pressure]})
+        plan = result["planning_requirements"]
+        self.assertEqual(plan["input_identity"], self.identity)
+        self.assertEqual(plan["hash_bound_reference_names"], ["authority", "source_export"])
+        self.assertEqual(plan["identity_status"], "HASH_BOUND_CURRENT_CANONICAL_DOCUMENTS")
+        self.assertEqual(plan["stage_execution_id"], result["execution_id"])
+        self.assertEqual(plan["unresolved_needs"], result["needs"])
+        self.assertEqual(result["equipment"][0]["result"]["backend_exit_code"], 0)
+        self.assertEqual(result["pressure"][0]["result"]["checks"][0]["result"]["outlet_pressure_pa"], 450000)
+        self.assertFalse(result["engineering_accepted"])
+        self.assertFalse(result["flowsheet_modified"])
+        self.assertFalse(result["stage_advanced"])
+        self.assertFalse(plan["authorization_granted_by_receipt"])
+        self.assertIsNone(plan["native_baseline"])
+        self.assertEqual(plan["execution_status"], "NOT_EXECUTED")
+
+    def test_unbound_reference_is_not_promoted_by_planning_and_other_stages_do_not_get_it(self):
+        bad = {**self.identity["source_export"], "sha256": "0" * 64}
+        result = self.check({**self.payload, "stage": "change", "source_export": bad})
+        plan = result["planning_requirements"]
+        self.assertEqual(plan["input_identity"]["source_export"], bad)
+        self.assertEqual(plan["hash_bound_reference_names"], ["authority"])
+        self.assertIn("CURRENT_REFERENCE_NOT_BOUND", {n["code"] for n in plan["unresolved_needs"]})
+        self.assertEqual(result["status"], "ACTION_REQUIRED")
+        for stage in ("source", "scaffold", "island", "reconnect", "delivery"):
+            with self.subTest(stage=stage):
+                self.assertNotIn("planning_requirements", self.check({**self.payload, "stage": stage}))
+
+    def test_mismatched_question_keeps_failure_and_both_questions_without_auto_retry(self):
+        payload = {"stage": "change", "question": "当前相态变化需要诊断",
+                   "solve_request": {"question": "另一工况的优化问题", "intents": ["diagnose"]}}
+        original = copy.deepcopy(payload)
+        result = self.check(payload)
+        solve = result["solve_route"]
+        summary = result["execution_summary"]
+        self.assertEqual(solve["status"], "FAILED")
+        self.assertNotIn("result", solve)
+        self.assertEqual(solve["request_conflict"]["current_stage_question"], payload["question"])
+        self.assertEqual(solve["request_conflict"]["nested_solve_question"], payload["solve_request"]["question"])
+        self.assertIn("继承当前阶段问题", solve["request_conflict"]["repair_hint"])
+        need = next(n for n in result["needs"] if n["code"] == "SOLVE_REQUEST_INVALID")
+        self.assertEqual(need["detail"]["current_stage_question"], payload["question"])
+        self.assertEqual(summary["stage_status"], result["status"])
+        self.assertEqual(summary["solve_call_status"], "FAILED")
+        self.assertEqual(summary["solve_result_status"], "NOT_AVAILABLE")
+        self.assertEqual(summary["solve_call_error"], solve["error"])
+        self.assertIsNone(summary["solve_result_error"])
+        self.assertFalse(any(c["kind"] == "aspen_solve_route" for c in result["calls"]))
+        self.assertEqual(payload, original)
+        self.assertFalse(result["engineering_accepted"])
+
+    def test_nonobject_solve_request_is_rejected_without_inventing_question_conflict(self):
+        result = self.check({"stage": "change", "question": "当前变化诊断", "solve_request": []})
+        self.assertEqual(result["status"], "ACTION_REQUIRED")
+        self.assertEqual(result["solve_route"]["status"], "FAILED")
+        self.assertNotIn("request_conflict", result["solve_route"])
+        self.assertEqual(result["execution_summary"]["solve_result_status"], "NOT_AVAILABLE")
+        self.assertFalse(any(c["kind"] == "aspen_solve_route" for c in result["calls"]))
+        self.assertIn("SOLVE_REQUEST_INVALID", {n["code"] for n in result["needs"]})
+
+    def test_execution_summary_distinguishes_successful_call_from_unresolved_routing(self):
+        for question, status in [("读取当前结果与单位", "ACTION_REQUIRED"),
+                                 ("读取当前结果，不优化", "AGENT_CLASSIFICATION_REQUIRED")]:
+            with self.subTest(question=question):
+                result = self.check({"stage": "change", "question": question,
+                                     "solve_request": {"intents": ["read_value"]}})
+                summary = result["execution_summary"]
+                self.assertEqual(summary["stage"], result["stage"])
+                self.assertEqual(summary["stage_status"], result["status"])
+                self.assertEqual(summary["solve_call_status"], "EXECUTED")
+                self.assertEqual(summary["solve_result_status"], status)
+                self.assertEqual(summary["solve_result_status"], result["solve_route"]["result"]["status"])
+                self.assertIsNone(summary["solve_call_error"])
+                self.assertIsNone(summary["solve_result_error"])
                 self.assertFalse(result["engineering_accepted"])
 
     def test_delivery_runs_existing_replay_validator_and_rejects_boolean_pass(self):
@@ -221,8 +324,9 @@ class DesignStageTests(unittest.TestCase):
 
     def test_real_search_gateway_feedback_and_jsonl_entrypoints(self):
         requests = [{"operation": "design_stage", "payload": {"stage": "source", "question": "高温公用工程 预热 压缩"}},
-                    {"operation": "design_stage", "payload": self.payload}]
-        source, equipped = self.real_cli(requests, jsonl=True)
+                    {"operation": "design_stage", "payload": self.payload},
+                    {"operation": "design_stage", "payload": {"stage": "change", "question": "冷却后相态改变，先核查当前假设"}}]
+        source, equipped, changed = self.real_cli(requests, jsonl=True)
         self.assertEqual(len(source["queries"]), 2)
         self.assertEqual(source["queries"][0]["returned_nodes"][0]["node_id"], "L3-03")
         self.assertTrue(source["queries"][0]["returned_nodes"])
@@ -236,6 +340,15 @@ class DesignStageTests(unittest.TestCase):
         self.assertNotEqual(source["execution_id"], equipped["execution_id"])
         self.assertFalse(equipped["engineering_accepted"])
         self.assertFalse(equipped["inventory_coverage"]["independently_verified_complete"])
+        self.assertEqual(changed["status"], "ACTION_REQUIRED")
+        self.assertEqual(changed["planning_requirements"]["execution_status"], "NOT_EXECUTED")
+        self.assertEqual(changed["planning_requirements"]["unresolved_needs"], changed["needs"])
+        self.assertFalse(changed["planning_requirements"]["authorization_granted_by_receipt"])
+        self.assertFalse(changed["planning_requirements"]["project_specific_plan_complete"])
+        self.assertFalse(changed["engineering_accepted"])
+        self.assertEqual(changed["execution_summary"]["stage_status"], changed["status"])
+        self.assertEqual(changed["execution_summary"]["solve_call_status"], changed["solve_route"]["status"])
+        self.assertEqual(changed["execution_summary"]["solve_result_status"], changed["solve_route"]["result"]["status"])
 
 
 if __name__ == "__main__":
