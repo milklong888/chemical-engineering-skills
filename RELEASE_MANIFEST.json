@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "bb1d1de7cdaf4d68e7110784c179503655e23cfcac174c0e8018b9f07d42f1a3",
-      "bytes": 7735
+      "sha256": "f8c5adebcc3774dd9647c4ab63fb66718ceeadfb9b5310b00b417501ea0b7d9a",
+      "bytes": 7898
     },
     {
       "path": "backends/equipment/README.md",
@@ -1009,9 +1009,9 @@
       "bytes": 13482
     },
     {
-      "path": "docs/Agent自进化机制.md",
-      "sha256": "8f518109057deffe289f158e5d0d59d6acd93df77d0bfaf2ac335d4da1cddaf4",
-      "bytes": 5340
+      "path": "docs/Agent工作流更新_2026-09-12.md",
+      "sha256": "e6bd9000809abe45d7d29890abdab88ff44fb8b0dd9b0d5c0284363a939694a0",
+      "bytes": 6558
     },
     {
       "path": "docs/observation_index.md",
