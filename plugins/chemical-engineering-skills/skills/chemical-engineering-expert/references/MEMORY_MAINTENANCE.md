@@ -29,6 +29,14 @@ Keep the four active memory layers separate from the temporary submission queue:
 The public inbox is a noncanonical review queue governed by its own submission
 contract; its presence does not create another rule owner or active graph.
 
+For an authorized candidate review, retain the actual source/owner comparison
+and unresolved facts even while confirmation, independent approval or public
+consent is pending. Use EXPERIENCE_INBOX.md for the distinction between this
+preparatory review and the later content-bound approval event; preparation does
+not upgrade status. For a requested batch consolidation, EVOLUTION_LOOP.md owns
+the concrete placement, available counterexample checks and version/rollback
+proposal. Record their results or specific blockers, not only future steps.
+
 Do not use raw conversation summaries, self-confidence, or synthetic examples
 as verified long-term memory.
 

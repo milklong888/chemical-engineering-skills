@@ -9,6 +9,10 @@ description: Build, audit, repair, and deliver Aspen Plus EDR shell-and-tube exc
 
 从当前流程逐台列出需要EDR的双流体换热器，先核对每台的冷热侧、负荷、温压、允许压降和已有文件，再判断它只是流程估算、详细HeatX，还是已经执行了真实EDR。对需要建立或修复的设备，用同一台设备的数据运行EDR，检查面积、流速、压降、振动、物性范围和材料依据，然后通过操作模块绑定到Aspen并复开读取，证明绑定没有丢失。
 
+仅有 Detailed 名称、独立文件或面积时，将真实 EDR 执行状态记为“未核验”，
+分别列已知事实与缺项。未找到证明不能据此标成“没有 EDR”；确认不存在需要
+检查当前设备的绑定、设置及对应文件记录。
+
 EDR改变面积、压降或出口状态时，不能只更新换热器表；按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)回到工艺层复算受影响的循环、产品和公用工程。最后同时交付逐台覆盖记录、EDR依据和精确Aspen文件的验收证据。包内提供方法及接口，不提供商业软件，也不把热工评级当作厂家机械设计批准。
 
 ## Role

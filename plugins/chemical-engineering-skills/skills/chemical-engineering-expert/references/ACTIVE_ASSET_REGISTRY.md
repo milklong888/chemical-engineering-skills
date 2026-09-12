@@ -53,7 +53,7 @@
 | [equipment-design-app](../../equipment-design-app/SKILL.md) | 调用随包设备计算和选型后台 | 同候选工况、来源/范围 → 计算轨迹、能力约束或数据缺口 | 真实能力限制交回工艺 owner；目录无覆盖不直接推出并联/分级 |
 | [aspen-edr-rating-delivery](../../aspen-edr-rating-delivery/SKILL.md) | 真实 EDR 换热器校核与交付 | 换热服务、同版模型与 EDR 依赖 → EDR身份、结果及工程门证据 | HeatX Detailed/Shortcut 不等于 EDR；文件操作由 operations 支持 |
 | [aspen-pressure-pfd-delivery](../../aspen-pressure-pfd-delivery/SKILL.md) | 全流程压力路径、PFD和交付包 | 压力拓扑或已核实结果 → 压力审计、图纸与交付文件 | EDR转专用模块；只排版则只处理已有证据和版式 |
-| [sw6-scripted-equipment-design](../../sw6-scripted-equipment-design/SKILL.md) | 明确请求的 SW6 文件传参/读回 | 已核实字段映射、文件及版本 → 传参回读与计算书证据状态 | 一般选型走 audit/app；字节写入不代表 SW6 计算通过 |
+| [sw6-scripted-equipment-design](../../sw6-scripted-equipment-design/SKILL.md) | SW6 文件传参/读回，或容器文件的字段偏移与序列化风险审查 | 文件/软件身份、版本及已有映射 → 风险分级、传参回读与报告证据状态 | 软件未明先审风险，不推定 SW6；一般选型走 audit/app；字节写入不代表计算通过 |
 
 ## 费用与来源说明
 

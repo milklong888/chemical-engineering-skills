@@ -15,6 +15,12 @@ description: Build self-evolving Aspen Plus templates by tuning representative s
 
 Use this skill when an Aspen island must accept many feedstocks or route cases without case-by-case hand repair. The target is a reusable template whose calculators, design specs, and classifiers adapt operating variables while preserving feed composition and process physics.
 
+When summarizing existing runs, distinguish reported success from output
+agreement and independent coverage. Nearby feeds and a shared saved starting
+solution do not establish absence of initialization bias. Without matched
+cold/warm runs and output comparisons, that effect remains unknown. If the
+user asks for a summary only, state this limit without launching new runs.
+
 ## Operating Contract
 
 - In-task tuning and data capture support the current engineering objective;

@@ -6,6 +6,7 @@ import os
 import re
 from pathlib import Path
 from typing import Any
+from cost_evidence_guard import EXCLUDED_SCOPES, KNOWN_SCOPES
 
 
 DEFAULT_COMPARISON_INDEX = 816.0
@@ -127,6 +128,8 @@ def complete_comparison_cost(
     service_library: dict[str, dict[str, str]] = contract["services"]
     method_id = assignment.get("method_id", "")
     scope = assignment.get("scope_class", "")
+    if scope not in KNOWN_SCOPES:
+        raise ValueError(f"scope unknown or unresolved: {scope!r}")
     service = assignment.get("service", "")
     raw_cost = positive(strict_row.get("candidate_purchased_cost_target_usd"))
     target_index = positive(case.get("target_cost_index")) or DEFAULT_COMPARISON_INDEX
@@ -204,7 +207,7 @@ def complete_comparison_cost(
     # IF 1: scope exclusions and OPEX-only rows make a documented zero
     # contribution to purchased equipment, not an observed zero-price device.
     if (
-        "excluded" in scope
+        scope in EXCLUDED_SCOPES
         or method_id == "LOGICAL_OR_REACTOR_EXCLUSION"
         or method_id == "UTILITY_OPEX"
     ):

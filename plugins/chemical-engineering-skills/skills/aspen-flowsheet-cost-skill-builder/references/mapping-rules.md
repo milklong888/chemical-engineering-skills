@@ -40,3 +40,30 @@ Set `mapping_status=reviewed` only when physical family, service, scope,
 subtype, and duplicate handling are explicit. Set `source_ids` only to evidence
 that supports the exact cost method. Keep unsupported methods as
 `method_gap_open`; do not select the closest available curve.
+
+## Procurement Coverage For Towers And Packages
+
+The physical inventory and the chargeable quote lines are different ledgers.
+Before summing a tower/package quote, inspect its inclusion/exclusion schedule:
+column shell and internals, condenser, reboiler, reflux drum, pumps/drivers,
+controls, spares, installation and delivery basis. A separately drawn auxiliary
+may already be paid for in the package. An unknown inclusion is a gap, not proof
+that the auxiliary should be added. A shell-only quote requires explicit evidence
+before auxiliary prices are added separately.
+
+Add these assignment fields when a row concerns a tower/package or a quote:
+
+- `procurement_role`: `standalone`, `package`, or `included_in_package`.
+- `package_scope_status`: `reviewed` only after inspecting the actual schedule.
+- `package_scope_source_ids` and `package_scope_locator`: original ledger IDs
+  and exact inclusion/exclusion page/table, including evidence of separate scope.
+- `covered_equipment_ids`: semicolon-separated inventory IDs for a package,
+  including its own ID. Every covered auxiliary stays in the physical inventory.
+- `parent_package_id`: populated on every covered auxiliary; its role is
+  `included_in_package` and its `scope_class` is `included_in_package_excluded`.
+
+A covered auxiliary cannot also be a separately chargeable candidate. Two package
+rows cannot cover the same item. The shared source and procurement audit checks
+these relations before either cost layer runs. It checks recorded evidence
+identity and ledger consistency; review of the actual quote boundary is still
+required and cannot be inferred from a field label.

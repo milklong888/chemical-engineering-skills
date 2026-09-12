@@ -1,13 +1,13 @@
 ---
 name: sw6-scripted-equipment-design
-description: "Coordinate narrow SW6 scripting work after equipment evidence has been routed: known-safe SW6 project-file field transfer, readback audits, and SW6 calculation-book evidence gates. Use only when the user explicitly asks for SW6 scripted input/readback, .fx3/.cn2/SW6 file mapping, automated transfer from Aspen/EDR/report ledgers into SW6 files, or SW6-result proof chains; defer general equipment-selection audits to chemical-equipment-selection-audit and Aspen model work to Aspen skills."
+description: "Audit pressure-vessel project-file field mappings, version-dependent offsets, material/string serialization, and SW6 readback/report evidence. Use for SW6 scripted transfer, .fx3/.cn2 files, or vessel-file mapping risk reviews where the target software still needs identification. Confirm SW6 identity before SW6-specific execution; general equipment selection belongs to chemical-equipment-selection-audit."
 ---
 
 # SW6 Scripted Equipment Design
 
 ## 工作过程
 
-只有任务明确要求SW6字段传递、文件回读或计算书核验时才进入本模块。先由设备审计确认同一设备的结构、设计条件、材料和证据等级，再核实目标SW6版本、模块以及用户提供的已验证字段映射，将能证明安全序列化的字段写入受控副本，并逐项回读比较单位、数值和文件身份。
+压力容器项目文件的字段、偏移或材料字节审查先确认生成软件、版本和模块；未给软件身份时，可以形成映射风险表，不推定文件就是SW6。确认SW6后，由设备审计核对同一设备的结构、设计条件、材料和证据等级，再审用户提供的已验证字段映射，将能证明安全序列化的字段写入受控副本，并逐项回读比较单位、数值和文件身份。
 
 未验证的材料、字符串或几何不猜偏移写入。最后用同一设备的SW6计算书核验正式结论，并把差异交回设备审计；没有映射程序或商业软件证据时，交付具体待补项和已完成的账本，不声称包内自带可运行的SW6引擎。
 
@@ -20,7 +20,10 @@ This skill is a narrow implementation layer. It must not replace:
 - PDF/DOCX skills for document extraction alone.
 - Vendor-boundary routing for pumps, compressors, membranes, or catalog selections.
 
-Use it only after the equipment identity and evidence route are clear, and the task specifically needs SW6 scripting, SW6 project-file field mapping, or SW6 calculation-book proof control.
+For an initial vessel-file mapping review, keep software identity unresolved
+until supported by the file or current task. SW6-specific implementation needs
+clear equipment identity and evidence route; general equipment selection stays
+with the audit skill.
 
 ## Required Preflight
 
@@ -29,8 +32,8 @@ version/module before scripting. An optional local equipment graph under
 `{CHEM_WORKSPACE}` may supply routing and software boundaries; its private
 contents and automation scripts are not distributed here.
 
-If the task is not SW6 file mapping/readback or calculation-book evidence,
-route to the broader equipment/Aspen skill.
+If the task does not concern vessel-file mapping/readback or SW6 calculation-book
+evidence, route to the broader equipment/Aspen skill.
 
 ## Same-Case Mapping Gate
 
@@ -39,6 +42,15 @@ Require a complete chain from same-equipment input through units and
 serialization to readback and report comparison. Historical equipment IDs,
 binary offsets and sample files are deliberately not supplied: one file's
 offsets do not establish another version/module's layout.
+
+A mapping risk table distinguishes numeric fields already proved on the exact
+version/module from unverified numeric fields and from materials, strings and
+geometry. Readable bytes, a matching offset, a valid checksum or a successful
+save cannot establish engineering meaning. For each proposed safe field,
+require a protected same-sample serialization comparison, independent readback
+and agreement with the producing application's displayed/exported report value;
+for SW6, use its same-equipment calculation report. Missing evidence keeps that
+field unqualified and does not block a read-only risk table.
 
 The local user must provide the mapping runner/config and validation evidence.
 If absent, return a concrete dependency/mapping gap; do not imply that this

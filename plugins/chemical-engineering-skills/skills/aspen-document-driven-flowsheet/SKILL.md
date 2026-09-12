@@ -21,6 +21,9 @@ Do not import another project's accepted reactor, pressure ratio or product targ
 Freeze route, method, basis, property/phase model, component fate, targets,
 allowed edits and acceptance gates. A missing-but-derivable value is calculated;
 an indispensable unsupported value blocks only its dependent claim.
+Even a scaffold balance must define its boundary and retain reaction source
+terms for reacting species; use the expert's derivation protocol rather than
+equating each species' inlet and outlet across a reacting system.
 
 ## Fast Entry
 

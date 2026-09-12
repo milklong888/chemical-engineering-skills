@@ -81,6 +81,14 @@ model edits and bind its hashes/evidence. A staged-copy diagnostic cannot
 substitute. Target-version, PFD/sidecar/USER-library and product gates remain
 separate and must actually be tested for the claimed scope.
 
+For later package revisions, compare the model and every runtime dependency
+separately from cover notes or other packaging text. Proven unchanged runtime
+assets retain their earlier evidence within its original scope; changed notes
+need their own consistency review. A changed package hash alone neither proves
+the model changed nor transfers a whole-package pass. Missing asset identities
+remain unresolved. A newly copied final model still needs the exact-path
+delivery check above.
+
 Return operation, simulation, product and delivery states separately, together
 with artifact identities, failed/unknown gates and the next scoped action.
 A local relaxation is `case_accepted_with_relaxation`, never `strict_passed`.

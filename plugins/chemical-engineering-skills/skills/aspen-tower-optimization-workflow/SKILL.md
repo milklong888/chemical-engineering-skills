@@ -34,7 +34,9 @@ rigorous route. Do not silently substitute a different required method.
 
 调回流、采出、溶剂、压力或热负荷前，按
 [内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
-调用 `solve_route`。找指定指标用 live SPEC/VARY；看未知响应先 Sensitivity，
+完成工具分类，并按[阶段规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)
+实际执行 `island` 检查；准备求解与比较基准时也要完成现有资料支持的查询，
+不以独立 `solve_route` 回执替代岛阶段。找指定指标用 live SPEC/VARY；看未知响应先 Sensitivity，
 已有同版有效区间可复用；多个连续变量在产品约束下寻优先评估原生 Optimization。
 板数、进料板等离散变量分开编排，每个候选内重解质量控制，不固定旧内层操纵值。
 

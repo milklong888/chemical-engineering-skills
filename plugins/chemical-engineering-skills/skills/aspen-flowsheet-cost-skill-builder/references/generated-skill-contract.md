@@ -84,3 +84,29 @@ The generator may create an explicit draft with open strict-method gaps. The
 default runner continues only when the comparison contract passes and always
 produces comparison totals. `--strict-engineering` restores fail-closed behavior
 for publication-quality strict totals.
+
+## Entry And Batch Readiness
+
+Use the bundled runner. Every invocation consumes a fresh method-audit result;
+audit crashes cannot reuse `method_audit.json` from an earlier successful run.
+Current source identity and package-coverage failures block both strict and
+comparison calculations. Comparison fallback numbers still require separately
+reviewed and hashed original sources registered in the same ledger.
+
+Overall strict readiness is `all(enabled case strict statuses pass)` and requires
+at least one enabled case. A successful first or last case cannot clear another
+case's unresolved state. Check both mixed-case orderings. A no-data draft emits
+only a blocking audit; its empty schemas and disabled example are not cost results.
+
+`equipment_coverage_status` is a shared precondition: both inventory and assignment
+IDs must be nonempty, unique and exactly equal as sets. Coverage failure blocks
+comparison and strict calculation. `UTILITY_OPEX` pairs only with
+`utility_opex_separate`; exclusion scopes pair with `LOGICAL_OR_REACTOR_EXCLUSION`.
+
+Every row in `netl-equipment-cost-points.csv` needs a ledger-bound `source_id`.
+The selected equipment/subtype/variant group's sources must be a subset of the
+assignment's explicit `source_ids`; multiple qualified sources can be declared.
+Candidate output `source_ids` records that actual source group and
+`assignment_source_ids` retains the complete original contract. A source mismatch
+blocks the batch before either cost layer emits values; it cannot fall through
+to a seemingly successful comparison result.

@@ -9,7 +9,7 @@ description: Audit and repair Aspen Plus full-flow pressure topology, PFD-style 
 
 先沿当前流程的真实连接逐段核对压力：入口是什么压力，哪些地方需要泵或压缩机升压，哪些单元产生压降，哪里允许节流。用当前几何、物性和适用计算方法建立压降账本，检查热块是否隐藏升压、循环是否有回流压差，以及串联损失和并联共同压差是否处理正确。
 
-需要改变压力设备或工况时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)调用设备检查，再由操作模块修改受保护模型和重跑。确认后才同步PFD、设备标签和报告，让图中的顺序、压力和回流路径都来自同版导出。最后检查模型验收、图文一致性和渲染页面；仅修改排版时不无故重算全流程。
+审查具体流程的压力路径或压力设备安排时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)选择当前设计事件的阶段，执行检查或引用仍有效的同阶段回执；“不改模型”只限定实施范围。需要修改时，再由操作模块修改受保护模型和重跑。确认后才同步PFD、设备标签和报告，让图中的顺序、压力和回流路径都来自同版导出。最后检查模型验收、图文一致性和渲染页面；仅修改排版时不无故重算全流程。
 
 ## Network Position
 
@@ -48,6 +48,11 @@ patterns, not example values. Ignore this hook outside that workspace.
 - If a closed recycle case breaks after adding pressure equipment, suspect forced `SEQUENCE MASTER` before weakening the process model. Prefer `CHECKSEQ=NO` with a convergence method already proven for the case.
 
 ## Pressure Audit Checklist
+
+压力基准转换采用 `P_abs = P_gauge + P_atm`，其中现场 `P_atm` 未知时保留符号式。
+[标准大气压](https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors)
+的 0.101325 MPa 只用于明确标注该假设的示例，不自动成为项目现场值。
+每个具体换算结果须带其基准和该假设；设计压力与操作压力分栏核对。
 
 After regeneration, verify these from the exported `*_after_run.inp`, block CSV, and stream CSV:
 

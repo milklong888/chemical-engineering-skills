@@ -21,6 +21,7 @@ import aspen_offline_sizing as sizing  # noqa: E402
 import comparison_cost_completion as comparison  # noqa: E402
 import cost_basis_adjustment as adjustment  # noqa: E402
 import netl_equipment_cost_estimators as netl  # noqa: E402
+from cost_evidence_guard import EXCLUDED_SCOPES, KNOWN_SCOPES, tokens  # noqa: E402
 
 
 def io_path(path: Path) -> Path:
@@ -139,6 +140,50 @@ def cost_input(method_id: str, params: dict[str, Any]) -> tuple[str, str, str, f
     return equipment_type, subtype, variant, capacity, independent, sizing_result
 
 
+class CostSourceBindingError(ValueError):
+    pass
+
+
+def selected_group_sources(assignment: dict[str, str], group: list[dict[str, Any]]) -> list[str]:
+    """Bind the source group actually supplied to interpolation to its contract."""
+    actual = set()
+    for row in group:
+        ids = tokens(row.get("source_id") or "")
+        if not ids:
+            raise CostSourceBindingError("selected cost point has no source_id")
+        actual.update(ids)
+    declared = set(tokens(assignment.get("source_ids") or ""))
+    if not actual or not actual <= declared:
+        raise CostSourceBindingError(f"selected cost group sources {sorted(actual)} are outside assignment contract {sorted(declared)}")
+    return sorted(actual)
+
+
+def preflight_source_bindings(assignments, cases, points) -> list[dict]:
+    """Reject source-contract conflicts before either cost layer emits values.
+
+    Ordinary missing sizing inputs remain strict unresolved states. They do not
+    select a price group and may still use a separately audited comparison source.
+    """
+    issues = []
+    for case in cases:
+        input_path = io_path(Path(case["equipment_input_csv"]))
+        inputs = {row["equipment_item_id"]: row for row in read_csv(input_path)} if input_path.is_file() else {}
+        for assignment in assignments:
+            if assignment.get("scope_class") in EXCLUDED_SCOPES or assignment.get("method_id") == "UTILITY_OPEX":
+                continue
+            try:
+                params = json.loads(inputs.get(assignment["equipment_item_id"], {}).get("parameters_json") or "{}")
+                equipment_type, subtype, variant, *_ = cost_input(assignment["method_id"], params)
+                group = netl.select_group(points, equipment_type, subtype, variant)
+                selected_group_sources(assignment, group)
+            except CostSourceBindingError as exc:
+                issues.append({"type": "cost_source_assignment_mismatch", "case_id": case["case_id"],
+                               "equipment_item_id": assignment["equipment_item_id"], "error": str(exc)})
+            except (ValueError, KeyError, TypeError, AttributeError):
+                continue
+    return issues
+
+
 def calculate_item(assignment: dict[str, str], input_row: dict[str, str], case: dict[str, str], points: list[dict[str, Any]]) -> dict[str, Any]:
     equipment_id = assignment["equipment_item_id"]
     method_id = assignment["method_id"]
@@ -152,7 +197,8 @@ def calculate_item(assignment: dict[str, str], input_row: dict[str, str], case: 
         "aspen_block_type": assignment.get("aspen_block_type", ""),
         "physical_equipment": assignment.get("physical_equipment", ""),
         "method_id": method_id,
-        "source_ids": assignment.get("source_ids", ""),
+        "source_ids": "",
+        "assignment_source_ids": assignment.get("source_ids", ""),
         "candidate_purchased_cost_base_usd": "",
         "candidate_purchased_cost_target_usd": "",
         "utility_cost_usd_h": "",
@@ -165,10 +211,12 @@ def calculate_item(assignment: dict[str, str], input_row: dict[str, str], case: 
         "error": "",
         "note": input_row.get("note", ""),
     }
-    if "excluded" in assignment.get("scope_class", ""):
+    if assignment.get("scope_class", "") in EXCLUDED_SCOPES:
         result["status"] = "excluded_not_zero"
         return result
     try:
+        if assignment.get("scope_class", "") not in KNOWN_SCOPES:
+            raise ValueError("scope unknown or unresolved")
         params = json.loads(input_row.get("parameters_json") or "{}")
         if input_row.get("method_id") and input_row["method_id"] != method_id:
             raise ValueError("input method_id differs from reviewed assignment")
@@ -182,6 +230,8 @@ def calculate_item(assignment: dict[str, str], input_row: dict[str, str], case: 
             return result
 
         equipment_type, subtype, variant, capacity, independent, sizing_result = cost_input(method_id, params)
+        group = netl.select_group(points, equipment_type, subtype, variant)
+        result["source_ids"] = ";".join(selected_group_sources(assignment, group))
         estimate = netl.estimate_cost(
             equipment_type,
             capacity_value=capacity,
@@ -235,22 +285,36 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    generation_path = ROOT / "generation_audit.json"
+    if generation_path.exists() and json.loads(generation_path.read_text(encoding="utf-8")).get("draft_only"):
+        output_root = io_path(args.out_dir)
+        output_root.mkdir(parents=True, exist_ok=True)
+        report = {"status": "blocked", "reason": "draft_only:no_cost_calculation", "costs_calculated": False}
+        (output_root / "batch_audit.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+        print(json.dumps(report, indent=2))
+        return 1
     audit = subprocess.run(
         [sys.executable, str(Path(__file__).with_name("audit_generated_method.py"))],
         check=False,
         capture_output=True,
         text=True,
     )
-    audit_path = ROOT / "method_audit.json"
-    audit_report = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path.exists() else {}
-    method_ready = audit_report.get("strict_status") == "pass" or audit.returncode == 0
-    comparison_contract_ready = audit_report.get("comparison_contract_status", "pass" if audit.returncode == 0 else "fail") == "pass"
-    if not comparison_contract_ready:
-        if audit.stdout:
-            print(audit.stdout, end="")
-        if audit.stderr:
-            print(audit.stderr, file=sys.stderr, end="")
-        return audit.returncode or 1
+    # Consume this invocation's report, never a potentially stale green file.
+    try:
+        audit_report = json.loads(audit.stdout)
+    except (ValueError, TypeError):
+        audit_report = {}
+    method_ready = audit_report.get("strict_status") == "pass" and audit.returncode == 0
+    comparison_contract_ready = audit_report.get("comparison_contract_status") == "pass"
+    prerequisites = ("source_identity_status", "procurement_boundary_status", "equipment_coverage_status", "comparison_contract_status")
+    if audit.returncode not in (0, 1) or not all(audit_report.get(key) == "pass" for key in prerequisites):
+        report = {"status": "blocked", "costs_calculated": False, "reason": "fresh_evidence_audit_required",
+                  "audit_returncode": audit.returncode, "audit": audit_report, "audit_error": audit.stderr}
+        output_root = io_path(args.out_dir)
+        output_root.mkdir(parents=True, exist_ok=True)
+        (output_root / "batch_audit.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 1
 
     assignments = read_csv(REFS / "equipment-method-assignment.csv")
     points = netl.load_points(REFS / "netl-equipment-cost-points.csv")
@@ -259,11 +323,18 @@ def main() -> int:
     batch_rows: list[dict[str, Any]] = []
     output_root = io_path(args.out_dir)
     output_root.mkdir(parents=True, exist_ok=True)
+    binding_issues = preflight_source_bindings(assignments, cases, points)
+    if binding_issues:
+        report = {"status": "blocked", "costs_calculated": False, "reason": "cost_source_assignment_mismatch",
+                  "issues": binding_issues}
+        (output_root / "batch_audit.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 1
 
     fields = [
         "case_id", "template_id", "chain_id", "stage", "equipment_item_id",
         "block_id", "aspen_block_type", "physical_equipment", "method_id",
-        "source_ids", "candidate_purchased_cost_base_usd",
+        "source_ids", "assignment_source_ids", "candidate_purchased_cost_base_usd",
         "candidate_purchased_cost_target_usd", "utility_cost_usd_h",
         "utility_cost_usd_y", "selected_after_review", "selection_reason",
         "status", "sizing_json", "cost_detail_json", "error", "note",
@@ -304,7 +375,7 @@ def main() -> int:
             except Exception as exc:
                 comparison_errors.append(f"{item['equipment_item_id']}:{exc}")
             item_rows.append(item)
-            if assignment.get("scope_class") == "purchased_equipment_candidate":
+            if assignment.get("scope_class") == "purchased_equipment_candidate" or item.get("candidate_purchased_cost_target_usd", "") != "":
                 if item["status"] != "calculated_candidate":
                     blocked.append(f"{item['equipment_item_id']}:{item['status']}")
                 if not truthy(item["selected_after_review"]):

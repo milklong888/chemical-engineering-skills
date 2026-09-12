@@ -41,3 +41,19 @@ Scaffolding a new Skill requires
 the local Codex Skill initializer; if unavailable, the command reports that
 dependency before starting creation. The public comparison schema document
 and generic program templates remain bundled.
+
+## Explicit No-Data Draft
+
+`scaffold_cost_skill.py --draft-only` is the explicit exception to the normal
+no-output dependency gate: it emits a blocked, non-calculating framework and
+empty schemas, never replacement anchors or totals. See `no-data-draft.md`.
+Without that flag, missing external files still return `dependency_unavailable`.
+Source review requires the original local file and its current SHA256, not just
+an `approved` string. Ledger-relative original paths resolve against the ledger;
+the scaffolder preserves their absolute identity when copying the ledger.
+
+Cost-point rows require `source_id` (semicolon-separated only for an explicitly
+combined source row), registered with current originals in the source ledger.
+Assignment sources must explicitly cover every source in the selected
+equipment/subtype/variant interpolation group. A qualified assignment source does
+not confer its identity on points extracted from another source.

@@ -6,6 +6,14 @@
 
 [下载发行包](https://github.com/milklong888/chemical-engineering-skills/releases) · [使用手册](docs/使用手册.md) · [19 个模块说明](docs/模块说明.md) · [任务入口与协作图](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md)
 
+## 0.4.7 修复：检查执行与交付完整性
+
+本版修复了阶段检查遗漏、不同工具状态混报，以及将未核验信息写成确定结论的问题。设计准备阶段也会执行当前资料支持的检查；改错工具意图后需重新取得对应回执，交付说明按实际文件、版本和适用条件表述。
+
+经验提醒补齐具体摘要、适用范围和可点击投稿入口。已有授权的草稿准备要求交付实际内容；等待确认期间继续可独立完成的来源与现行规则核对，批次整理补齐反例、具体维护位置和回退方案。
+
+费用框架提供无数据时的明确草案入口，并在计算前核对设备覆盖、实际价格来源和成套采购范围，阻止重复计费、来源错配和费用分类冲突。原有任务组织与研究采用说明见[Agent 工作流更新](docs/Agent工作流更新_2026-09-12.md)。
+
 ## 功能范围
 
 | 功能 | 支持的工作 |
@@ -59,7 +67,7 @@
 
 真实 Aspen Plus、EDR、SW6 操作需要目标电脑具备相应软件、许可和适配环境。当前项目的模型、设计条件、厂家资料和报价由使用者提供。
 
-验证记录分别覆盖文件完整性、程序行为、工具调用和助手任务表现。软件检查通过不直接代表工程方案通过；具体项目仍需基于目标版本与实际交付文件验收。更新内容见[发行说明](https://github.com/milklong888/chemical-engineering-skills/releases/tag/v0.4.6)，验证方法见[验证说明](docs/验证说明.md)。
+验证记录分别覆盖文件完整性、程序行为、工具调用和助手任务表现。软件检查通过不直接代表工程方案通过；具体项目仍需基于目标版本与实际交付文件验收。更新内容见[发行说明](https://github.com/milklong888/chemical-engineering-skills/releases/latest)，验证方法见[验证说明](docs/验证说明.md)。
 
 ## 文档导航
 

@@ -77,7 +77,20 @@ python {CHEM_SKILLS}\aspen-flowsheet-cost-skill-builder\scripts\inventory_flowsh
    - Read `references/mapping-rules.md`.
    - Resolve physical scope, subtype, material, pressure class, train count,
      sizing variables, and all package auxiliaries.
+   - For a tower or package quote, explicitly inspect whether shell/internals,
+     condenser, reboiler, reflux drum, pump, driver and controls are already
+     included. Retain physical items in the inventory but charge included items
+     only through their parent package. Unknown quote inclusions block totals.
+     Record the executable coverage fields in `references/mapping-rules.md`.
+   - A two-sided exchanger identifies one physical exchanger, not its subtype;
+     do not infer shell-and-tube construction without equipment evidence.
    - Mark mapping as `reviewed` only after evidence supports it.
+   - Require unique, nonempty equipment IDs and exact inventory/assignment
+     coverage in both directions. Duplicate charge rows, missing assignments
+     and unlisted items block both cost layers, including comparison mode.
+   - Pair `UTILITY_OPEX` only with `utility_opex_separate`; exclusion scopes use
+     `LOGICAL_OR_REACTOR_EXCLUSION`. Actual CAPEX candidates must satisfy the
+     strict completeness and selection gates regardless of scope labels.
    - Leave specialized or unsupported equipment unresolved and add a source
      request; never borrow a generic vessel or the largest available cost.
 
@@ -100,11 +113,17 @@ python {CHEM_SKILLS}\aspen-flowsheet-cost-skill-builder\scripts\scaffold_cost_sk
 ```
 
    Add `--require-ready` only after all mapping and source gates are approved.
-   Without it, the output is an explicit strict-method draft. Scaffolding first
-   checks all required external CSV files before creating a target. No library
-   means no generated cost package or total. When the compatible source-backed
-   data are available, the original comparison method and strict-engineering
-   gates remain unchanged.
+   Without it, unresolved methods remain drafts. If no cost library is available,
+   use `--draft-only` without `--data-dir` to create the executable framework and
+   empty schemas; its runner records `blocked` and emits no cost numbers.
+   Follow `references/no-data-draft.md` for the minimum evidence inventory.
+   Reuse the bundled `run_recipe_batch.py`; do not invent a second batch runner
+   that checks an `approved` flag. Its entry audits the actual source ledger,
+   current original hashes, package coverage and comparison contract every run.
+   Every cost-point `source_id` also requires a qualified original. Before either
+   layer runs, the selected equipment/subtype/variant source group must belong
+   to the assignment's declared source set; a verified source cannot endorse
+   another source implicitly. Explicit qualified multi-source groups are allowed.
 
 7. **Validate and forward-test**
    - Run `scripts/self_test.py --data-dir <reviewed_original_profile_csv_dir>`
@@ -116,6 +135,12 @@ python {CHEM_SKILLS}\aspen-flowsheet-cost-skill-builder\scripts\scaffold_cost_sk
    - Run its method audit.
    - Test one exact source anchor, one interpolation interior point, each range
      boundary, one missing input, one invalid unit, and one representative case.
+   - Test success then unresolved, and unresolved then success in the same
+     manifest. Overall strict readiness requires every enabled case to pass;
+     case order, a previous green audit or an `approved` label cannot relax it.
+   - Run `scripts/test_cost_guards.py --work-dir <isolated_check_directory>` for
+     source-identity, package-overlap, stale-audit and mixed-batch regressions.
+     These synthetic software fixtures are not engineering cost validation.
    - Resume the same batch and require stable output hashes.
    - Compare to same-case AEPA item rows or an independent source when available.
    - Require every comparison row to have central/low/high values, a source,

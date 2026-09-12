@@ -9,7 +9,7 @@ description: Diagnose and repair Aspen flow failures using current authority, ph
 
 收到错误日志或不合理结果后，先保留可回退的候选文件，读取当前项目要求和同次运行的具体报错，再沿物流还原出错单元的真实用途。区分输入、物性、相态、循环与控制、产品目标、设备能力以及文件问题后，只针对有证据的原因作一组受控修改，交操作模块重跑，并观察原问题是否消失或暴露了下一问题。
 
-纯文件或数值诊断不必重新设计全厂；但修复一旦改变负荷、温压、相态或连接，就按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)重查方法和设备，并让受影响结果重新计算。返回原报错、修改、同案复跑和剩余问题；修好一个块只表示局部修复，不表示全流程已经交付。
+纯文件或数值诊断不必重新设计全厂；题目已经报告负荷、温压、相态或连接改变时，先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)执行 `change` 检查，不等实际改模型才触发。修复后让受影响结果重新计算。返回原报错、修改、同案复跑和剩余问题；修好一个块只表示局部修复，不表示全流程已经交付。
 
 ## First reads and scope
 
@@ -25,6 +25,10 @@ executes and supplies the single strict version-bound evidence gate.
 ## Repair Loop
 
 1. Preserve the accepted candidate and freeze the current failure/allowed edits.
+   In preparation-only work, specify the protected copy and original identity,
+   the single evidenced change to record, and a before/after replay on that same
+   candidate with inputs, outputs, residuals and product checks. Missing files
+   stay named dependencies; do not claim the copy or replay already exists.
 2. Classify resource/startup, input/card, property/phase, solver/recycle/control,
    process target, equipment capacity or delivery identity before changing anything.
 3. Reconstruct the physical service and affected stream path before solver knobs.

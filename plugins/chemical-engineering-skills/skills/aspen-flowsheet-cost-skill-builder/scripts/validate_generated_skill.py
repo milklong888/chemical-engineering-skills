@@ -21,14 +21,19 @@ def main() -> int:
     args = parse_args()
     skill = args.skill_dir.resolve()
     structural = subprocess.run([sys.executable, str(QUICK_VALIDATE), str(skill)], check=False)
-    method = subprocess.run([sys.executable, str(skill / "scripts" / "audit_generated_method.py")], check=False)
-    audit_path = skill / "method_audit.json"
-    audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path.exists() else {}
+    method = subprocess.run([sys.executable, str(skill / "scripts" / "audit_generated_method.py")], check=False, capture_output=True, text=True)
+    try:
+        audit = json.loads(method.stdout)
+    except (ValueError, TypeError):
+        audit = {}
     comparison_ready = audit.get("comparison_contract_status", "fail") == "pass"
-    strict_ready = audit.get("strict_status", "fail") == "pass"
-    if structural.returncode == 0 and comparison_ready and strict_ready:
+    strict_ready = audit.get("strict_status", "fail") == "pass" and method.returncode == 0
+    identity_ready = all(audit.get(key) == "pass" for key in ("source_identity_status", "procurement_boundary_status", "equipment_coverage_status"))
+    generation_path = skill / "generation_audit.json"
+    explicit_draft = generation_path.exists() and json.loads(generation_path.read_text(encoding="utf-8")).get("draft_only") is True
+    if structural.returncode == 0 and comparison_ready and strict_ready and identity_ready and not explicit_draft:
         status = "pass"
-    elif structural.returncode == 0 and comparison_ready and args.allow_draft:
+    elif structural.returncode == 0 and args.allow_draft and (explicit_draft or (identity_ready and comparison_ready and bool(audit))):
         status = "draft"
     else:
         status = "fail"
@@ -39,6 +44,11 @@ def main() -> int:
         "method_audit_returncode": method.returncode,
         "comparison_contract_status": audit.get("comparison_contract_status", "missing"),
         "strict_status": audit.get("strict_status", "missing"),
+        "source_identity_status": audit.get("source_identity_status", "missing"),
+        "procurement_boundary_status": audit.get("procurement_boundary_status", "missing"),
+        "equipment_coverage_status": audit.get("equipment_coverage_status", "missing"),
+        "draft_only": explicit_draft,
+        "costs_calculated": False,
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0 if status in {"pass", "draft"} else 1

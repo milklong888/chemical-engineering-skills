@@ -15,6 +15,10 @@ description: Write source-faithful Aspen kinetics documentation from papers, led
 
 Write only to the parameter value that Aspen or the USER subroutine can actually receive.
 Keep every source-to-input unit conversion with numbers.
+For a single-parameter conversion, return the supplied value/unit, conversion,
+receiving field and source locator together. If the paper/page/table/equation
+was not supplied, name that locator as pending while completing the supported
+arithmetic; do not imply the literature value itself was independently verified.
 Do not include operating-condition rate examples in the main explanation unless the calculated value is itself an Aspen input, a USER `REAL(i)`, an `INT(i)`, a hardcoded subroutine constant, or a required reactor geometry/catalyst-basis value used by the subroutine.
 
 ## Evidence Chain

@@ -23,6 +23,18 @@ use the available databanks/help/current component-source ledger before
 declaring an unresolved identity. A labeled placeholder is a provisional
 identity only, never a verified replacement.
 
+CAS RN has three hyphen-separated groups: 2–7 digits, 2 digits and 1 check digit.
+Use the [CAS check-digit rule](https://www.cas.org/training/documentation/chemical-substances/checkdig)
+when claiming that check was performed: multiply preceding digits from right
+to left by 1, 2, … and compare the sum modulo 10 with the final digit. Format,
+check digit, substance identity and Aspen databank resolution are separate
+checks; a correct number format does not verify its database assignment.
+
+For lookup instructions, attach the version and exact help/export evidence to
+each supported step. A current-version Find/CAS help result does not verify an
+entire menu path borrowed from older documentation. Keep older navigation as
+a search lead and mark the remaining current-version steps unverified.
+
 ## Short execution route
 
 1. Freeze expected component IDs, CAS/source identities, property-method

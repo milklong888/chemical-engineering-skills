@@ -13,6 +13,7 @@ REFS = ROOT / "references"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import netl_equipment_cost_estimators as netl  # noqa: E402
+from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage  # noqa: E402
 
 
 APPROVED_SOURCES = {"approved", "approved_project_method"}
@@ -52,13 +53,22 @@ def main() -> int:
     methods = {row["method_id"] for row in read_csv("method-library.csv")}
     sources = {row["source_id"]: row for row in read_csv("source-evidence-ledger.csv")}
     requests = read_csv("source-request-register.csv")
-
-    equipment_ids = {row["equipment_item_id"] for row in equipment}
-    assignment_ids = [row["equipment_item_id"] for row in assignments]
-    if len(assignment_ids) != len(set(assignment_ids)):
-        issues.append({"type": "duplicate_equipment_assignment"})
-    for equipment_id in equipment_ids - set(assignment_ids):
-        issues.append({"type": "equipment_without_assignment", "equipment_item_id": equipment_id})
+    extra_sources = []
+    point_source_issues = []
+    for index, row in enumerate(read_csv("netl-equipment-cost-points.csv"), start=2):
+        ids = [part.strip() for part in (row.get("source_id") or "").split(";") if part.strip()]
+        if not ids:
+            point_source_issues.append({"type": "cost_point_source_missing", "row": index})
+        extra_sources.extend(ids)
+    for filename in ("replacement-cost-library.csv", "comparison-service-replacement-library.csv"):
+        extra_sources.extend(row.get("source_id", "").strip() for row in read_csv(filename)
+                             if row.get("source_id", "").strip())
+    source_issues = point_source_issues + audit_sources(assignments, REFS / "source-evidence-ledger.csv", extra_sources)
+    procurement_issues = audit_procurement(assignments)
+    coverage_issues = audit_equipment_coverage(equipment, assignments)
+    issues.extend(source_issues)
+    issues.extend(procurement_issues)
+    issues.extend(coverage_issues)
 
     for row in assignments:
         equipment_id = row["equipment_item_id"]
@@ -67,7 +77,7 @@ def main() -> int:
         method_id = row.get("method_id", "")
         if method_id not in methods:
             issues.append({"type": "unknown_method", "equipment_item_id": equipment_id, "method_id": method_id})
-        if "excluded" in row.get("scope_class", ""):
+        if row.get("scope_class", "") in EXCLUDED_SCOPES:
             continue
         source_ids = [item.strip() for item in row.get("source_ids", "").split(";") if item.strip()]
         if not source_ids:
@@ -79,18 +89,6 @@ def main() -> int:
                 continue
             if source.get("review_status", "").strip().lower() not in APPROVED_SOURCES:
                 issues.append({"type": "source_not_approved", "equipment_item_id": equipment_id, "source_id": source_id})
-
-    for row in sources.values():
-        if row.get("review_status", "").strip().lower() not in APPROVED_SOURCES:
-            continue
-        local = row.get("local_path", "").strip()
-        expected = row.get("sha256", "").strip().upper()
-        if local:
-            path = Path(local)
-            if not io_path(path).exists():
-                issues.append({"type": "approved_source_file_missing", "source_id": row["source_id"], "path": local})
-            elif not expected or sha256(path) != expected:
-                issues.append({"type": "approved_source_hash_invalid", "source_id": row["source_id"], "path": local})
 
     for row in requests:
         if row.get("status", "").strip().lower() not in {"resolved", "closed", "not_applicable"}:
@@ -187,6 +185,10 @@ def main() -> int:
         "status": "pass" if not issues and not comparison_issues else "fail",
         "strict_status": "pass" if not issues else "fail",
         "comparison_contract_status": "pass" if not comparison_issues else "fail",
+        "source_identity_status": "pass" if not source_issues else "fail",
+        "procurement_boundary_status": "pass" if not procurement_issues else "fail",
+        "equipment_coverage_status": "pass" if not coverage_issues else "fail",
+        "equipment_coverage_issues": coverage_issues,
         "equipment_count": len(equipment),
         "assignment_count": len(assignments),
         "method_count": len(methods),

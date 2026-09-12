@@ -14,7 +14,15 @@ description: Replace an Aspen Plus RadFrac distillation column with an empty-col
 ## Trigger Contract
 
 Use this skill for heat-pump distillation replacement, not for generic heat
-integration. The accepted pattern is an equivalent tower retrofit:
+integration.
+
+When reviewing a retrofit's savings claim without editing a model, retain the
+same product/capacity basis and review compressor discharge temperature,
+pressure, phase and operability along with heat, power, economics and emissions.
+Missing discharge evidence remains a feasibility gap even if the utility
+arithmetic can be evaluated.
+
+The accepted pattern is an equivalent tower retrofit:
 
 ```text
 RadFrac internal condenser/reboiler disabled

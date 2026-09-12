@@ -9,7 +9,7 @@ description: Review chemical-engineering tasks from design basis and macro feasi
 
 收到化工问题后，先弄清要完成什么、依据哪份资料、哪些方法不能改变，再从系统边界、组分去向、热量和压力路径判断方案是否成立。随后选一个主专业工作流，让图谱提供适用原理和计算方法，让当前项目资料提供数值；能提取或推导的量先算出来，只有缺少不可替代输入的判断才暂缓。
 
-涉及新建流程、切岛、接回或工况变化时，按[阶段调用规则](references/DESIGN_STAGE_ROUTING.md)实际调用检索和设备程序。设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；简单查问只走所需分支，不强制重建整厂。
+涉及新建流程、切岛、接回或工况变化时，按[阶段调用规则](references/DESIGN_STAGE_ROUTING.md)实际执行 `design_stage`，包括只审设计安排、暂不运行模型的阶段；仅调用工具路由或单独检索不能替代该阶段检查。设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；简单查问只走所需分支，不强制重建整厂。
 
 Act as the process-design and evidence-governance layer above the existing
 Aspen, equipment, document, and calculation skills. Do not replace those
@@ -131,6 +131,9 @@ same-product optimization. Keep details in that owner, not a second solver here.
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations
 or calculations, assumptions, uncertainty/status, and decisive macro checks.
+Bind each reported tool state to its actual request and returned field. Before
+finishing, complete applicable checks that the available inputs support; a
+missing permission or source blocks its dependent action, not independent review.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 

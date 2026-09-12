@@ -14,6 +14,8 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 STARTER_REFS = ROOT / "references"
 ASSET_SCRIPTS = ROOT / "assets" / "project-skill-template"
+sys.path.insert(0, str(ASSET_SCRIPTS))
+from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage  # noqa: E402
 INIT_SKILL = Path.home() / ".codex" / "skills" / ".system" / "skill-creator" / "scripts" / "init_skill.py"
 
 
@@ -30,7 +32,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]], fields: list[str]) -> None
         writer.writerows(rows)
 
 
-def inventory_ready(inventory: Path) -> tuple[bool, list[str]]:
+def inventory_ready(inventory: Path, ledger: Path | None = None) -> tuple[bool, list[str]]:
     reasons: list[str] = []
     assignments = read_csv(inventory / "equipment_method_assignment.csv")
     for row in assignments:
@@ -38,16 +40,20 @@ def inventory_ready(inventory: Path) -> tuple[bool, list[str]]:
             reasons.append(f"{row['equipment_item_id']}:mapping_not_reviewed")
         if row.get("method_id") in {"", "METHOD_GAP"}:
             reasons.append(f"{row['equipment_item_id']}:method_gap")
-        if "excluded" not in row.get("scope_class", "") and not row.get("source_ids", "").strip():
+        if row.get("scope_class", "") not in EXCLUDED_SCOPES and not row.get("source_ids", "").strip():
             reasons.append(f"{row['equipment_item_id']}:source_missing")
     requests = read_csv(inventory / "source_request_register.csv")
     for row in requests:
         if row.get("status", "").strip().lower() not in {"resolved", "closed", "not_applicable"}:
             reasons.append(f"{row.get('gap_id')}:request_open")
+    for issue in (audit_sources(assignments, ledger or inventory / "source_evidence_ledger.csv")
+                  + audit_procurement(assignments)
+                  + audit_equipment_coverage(read_csv(inventory / "equipment_inventory.csv"), assignments)):
+        reasons.append(f"{issue.get('equipment_item_id', issue.get('source_id', 'source'))}:{issue['type']}")
     return not reasons, sorted(set(reasons))
 
 
-def generated_skill_md(name: str, spec: dict[str, Any]) -> str:
+def generated_skill_md(name: str, spec: dict[str, Any], target: Path) -> str:
     project = str(spec["project_name"]).replace('"', "'")
     template = str(spec["template_id"]).replace('"', "'")
     description = (
@@ -55,8 +61,8 @@ def generated_skill_md(name: str, spec: dict[str, Any]) -> str:
         f'and mother template {template}. Use for the fixed hierarchy mother template '
         'to contained equipment to sourced sizing/cost recipe to manifest-driven batch audit.'
     )
-    audit_path = Path.home() / ".codex" / "skills" / name / "scripts" / "audit_generated_method.py"
-    runner_path = Path.home() / ".codex" / "skills" / name / "scripts" / "run_recipe_batch.py"
+    audit_path = target / "scripts" / "audit_generated_method.py"
+    runner_path = target / "scripts" / "run_recipe_batch.py"
     return f'''---
 name: {name}
 description: "{description}"
@@ -69,8 +75,9 @@ description: "{description}"
 ## Scope
 
 This Skill is specialized to mother template `{template}`. It keeps two cost
-layers: nullable strict engineering candidates and an always-numeric comparison
-layer. Utility OPEX remains separate. It never modifies Aspen files and never
+layers: nullable strict engineering candidates and a numeric comparison layer
+only after source identity and fallback data pass. No-data scaffolds are drafts
+with no cost numbers. Utility OPEX remains separate. It never modifies Aspen files and never
 substitutes installed cost or total capital for purchased equipment.
 
 Always answer in this order:
@@ -91,12 +98,13 @@ mother template -> equipment item -> parameters and evidence -> sizing steps
 python {audit_path}
 ```
 
-4. Preserve mapping, source, hash, exact-anchor, and open-request failures as
-   strict-method blockers. Stop only if the comparison fallback contract fails.
+4. Stop both cost layers if current original-source hashes, procurement coverage,
+   or the comparison contract fail. An approved label alone is insufficient.
+   Preserve other mapping, exact-anchor, and open-request failures as strict blockers.
 5. Populate one equipment input CSV per case. Keep all units and explicit design
    factors in `parameters_json`.
-6. Run the batch. It always emits numeric comparison totals and retains every
-   strict unresolved state:
+6. Reuse the bundled runner below; do not replace it with an ad hoc approved-flag
+   loop. It retains every strict unresolved state and aggregates ALL enabled cases:
 
 ```powershell
 python {runner_path} `
@@ -121,8 +129,9 @@ and letdown service may contribute structural zero.
   adjustments separately.
 - Emit a strict selected total only when every included physical item is
   calculated and `selected_after_review=yes`.
-- Emit a comparison total for every case by applying the ordered IF rules in
-  `references/comparison-cost-fallback-policy.csv`.
+- Emit comparison totals only after current source/procurement/contract gates pass.
+  Physical equipment counts do not imply separate procurement charges: consult
+  package coverage before adding condensers, reboilers, drums, pumps or internals.
 
 ## References
 
@@ -150,6 +159,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skill-name", required=True)
     parser.add_argument("--skills-root", type=Path, default=Path.home() / ".codex" / "skills")
     parser.add_argument("--require-ready", action="store_true")
+    parser.add_argument("--draft-only", action="store_true", help="Emit a non-calculating framework when reviewed cost data is absent; never invent anchors.")
     parser.add_argument("--update", action="store_true")
     return parser.parse_args()
 
@@ -166,7 +176,7 @@ def main() -> int:
     if not (inventory / "source_evidence_ledger.csv").is_file():
         required_data.append("source-catalog.csv")
     missing_data = [name for name in required_data if data_dir is None or not (data_dir / name).is_file() or (data_dir / name).stat().st_size == 0]
-    if missing_data:
+    if missing_data and not args.draft_only:
         print(json.dumps({"status": "dependency_unavailable", "dependency": "reviewed_cost_csv_data",
                           "required_argument": "--data-dir", "missing_files": missing_data,
                           "outputs_created": False, "costs_calculated": False}, ensure_ascii=False, indent=2))
@@ -184,7 +194,13 @@ def main() -> int:
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) or len(name) > 64:
         raise SystemExit("skill-name must be lowercase hyphen-case and at most 64 characters")
 
-    ready, reasons = inventory_ready(inventory)
+    source_ledger = inventory / "source_evidence_ledger.csv"
+    if not source_ledger.exists() and data_dir is not None:
+        source_ledger = data_dir / "source-catalog.csv"
+    ready, reasons = inventory_ready(inventory, source_ledger)
+    if args.draft_only or missing_data:
+        ready = False
+        reasons.append("draft_only:no_cost_calculation")
     if args.require_ready and not ready:
         print(json.dumps({"status": "not_ready", "reasons": reasons}, ensure_ascii=False, indent=2))
         return 1
@@ -215,7 +231,7 @@ def main() -> int:
             return completed.returncode
 
     spec = json.loads((inventory / "skill_spec.json").read_text(encoding="utf-8"))
-    (target / "SKILL.md").write_text(generated_skill_md(name, spec), encoding="utf-8")
+    (target / "SKILL.md").write_text(generated_skill_md(name, spec, target), encoding="utf-8")
     (target / "agents").mkdir(parents=True, exist_ok=True)
     (target / "agents" / "openai.yaml").write_text(
         "interface:\n"
@@ -239,22 +255,35 @@ def main() -> int:
     }
     for source, destination in copies.items():
         shutil.copy2(inventory / source, refs / destination)
-    source_ledger = inventory / "source_evidence_ledger.csv"
-    shutil.copy2(source_ledger if source_ledger.exists() else data_dir / "source-catalog.csv", refs / "source-evidence-ledger.csv")
-    shutil.copy2(data_dir / "method-library.csv", refs / "method-library.csv")
-    shutil.copy2(data_dir / "netl-equipment-cost-points.csv", refs / "netl-equipment-cost-points.csv")
+    if source_ledger.is_file():
+        ledger_rows = read_csv(source_ledger)
+        for row in ledger_rows:
+            local = row.get("local_path", "").strip()
+            if local and not Path(local).is_absolute():
+                row["local_path"] = str((source_ledger.parent / local).resolve())
+        with source_ledger.open(encoding="utf-8-sig", newline="") as handle:
+            ledger_fields = csv.DictReader(handle).fieldnames or ["source_id"]
+        write_csv(refs / "source-evidence-ledger.csv", ledger_rows, ledger_fields)
+    else:
+        write_csv(refs / "source-evidence-ledger.csv", [], ["source_id", "review_status", "local_path", "sha256"])
     for filename in (
+        "method-library.csv", "netl-equipment-cost-points.csv",
         "replacement-cost-library.csv",
         "comparison-service-replacement-library.csv",
         "comparison-cost-fallback-policy.csv",
     ):
-        shutil.copy2(data_dir / filename, refs / filename)
+        if data_dir is not None and (data_dir / filename).is_file():
+            shutil.copy2(data_dir / filename, refs / filename)
+        else:
+            # Deliberately empty schema, not a fallback price table.
+            write_csv(refs / filename, [], ["method_id", "source_id"])
     shutil.copy2(STARTER_REFS / "comparison-completion-schema.md", refs / "comparison-completion-schema.md")
 
     for filename in (
         "audit_generated_method.py", "run_recipe_batch.py",
         "netl_equipment_cost_estimators.py", "aspen_offline_sizing.py",
         "cost_basis_adjustment.py", "comparison_cost_completion.py",
+        "cost_evidence_guard.py",
     ):
         shutil.copy2(ASSET_SCRIPTS / filename, scripts / filename)
 
@@ -287,26 +316,40 @@ def main() -> int:
         "base_cost_index": "",
         "target_cost_index": "",
         "index_name": "",
-        "base_period": "1998_Q1",
+        "base_period": "",
         "target_period": "",
         "index_source": "",
-        "operating_hours_per_year": "8000",
-        "enabled": "yes",
+        "operating_hours_per_year": "",
+        "enabled": "no",
         "note": "Fill an authoritative target cost index and reviewed equipment inputs before selection.",
     }]
     write_csv(refs / "batch-manifest-template.csv", manifest_rows, list(manifest_rows[0]))
 
+    # Inventory review alone cannot claim a runnable method. Audit actual copied
+    # source originals, cost contracts and anchor reproduction before readiness.
+    if not args.draft_only:
+        audit = subprocess.run([sys.executable, str(scripts / "audit_generated_method.py")],
+                               capture_output=True, text=True, check=False)
+        if audit.returncode != 0:
+            ready = False
+            reasons.append("generated_method_audit_failed:see_method_audit_or_generation_audit")
     output = {
         "status": "generated_ready" if ready else "generated_draft",
         "skill_dir": str(target),
         "inventory_ready": ready,
+        "draft_only": args.draft_only,
+        "costs_calculated": False,
+        "missing_data": missing_data,
         "external_data_dir": str(data_dir),
         "external_data_is_project_supplied": True,
         "open_reasons": reasons,
     }
+    if not args.draft_only and audit.returncode != 0:
+        output["method_audit_stdout"] = audit.stdout
+        output["method_audit_stderr"] = audit.stderr
     (target / "generation_audit.json").write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(output, ensure_ascii=False, indent=2))
-    return 0
+    return 1 if args.require_ready and not ready else 0
 
 
 if __name__ == "__main__":

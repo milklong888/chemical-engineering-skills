@@ -87,6 +87,12 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    reaction extent, recovery/selectivity/yield identities, and time ordering.
 5. Close material and component balances; then energy and pressure relations
    when the needed thermodynamic data or justified bounds exist.
+   Define the control volume first. For a reacting species, accumulation equals
+   inflow minus outflow plus net reaction generation; at steady state include
+   the stoichiometric source term, or use conserved elements instead. Internal
+   recycles cancel at the whole-system boundary and are counted only when they
+   cross the chosen control volume. Do not apply inert-species closure to all
+   reactants and products.
 6. Use physical bounds, monotonicity, interpolation, bracketing, scaling, and
    limiting cases to obtain a range or consistency test.
 7. Use an explicit engineering estimate only when its source/correlation,
