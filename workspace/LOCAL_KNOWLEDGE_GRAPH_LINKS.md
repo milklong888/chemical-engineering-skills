@@ -45,10 +45,18 @@ NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口�
 作为错误优先检查与新知识待审入口。设备图谱的治理入口在`knowledge/equipment/`，
 实际算法/数据库仍只有上表中的原后台一个owner。运行资产已冻结，不能边查询边
 追加新事实。普通来源资料用 `knowledge/scripts/build_knowledge_version.py` 在
-独立候选目录审核、重建与核验；任务经验须另在用户关闭当前任务后按中央进化
-流程审查。两条路径都不自动覆盖活动库。
+独立候选目录审核、重建与核验；任务经验正式晋升须另在用户发起整理、关闭当前
+任务后按中央进化流程审查。授权的临时收件按安装expert的
+`references/EXPERIENCE_INBOX.md`办理，可早于结束，但不进活动库或默认检索。
 
 ## 可选本地资料接入
+
+临时经验收件工具是独立的公开仓库
+`https://github.com/milklong888/chemical-engineering-experience-inbox`，受控本地副本约定为
+`{CHEM_WORKSPACE}/experience-inbox/`。只在收件任务读取其 `docs/ADMISSION_PROTOCOL.md`
+并按当前版本运行核查；它不是本表的知识 corpus，不进入默认检索。公开 GitHub
+状态观察与准入验证分别由该库的 `scripts/observe_github_check.py` 和
+`scripts/validate_experience.py` 维护；实际来源审核和发布授权不能由自报 JSON 替代。
 
 以下完整原件或项目扩展可由使用者提供；不能和上面已随包的知识/算法混称缺失：
 

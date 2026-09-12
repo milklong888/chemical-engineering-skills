@@ -1,6 +1,8 @@
 # 后置候选审查的最小数据合同
 
-只在EVOLUTION_LOOP规定的用户明确结束后读取。普通任务微调不需要填此表。
+只在EVOLUTION_LOOP规定的用户发起正式整理且当前任务明确结束后读取。
+临时经验收件按[独立收件导航](EXPERIENCE_INBOX.md)办理，不填本晋升合同替代收件。
+普通任务微调不需要填此表。
 现有self_evolve_skill.py和脚本复用入口的`--candidate-review`调用同一中央
 `assess_evolution_candidate.py`；它不执行输入代码、不写Skill、不替代人工主审。
 

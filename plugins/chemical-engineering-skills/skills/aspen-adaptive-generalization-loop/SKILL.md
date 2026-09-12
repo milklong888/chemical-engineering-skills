@@ -9,7 +9,7 @@ description: Build self-evolving Aspen Plus templates by tuning representative s
 
 当一个流程需要处理多种进料或负荷时，先固定物理边界、允许调节的变量和有代表性的测试范围，再用少量代表工况查清哪些量应随入口改变。优先从衡算、空速、回收和压力关系推导控制规律，分别落实为Calculator、Design Spec或有依据的分类规则，避免为每个原料名称另写一套流程。
 
-操作模块执行受保护副本的试算，修复模块处理具体异常；结构或工况变更按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)重新检索和校核设备。规律要经过相反工况、边界工况及完整约定样本复跑，才能用于当前任务的模板交付。当前任务调参不等于共享自进化；只有用户确认结束后，才把符合严格来源条件的宏观原则和数据规律送入中央审查。
+操作模块执行受保护副本的试算，修复模块处理具体异常；结构或工况变更按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)重新检索和校核设备。规律要经过相反工况、边界工况及完整约定样本复跑，才能用于当前任务的模板交付。当前任务调参不等于共享规则晋升；明确授权的临时收件见[收件导航](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md)，正式晋升仍需用户发起整理、确认任务结束及中央严格审查。
 
 ## Purpose
 
@@ -18,9 +18,9 @@ Use this skill when an Aspen island must accept many feedstocks or route cases w
 ## Operating Contract
 
 - In-task tuning and data capture support the current engineering objective;
-  they are not authorization for cross-task self-evolution. At each delivery
-  ask whether the task is finished or needs improvements. Only the user's
-  explicit closure of the current task revision starts the central
+  they are not authorization for canonical promotion. Authorized temporary
+  intake follows the linked inbox route. User-requested consolidation and
+  explicit closure of the current task revision start the central
   `EVOLUTION_LOOP.md`: macro `prompt_principle` or tested `data_pattern`.
   If the user reopens/adjusts the task, invalidate the old closure.
 
@@ -44,11 +44,11 @@ Use this skill when an Aspen island must accept many feedstocks or route cases w
   behavior, invariant, executable detector, repair, regression test,
   authority, severity, and last-seen date. Also map the rule into the project
   authority or machine-readable gate. A verbal apology or chat-only reminder
-  is not incident resolution. Shared memory/rule updates wait for user task
-  closure; unrelated valid work need not stop for an unpromoted lesson.
+  is not incident resolution. Canonical memory/rule updates wait for user task
+  closure and requested consolidation; unrelated valid work need not stop for an unpromoted lesson.
 - Read project authority files, current INP/BKP exports, reports, and run evidence before changing rules.
 - Treat BKP as the promoted Aspen run basis. INP may support readable card audit and diffs, but it must not replace direct BKP open/run/reopen evidence.
-- Treat manual tuning as candidate evidence only after current strict learning
+- Treat manual tuning as canonical candidate evidence only after current strict learning
   eligibility is established. A case-local relaxation and every dependent
   result or summary are audit-only and never training data, success cases,
   common parameters, default acceptance or promoted rules.
@@ -82,9 +82,9 @@ Use this skill when an Aspen island must accept many feedstocks or route cases w
 
 This workflow can tune and verify templates inside the user's current project.
 Project-local iteration and delivery are not cross-task publication. References
-below to shared laws, learning evidence or reusable promotion require explicit
-current-revision closure and the central eligibility gate before any shared
-candidate generation; strict local runs alone do not open that gate.
+below to canonical laws, learning evidence or reusable promotion require
+user-requested consolidation, current-revision closure and the central
+eligibility gate; strict local runs and temporary inbox intake do not open it.
 
 1. Freeze the island boundary, allowed manipulations, current strict baseline,
    acceptance gates, and evidence files. Separate any authorized case-local

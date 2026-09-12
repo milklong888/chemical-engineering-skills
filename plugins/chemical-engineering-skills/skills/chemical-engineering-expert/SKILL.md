@@ -88,15 +88,16 @@ still perform a quick task-contract and whole-system-impact check.
 ## Corrections and learning
 
 When the user explicitly identifies an error or preference violation, correct
-the live task first and record the incident in its project audit. Do not start
-cross-task prompt/rule evolution during ongoing adjustments. At delivery ask
-whether the task is finished or needs improvements; only an explicit user
-closure of the current task revision starts `references/EVOLUTION_LOOP.md`.
+the live task first and record the incident in its project audit. Authorized
+temporary experience submissions follow [the inbox route](references/EXPERIENCE_INBOX.md),
+including during ongoing work; they never become default knowledge. Formal
+prompt/rule promotion follows `references/EVOLUTION_LOOP.md` only when the user
+requests consolidation and explicitly closes the relevant task revision.
 
 Its two channels are `prompt_principle` (macro design principles and ways of
 working, not wording or small preferences) and `data_pattern` (testable faster
 convergence or better-design relations). Follow `references/MEMORY_MAINTENANCE.md`
-for atomic post-closure updates. No new transferable value is a valid no-change
+for atomic canonical updates after closure. No new transferable value is a valid no-change
 outcome. Repeated reports affect attention, never technical truth.
 
 Place incoming external knowledge in the relevant `NEW_KNOWLEDGE.md` as
@@ -104,7 +105,7 @@ Place incoming external knowledge in the relevant `NEW_KNOWLEDGE.md` as
 applicability, conflicts, and verification are recorded. Never dump raw source
 material directly into a canonical skill or graph.
 
-Before task-derived cross-task learning/promotion, run the governed eligibility check and preserve
+Before task-derived canonical promotion, run the governed eligibility check and preserve
 its receipt. A relaxed case and all descendants are audit-only and permanently
 excluded from learning, success examples, default retrieval and rule updates.
 No user-approved local completion changes this exclusion. Source-backed rule

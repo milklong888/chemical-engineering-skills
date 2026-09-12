@@ -1,20 +1,26 @@
 # Aspen Self-Evolution Protocol
 
-Use this protocol for project logging and post-user-closure evolution. The goal is to make learning reliable without
+Use this protocol for project logging and canonical evolution after user closure. The goal is to make learning reliable without
 slowing the build path or polluting generic skills with project-specific values.
+
+Authorized temporary submission follows the expert's
+[inbox route](../../chemical-engineering-expert/references/EXPERIENCE_INBOX.md),
+including before task closure. This protocol's CLI and lineage gates remain the
+formal promotion path; inbox admission does not satisfy or bypass them.
 
 ## Timing Rule
 
 During the task, record material decisions/trials once in the project audit;
 reuse existing run/status evidence rather than writing duplicate logs.
 At each delivery ask whether the task is finished or needs improvements.
-Do not begin task-derived self-evolution until the user explicitly closes the
-current task revision. Reopening or further tuning invalidates the old closure.
+Do not begin canonical task-derived promotion until the user requests
+consolidation and explicitly closes the current task revision. Reopening or
+further tuning invalidates the old closure.
 Read the central `EVOLUTION_LOOP.md` for macro prompt principles, data-pattern
 testing, Skill placement and no-change outcomes. Mere wording preferences and
 single-case numerical settings are not top-level prompt principles.
 
-Project completion is not learning eligibility. Before candidate generation,
+Project completion is not learning eligibility. Before canonical candidate generation,
 read the chemical expert's STRICT_ACCEPTANCE_AND_LEARNING.md and run its
 lineage eligibility check. Only complete, independently verified strict evidence
 may enter human candidate review. A user-accepted blocker or locally relaxed

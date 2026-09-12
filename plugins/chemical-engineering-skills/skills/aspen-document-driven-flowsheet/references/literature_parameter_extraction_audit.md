@@ -88,13 +88,14 @@ The shared strict policy/operations checker owns delivery; provisional claims,
 clean run, products, equipment and final-file acceptance remain distinct.
 Case-local relaxation cannot become shared strict success or learning.
 
-## Correct now; evolve only after closure
+## Correct now; promote only after closure
 
 Correct the current ledger, quarantine affected outputs and replay downstream
-consumers. During ongoing work, record the incident only in the project audit.
-Explicit user closure of the current task revision is required before shared
-evolution. A candidate states trigger, observation, mechanism, action,
+consumers. During ongoing work, record the incident in the project audit;
+authorized temporary summaries follow the expert's
+[inbox route](../../chemical-engineering-expert/references/EXPERIENCE_INBOX.md).
+User-requested consolidation and explicit closure of the current task revision
+are required before canonical evolution. A candidate states trigger, observation, mechanism, action,
 verification and applicability; technical claims need appropriate strict
 evidence. No transferable increment means no change. Private source pages,
 case IDs and parameter tables stay local.
-

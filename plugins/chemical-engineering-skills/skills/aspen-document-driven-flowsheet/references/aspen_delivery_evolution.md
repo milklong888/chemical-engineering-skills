@@ -68,14 +68,19 @@ Use this gate whenever delivery text is part of the package:
 Use the current `self_evolution_protocol.md` and the chemical expert's
 `STRICT_ACCEPTANCE_AND_LEARNING.md`. Logging a correction or completing a
 project is not learning eligibility. Audit failing islands and major corrections
-locally; do not infer a shared default from them. Candidate generation requires
+locally; do not infer a shared default from them. Canonical candidate generation requires
 the user's explicit current-task/revision closure and independently verified
 strict evidence with a hash-bound complete lineage. At every delivery ask
-whether the task is finished or needs improvement; do not start evolution while
+whether the task is finished or needs improvement; do not start canonical promotion while
 adjustments remain. The central EVOLUTION_LOOP.md distinguishes macro prompt
 principles from data-pattern hypotheses and chooses one existing Skill owner.
 Case-local relaxation, unassessed legacy sources and their descendants remain
 audit-only; a user-accepted blocker or later success label cannot clear that gate.
+
+Authorized temporary submission follows the expert's
+[inbox route](../../chemical-engineering-expert/references/EXPERIENCE_INBOX.md),
+including during an active task. User-requested periodic consolidation still
+uses the existing closure, lineage and quality gates below for formal promotion.
 
 1. Capture the failure or improvement as a short lesson.
    Include what went wrong, the concrete fix, and the artifact that proves it:

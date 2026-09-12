@@ -105,7 +105,8 @@ It retains the original CLI parameters and adds `--project-dir`,
 the existing installed/source canonical modules, never a project-supplied gate.
 The central lineage verifier must first confirm the user's explicit closure of
 the exact task/version through `task_closure`; a delivered result or “好” is not
-closure. Mid-task work only records project audits. Missing closure/ineligible
+closure. This formal-candidate CLI records only project audits before closure;
+authorized temporary summaries use the expert inbox route. Missing closure/ineligible
 lineage, unbound source/scope or unresolved lexical findings return `2` with
 audit-only output. After verified user closure, strict lineage without a
 complete quality review permits `draft_review_only` and returns `0` for draft
@@ -123,7 +124,8 @@ within the project output directory. Repeated calls reuse hash-verified artifact
 `add_quality_review_version` appends a changed review without another candidate.
 An incomplete or drifted prior candidate is reported, never overwritten.
 No lexical findings do not prove that project values have been generalized.
-Use the central candidate-quality/promotion contract before any shared release.
+Use the central candidate-quality/promotion contract before releasing canonical
+reusable scripts; authorized temporary method summaries use the expert inbox route.
 
 ## Observed Reusable Families
 

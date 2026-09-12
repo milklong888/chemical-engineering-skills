@@ -11,9 +11,13 @@
   具体定位、文件SHA、原内容、单位/基准、层级、适用范围与许可范围。独立review
   精确覆盖整批变更SHA并逐条绑定正文、来源、层级和许可；不要求等待这个资料
   维护任务结束。程序核绑定和声明完整性，不替代人的来源核查或身份认证。
-- `task_experience`：从任务结果提炼prompt_principle/data_pattern。每个节点另外
+- `task_experience`：正式晋升候选中的prompt_principle/data_pattern。每个节点另外
   提供各自的谱系manifest和候选质量review，复用现有中央关闭、谱系、规则绑定与
   质量门；一张root卡不能代替整批节点审查。缺门只保留待审记录。
+
+授权临时经验收件由安装expert的`references/EXPERIENCE_INBOX.md`导航到公共
+临时仓库，可早于任务关闭；本构建器不负责该收件，临时条目不能绕过本页正式
+晋升路径。周期整理须用户明确发起，临时箱不进入活动库或默认RAG。
 
 放宽祖先一律不能进入默认检索。不能把任务产物重新标成external_source绕门。
 来源文件和独立review证据本体还会经现有中央intrinsic检查；真实任务回执即使

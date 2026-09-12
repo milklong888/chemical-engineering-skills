@@ -1,7 +1,10 @@
 # Aspen Material Library And Slice Protocol
 
 Use this protocol to record project work as it happens and to verify delivery
-across slices. Mid-task records are not permission to start self-evolution.
+across slices. Mid-task records are not permission to start canonical promotion.
+Authorized temporary contributions follow the expert's
+[inbox route](../../chemical-engineering-expert/references/EXPERIENCE_INBOX.md),
+which leaves this protocol's formal lineage/closure gates unchanged.
 
 ## Slice Timing
 
@@ -22,7 +25,7 @@ the current task/version. Preserve that user's original `close_task` message,
 locator and artifact hash in the central `task_closure` contract, bound to
 `task_id` and `task_revision`; use the central verifier, not free-text guessing.
 
-Only after valid user closure may a governed review consider the central two
+Only at user-requested consolidation after valid closure may formal review consider the central two
 channels: `prompt_principle` for broad design judgment, macro principles and
 ways of working (not a growing list of wording preferences), and `data_pattern`
 for evidenced convergence/optimization patterns. Concrete parameters and local

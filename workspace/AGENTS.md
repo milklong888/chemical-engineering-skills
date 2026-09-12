@@ -32,9 +32,11 @@ Aspen, equipment or engineering-report work:
    bound evidence checks in the expert and operation skills.
 9. Keep project inputs and results outside the skill directory. Use controlled
    working copies, record file identities and preserve original sources.
-10. Ask whether delivery is complete or needs further adjustment. Start cross-task
-    method review only after explicit user closure of the current revision.
-    Case-specific relaxations and their descendants remain project audit only.
+10. Keep authorized temporary experience submissions on the expert's
+    `references/EXPERIENCE_INBOX.md` route; they do not enter canonical/default
+    knowledge. Formal promotion requires user-requested consolidation and
+    explicit closure of the current revision. Case-specific relaxations and
+    their descendants remain project audit only.
 
 Before lookup, live relations, target matching, response studies or multi-variable
 tuning, read the document-driven workflow's

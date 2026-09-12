@@ -26,10 +26,11 @@ answer from one case.
 
 ## 2. End-to-end pipeline
 
-For task-derived evolution first follow `EVOLUTION_LOOP.md`: ask at delivery,
-wait for the user's explicit current-revision closure, then choose
-prompt_principle or data_pattern. During-task logging and optimization continue,
-but no cross-task learning candidate or Skill reorganization starts early.
+For canonical task-derived promotion follow `EVOLUTION_LOOP.md`: require
+user-requested consolidation and explicit current-revision closure, then choose
+prompt_principle or data_pattern. During-task logging and optimization continue.
+Authorized temporary submission follows [EXPERIENCE_INBOX.md](EXPERIENCE_INBOX.md)
+and does not start canonical learning, default retrieval or Skill reorganization.
 Directly requested source ingestion or mechanism maintenance remains its own
 authorized task; it cannot be used to disguise premature experience learning.
 
@@ -186,8 +187,8 @@ snapshot. Reject or revert a candidate that does not improve the gate.
 
 ### Stage 9 — Runtime learning
 
-- User corrections update the live task and project incident first; shared
-  atomic memory updates wait for the user's explicit task closure.
+- User corrections update the live task and project incident first; canonical
+  atomic memory updates wait for user-requested consolidation and task closure.
 - At every delivery ask whether the task is finished or needs improvement;
   do not infer closure from assistant completion or ambiguous acknowledgements.
 - Repeated root causes raise retrieval priority, not factual authority.

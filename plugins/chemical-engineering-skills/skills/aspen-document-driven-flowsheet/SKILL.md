@@ -65,14 +65,18 @@ a simple feasible baseline; catalog proximity does not justify extra equipment.
 ## Learning Log And Self-Evolution
 
 Read `references/self_evolution_protocol.md` only for logging or promotion.
-Audit logs are project-local, not training examples. Candidate generation requires
+Audit logs are project-local, not training examples. Canonical candidate generation requires
 explicit user closure of the current task revision plus the central strict
 lineage eligibility check; accepted blockers or relaxed
 deliverables never qualify. Detailed events remain traceable without loading
 the entire history into every task.
 
-At each delivery ask whether the task is finished or needs improvement. After
-explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
+Authorized temporary submissions follow the expert's
+[inbox route](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md);
+they may precede closure and never authorize default retrieval or canonical writes.
+
+At each delivery ask whether the task is finished or needs improvement. At
+user-requested consolidation after explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
 principles and test data-pattern hypotheses separately; keep specific values
 and operations below the prompt layer. No reusable increment means no change.
 

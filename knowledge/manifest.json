@@ -6327,12 +6327,12 @@
       "technical_paraphrase_performed": false
     },
     {
-      "bytes": 1744,
+      "bytes": 1824,
       "default_retrieval_eligible": false,
       "kind": "governance_route_not_retrieval_body",
       "learning_event": false,
       "path": "aspen_v10/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d"
+      "sha256": "2f34ddcd396772b60680602cbe4cf0095cbbec89afab109a4e92cd7d7822a138"
     },
     {
       "bytes": 3970,
@@ -6944,12 +6944,12 @@
       "technical_paraphrase_performed": false
     },
     {
-      "bytes": 1744,
+      "bytes": 1824,
       "default_retrieval_eligible": false,
       "kind": "governance_route_not_retrieval_body",
       "learning_event": false,
       "path": "chemical_principles/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d"
+      "sha256": "2f34ddcd396772b60680602cbe4cf0095cbbec89afab109a4e92cd7d7822a138"
     },
     {
       "bytes": 2828,
@@ -7051,12 +7051,12 @@
       "sha256": "3c0956ee8f8b361d3be5483c5ff2b99be630bd8c794b179ebef56e1dbf56d0f2"
     },
     {
-      "bytes": 1297,
+      "bytes": 1377,
       "default_retrieval_eligible": false,
       "kind": "governance_route_not_retrieval_body",
       "learning_event": false,
       "path": "equipment/NEW_KNOWLEDGE.md",
-      "sha256": "f485387aea68053d9ea3b6da01af05c1b12e8a769e3892fbf465aaaf314e33c8"
+      "sha256": "71f888fe30a3abd573882171ab473ba05b9cfe3c361140208357c954d26131a4"
     },
     {
       "bytes": 601,
@@ -7067,10 +7067,10 @@
       "sha256": "9692252a00b8ac2140d899ca836d69c2ba86c37958363027e9c7d9e5ff004374"
     },
     {
-      "bytes": 980,
+      "bytes": 979,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "learning_owner_contract.json",
-      "sha256": "1bbd67e90fd9ecd2a84838b14fd51d84111d6dacd9700c8b1ce7071a397871c3"
+      "sha256": "ca8ec752aad1239352d003af8e6e2bfc217a067ad15ec50482b1d972fb2b89ef"
     },
     {
       "automatic_activation": false,
@@ -8267,16 +8267,16 @@
       "sha256": "e900a452facce7966403f2915d412db673383e83338512d5a61dc371b7262d3e"
     },
     {
-      "bytes": 6285,
+      "bytes": 6582,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "MAINTENANCE.md",
-      "sha256": "a285c3fab8675a387cdb6d0a59edfc16b940122ca92d337261c670cf9ae3d702"
+      "sha256": "33029c947f374f22db68993db6ad243ad1bafeea916f85cf9797646ffad871f6"
     },
     {
-      "bytes": 1672,
+      "bytes": 1873,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "OWNER_ROUTES.md",
-      "sha256": "98120bf0b4de0114d82a3da4efaed09e280a68fe76ccccc5df6b4215372d9212"
+      "sha256": "15e6a6787c80ba516a61105222b11e0bc48c835fe35abc20c47e46773b857fc9"
     },
     {
       "bytes": 3369,
@@ -8447,12 +8447,12 @@
       "technical_paraphrase_performed": false
     },
     {
-      "bytes": 1744,
+      "bytes": 1824,
       "default_retrieval_eligible": false,
       "kind": "governance_route_not_retrieval_body",
       "learning_event": false,
       "path": "sun_lanyi/knowledge_graph/NEW_KNOWLEDGE.md",
-      "sha256": "12b0a35fda013fea3f2d2ade92a798775812724d9c838bc1e07ffd26c626617d"
+      "sha256": "2f34ddcd396772b60680602cbe4cf0095cbbec89afab109a4e92cd7d7822a138"
     },
     {
       "bytes": 6200,

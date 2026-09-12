@@ -4,7 +4,7 @@
 
 | 逻辑 owner | 职责 |
 | --- | --- |
-| chemical-engineering-expert | 中央错误检查、严格验收、任务结束后的双通道进化 |
+| chemical-engineering-expert | 中央错误检查、严格验收、临时收件导航与正式双通道晋升 |
 | equipment-design-app | 设备参数、派生、选择及应用协议错误检查 |
 | chemical-equipment-selection-audit | 设备身份、公式族、来源及软件/厂家证据边界 |
 
@@ -24,5 +24,7 @@ python knowledge/scripts/resolve_knowledge_owner.py --owner equipment-design-app
 
 新来源增补是用户明确的资料维护，与从任务经验自进化不同。来源维护保留X类知识，
 以逐节点来源、定位、哈希、许可和独立review为准；任务经验的
-prompt_principle/data_pattern才额外要求中央关闭、谱系与候选质量门。
+prompt_principle/data_pattern正式晋升才额外要求中央关闭、谱系与候选质量门。
+授权临时收件按此owner的`references/EXPERIENCE_INBOX.md`导航办理，不由知识
+构建器收件，也不进入默认检索；正式周期整理由用户明确发起。
 任何构建产物都先留独立候选目录，不自动写活动库或宣称工程验证通过。

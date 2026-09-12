@@ -2,12 +2,13 @@
 
 ## Memory layers
 
-Follow `EVOLUTION_LOOP.md` first. During active work record corrections and
-trials only in the project audit and fix their current consequences. After each
-delivery ask whether the task is finished or needs improvements. Cross-task
-prompt/rule evolution starts only after explicit user closure of the current
-task revision; new adjustments invalidate that closure. Direct user-requested
-rule maintenance is separately authorized implementation, not automatic learning.
+Follow `EVOLUTION_LOOP.md` for canonical updates. During active work record
+corrections and trials in the project audit and fix their current consequences.
+Authorized temporary submissions follow [EXPERIENCE_INBOX.md](EXPERIENCE_INBOX.md)
+and remain outside canonical/default retrieval. Formal prompt/rule promotion
+requires user-requested consolidation and explicit closure of the current task
+revision; new adjustments invalidate that closure. Direct user-requested rule
+maintenance is separately authorized implementation, not automatic learning.
 
 Apply `STRICT_ACCEPTANCE_AND_LEARNING.md` before all capture/promotion. A
 case-local relaxation and every descendant are audit-only: no global error
@@ -17,13 +18,16 @@ the original case exception in its project ledger. Missing lineage is not
 proof of eligibility. The general user rule prohibiting such learning may be
 recorded here; the relaxed case's technical content may not.
 
-Keep four layers separate:
+Keep the four active memory layers separate from the temporary submission queue:
 
 1. `ERROR_MEMORY.md`: compact, externally verified procedural corrections.
 2. `NEW_KNOWLEDGE.md`: atomic incoming knowledge with provenance and lifecycle.
 3. canonical skill/graph files: only promoted, reusable rules.
 4. project authority files: current case facts and accepted deviations; never
-   replace them with global memory.
+    replace them with global memory.
+
+The public inbox is a noncanonical review queue governed by its own submission
+contract; its presence does not create another rule owner or active graph.
 
 Do not use raw conversation summaries, self-confidence, or synthetic examples
 as verified long-term memory.
@@ -32,8 +36,9 @@ as verified long-term memory.
 
 1. Correct the current answer/model first and state the changed conclusion.
 2. Identify one root cause; do not store the entire conversation.
-   Until explicit user closure, keep this as a project incident, not a shared
-   preference/rule update. After closure, deduplicate by root cause, scope and
+   Until explicit user closure, keep the active incident in the project;
+   separately authorized inbox submission is not a shared/default rule update.
+   At user-requested consolidation after closure, deduplicate by root cause, scope and
    original correction message ID; replaying the same message adds no count.
 3. Search central and route-specific memories for the same invariant.
 4. If found, increment `repeat_count`, update `last_seen`, attach new evidence,

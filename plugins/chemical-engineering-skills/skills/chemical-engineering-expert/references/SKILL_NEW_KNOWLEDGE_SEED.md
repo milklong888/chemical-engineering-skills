@@ -11,5 +11,6 @@ skill's `references/MEMORY_MAINTENANCE.md` and
 `references/NEW_KNOWLEDGE_TEMPLATE.md`. Record provenance, version/date,
 units/basis, applicability, prohibited reuse, validation, conflicts, status,
 and target nodes. Do not paste raw source dumps or project-specific values into
-a reusable skill.
+a reusable skill. Authorized temporary submissions route only through the
+expert's `references/EXPERIENCE_INBOX.md`; this companion is not another inbox.
 
