@@ -37,7 +37,15 @@
 
 路由结果用于安排下一步工作；实际软件操作和验收另行执行。原生 Sensitivity 的目标接口资格核验仍待完成。接口、调用时机和范围见[内置工具使用说明](plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)与[设计阶段调用](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。
 
-## 经验提醒与投稿
+## Agent 自进化：改进做事方式
+
+自进化关注 Agent 怎样选择工具、遇到不确定时继续查证、核对真实完成状态，并把有证据的经历整理成可复用行为规则。改进发生在任务入口、提示规则、工具调用和经验管理中，基础模型权重没有在此过程中更新。
+
+维护过程从实际反馈开始：先修正当前任务，再检查候选的适用范围；经用户发起整理、相关修订关闭及对照和反例审核后，由主审决定是否更新既有规则。改动保留负责位置、版本与回退依据，没有明确增量时保持不变。
+
+[Agent 怎样从一次任务中改进](docs/Agent自进化机制.md)用实际测试片段串起这段过程，并说明 Reflexion、ExpeL、Voyager、ACE 等论文的相关机制、当前实现与验证边界。已写入规则、已执行工具和已经证明的效果分别说明。
+
+### 经验提醒与投稿
 
 从 0.4.6 起，19 个 Skill 的阶段收尾规则要求主助手检查是否形成了值得复用的新经验，并展示具体摘要、适用条件和投稿入口。已执行的方法核对实际版本与验证范围；思想原则先由使用者确认具体内容，再由助手审核。
 
@@ -59,6 +67,7 @@
 - [模块说明](docs/模块说明.md)：19 个 Skill 的职责、输入和交接。
 - [文件索引](docs/文件索引.md)：脚本、知识数据和模块文件。
 - [后台运行与计算说明](docs/后台运行与计算说明.md)：参数计算与设备反馈。
+- [Agent 自进化机制](docs/Agent自进化机制.md)：反馈、经验整理、按需调用、局部更新与实际测试。
 - [决策树](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/TASK_DECISION_TREES.md)：任务选择、排错和证据判断分支。
 - [组织与影响索引](docs/skill_organization.md)、[观察索引](docs/observation_index.md)：维护时的引用检查和运行记录核对。
 - [源码与数据边界](docs/源码与数据边界.md)、[来源与许可](docs/来源与许可.md)：组成、来源记录和使用条件。
