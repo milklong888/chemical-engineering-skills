@@ -113,6 +113,12 @@ Aspen模型。是否采用检索方法、设备清单是否完整、工艺修改
 
 ## 安装与文档
 
+更新Skill时，可用[组织与影响索引](docs/skill_organization.md)查询文件引用和需要复核的模块，
+用[观察索引](docs/observation_index.md)关联显式列出的运行证据。
+两项工具保留未解析依赖、缺失和身份冲突，不自动批准规则更新或工程结果。
+任务下一步不清楚时，按需参考[决策树](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/TASK_DECISION_TREES.md)，
+其中的专业规则仍由各自模块维护。
+
 从[发行页](https://github.com/milklong888/chemical-engineering-skills/releases)下载完整离线包，
 解压到较短的可写路径，按[使用手册](docs/使用手册.md)先校验再安装。随包依赖针对
 Windows AMD64、CPython 3.14，目标电脑需已有该Python解释器；离线工具不下载模型。

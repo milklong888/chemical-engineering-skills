@@ -24,6 +24,8 @@
 | 设备选型器 | `backends/equipment/app/equipment_design_agent.py` | 原JSON接口，先计算后选择；COM单独显式允许。 |
 | 设备结果返回工艺模型 | `backends/process/feedback.py` | 有来源超限才生成修改候选；模型实施与同版复算仍须专业工作流。 |
 | 求解工具选择 | `tools/aspen_tool_router.py` | `solve_route`按读值、运行关系、目标匹配和优化分类；返回待办，不运行Aspen。 |
+| Skill文件组织与改动影响 | `tools/skill_organization.py` | 只读静态引用与反向影响候选；必须以`--root`指定完整源码/发行目录，不以runtime目录冒充19项Skill全库。 |
+| 显式运行证据观察 | `tools/observation_index.py` | 只读取清单列明文件，分开哈希/身份/缺失状态；不生成工程验收、学习资格或权限。 |
 | 本地MCP连接 | `tools/expert_mcp.py` | 九项无界面发现/查询/计算/反馈/路由工具；不自动启动Aspen。 |
 | 原Aspen MCP封装 | `vendor/aspen-mcp-toolkit/run_offline_mcp.py` | 可选70工具；工程操作仍受输入、会话所有权和交付约束。 |
 
@@ -34,6 +36,10 @@
 `--corpus chemical_principles|sun_lanyi|aspen_v10|equipment|equipment_standards` 可减少无关加载。
 加 `--vector` 使用包内768维原算法哈希向量，未训练语义模型；默认基础查询不需
 NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口。
+
+维护或对比运行记录时按需读取安装Skill中的
+`chemical-engineering-expert/references/MAINTENANCE_TOOLS.md`；任务分流或排错分支不清楚时
+读取其 `TASK_DECISION_TREES.md` 中相关部分。两者是现有规则的导航，不是第二套工程判定器。
 
 各知识corpus的`knowledge_graph/00_ERROR_MEMORY.md`和`NEW_KNOWLEDGE.md`分别
 作为错误优先检查与新知识待审入口。设备图谱的治理入口在`knowledge/equipment/`，

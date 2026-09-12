@@ -17,6 +17,15 @@ skills or duplicate their card-level knowledge.
 
 ## Required read order
 
+When the next workflow or failure branch is unclear, consult only the relevant
+tree in [task decisions](references/TASK_DECISION_TREES.md). Unknown evidence
+has its own route; this navigation does not replace the factual rule owners.
+
+For authorized Skill maintenance or comparison of execution records, use the
+on-demand [maintenance tools](references/MAINTENANCE_TOOLS.md) to inspect file
+consumers and explicitly listed evidence. Neither index authorizes learning or
+certifies agent behavior; ordinary process tasks do not require a full inventory.
+
 1. Read the active project's current authority files, change-offset table,
    source-freeze ledgers, and latest verified results when they exist.
 2. Read `references/ERROR_MEMORY.md`, then the relevant skill/knowledge-graph

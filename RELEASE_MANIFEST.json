@@ -1,7 +1,7 @@
 {
   "schema": "chemical-public-release-v2",
   "release_name": "chemical-engineering-skills",
-  "release_version": "0.4.2",
+  "release_version": "0.4.3",
   "scope": "reviewed_headless_offline_tools_and_knowledge",
   "skill_names": [
     "aspen-adaptive-generalization-loop",
@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "f770652abbc034737eb9d5a723a98258bbf632bebf0ac6c17bb905f79d687ac3",
-      "bytes": 9297
+      "sha256": "2dc099adf8773d98a436605c98c4835b684146e97341374c51f198b36d62da62",
+      "bytes": 9817
     },
     {
       "path": "backends/equipment/README.md",
@@ -1009,6 +1009,16 @@
       "bytes": 13482
     },
     {
+      "path": "docs/observation_index.md",
+      "sha256": "f5ee5d72ec303857b72af9fce8cfd48c6a7c6c1cc3e54cc3aafb1fa45db05f9b",
+      "bytes": 6973
+    },
+    {
+      "path": "docs/skill_organization.md",
+      "sha256": "0ca2174130a3297fbe515e105b8004fe2bf63a3527d0225bba2bbb7be95305b4",
+      "bytes": 9161
+    },
+    {
       "path": "docs/使用手册.md",
       "sha256": "c0e311e730292c7696be81bcb8a9685361c2dfb51ed9e65f9c127a96e352df1f",
       "bytes": 27697
@@ -1079,9 +1089,14 @@
       "bytes": 8329
     },
     {
+      "path": "docs/验证记录_0.4.3.json",
+      "sha256": "6717c79b5e12ff04622e3199d7d6b0ea499f692e2d191f681cd8f5bc2b25f234",
+      "bytes": 3437
+    },
+    {
       "path": "docs/验证说明.md",
-      "sha256": "200d7143452fbd6b952c8d8e8b33846d5ccbcbf691d4e649cbfa1b927f9c996a",
-      "bytes": 16514
+      "sha256": "2cda30a1cf52d9f7fef9b7f9bbe2af62475f00ad16deb65293b820b01660fac4",
+      "bytes": 17981
     },
     {
       "path": "examples/heat_exchanger_request.json",
@@ -2375,7 +2390,7 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/.codex-plugin/plugin.json",
-      "sha256": "1b6b781219761c47d7850dc819473d846a973bab78e737379fd15abf1fdbe5c7",
+      "sha256": "49871026ab0decf7e079529885a7240ee074646127a3680cfa102846facd1d24",
       "bytes": 999
     },
     {
@@ -3075,8 +3090,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/aspen_run_supervisor.py",
-      "sha256": "4f64691c7854226641c3488d7a6ad4d73dfbfd180a5b6cc8d7873dfbc284787c",
-      "bytes": 8992
+      "sha256": "650ab358dc2b493e1b54c1b0c0e1594b614edce38db23b12becde85a8c01f208",
+      "bytes": 11070
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/aspen_runtime.py",
@@ -3260,8 +3275,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md",
-      "sha256": "6d237d2369da13a9f81cd51a28ab56c50d4159a12dd253d086049a9bfd9d9b19",
-      "bytes": 12950
+      "sha256": "26caf1c2fcaf8abef7009dba4d2d658281e1b1a35dd473b537df4279847240d4",
+      "bytes": 13503
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/agents/openai.yaml",
@@ -3329,6 +3344,11 @@
       "bytes": 23973
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/MAINTENANCE_TOOLS.md",
+      "sha256": "afb4eab166d618a0e1696aaa6e62a61880b855e661004128d7ae32b751f67855",
+      "bytes": 3639
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/MEMORY_MAINTENANCE.md",
       "sha256": "0ec37d5534fcf91caa44951c8abb70822147eac963f034db44cb5d7fea1eb017",
       "bytes": 5935
@@ -3372,6 +3392,11 @@
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md",
       "sha256": "ad4ccdbb75a3c5dc4686611f7b056cfa89a7a0a86ec2763e5046ed231ad105a7",
       "bytes": 5327
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/TASK_DECISION_TREES.md",
+      "sha256": "3749967ed65ae6cc0084190e0f02063dc574347b6e25e36dfeb26186f298cad6",
+      "bytes": 7355
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/VECTOR_KNOWLEDGE_BASE_DESIGN.md",
@@ -3959,6 +3984,11 @@
       "bytes": 41338
     },
     {
+      "path": "tests/test_observation_index.py",
+      "sha256": "a931d1f45e7a37a2460bbf72808ef780218fecb427d71ac69acb5b38df5b6bcd",
+      "bytes": 15684
+    },
+    {
       "path": "tests/test_offline_assets.py",
       "sha256": "0ddad16b1e55ada96f671401238d58192c98b1e71cb16208d5c590011518c462",
       "bytes": 6844
@@ -3979,6 +4009,11 @@
       "bytes": 6161
     },
     {
+      "path": "tests/test_skill_organization.py",
+      "sha256": "f7d2704fd2e2365b8aa6d46afc235bd6ea36ad9c53c2e360b1eaa326679e0114",
+      "bytes": 17008
+    },
+    {
       "path": "tests/test_standalone_entrypoints.py",
       "sha256": "a4442dadc08d86e1a037668ef81d7094c350ad280551aed8f55b13604a0dfdfd",
       "bytes": 23114
@@ -3997,6 +4032,11 @@
       "path": "tests/test_standalone_knowledge.py",
       "sha256": "cbab7e26ebf26d0dd8c6ac486174f6b48e127ea23403b0967a5a7f4026b291ef",
       "bytes": 18629
+    },
+    {
+      "path": "tests/test_supervisor_read_retry.py",
+      "sha256": "669908abb87f6bdaab35aaac8d8a6eb3238c61b91bcfc5e5e863fc898cbd42f3",
+      "bytes": 16560
     },
     {
       "path": "tests/test_tower_portability.py",
@@ -4059,9 +4099,19 @@
       "bytes": 14171
     },
     {
+      "path": "tools/observation_index.py",
+      "sha256": "52366ca11f720ee4f0ec6159ecde44a080db61a0f258f5122d5d85b065ceff95",
+      "bytes": 15830
+    },
+    {
       "path": "tools/product_contract.py",
       "sha256": "7fc61acea6e10e0941f18873b0f4c9be6c775e0ed60f8f4ee86e86971c977d36",
       "bytes": 12171
+    },
+    {
+      "path": "tools/skill_organization.py",
+      "sha256": "a28606104033bda4805037eb733c98795d6b595dc6c85975192da88cbb7b24ce",
+      "bytes": 27427
     },
     {
       "path": "tools/test_install.py",
@@ -4645,8 +4695,8 @@
     },
     {
       "path": "workspace/LOCAL_KNOWLEDGE_GRAPH_LINKS.md",
-      "sha256": "eb717e4711086b0aa1c7de26fd8300ba0fee40a088d343c1a03d20076db47624",
-      "bytes": 5175
+      "sha256": "a4af24f4f3e7b1eb38520edb9d889574779844d4eeceae22b66deae93c794b04",
+      "bytes": 5845
     },
     {
       "path": "workspace/PROJECT_CHANGE_OFFSET_TABLE_TEMPLATE.md",

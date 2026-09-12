@@ -1,0 +1,88 @@
+{
+  "schema": "chemical-skills-public-validation-v1",
+  "version": "0.4.3",
+  "status": "software_validation_passed",
+  "baseline_commit": "f5cbc00a54ef5657a91985002ca8a5954bb907e1",
+  "environment": {
+    "python": "CPython 3.14.7",
+    "platform": "Windows AMD64"
+  },
+  "boundary": {
+    "engineering_accepted": false,
+    "agent_behavior_certified": false,
+    "native_sensitivity_adapter_qualified": false,
+    "training_or_automatic_promotion_implemented": false
+  },
+  "root_regression": {
+    "tests": 292,
+    "passed": 290,
+    "skipped": 2,
+    "failures": 0,
+    "errors": 0,
+    "command": "python -B -X utf8 -m unittest discover -s tests -v",
+    "log_sha256": "4b59fa3a995b54e10b46deff4e7532e96886cff671fa9c8e4b0a72a05727e6a0",
+    "code_unchanged_during_run": true
+  },
+  "additional_suites": [
+    {
+      "suite": "tools/test_install.py",
+      "tests_run": 28,
+      "passed": 28,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "81DCBF7B3AA425182AC3AEE761681E13646795C571DB6D702E195FC7D00E5EAD"
+    },
+    {
+      "suite": "aspen-plus-operations/scripts/tests",
+      "tests_run": 66,
+      "passed": 66,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "log_sha256": "B935F69C85DFFD1392D2C1AC8094F0D80DEC7EEC10860E6FF1A19BEA87118652"
+    }
+  ],
+  "distinct_tests_in_these_three_suites": 386,
+  "passed_in_these_three_suites": 384,
+  "skip_reason": "Two tests could not create real symbolic links due to host privileges; separate simulated rejection branches passed.",
+  "structure": {
+    "python_files_parsed": 292,
+    "relative_links_checked": 36,
+    "python_errors": [],
+    "link_errors": [],
+    "scope": "Python syntax and links in updated Markdown only; not semantic routing or behavior certification"
+  },
+  "isolated_install": {
+    "managed_files_read_back": 891,
+    "conflicts": 0,
+    "note": "Official installer verified all target bytes. New CLI impact query also executed from installed runtime against explicit full source root."
+  },
+  "retained_supervisor_patch_sha256": "650ab358dc2b493e1b54c1b0c0e1594b614edce38db23b12becde85a8c01f208",
+  "unchanged_acceptance_parser_sha256": "a2af20fb4444dde9dbcbd69e343f01d3aa908265bf7efe764d3422505acf7a27",
+  "new_test_counts": {
+    "organization": 25,
+    "observation": 23,
+    "supervisor_read_retry": 12
+  },
+  "native_interface_exploration": {
+    "progid": "Apwn.Document.40.0",
+    "independent_fixture": true,
+    "project_model_used": false,
+    "worker_attempts": 2,
+    "baseline_run_returned_completed": true,
+    "native_object_created": true,
+    "native_sensitivity_run_executed": false,
+    "point_table_verified": false,
+    "analysis_roundtrip_verified": false,
+    "stop_reason": "V14 rejected the attempted BLOCK-VAR/RESULTS/QNET Define symbol. No adapter qualification.",
+    "owned_sessions_closed_cleanly": true,
+    "full_strict_engineering_evidence_complete": false,
+    "project_or_commercial_assets_published": false
+  },
+  "limitations": [
+    "Static file references are incomplete review candidates, not full dependency or semantic routing proof.",
+    "Observation index preserves literal original fields; hashes and matching IDs do not grant learning or engineering acceptance.",
+    "Decision-tree navigation has structural review; agent-behavior gains have not been measured."
+  ]
+}

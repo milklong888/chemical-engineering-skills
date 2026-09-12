@@ -14,6 +14,42 @@ from aspen_runtime import DEFAULT_LOCK_PATH, acquire_lock, atomic_json, process_
 
 DEFAULT_PHASE_TIMEOUTS = {"worker_boot": 30.0, "creating_com": 60.0, "opening": 60.0,
     "running": 1800.0, "exporting": 60.0, "saving": 60.0, "closing": 30.0, "finished": 10.0}
+_STAGE_READ_RETRY_WINERRORS = {5, 32, 33}
+
+
+def _retryable_stage_read_error(exc: OSError) -> bool:
+    """Return true only for Windows access/sharing/lock conflicts."""
+    winerror = getattr(exc, "winerror", None)
+    if winerror is not None:
+        return winerror in _STAGE_READ_RETRY_WINERRORS
+    return isinstance(exc, PermissionError) and getattr(exc, "errno", None) in {5, 13, 32, 33}
+
+
+def _read_stage_json_with_retry(path: Path, *, retry_evidence: list[dict[str, Any]] | None = None,
+                                retry_window_s: float = 1.0, retry_interval_s: float = .05):
+    """Read one atomic stage snapshot through a short Windows sharing conflict."""
+    started = time.monotonic()
+    deadline = started + retry_window_s
+    retries = 0
+    while True:
+        try:
+            candidate = json.loads(path.read_text(encoding="utf-8"))
+            if retries and retry_evidence is not None:
+                retry_evidence.append({"path": str(path), "outcome": "succeeded", "retries": retries,
+                                       "elapsed_s": time.monotonic() - started})
+            return candidate
+        except OSError as exc:
+            if not _retryable_stage_read_error(exc):
+                raise
+            retries += 1
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                if retry_evidence is not None:
+                    retry_evidence.append({"path": str(path), "outcome": "exhausted", "retries": retries,
+                                           "elapsed_s": time.monotonic() - started,
+                                           "error": repr(exc), "winerror": getattr(exc, "winerror", None)})
+                raise
+            time.sleep(min(retry_interval_s, remaining))
 
 
 def prepare_owned_command(command: list[str], environment: dict[str, str]):
@@ -84,6 +120,7 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
     phase_started = overall_started = time.monotonic()
     overall_budget = overall_timeout_s or sum(budgets.values())
     last_stage: dict[str, Any] = {}
+    stage_read_retry_evidence: list[dict[str, Any]] = []
     try:
         env = dict(os.environ)
         env.update(environment or {})
@@ -99,7 +136,9 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
             result["owned_worker"] = owned_identity
             while worker.poll() is None:
                 try:
-                    candidate = json.loads(phase_file.read_text(encoding="utf-8"))
+                    candidate = _read_stage_json_with_retry(
+                        phase_file, retry_evidence=stage_read_retry_evidence
+                    )
                     if (stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"])
                             and candidate.get("sequence", 0) > sequence):
                         new_phase = candidate.get("phase")
@@ -127,7 +166,9 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
                 time.sleep(.05)
             # A very fast worker may exit between polls: consume its final state.
             if phase_file.is_file():
-                candidate = json.loads(phase_file.read_text(encoding="utf-8"))
+                candidate = _read_stage_json_with_retry(
+                    phase_file, retry_evidence=stage_read_retry_evidence
+                )
                 if stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"]):
                     last_stage = candidate
             result["worker_exit_code"] = worker.returncode
@@ -148,6 +189,8 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
             retained = True
             lease.mark_resource_blocked("SUPERVISOR_ERROR_WITH_UNRESOLVED_COM_OWNERSHIP", {"error": str(exc)})
     finally:
+        if stage_read_retry_evidence:
+            result["stage_read_retry_evidence"] = stage_read_retry_evidence
         result["lock_retained_for_resource_recovery"] = retained
         result["lock_released"] = lease.release() if not retained else False
         result["next_dispatch_allowed"] = not retained and result["lock_released"]
