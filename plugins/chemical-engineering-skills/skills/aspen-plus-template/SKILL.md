@@ -68,3 +68,7 @@ Example invocation shape (paths are supplied by the current task):
 This release contains the component-template workflow, not historical process
 exploration archives. Route full process construction to the current specialist
 skill and use the current project's evidence rather than old numerical examples.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

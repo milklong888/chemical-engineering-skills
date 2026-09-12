@@ -83,3 +83,7 @@ Do not call the tower complete until all gates pass:
 - an independent reviewer rechecks the dependency graph and high-risk assumptions.
 
 Record unresolved or low-confidence OCR/table cells as review items; never silently promote them to formal design values.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

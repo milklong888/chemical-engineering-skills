@@ -163,3 +163,7 @@ real Aspen candidate, independently apply the all-zero version-bound Summary
 and raw-history gate to the exact reopened delivery file.
 
 Do not declare the app or a design result ready until an independent chemical-equipment/knowledge-graph reviewer has checked the deterministic boundary, formula chains, evidence propagation, and packaging result.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

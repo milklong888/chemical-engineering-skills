@@ -101,3 +101,7 @@ evidence without inventing additional model or document deliverables:
 - Root `.bkp/.apwz` files for the deliverable Aspen case and any standalone reactor case.
 - The Aspen generation script and exported `.inp`, `*_after_run.inp`, stream CSV, block CSV, and run summary CSV.
 - A short note in the final answer with validation status, page count, and any file that could not be overwritten because it was open.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

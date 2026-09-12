@@ -154,3 +154,7 @@ generated Skill must expose the missing field and the next preferred source.
 
 Any project-specific example is optional local evidence, not distributed here
 and never a source of universal correction factors.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

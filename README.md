@@ -113,6 +113,19 @@ Aspen模型。是否采用检索方法、设备清单是否完整、工艺修改
 是否通过，仍由专业工作流分别检查。规则与执行边界见
 [设计阶段调用](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。
 
+## 使用过程中积累经验
+
+从 0.4.6 起，19 个 Skill 的阶段收尾入口会要求主助手主动检查值得复用的新方法
+或原则：先展示具体方法摘要、适用限制和投稿入口。跑通经验核对实际版本与执行
+范围；思想原则先由使用者确认具体内容，再由助手审核。普通重复操作不凑经验，
+使用者拒绝后不反复催促；已有有效公开授权时继续已授权准备，不重复询问。
+
+愿意分享的使用者可按[中文投稿指南](https://github.com/milklong888/chemical-engineering-experience-inbox/blob/main/docs/USER_SUBMISSION_GUIDE.zh-CN.md)
+提交脱敏候选 PR。首次公开须本人授权，安装 Skill 不会自动上传项目。临时收件
+不直接改正式 Skill 或默认知识；详细规则见[经验提醒与收件](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/EXPERIENCE_INBOX.md)。
+这是对助手行为的工作指令，仍须用当前任务的可见操作核实是否执行；不是后台
+采集服务。其他电脑须更新并重新安装本版本，单纯拉取源码不会更新已安装副本。
+
 ## 安装与文档
 
 更新Skill时，可用[组织与影响索引](docs/skill_organization.md)查询文件引用和需要复核的模块，
@@ -128,7 +141,8 @@ Windows AMD64、CPython 3.14，目标电脑需已有该Python解释器；离线�
 
 资料和结果放在独立项目工作区。常规知识与设备计算不需要GUI，MCP只是可选调用方式；
 实际商业软件操作需要相应安装和许可。新增资料经来源及适用性审查进入候选知识版本，
-当前任务的经验则在使用者确认结束后再审查是否值得形成共享原则或数据规律。
+当前任务的经验可在证据和本人公开授权齐备后先进入临时收件流程；正式晋升为
+共享原则或数据规律，仍须使用者发起整理并关闭相关任务修订，再走原有审核门。
 
 - [使用手册](docs/使用手册.md)：环境、安装、项目准备及可执行示例。
 - [模块说明](docs/模块说明.md)：19个模块各自怎样工作，何时交给下一个模块。

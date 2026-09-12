@@ -87,6 +87,7 @@ still perform a quick task-contract and whole-system-impact check.
 
 ## Corrections and learning
 
+
 When the user explicitly identifies an error or preference violation, correct
 the live task first and record the incident in its project audit. Authorized
 temporary experience submissions follow [the inbox route](references/EXPERIENCE_INBOX.md),
@@ -132,6 +133,18 @@ Lead with the engineering conclusion. Expose the evidence tags, key equations
 or calculations, assumptions, uncertainty/status, and decisive macro checks.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
+
+阶段收尾出现值得复用的新方法或原则时，先读取并执行
+[经验提醒分支](references/EXPERIENCE_INBOX.md#主动提醒使用者)。主助手完成工程结论后，
+给出本条具体方法摘要、适用限制和
+[临时经验投稿入口](https://github.com/milklong888/chemical-engineering-experience-inbox)；
+缺公开授权时提出针对这份摘要的确认请求，不能只停在“尚未授权/暂未入库”。
+已有有效授权就交出当前能完成的摘要草稿或具体提纲，不重复询问、不只声称已准备。
+纯思想未确认就展示原文并请确认，确认后现在完成审核；不要求补造代码或工程运行。
+已确认思想的投稿默认保留确认原文，审核意见另列。若拟实质改写，先展示新版并
+请求其内容确认，确认后重新审核，再核对公开授权；不能只为新版索要发布许可。
+普通重复操作不凑经验；已拒绝不催促，子代理只交候选给主助手。详细规则由上面的
+唯一参考维护；提醒不授予上传权限，也不改变正式晋升的关闭与验证要求。
 
 ## 仅在来源维护时继续下钻
 

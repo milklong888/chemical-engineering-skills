@@ -74,3 +74,7 @@ Required Input, BLKSTAT and product values never override dirty/missing evidence
 Return changed files/cards, original and new diagnostics, source/run hashes,
 affected consumers, verified scope and remaining actions. Audit logs may retain
 all attempts; they are not automatically learning examples.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

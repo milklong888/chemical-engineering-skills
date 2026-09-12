@@ -32,8 +32,11 @@ Aspen, equipment or engineering-report work:
    bound evidence checks in the expert and operation skills.
 9. Keep project inputs and results outside the skill directory. Use controlled
    working copies, record file identities and preserve original sources.
-10. Keep authorized temporary experience submissions on the expert's
-    `references/EXPERIENCE_INBOX.md` route; they do not enter canonical/default
+10. At a meaningful stage handoff, have the main assistant proactively surface
+    supported reusable experience with the exact proposed summary and submission
+    route in the expert's `references/EXPERIENCE_INBOX.md`. Respect prior refusal
+    and existing valid authorization; a reminder is not publication consent.
+    Keep authorized temporary submissions on that route; they do not enter canonical/default
     knowledge. Formal promotion requires user-requested consolidation and
     explicit closure of the current revision. Case-specific relaxations and
     their descendants remain project audit only.

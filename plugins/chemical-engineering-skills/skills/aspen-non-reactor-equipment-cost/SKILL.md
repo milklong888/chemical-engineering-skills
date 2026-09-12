@@ -243,3 +243,7 @@ Keep these artifacts per BKP identity:
 Report the scenario path, `EQUIP` presence/size, non-reactor item sum, item count,
 reactor-excluded count, unresolved count, report-consistency status, block
 coverage, elapsed time, and process-cleanup result.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

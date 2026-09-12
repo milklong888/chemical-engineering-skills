@@ -415,3 +415,7 @@ constant. Prefer these invariants over feedstock-name rules or saved case values
 - Do not accept a single lucky run as generalized behavior.
 - Do not leave manual changes unlogged or outside the template.
 - Do not leave the main adaptive law only in an external batch script when the delivered Aspen template is supposed to be reused directly; core calculators, design specs, and bounds must be present in the promoted BKP/INP evidence.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。

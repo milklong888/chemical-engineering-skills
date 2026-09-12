@@ -221,3 +221,7 @@ single computation alone.
   `needs evidence`.
 - When a conflict ruling is possible, write the corrected value, mark the old
   value wrong, and record the root cause in the ledger or handoff artifact.
+
+阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
+[主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)
+展示可审阅摘要并推进确认/投稿；拒绝不催促，已有有效授权不重复询问。
