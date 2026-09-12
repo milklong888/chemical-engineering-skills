@@ -1,26 +1,34 @@
 ---
 name: aspen-heat-pump-distillation-replacement
-description: Replace an Aspen Plus RadFrac distillation column with an empty-column vapor-recompression heat-pump distillation island and reconnect it into a larger section. Use when the user asks for heat-pump distillation, VRC/MVR distillation, external condenser/reboiler replacement, empty tower conversion, HeatX-assisted distillation retrofit, or boundary-preserving tower-island replacement.
+description: Build equivalent Aspen distillation heat-pump retrofits or review distillation retrofit savings against added electrical loads, changed pressure and product basis. Use for VRC/MVR, external condenser/reboiler or empty-tower replacement, and savings-claim audits; identify the power consumer before assuming compression and keep review-only work scoped.
 ---
 
 # Aspen Heat-Pump Distillation Replacement
 
 ## 工作过程
 
-先运行并固定原塔的进料、产品和热量基准，再切出边界明确的塔岛，按本模块的等效替换方法建立外部换热、蒸汽压缩、回流和汽化返回回路。先恢复原塔的分离结果，再调节压缩和换热条件，比较外供热量的减少是否值得新增的电耗、设备和控制要求；不会为了节能数字好看而悄悄降低产品要求。
+获准实施等效替换时，先运行并固定原塔的进料、产品和热量基准，再切出边界明确的塔岛，按本模块的方法建立外部换热、蒸汽压缩、回流和汽化返回回路。先恢复原塔的分离结果，再调节压缩和换热条件，比较外供热量的减少是否值得新增的电耗、设备和控制要求。只审改造表或节能标题时，直接使用下方审查分支。
 
 塔的分离计算交塔优化模块，卡片和运行交操作模块；压缩与换热条件形成后，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际查适用方法并校核设备。温差、排气状态、压降或能力不满足时先修岛内方案，经过边界核验后再接回全流程复算。结果同时说明等效替换、节能收益、设备证据和整体验收各自达到的程度。
 
 ## Trigger Contract
 
-Use this skill for heat-pump distillation replacement, not for generic heat
-integration.
+Select one of two modes: review a distillation retrofit claim, or implement an
+authorized equivalent heat-pump replacement. For a claim review, use the review
+contract below; the subsequent model-building workflow is not required.
 
 When reviewing a retrofit's savings claim without editing a model, retain the
-same product/capacity basis and review compressor discharge temperature,
-pressure, phase and operability along with heat, power, economics and emissions.
-Missing discharge evidence remains a feasibility gap even if the utility
-arithmetic can be evaluated.
+same product/capacity basis and assess heat, power, economics, emissions and
+the actual equipment's operability. Apply the equipment-specific branch below.
+
+In a claim review, identify what consumes the added power first. If compression
+is involved, check inlet and discharge temperature, pressure and phase against
+operability and equipment limits; if its identity is unknown, leave that branch
+conditional and request the relevant equipment duty/state record. Do not infer a
+compressor from an electrical-load number alone. The handoff must state both the
+common product/capacity and energy-accounting basis and the affected equipment's
+feasibility evidence gaps. Economics and carbon each need their own factors.
+Keep a heat reduction, net purchased-energy change and economic benefit separate.
 
 The accepted pattern is an equivalent tower retrofit:
 

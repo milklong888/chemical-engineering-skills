@@ -21,7 +21,7 @@ import aspen_offline_sizing as sizing  # noqa: E402
 import comparison_cost_completion as comparison  # noqa: E402
 import cost_basis_adjustment as adjustment  # noqa: E402
 import netl_equipment_cost_estimators as netl  # noqa: E402
-from cost_evidence_guard import EXCLUDED_SCOPES, KNOWN_SCOPES, tokens  # noqa: E402
+from cost_evidence_guard import EXCLUDED_SCOPES, KNOWN_SCOPES, tokens, audit_input_contract  # noqa: E402
 
 
 def io_path(path: Path) -> Path:
@@ -289,7 +289,13 @@ def main() -> int:
     if generation_path.exists() and json.loads(generation_path.read_text(encoding="utf-8")).get("draft_only"):
         output_root = io_path(args.out_dir)
         output_root.mkdir(parents=True, exist_ok=True)
-        report = {"status": "blocked", "reason": "draft_only:no_cost_calculation", "costs_calculated": False}
+        try:
+            input_issues = audit_input_contract(read_csv(REFS / "equipment-inventory.csv"), read_csv(REFS / "equipment-method-assignment.csv"))
+        except (OSError, ValueError, KeyError) as exc:
+            input_issues = [{"type": "draft_input_unreadable", "error": str(exc)}]
+        report = {"status": "blocked", "reason": "invalid_input_contract" if input_issues else "draft_only:no_cost_calculation",
+                  "input_contract_status": "fail" if input_issues else "pass", "input_contract_issues": input_issues,
+                  "costs_calculated": False}
         (output_root / "batch_audit.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
         print(json.dumps(report, indent=2))
         return 1
@@ -306,7 +312,7 @@ def main() -> int:
         audit_report = {}
     method_ready = audit_report.get("strict_status") == "pass" and audit.returncode == 0
     comparison_contract_ready = audit_report.get("comparison_contract_status") == "pass"
-    prerequisites = ("source_identity_status", "procurement_boundary_status", "equipment_coverage_status", "comparison_contract_status")
+    prerequisites = ("source_identity_status", "procurement_boundary_status", "equipment_coverage_status", "input_contract_status", "comparison_contract_status")
     if audit.returncode not in (0, 1) or not all(audit_report.get(key) == "pass" for key in prerequisites):
         report = {"status": "blocked", "costs_calculated": False, "reason": "fresh_evidence_audit_required",
                   "audit_returncode": audit.returncode, "audit": audit_report, "audit_error": audit.stderr}

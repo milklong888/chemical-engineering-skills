@@ -234,6 +234,31 @@ class AspenToolRouterTests(unittest.TestCase):
         self.assertIn("optimize", conflict["classification"]["conflicts"])
         self.assertFalse(conflict["classification"]["semantic_completeness"])
 
+    def test_conflicting_hints_do_not_emit_selected_routes_or_execution_steps(self):
+        result = self.route("derive_once", question="只做一次计算，不扫描、不优化")
+        self.assertEqual(result["status"], "AGENT_CLASSIFICATION_REQUIRED")
+        self.assertIn("optimize", result["classification"]["conflicts"])
+        self.assertFalse(result["classification"]["routing_ready"])
+        self.assertEqual(result["routes"], [])
+        self.assertIn("derive_once", result["pending_route_intents"])
+        self.assertFalse(any(n["code"] == "DOMAIN_TOOL_ACTION_REQUIRED" for n in result["needs"]))
+        self.assertEqual([s["id"] for s in result["decision_chain"]["steps"]],
+                         ["define_engineering_question", "classify_next_action"])
+
+    def test_resolved_followup_has_new_identity_and_preserves_unresolved_receipt(self):
+        first = self.route("read_value", question="读取当前结果，不优化")
+        frozen = json.dumps(first, sort_keys=True)
+        second = self.route("read_value", question="读取当前结果与单位")
+        self.assertEqual(first["status"], "AGENT_CLASSIFICATION_REQUIRED")
+        self.assertEqual(first["routes"], [])
+        self.assertEqual(second["status"], "ACTION_REQUIRED")
+        self.assertTrue(second["classification"]["routing_ready"])
+        self.assertEqual(second["pending_route_intents"], [])
+        self.assertIn("EXISTING_OUTPUT_READBACK", self.tools(second))
+        self.assertNotEqual(first["input_sha256"], second["input_sha256"])
+        self.assertEqual(json.dumps(first, sort_keys=True), frozen)
+        self.assertFalse(second["native_tools_executed"])
+
     def test_all_routes_are_pending_and_actual_reference_paths_exist(self):
         for intent in INTENTS:
             result = self.route(intent)

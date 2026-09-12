@@ -9,7 +9,7 @@ description: Diagnose and repair Aspen flow failures using current authority, ph
 
 收到错误日志或不合理结果后，先保留可回退的候选文件，读取当前项目要求和同次运行的具体报错，再沿物流还原出错单元的真实用途。区分输入、物性、相态、循环与控制、产品目标、设备能力以及文件问题后，只针对有证据的原因作一组受控修改，交操作模块重跑，并观察原问题是否消失或暴露了下一问题。
 
-纯文件或数值诊断不必重新设计全厂；题目已经报告负荷、温压、相态或连接改变时，先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)执行 `change` 检查，不等实际改模型才触发。修复后让受影响结果重新计算。返回原报错、修改、同案复跑和剩余问题；修好一个块只表示局部修复，不表示全流程已经交付。
+按下方 Repair Loop 先选择当前事件分支，再诊断和修复。修复后让受影响结果重新计算。返回原报错、修改、同案复跑和剩余问题；修好一个块只表示局部修复，不表示全流程已经交付。
 
 ## First reads and scope
 
@@ -24,20 +24,29 @@ executes and supplies the single strict version-bound evidence gate.
 
 ## Repair Loop
 
-1. Preserve the accepted candidate and freeze the current failure/allowed edits.
+1. Route the current event before the diagnostic hypothesis list.
+   If the reported observation or change record includes changed load, temperature,
+   pressure, phase, properties or connections, execute the expert's
+   [change-stage check](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)
+   now, even when the request is only to investigate invalid assumptions and
+   prohibits model edits. Use the supported knowledge-only checks when equipment
+   inputs are absent. Record its actual receipt; a diagnosis route and a separate
+   knowledge query do not complete this step. If no such event exists, use the
+   narrow file/input/numerical diagnosis branch without inventing a flowsheet.
+2. Preserve the accepted candidate and freeze the current failure/allowed edits.
    In preparation-only work, specify the protected copy and original identity,
    the single evidenced change to record, and a before/after replay on that same
    candidate with inputs, outputs, residuals and product checks. Missing files
    stay named dependencies; do not claim the copy or replay already exists.
-2. Classify resource/startup, input/card, property/phase, solver/recycle/control,
+3. Classify resource/startup, input/card, property/phase, solver/recycle/control,
    process target, equipment capacity or delivery identity before changing anything.
-3. Reconstruct the physical service and affected stream path before solver knobs.
+4. Reconstruct the physical service and affected stream path before solver knobs.
    Convergence is not feasibility; heat/pressure paths and component fate matter.
-4. Capture the current limiting message, object and same-run evidence. Apply one
+5. Capture the current limiting message, object and same-run evidence. Apply one
    evidenced repair family on a protected candidate; inspect the next run again.
-5. Recompute downstream consumers, inner quality controls, balances, utilities
+6. Recompute downstream consumers, inner quality controls, balances, utilities
    and equipment when the change affects them.
-6. Report whether the original blocker is removed, another blocker was exposed,
+7. Report whether the original blocker is removed, another blocker was exposed,
    or the same hypothesis failed. That local result does not imply full acceptance.
 
 ## At the relevant failure, read the detailed method
@@ -78,6 +87,14 @@ Required Input, BLKSTAT and product values never override dirty/missing evidence
 Return changed files/cards, original and new diagnostics, source/run hashes,
 affected consumers, verified scope and remaining actions. Audit logs may retain
 all attempts; they are not automatically learning examples.
+
+For a preparation-only handoff, return the specific next repair contract alongside
+the diagnosis: which current candidate will be copied and protected, the first
+evidence-dependent change, and which same-candidate before/after results will test
+it. Name unavailable files as dependencies; do not claim a copy, edit or replay
+was performed. For a changed-case event, also link the actual stage receipt and
+report the stage and embedded routing conclusions separately. Check these items
+are present in the delivered answer or its linked artifact before closing.
 
 阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
 [主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)

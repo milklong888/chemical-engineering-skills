@@ -435,6 +435,103 @@ class CostGuards(unittest.TestCase):
         self.assertEqual(case["selected_purchased_equipment_total_usd"], "")
         self.assertEqual(case["comparison_purchased_equipment_total_usd"], 100)
 
+    def draft_rows(self):
+        ordinary = dict(self.assignment, method_id="METHOD_GAP", source_ids="", mapping_status="unreviewed")
+        reactor = dict(ordinary, equipment_item_id="R001", physical_equipment="reactor", aspen_block_type="REACTOR",
+                       scope_class="reactor_excluded", method_id="LOGICAL_OR_REACTOR_EXCLUSION", mapping_status="rule_fixed")
+        return [ordinary, reactor]
+
+    def scaffold_draft(self, rows):
+        inventory = self.case / "draft_inventory"
+        shutil.copytree(self.inventory, inventory)
+        write_csv(inventory / "equipment_method_assignment.csv", rows)
+        write_csv(inventory / "equipment_inventory.csv", rows)
+        write_csv(inventory / "source_evidence_ledger.csv", [], ["source_id", "review_status", "local_path", "sha256"])
+        target = self.case / "draft_target"
+        result = run(BUILDER / "scripts" / "scaffold_cost_skill.py",
+                     ["--inventory-dir", inventory, "--draft-only", "--skill-name", "synthetic-draft-contract", "--skills-root", target],
+                     self.case / "draft-contract-receipt.json")
+        return result, target / "synthetic-draft-contract"
+
+    def test_no_source_legal_gap_and_reactor_draft(self):
+        result, generated = self.scaffold_draft(self.draft_rows())
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.skill = generated
+        self.assertEqual(read_json(generated / "generation_audit.json")["input_contract_status"], "pass")
+        audit = self.assert_blocked_before_cost(strict=False)
+        self.assertEqual(audit["input_contract_status"], "pass")
+        self.assertEqual(audit["reason"], "draft_only:no_cost_calculation")
+        result = run(BUILDER / "scripts" / "validate_generated_skill.py", ["--skill-dir", generated, "--allow-draft"], self.case / "validate-draft-receipt.json")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_invented_ordinary_scope_draft_rejected(self):
+        rows = self.draft_rows()
+        rows[0]["scope_class"] = "INCLUDED_ORDINARY_EQUIPMENT"
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(json.loads(result.stdout)["status"], "invalid_input_contract")
+        self.assertFalse(generated.exists())
+
+    def test_reversed_reactor_scope_method_draft_rejected(self):
+        rows = self.draft_rows()
+        rows[1].update(scope_class="LOGICAL_OR_REACTOR_EXCLUSION", method_id="EXCLUDED_REACTOR")
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 1)
+        self.assertFalse(generated.exists())
+
+    def test_legal_reactor_scope_wrong_method_draft_rejected(self):
+        rows = self.draft_rows()
+        rows[1]["method_id"] = "EXCLUDED_REACTOR"
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("excluded_scope_method_conflict", {i["type"] for i in json.loads(result.stdout)["issues"]})
+
+    def test_pending_inventory_producer_state_allowed_only_in_draft(self):
+        rows = self.draft_rows()
+        rows[0].update(scope_class="physical_scope_unresolved", method_id="METHOD_GAP", mapping_status="method_gap_open")
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.skill = generated
+        self.assertEqual(self.assert_blocked_before_cost(strict=False)["input_contract_status"], "pass")
+
+    def test_duplicate_draft_rows_rejected(self):
+        rows = self.draft_rows()
+        result, generated = self.scaffold_draft(rows + [rows[0]])
+        self.assertEqual(result.returncode, 1)
+        self.assertFalse(generated.exists())
+
+    def test_missing_draft_columns_rejected(self):
+        rows = self.draft_rows()
+        for row in rows:
+            del row["mapping_status"]
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("input_columns_missing", {i["type"] for i in json.loads(result.stdout)["issues"]})
+
+    def test_mutated_generated_draft_fails_runner_and_validator(self):
+        result, generated = self.scaffold_draft(self.draft_rows())
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        path = generated / "references" / "equipment-method-assignment.csv"
+        rows = read_csv(path)
+        rows[0]["scope_class"] = "INCLUDED_ORDINARY_EQUIPMENT"
+        write_csv(path, rows)
+        self.skill = generated
+        audit = self.assert_blocked_before_cost(strict=False)
+        self.assertEqual(audit["reason"], "invalid_input_contract")
+        self.assertEqual(audit["input_contract_status"], "fail")
+        result = run(BUILDER / "scripts" / "validate_generated_skill.py", ["--skill-dir", generated, "--allow-draft"], self.case / "invalid-draft-validation.json")
+        self.assertEqual(result.returncode, 1)
+
+    def test_unreviewed_package_boundary_remains_legal_draft_gap(self):
+        rows = self.draft_rows()
+        for row in rows:
+            row.update(procurement_role="", package_scope_status="unreviewed")
+        rows[0]["physical_equipment"] = "tower_and_physical_auxiliaries"
+        result, generated = self.scaffold_draft(rows)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.skill = generated
+        self.assertEqual(self.assert_blocked_before_cost(strict=False)["input_contract_status"], "pass")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)

@@ -13,7 +13,7 @@ REFS = ROOT / "references"
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import netl_equipment_cost_estimators as netl  # noqa: E402
-from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage  # noqa: E402
+from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage, audit_input_contract  # noqa: E402
 
 
 APPROVED_SOURCES = {"approved", "approved_project_method"}
@@ -66,9 +66,11 @@ def main() -> int:
     source_issues = point_source_issues + audit_sources(assignments, REFS / "source-evidence-ledger.csv", extra_sources)
     procurement_issues = audit_procurement(assignments)
     coverage_issues = audit_equipment_coverage(equipment, assignments)
+    input_issues = audit_input_contract(equipment, assignments)
     issues.extend(source_issues)
     issues.extend(procurement_issues)
     issues.extend(coverage_issues)
+    issues.extend(input_issues)
 
     for row in assignments:
         equipment_id = row["equipment_item_id"]
@@ -188,6 +190,8 @@ def main() -> int:
         "source_identity_status": "pass" if not source_issues else "fail",
         "procurement_boundary_status": "pass" if not procurement_issues else "fail",
         "equipment_coverage_status": "pass" if not coverage_issues else "fail",
+        "input_contract_status": "pass" if not input_issues else "fail",
+        "input_contract_issues": input_issues,
         "equipment_coverage_issues": coverage_issues,
         "equipment_count": len(equipment),
         "assignment_count": len(assignments),

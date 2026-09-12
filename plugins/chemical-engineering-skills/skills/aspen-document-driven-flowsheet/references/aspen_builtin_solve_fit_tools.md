@@ -20,6 +20,12 @@ method, pressure equipment, or source-unit conversion.
 只有目标匹配而无优选目标函数时不添加 `optimize`；变量多不改变这个条件。
 发现自己传错意图时，保留原回执并按已澄清问题重新调用，不能只在答复中否定
 旧路由或把自己传入的意图解释为程序误识别。未知/冲突状态与阶段状态分别报告。
+`AGENT_CLASSIFICATION_REQUIRED` 时 `routes` 为空，`pending_route_intents` 仅是
+待判断候选；它们不能写成已选路线。否定句、背景或引用里的词也可能命中有限
+规则。核对原意后，用准确的当前任务描述重述并重调，保留原请求和未决回执；
+不能为获得绿灯删去真实目标。仍无法消除的歧义如实列出，不阻断无关检查。
+阶段回执的 `solve_route.status=EXECUTED` 只证明调用发生，路由结论应读
+`solve_route.result.status`，字段层次见[阶段调用](../../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。
 路由收据证明分类与待办，不证明已经插入或运行 Aspen 工具。返回的
 `decision_chain` 给出按当前问题裁剪的下一步与结果反馈触发，实际应用这些
 判断由专业agent负责，不是程序已经理解或执行了工程分析。

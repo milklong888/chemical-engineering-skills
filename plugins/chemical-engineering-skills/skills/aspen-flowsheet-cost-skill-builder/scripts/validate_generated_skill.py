@@ -8,6 +8,8 @@ from pathlib import Path
 
 
 QUICK_VALIDATE = Path.home() / ".codex" / "skills" / ".system" / "skill-creator" / "scripts" / "quick_validate.py"
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "assets" / "project-skill-template"))
+from cost_evidence_guard import audit_input_contract, read_csv
 
 
 def parse_args() -> argparse.Namespace:
@@ -20,6 +22,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     skill = args.skill_dir.resolve()
+    try:
+        input_issues = audit_input_contract(read_csv(skill / "references" / "equipment-inventory.csv"),
+                                            read_csv(skill / "references" / "equipment-method-assignment.csv"))
+    except (OSError, ValueError, KeyError) as exc:
+        input_issues = [{"type": "input_unreadable", "error": str(exc)}]
     structural = subprocess.run([sys.executable, str(QUICK_VALIDATE), str(skill)], check=False)
     method = subprocess.run([sys.executable, str(skill / "scripts" / "audit_generated_method.py")], check=False, capture_output=True, text=True)
     try:
@@ -31,9 +38,9 @@ def main() -> int:
     identity_ready = all(audit.get(key) == "pass" for key in ("source_identity_status", "procurement_boundary_status", "equipment_coverage_status"))
     generation_path = skill / "generation_audit.json"
     explicit_draft = generation_path.exists() and json.loads(generation_path.read_text(encoding="utf-8")).get("draft_only") is True
-    if structural.returncode == 0 and comparison_ready and strict_ready and identity_ready and not explicit_draft:
+    if structural.returncode == 0 and not input_issues and comparison_ready and strict_ready and identity_ready and not explicit_draft:
         status = "pass"
-    elif structural.returncode == 0 and args.allow_draft and (explicit_draft or (identity_ready and comparison_ready and bool(audit))):
+    elif structural.returncode == 0 and not input_issues and args.allow_draft and (explicit_draft or (identity_ready and comparison_ready and bool(audit))):
         status = "draft"
     else:
         status = "fail"
@@ -48,6 +55,8 @@ def main() -> int:
         "procurement_boundary_status": audit.get("procurement_boundary_status", "missing"),
         "equipment_coverage_status": audit.get("equipment_coverage_status", "missing"),
         "draft_only": explicit_draft,
+        "input_contract_status": "fail" if input_issues else "pass",
+        "input_contract_issues": input_issues,
         "costs_calculated": False,
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))

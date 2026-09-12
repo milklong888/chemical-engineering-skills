@@ -27,6 +27,8 @@ skills or duplicate their card-level knowledge.
 |---|---|
 | 不确定任务范围、下一步或失败分支 | [决策树](references/TASK_DECISION_TREES.md)中的相关一棵；未知证据先走区分查询 |
 | 路线、流程安排、可行性或优化 | [宏观设计质量](references/MACRO_DESIGN_QUALITY.md)，先于单元细节 |
+| 塔改造的节能/新增电耗比较，包括只审标题 | [热泵与改造审查入口](../aspen-heat-pump-distillation-replacement/SKILL.md#trigger-contract)，先识别耗电设备，使用其中的审查分支 |
+| 工段间气液交接、溶剂返回或设备归属未定 | [工段边界入口](../aspen-two-section-flowsheet/SKILL.md)，依据实际接口保留未定分支，不能从缺资料直接决定新增分相位置 |
 | 查询专业依据 | 工作区链接图与[检索边界](references/VECTOR_KNOWLEDGE_BASE_DESIGN.md)，先范围/权威再相似度；跨电脑常识资料见[常识检索](references/COMMON_SENSE_RAG.md) |
 | 构建流程或实质改变工况/模块 | [工艺—设备反馈](references/PROCESS_EQUIPMENT_FEEDBACK.md)；source/scaffold/island/reconnect/change/delivery 事件按[阶段规则](references/DESIGN_STAGE_ROUTING.md)实际调用并保留当前回执 |
 | 查值、联动关系、目标匹配、响应分析或调参 | 下方 Native analysis and control trigger；先明确固定量和联动量 |

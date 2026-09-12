@@ -15,6 +15,8 @@ APPROVED = {"approved", "approved_project_method"}
 EXCLUDED_SCOPES = {"reactor_excluded", "excluded_logical_or_bulk", "not_physical_equipment", "included_in_package_excluded"}
 ACTIVE_SCOPES = {"purchased_equipment_candidate", "utility_opex_separate"}
 KNOWN_SCOPES = EXCLUDED_SCOPES | ACTIVE_SCOPES
+DRAFT_SCOPES = KNOWN_SCOPES | {"physical_scope_unresolved"}
+MAPPING_STATES = {"unreviewed", "reviewed", "rule_fixed", "candidate_requires_physical_scope_review", "candidate_requires_service_review", "method_gap_open"}
 REPRODUCED = {"pass", "passed", "reproduced", "verified", "success"}
 REQUIRED_FIELDS = (
     "title", "authors_or_organization", "year", "source_type", "authority_tier",
@@ -62,6 +64,54 @@ def audit_equipment_coverage(equipment: list[dict[str, str]], assignments: list[
     return issues
 
 
+def audit_scope_methods(assignments: list[dict[str, str]], allow_pending: bool = False) -> list[dict]:
+    issues = []
+    for row in assignments:
+        eid, scope, method = row.get("equipment_item_id"), row.get("scope_class", ""), row.get("method_id", "")
+        if scope not in (DRAFT_SCOPES if allow_pending else KNOWN_SCOPES):
+            issues.append({"type": "scope_unknown_or_unresolved", "equipment_item_id": eid, "scope_class": scope})
+        if not method:
+            issues.append({"type": "method_missing_use_METHOD_GAP", "equipment_item_id": eid})
+        if scope == "physical_scope_unresolved" and method != "METHOD_GAP":
+            issues.append({"type": "unresolved_scope_requires_METHOD_GAP", "equipment_item_id": eid})
+        if method == "LOGICAL_OR_REACTOR_EXCLUSION" and scope not in EXCLUDED_SCOPES:
+            issues.append({"type": "exclusion_method_scope_conflict", "equipment_item_id": eid})
+        if (method == "UTILITY_OPEX") != (scope == "utility_opex_separate"):
+            issues.append({"type": "utility_method_scope_conflict", "equipment_item_id": eid, "scope_class": scope, "method_id": method})
+        if scope in EXCLUDED_SCOPES and method != "LOGICAL_OR_REACTOR_EXCLUSION":
+            issues.append({"type": "excluded_scope_method_conflict", "equipment_item_id": eid, "scope_class": scope, "method_id": method})
+    return issues
+
+
+def audit_input_contract(equipment: list[dict[str, str]], assignments: list[dict[str, str]]) -> list[dict]:
+    """Drafts may lack evidence; their schema, enums and relationships must work."""
+    issues = audit_equipment_coverage(equipment, assignments) + audit_scope_methods(assignments, allow_pending=True)
+    required_inventory = {"equipment_item_id", "block_id", "aspen_block_type", "physical_equipment"}
+    required_assignment = required_inventory | {"scope_class", "method_id", "source_ids", "mapping_status"}
+    for label, rows, required in (("inventory", equipment, required_inventory), ("assignment", assignments, required_assignment)):
+        for index, row in enumerate(rows, start=2):
+            missing = sorted(required - row.keys())
+            if missing:
+                issues.append({"type": "input_columns_missing", "table": label, "row": index, "fields": missing})
+    assignment_by_id = {row.get("equipment_item_id"): row for row in assignments}
+    for row in equipment:
+        other = assignment_by_id.get(row.get("equipment_item_id"), {})
+        for key in ("scope_class", "method_id"):
+            if row.get(key) and row[key] != other.get(key):
+                issues.append({"type": "inventory_assignment_contract_conflict", "equipment_item_id": row.get("equipment_item_id"), "field": key})
+    for row in assignments:
+        eid = row.get("equipment_item_id")
+        if row.get("mapping_status") not in MAPPING_STATES:
+            issues.append({"type": "mapping_status_unknown", "equipment_item_id": eid, "mapping_status": row.get("mapping_status")})
+        if row.get("procurement_role", "") not in {"", "standalone", "package", "included_in_package"}:
+            issues.append({"type": "procurement_role_unknown", "equipment_item_id": eid})
+        if row.get("package_scope_status", "") not in {"", "unreviewed", "reviewed", "not_applicable"}:
+            issues.append({"type": "package_scope_status_unknown", "equipment_item_id": eid})
+        if (row.get("scope_class") == "included_in_package_excluded") != (row.get("procurement_role") == "included_in_package"):
+            issues.append({"type": "package_role_scope_conflict", "equipment_item_id": eid})
+    return issues
+
+
 def audit_sources(assignments: list[dict[str, str]], ledger_path: Path,
                   extra_source_ids: list[str] | None = None) -> list[dict]:
     issues: list[dict] = []
@@ -76,19 +126,9 @@ def audit_sources(assignments: list[dict[str, str]], ledger_path: Path,
             issues.append({"type": "source_id_missing_or_duplicate", "source_id": sid})
         sources[sid] = row
     required = set(extra_source_ids or [])
+    issues.extend(audit_scope_methods(assignments))
     for row in assignments:
         scope = row.get("scope_class", "")
-        if scope not in KNOWN_SCOPES:
-            issues.append({"type": "scope_unknown_or_unresolved", "equipment_item_id": row.get("equipment_item_id"), "scope_class": scope})
-        if row.get("method_id") == "LOGICAL_OR_REACTOR_EXCLUSION" and scope not in EXCLUDED_SCOPES:
-            issues.append({"type": "exclusion_method_scope_conflict", "equipment_item_id": row.get("equipment_item_id")})
-        method = row.get("method_id", "")
-        if (method == "UTILITY_OPEX") != (scope == "utility_opex_separate"):
-            issues.append({"type": "utility_method_scope_conflict", "equipment_item_id": row.get("equipment_item_id"),
-                           "scope_class": scope, "method_id": method})
-        if scope in EXCLUDED_SCOPES and method != "LOGICAL_OR_REACTOR_EXCLUSION":
-            issues.append({"type": "excluded_scope_method_conflict", "equipment_item_id": row.get("equipment_item_id"),
-                           "scope_class": scope, "method_id": method})
         required.update(tokens(row.get("package_scope_source_ids", "")))
         if scope in EXCLUDED_SCOPES:
             continue

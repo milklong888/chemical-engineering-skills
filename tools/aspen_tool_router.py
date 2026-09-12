@@ -216,14 +216,21 @@ def solve_route(payload, evidence_root):
     # domain agent must resolve that ambiguity, rather than silently bypass it.
     conflicts = sorted(set(hinted) - set(explicit)) if explicit else []
     intents = list(dict.fromkeys([*explicit, *hinted]))
+    classification_required = not intents or bool(conflicts)
     study = study_contract(payload.get("study_context", {}), intents)
     ambiguous_multivariable = bool(re.search(r"多变量|多个连续变量|多参数|几个参数|multivariable|multiple variables", question, re.I)) and not intents
     needs = []
-    if not intents or conflicts:
-        needs.append({"code": "AGENT_CLASSIFICATION_REQUIRED", "detail": "Resolve current task intent; finite language hints are not semantic proof", "conflicting_hints": conflicts})
+    if classification_required:
+        needs.append({"code": "AGENT_CLASSIFICATION_REQUIRED",
+            "detail": "尚未形成可采用的工具路线。对照原请求核查显式意图与关键词冲突；否定句或背景提及也可能命中。保留当前回执，按已核实的实际任务重述后再调用，或明确报告仍待分类。不要把候选意图转述为已经选定的路线。",
+            "conflicting_hints": conflicts})
     if study["missing_parts"]:
         needs.append({"code": "STUDY_CONTEXT_REVIEW_REQUIRED", "scope": "study_context", "detail": "Resolve only the relevant comparison roles from current authority; do not invent missing controls or block unrelated work", "missing_parts": study["missing_parts"]})
-    plans = [{"intent": intent, **ROUTES[intent], "execution_status": "NOT_EXECUTED_BY_ROUTER"} for intent in intents]
+    # An unresolved interpretation must not simultaneously emit a selected
+    # domain route or its execution steps. Preserve raw candidates below so the
+    # agent can inspect and resolve the conflict without hiding the first receipt.
+    routed_intents = [] if classification_required else intents
+    plans = [{"intent": intent, **ROUTES[intent], "execution_status": "NOT_EXECUTED_BY_ROUTER"} for intent in routed_intents]
     for plan in plans:
         needs.append({"code": "DOMAIN_TOOL_ACTION_REQUIRED", "intent": plan["intent"], "detail": plan["purpose"]})
     refs = reference_inventory(intents)
@@ -253,12 +260,14 @@ def solve_route(payload, evidence_root):
             needs.append({"code": "EXTERNAL_LIMITATION_EVIDENCE_REQUIRED", "detail": "Submit inspectable evidence for the specific native limitation; convenience or variable count is insufficient"})
 
     result = {"schema": "aspen-solve-route-v1", "question": question, "input_sha256": canonical_sha(payload),
-        "status": "AGENT_CLASSIFICATION_REQUIRED" if not intents or conflicts else "ACTION_REQUIRED",
+        "status": "AGENT_CLASSIFICATION_REQUIRED" if classification_required else "ACTION_REQUIRED",
         "classification": {"explicit_intents": explicit, "finite_hints": hints, "intents": intents,
-            "semantic_completeness": False, "conflicts": conflicts, "ambiguous_multivariable": ambiguous_multivariable},
+            "semantic_completeness": False, "conflicts": conflicts, "ambiguous_multivariable": ambiguous_multivariable,
+            "routing_ready": not classification_required},
         "strong_trigger": bool(intents or ambiguous_multivariable or external["requested"]),
-        "routes": plans, "needs": needs, "required_reading": refs, "fitting": fitting, "external_request": external,
-        "study": study, "decision_chain": decision_chain(intents, study),
+        "routes": plans, "pending_route_intents": intents if classification_required else [],
+        "needs": needs, "required_reading": refs, "fitting": fitting, "external_request": external,
+        "study": study, "decision_chain": decision_chain(routed_intents, study),
         "vendor_sensitivity": {"classification": "EXTERNAL_POINT_SWEEP_NOT_NATIVE", "native_sensitivity_evidence": False,
             "implementation": "vendor/aspen-mcp-toolkit/src/aspen_mcp/tools/sensitivity_advanced.py",
             "boundary": "Python values loop writes parameters and reruns; it does not create native SENSITIVITY or DESIGN-SPEC objects"},

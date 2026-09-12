@@ -36,6 +36,14 @@ Aspen, equipment or engineering-report work:
     supported reusable experience with the exact proposed summary and submission
     route in the expert's `references/EXPERIENCE_INBOX.md`. Respect prior refusal
     and existing valid authorization; a reminder is not publication consent.
+    When a new candidate is supported, show the actual candidate text, its
+    verified scope and the [submission entry](https://github.com/milklong888/chemical-engineering-experience-inbox)
+    in the handoff. Missing public authorization stops posting, not this local
+    draft and reminder. When consent is still needed, ask once about publishing
+    that specific displayed summary. For an unconfirmed principle, first ask
+    once about its exact content. After a prior refusal, keep the stated
+    reminder/posting boundary. Read the
+    referenced inbox rules before choosing which branch applies.
     Keep authorized temporary submissions on that route; they do not enter canonical/default
     knowledge. Formal promotion requires user-requested consolidation and
     explicit closure of the current revision. Case-specific relaxations and

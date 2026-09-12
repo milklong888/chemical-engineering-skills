@@ -81,13 +81,10 @@ model edits and bind its hashes/evidence. A staged-copy diagnostic cannot
 substitute. Target-version, PFD/sidecar/USER-library and product gates remain
 separate and must actually be tested for the claimed scope.
 
-For later package revisions, compare the model and every runtime dependency
-separately from cover notes or other packaging text. Proven unchanged runtime
-assets retain their earlier evidence within its original scope; changed notes
-need their own consistency review. A changed package hash alone neither proves
-the model changed nor transfers a whole-package pass. Missing asset identities
-remain unresolved. A newly copied final model still needs the exact-path
-delivery check above.
+For later package revisions, use the expert's
+[file-scope branches](../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#文件范围与证据复用).
+Keep the verified scope of unchanged assets and the newly delivered file's
+exact-path check separate. Apply the check above to the current final model.
 
 Return operation, simulation, product and delivery states separately, together
 with artifact identities, failed/unknown gates and the next scoped action.

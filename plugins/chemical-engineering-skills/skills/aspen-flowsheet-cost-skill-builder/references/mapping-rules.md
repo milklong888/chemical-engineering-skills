@@ -44,6 +44,26 @@ that supports the exact cost method. Keep unsupported methods as
 ## Procurement Coverage For Towers And Packages
 
 The physical inventory and the chargeable quote lines are different ledgers.
+For a tower represented by a tower body, external reboiler, condenser, splitter
+and mixer, first issue this **pending mapping**, not an unconditional count of
+three separately purchased items:
+
+| Representation | Physical inventory | Separate charge | Evidence still needed |
+| --- | --- | --- | --- |
+| Tower body | One candidate tower body/internals | Pending | Tower/package inclusion schedule |
+| External reboiler | One physical exchanger candidate | Pending; only if not paid through a package | Package exclusions and separate quote scope |
+| Condenser | One physical exchanger candidate | Pending; only if not paid through a package | Package exclusions and separate quote scope |
+| Splitter/mixer | Logical connection by default | None by default | Actual valve/manifold/equipment evidence if claimed |
+
+Three physical candidates do not establish three independent charge lines.
+Do not begin with an unconditional sum of tower + reboiler + condenser and add a
+qualification only afterward. A purchased total is defined only after boundary
+review: sum each confirmed package once, then add only separately procured items
+confirmed absent from every counted package. Formally, `C = sum(C_package_q) +
+sum(delta_i * C_separate_i)`, where each `delta_i` is established by that review.
+Unknown inclusion means `delta_i` and the total remain unresolved, never an assumed
+1 or a fabricated zero. Retain included auxiliaries in the physical inventory.
+
 Before summing a tower/package quote, inspect its inclusion/exclusion schedule:
 column shell and internals, condenser, reboiler, reflux drum, pumps/drivers,
 controls, spares, installation and delivery basis. A separately drawn auxiliary

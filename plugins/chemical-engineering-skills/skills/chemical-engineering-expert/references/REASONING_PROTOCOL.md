@@ -83,6 +83,9 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    spreadsheets, scripts, JSON/CSV/XML, software reports, and drawings.
 3. Normalize units, bases, reference states, dry/wet basis, mass/molar basis,
    actual/standard volume, time basis, and component names.
+   A unit-label edit does not convert stored numbers. Bind each numeric value
+   to its original unit, transform the pair together, and check the physical
+   quantity is unchanged before downstream calculations use the new representation.
 4. Derive with algebra, ratios, chemical stoichiometry, composition closure,
    reaction extent, recovery/selectivity/yield identities, and time ordering.
 5. Close material and component balances; then energy and pressure relations
@@ -93,6 +96,18 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    recycles cancel at the whole-system boundary and are counted only when they
    cross the chosen control volume. Do not apply inert-species closure to all
    reactants and products.
+
+   For a steady whole-system species balance, write the boundary explicitly:
+   `0 = sum(external_in_i) - sum(external_out_i) + sum_r(nu_i,r * extent_rate_r)`.
+   Here `nu` is positive for products and negative for reactants. Internal recycle
+   is absent from both external sums; adding a recycle inlet alone violates this
+   boundary even if the accompanying prose says it cancels. For a unit or section,
+   list each actual crossing separately with its direction. Before returning a
+   balance, trace every term to a boundary crossing or reaction source and check
+   that the displayed equation agrees with the stream list and its explanation.
+   Define ideal versus actual states and each efficiency when writing work or
+   energy equations. Do not apply an isentropic efficiency again to an enthalpy
+   change already taken from the actual compression state.
 6. Use physical bounds, monotonicity, interpolation, bracketing, scaling, and
    limiting cases to obtain a range or consistency test.
 7. Use an explicit engineering estimate only when its source/correlation,

@@ -26,7 +26,7 @@
 | 主导入口 | 何时进入 | 接收 → 交回 | 按需协作与边界 |
 |---|---|---|---|
 | [aspen-document-driven-flowsheet](../../aspen-document-driven-flowsheet/SKILL.md) | 从文档建流程、严化与接回 | 当前来源与阶段 → 同版模型、阶段证据和未闭合项 | 需要分段/塔/热泵时转相应模块，操作由 operations 实施 |
-| [aspen-two-section-flowsheet](../../aspen-two-section-flowsheet/SKILL.md) | 划分工程段与跨段接口 | 当前连接与段职责 → 段合同、跨段物流与连接证据 | 已处在文档流程内则交回该流程；不按位号相邻强行分段 |
+| [aspen-two-section-flowsheet](../../aspen-two-section-flowsheet/SKILL.md) | 划分工程段，审查气液交接、溶剂返回与跨段职责 | 当前连接与段职责 → 段合同、跨段物流、未定分支与连接证据 | 只有总流量时不默认分相位置；已处在文档流程内则交回该流程 |
 
 ## 软件动作与同案修复
 
@@ -41,7 +41,7 @@
 | 主导入口 | 何时进入 | 接收 → 交回 | 按需协作与边界 |
 |---|---|---|---|
 | [aspen-tower-optimization-workflow](../../aspen-tower-optimization-workflow/SKILL.md) | 塔分离方案、严格模型与工况优化 | 来源冻结的分离义务和边界 → 同产品比较、塔岛与接回结果 | 塔径/内件交 chemical-tower-design；热泵替换转专用模块 |
-| [aspen-heat-pump-distillation-replacement](../../aspen-heat-pump-distillation-replacement/SKILL.md) | 空塔/VRC/MVR热泵替换 | 原塔边界和允许改造 → 热泵岛、外置换热及接回证据 | 需要真实 EDR 时调用 edr-rating；普通塔尺寸不进入此分支 |
+| [aspen-heat-pump-distillation-replacement](../../aspen-heat-pump-distillation-replacement/SKILL.md) | 空塔/VRC/MVR替换，或只审塔改造节能与新增电耗 | 原塔边界或改造表 → 同基准收益、设备状态缺口；获准实施时再交热泵岛与接回证据 | 先识别新增耗电设备；审查分支不要求建模，真实 EDR 调 edr-rating |
 | [aspen-adaptive-generalization-loop](../../aspen-adaptive-generalization-loop/SKILL.md) | 跨进料模板适应与规律验证 | 代表工况、同基准控制与范围 → 受检规则和批量证据 | 求解工具先走统一 solve_route；任务内试算不自动晋级共享经验 |
 | [chemical-tower-design](../../chemical-tower-design/SKILL.md) | 塔尺寸、内件与水力学设计 | 当前塔负荷、物性和结构依据 → 尺寸/水力学、图纸或机械交接 | 需改分离工况时交回流程/塔优化；SW6仅在明确请求时进入 |
 

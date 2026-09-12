@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STARTER_REFS = ROOT / "references"
 ASSET_SCRIPTS = ROOT / "assets" / "project-skill-template"
 sys.path.insert(0, str(ASSET_SCRIPTS))
-from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage  # noqa: E402
+from cost_evidence_guard import EXCLUDED_SCOPES, audit_sources, audit_procurement, audit_equipment_coverage, audit_input_contract  # noqa: E402
 INIT_SKILL = Path.home() / ".codex" / "skills" / ".system" / "skill-creator" / "scripts" / "init_skill.py"
 
 
@@ -194,6 +194,14 @@ def main() -> int:
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name) or len(name) > 64:
         raise SystemExit("skill-name must be lowercase hyphen-case and at most 64 characters")
 
+    input_issues = audit_input_contract(read_csv(inventory / "equipment_inventory.csv"),
+                                        read_csv(inventory / "equipment_method_assignment.csv"))
+    if input_issues:
+        print(json.dumps({"status": "invalid_input_contract", "input_contract_status": "fail",
+                          "issues": input_issues, "outputs_created": False, "costs_calculated": False},
+                         ensure_ascii=False, indent=2))
+        return 1
+
     source_ledger = inventory / "source_evidence_ledger.csv"
     if not source_ledger.exists() and data_dir is not None:
         source_ledger = data_dir / "source-catalog.csv"
@@ -338,6 +346,7 @@ def main() -> int:
         "skill_dir": str(target),
         "inventory_ready": ready,
         "draft_only": args.draft_only,
+        "input_contract_status": "pass",
         "costs_calculated": False,
         "missing_data": missing_data,
         "external_data_dir": str(data_dir),

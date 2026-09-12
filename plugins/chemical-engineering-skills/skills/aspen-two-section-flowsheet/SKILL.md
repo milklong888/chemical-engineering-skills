@@ -1,6 +1,6 @@
 ---
 name: aspen-two-section-flowsheet
-description: "Coordinate two-section or sectioned Aspen Plus process-boundary work from source documents: split over-connected drafts into defensible engineering sections, define section contracts, validate cross-section streams, and route low-level create/set/run/export operations through aspen-plus-operations. Load the PX/styrene/syngas/ethylbenzene case reference only when that exact historical family matches."
+description: "Review section boundaries, gas/liquid handoffs, solvent returns and equipment ownership from text or Aspen flowsheets. Define section contracts, validate cross-section streams and coordinate sectioned construction through aspen-plus-operations. Keep phase-split placement unresolved until current interfaces and receiving duties are known; historical case references require an exact family match."
 ---
 
 # Aspen Two-Section Flowsheet
@@ -97,6 +97,20 @@ temperature, pressure, phase expectation, quality target, recycle or product
 destination, and whether the stream is a real internal recycle, a temporary
 boundary, or a scaffold seed.
 
+For a boundary review without a model, return these alternatives explicitly:
+
+| Current evidence | Boundary decision |
+| --- | --- |
+| Gas delivery and liquid return are already separate interfaces | Verify their individual states, composition and equipment ownership; do not invent another shared two-phase pipe or separator. |
+| A common two-phase line is evidenced and the receiver can accept its full operating envelope | Evaluate common transfer against phase equilibrium, pressure drop, holdup, controls and both phases' actual destinations. |
+| A receiver requires dry gas or a liquid-only feed | Identify where existing equipment already meets that requirement; compare an added split only if a real unmet duty remains. |
+| Interface arrangement, receiving duty or phase states are unknown | Keep common transfer, separate transfer and separation placement unresolved; identify the missing discriminator for each option. |
+
+Different gas/liquid destinations require separate accounting, but do not by
+themselves locate a new separator at the section boundary. The opening conclusion,
+decision table and closing recommendation must retain the same unresolved branch;
+do not announce a default placement and qualify it only afterward.
+
 ## Workflow
 
 1. Inspect existing files before changing anything.
@@ -155,8 +169,10 @@ A sectioned Aspen deliverable is not acceptable until:
 - Every separated case or retained island has `.bkp` and `.apwz` evidence when
   Aspen archive delivery is required.
 - Every promoted case reopens from `.bkp` and exports current `.inp` evidence.
-- The accepted run returns and the latest block/calculator/spec statuses are
-  clean or explicitly quarantined.
+- The accepted run returns and the latest block/calculator/spec statuses in
+  the authorized delivery scope are clean under the existing strict operation
+  gates. Quarantined diagnostics remain unaccepted audit records; quarantine
+  does not remove a required section or device from the promised coverage.
 - Cross-section stream contracts match exported stream results.
 - External makeup boundaries, purge/treatment streams, and recycle returns are
   explicit.

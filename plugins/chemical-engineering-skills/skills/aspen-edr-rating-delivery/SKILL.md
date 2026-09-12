@@ -83,15 +83,27 @@ inspect the accepted case and inventory every exchanger-like block in that scope
 
 ### 2. Classify The Starting State
 
-Use decisive states:
+Classify from current same-equipment evidence. Use `unverified` when a required
+identity, execution, result, or binding check has not been observed. Retain the
+known facts and list unknown fields and their next checks separately. An unknown
+gate is not an observed failure and cannot pass acceptance.
 
-- `shortcut`: process calculation only;
-- `detailed_non_edr`: geometry/detail calculation without proven TASC EDR;
-- `edr_file_unaccepted`: `.EDR` exists but message/result gates fail;
-- `edr_unbound`: accepted `.EDR` not proven in Aspen after reopen;
-- `edr_bound_diagnostic`: EDR executes but engineering/process/delivery gates fail;
+- `unverified`: evidence is insufficient to determine the relevant EDR state;
+- `shortcut`: current same-case cards/results confirm process-only shortcut calculation;
+- `detailed_non_edr`: current same-case cards, settings, and relevant file/binding
+  records confirm a detailed calculation that does not use EDR;
+- `edr_file_unaccepted`: an identified same-equipment `.EDR` has observed
+  message/result gate failures;
+- `edr_unbound`: the `.EDR` has passed its required checks, and current Aspen
+  binding inspection or reopen readback demonstrates a missing or lost binding;
+- `edr_bound_diagnostic`: EDR execution and binding are evidenced, with observed
+  engineering/process/delivery gate failures;
 - `edr_accepted_for_simulation`: EDR and exact Aspen delivery gates pass;
 - `vendor_mechanical_open`: thermal rating accepted but SW6/vendor work remains.
+
+An accepted standalone `.EDR` without Aspen binding/reopen evidence remains
+`unverified` for that binding state; preserve the accepted standalone scope and
+name the missing check. Do not label an unperformed check `edr_unbound` or failed.
 
 Never call `DETAILED`, a path string, `Run2=0`, or clean Control Panel evidence
 "EDR complete" without EDR execution and result readback.
