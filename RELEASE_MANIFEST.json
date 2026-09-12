@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "0ed245f199f3a0bc2420c62584bfb05cdf7cc8028bf3b610c4078dc863225ed6",
-      "bytes": 11322
+      "sha256": "a3b30de542b8402af69a6ee056da0f5886b0a30ecb6cf850b13e5384ac62a8f5",
+      "bytes": 6884
     },
     {
       "path": "backends/equipment/README.md",
@@ -1055,8 +1055,8 @@
     },
     {
       "path": "docs/模块说明.md",
-      "sha256": "e5e5c3176bf93fbba05ec2b6746adc0cc6da8b58b98e8b399aee1edaa0264b0f",
-      "bytes": 45081
+      "sha256": "ab9627b385718842b19512818518320412a4ffaae813fc37f8b26743440788ed",
+      "bytes": 45023
     },
     {
       "path": "docs/源码与数据边界.md",
