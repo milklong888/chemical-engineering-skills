@@ -15,6 +15,8 @@ description: "Review section boundaries, gas/liquid handoffs, solvent returns an
 
 新拟工段边界、职责或跨段合同本身就是方法与范围决定，先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)执行 `source` 知识准备；没有图纸或模型时仍查询当前问题，工况缺口明确保留。仅复述或核对已有合同的文件身份不新增阶段事件。随后按合同逐段建立或修复模型，专业问题交塔、动力学或热泵模块，具体操作交操作模块；工况形成及接回后执行相应阶段检查。只有局部结果与跨段物流都成立，才逐段接回，最终返回合同、同版物流和证据，不把临时边界进料描述成已闭合的内部循环。
 
+任务只要求团队职责和工段交接合同时，按下方 `Section Contract` 模板交付可审阅文本，并保留本次 `source` 查询结果。逐项核对入口、出口、循环归属、接手条件和返回义务即可；不要把职责合同转换成流程拓扑，或仅为填写检查器而创造节点和物流。只有任务实际交付或审查节点—物流骨架时，才使用文档流程模块的边界结构检查；此时未知连接仍按其规则显式保留。
+
 ## Network Position
 
 Upstream authority is `aspen-document-driven-flowsheet` plus the current

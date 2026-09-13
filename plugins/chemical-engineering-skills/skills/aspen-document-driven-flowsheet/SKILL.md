@@ -11,7 +11,7 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 
 图谱在选择方法和处理未知问题时介入，设备程序在骨架有负荷、岛内工况确定及接回后分别复核，执行[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。若设备限制要求改工况或结构，先更新项目决定，再交操作模块修改和重算。最终交付的是同一版本的模型、来源和修改记录、全流程结果及真实验收证据；简化骨架和单岛收敛不冒充最终全流程。
 
-交付 `source` 或 `scaffold` 安排时，现在就完成[边界与严化交接记录](references/source_scaffold_handoff.md)及其结构检查。每个简化占位要有接手专业（未定时写选择条件）、必要输入和必须返回的结果；循环既列返回端，也列来源端，未知端点明确保留。只做安排、尚不能运行模型时仍交这些内容，不能以“以后严化”或“另行立项”代替当前交接。阶段查询回执不代替这份安排记录。
+交付含节点、物流或简化占位的 `source` / `scaffold` 流程安排时，现在就完成[边界与严化交接记录](references/source_scaffold_handoff.md)及其结构检查。每个简化占位要有接手专业（未定时写选择条件）、必要输入和必须返回的结果；循环既列返回端，也列来源端，未知端点明确保留。只做这类流程安排、尚不能运行模型时仍交这些内容，不能以“以后严化”或“另行立项”代替当前交接。阶段查询回执不代替这份安排记录。仅交团队职责和工段合同而未交付节点—物流拓扑时，使用[工段合同模板](../aspen-two-section-flowsheet/SKILL.md#section-contract)和适用的阶段查询，不为满足拓扑检查器另造一张流程图。
 
 ## Authority First
 
@@ -93,7 +93,7 @@ verified results, unresolved/relaxed gates and the next scoped action. Keep
 operation completion, local repair, simulation cleanliness, products and final
 delivery separate. Report only relevant artifacts actually produced.
 
-For source/scaffold arrangements, deliver the current handoff defined in
+For source/scaffold topology arrangements, deliver the current handoff defined in
 工作过程 and its linked record. Use its checked control-volume rows for the
 displayed balances and sketches, retaining reaction terms. The check verifies
 declared structure, not source truth, numerical closure or Aspen execution.

@@ -7,9 +7,11 @@ description: Optimize and reconnect a source-frozen Aspen distillation or solven
 
 ## 工作过程
 
+为当前塔岛制定约束求解或操作点比较方案时，先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际执行 `island` 知识准备，并与本次 `solve_route` 回执一起核对。准备方案也需要完成已有资料支持的查询；缺模型只限制依赖模型的计算，具体缺口写入结果。独立求解路由和读取规则都不能代替岛阶段调用。单纯解释优化原理、不涉及当前塔岛方案的问答不因此扩成工程任务。
+
 先固定当前塔的进料、物性、产品纯度、产量和回收要求，判断指定的快捷方法是否适用；适用时用DSTWU给严谨塔初始化，不适用时说明原因并按获准方法建立基准。基准稳定后，复用同版有效响应区间，未知时先做有边界的敏感性分析。按实际目标确定直接约束或有独立操纵量的在线Design Spec，再比较不同操作点的热量、回流和设备负荷。
 
-每个候选都必须在同一产品基准下比较。流量、级数、温压或负荷变化时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)调用知识与设备检查，再交塔设计模块核对水力学；有真实能力限制才评估并联等方案。合格塔岛逐个接回全流程，并用新的入口和循环重新验证，不能把岛内最优点直接当整厂最优。
+每个候选都必须在同一产品基准下比较。流量、级数、温压或负荷变化时，按上述阶段调用规则调用知识与设备检查，再交塔设计模块核对水力学；有真实能力限制才评估并联等方案。合格塔岛逐个接回全流程，并用新的入口和循环重新验证，不能把岛内最优点直接当整厂最优。
 
 ## Authority First
 
@@ -34,9 +36,7 @@ rigorous route. Do not silently substitute a different required method.
 
 调回流、采出、溶剂、压力或热负荷前，按
 [内置工具规则](../aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)
-完成工具分类，并按[阶段规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)
-实际执行 `island` 检查；准备求解与比较基准时也要完成现有资料支持的查询，
-不以独立 `solve_route` 回执替代岛阶段。找指定指标用 live SPEC/VARY；看未知响应先 Sensitivity，
+完成工具分类和工作过程要求的实际岛阶段检查。找指定指标用 live SPEC/VARY；看未知响应先 Sensitivity，
 已有同版有效区间可复用；多个连续变量在产品约束下寻优先评估原生 Optimization。
 板数、进料板等离散变量分开编排，每个候选内重解质量控制，不固定旧内层操纵值。
 

@@ -1,6 +1,9 @@
 # Source/scaffold boundary and rigorous handoff
 
-Use this record when delivering a document-driven source or scaffold arrangement.
+Use this record when delivering a document-driven source or scaffold arrangement
+of process nodes, streams or simplified placeholders. A team responsibility or
+section contract alone uses the two-section Skill's Section Contract template
+and applicable stage query; do not invent a topology merely to populate this record.
 An individual principle lookup, title/table audit or a stage-routing receipt alone
 does not create this deliverable or enlarge the task into a whole flowsheet.
 Copy [the blank input](../assets/source_scaffold_handoff.json) into the current

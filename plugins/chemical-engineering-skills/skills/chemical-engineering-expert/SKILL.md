@@ -13,6 +13,8 @@ description: Review chemical-engineering tasks from design basis and macro feasi
 
 设备结果如果暴露能力限制，就返回工艺层比较有依据的修改，再由专业模块实施和复算。最后把局部计算、软件运行、产品达标和工程交付分别核验；阶段查询不授权修改模型，也不要求重建整厂。
 
+交回文件前，从本次实际写入或读取位置解析绝对路径，逐个确认链接目标存在；工作区目录层级不能凭记忆拼接。文件内容完成与用户能通过链接打开它，分别核对。
+
 Act as the process-design and evidence-governance layer above the existing
 Aspen, equipment, document, and calculation skills. Do not replace those
 skills or duplicate their card-level knowledge.
@@ -29,14 +31,14 @@ skills or duplicate their card-level knowledge.
 |---|---|
 | 不确定任务范围、下一步或失败分支 | [决策树](references/TASK_DECISION_TREES.md)中的相关一棵；未知证据先走区分查询 |
 | 多助手分工、前后依赖或同一文件的修改与合并责任 | [协作与接纳规则](../subagent-dispatch/SKILL.md)，先确定依赖、写入范围和主助手最终整合责任；仅规划分工不要求立即启动子助手 |
-| 路线、流程安排、可行性或优化 | [宏观设计质量](references/MACRO_DESIGN_QUALITY.md)，先于单元细节 |
+| 路线、流程安排、可行性或优化 | [宏观设计质量](references/MACRO_DESIGN_QUALITY.md)，先于单元细节；余热回收同时核温位、各侧流动压降及允许损失/上下游压力预算，两侧静压差不能替代流动损失 |
 | 塔改造的节能/新增电耗比较，包括只审标题 | [热泵与改造审查入口](../aspen-heat-pump-distillation-replacement/SKILL.md#trigger-contract)，先识别耗电设备，使用其中的审查分支 |
 | 工段间气液交接、溶剂返回或设备归属未定 | [工段边界入口](../aspen-two-section-flowsheet/SKILL.md)，依据实际接口保留未定分支，不能从缺资料直接决定新增分相位置 |
 | 模拟块如何对应实物、采购项或费用，是否会重复计价 | [设备费用映射入口](../aspen-flowsheet-cost-skill-builder/SKILL.md)，先用其映射审查分支；文字清单也适用，不以已有模型或费用数字为前提 |
 | 查询专业依据 | 工作区链接图与[检索边界](references/VECTOR_KNOWLEDGE_BASE_DESIGN.md)，先范围/权威再相似度；跨电脑常识资料见[常识检索](references/COMMON_SENSE_RAG.md) |
 | 构建流程、拟修改工况/模块，或解释已发生变化后的异常 | source/scaffold/island/reconnect/change/delivery 按[阶段规则](references/DESIGN_STAGE_ROUTING.md)实际调用并保留当前回执；设备反馈按[工艺—设备反馈](references/PROCESS_EQUIPMENT_FEEDBACK.md)继续 |
 | 查值、联动关系、目标匹配、响应分析或调参 | 下方 Native analysis and control trigger；先明确固定量和联动量 |
-| 文件或说明改变、重新打包、旧验证能否覆盖新交付 | 先读[文件范围与证据复用](references/STRICT_ACCEPTANCE_AND_LEARNING.md#文件范围与证据复用)，逐资产判断；有当前验收问题不能只转经验收件规则 |
+| 文件或说明改变、重新打包、旧验证能否覆盖新交付 | 先读[文件范围与证据复用](references/STRICT_ACCEPTANCE_AND_LEARNING.md#文件范围与证据复用)，逐资产判断；新输出还须对照独立的量定义、任务要求或原始依据，不能因记录需更新就接受错误结果；有当前验收问题不能只转经验收件规则 |
 | 验收、例外、纠正、学习或晋级 | [严格验收与学习](references/STRICT_ACCEPTANCE_AND_LEARNING.md)和下方 Corrections and learning |
 | 新近知识或原图谱确有缺口 | 相关模块的 NEW_KNOWLEDGE.md；本层入口为[新知识](references/NEW_KNOWLEDGE.md)，候选状态不自动成为事实 |
 | 授权的 Skill 更新、研究或执行记录比较 | [维护工具](references/MAINTENANCE_TOOLS.md)；不要求普通流程任务做全库盘点 |
@@ -155,8 +157,7 @@ missing permission or source blocks its dependent action, not independent review
 Preserve the actual reason for a failed call. An invalid argument or request is
 not evidence of a missing model or software dependency; resolve a supported
 request correction or report that interface error separately from real data gaps.
-Use the actual resolved output path for each delivered file link and check that
-the target exists; do not reconstruct a path from a remembered workspace name.
+Resolve and verify delivered file links in the final workflow step above.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 

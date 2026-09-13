@@ -122,6 +122,13 @@ acceptance claim; it does not prevent unrelated calculations or bounded work.
 - Heat moves from an available source to a sink through a feasible temperature
   approach; pressure increases require a pump/compressor and pressure losses or
   letdown have a physical path.
+- For heat-recovery alternatives, compare each side's flow pressure loss with
+  its allowed loss or upstream/downstream pressure budget, alongside temperature
+  feasibility and the proposed heat-transfer duty. If these are unknown, name
+  the missing limits and required evidence; do not assign example allowances.
+  Static pressure difference between the two sides addresses a different issue
+  and cannot stand in for either side's flow pressure-loss check. A concept
+  review may retain these gaps without choosing equipment or running a model.
 - Utility temperature/pressure/quality is no higher than needed after feasible
   process heat recovery and upgrading have been assessed.
 - Compression, refrigeration, vacuum, heat pumping, and phase change include
