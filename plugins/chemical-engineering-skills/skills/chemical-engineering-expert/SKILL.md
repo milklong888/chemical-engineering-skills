@@ -147,6 +147,16 @@ intended comparison; then follow the returned decision chain and relevant
 method even when no tool name is used. Fixed-control response is not automatically
 same-product optimization. Keep details in that owner, not a second solver here.
 
+工具路由与专业阶段是两个需要衔接的入口。用户基于当前塔、反应器或其他岛的
+已有条件询问“下一步怎么调、怎样保持指标或比较操作点”时，仍是在制定当前
+岛的求解方案；即使只交方案、不启动商业软件，也应先按[阶段规则](references/DESIGN_STAGE_ROUTING.md)
+实际完成 `island` 的知识准备。塔任务同时进入[塔优化工作流](../aspen-tower-optimization-workflow/SKILL.md)。
+不能读完工具选择规则并保存 `solve_route` 后就结束。已有同一任务、同一条件的
+阶段回执可核对复用；尚无回执时从运行库 `tools/expert_cli.py --schema design-stage`
+取得字段，用实际问题执行阶段请求，再读取并采用适用知识。缺模型保留为相关
+计算缺口，不阻止只有 `stage` 与 `question` 的本地知识准备。纯工具名称比较、
+原理解释、既有结果读值和一次换算不因此扩成当前岛设计。
+
 ## Output contract
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations

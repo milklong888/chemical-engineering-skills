@@ -1010,8 +1010,8 @@
     },
     {
       "path": "docs/Agent任务执行与经验整理修复_0.4.7.md",
-      "sha256": "9b7f155635c6e275964ac5e12b82cab2d0430046734fa7442bd052a4e833226c",
-      "bytes": 10767
+      "sha256": "5f443fb3ec2f013c960a167768d81f34f790c38300fa2c8f119ad88911e7f4d9",
+      "bytes": 11231
     },
     {
       "path": "docs/Agent工作流更新_2026-09-12.md",
@@ -2715,8 +2715,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md",
-      "sha256": "4d9725af33c23bddef976d9607041cbe9d3540a32e4ae281f1c324214476fde6",
-      "bytes": 32612
+      "sha256": "01d06a18d368acba99b82fff6ed8902217cc0bfb2eeeacb71d9e1edbcc01d391",
+      "bytes": 34198
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/aspen_convergence_trials.md",
@@ -3475,8 +3475,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md",
-      "sha256": "101aed81ad82f745c05f2fa40c782345b70a920681561a23ec91aaa73a84d7fe",
-      "bytes": 15910
+      "sha256": "27733f6cee14480b1923c62f73e92c5f29528c3fb04382424503e5d193dca02a",
+      "bytes": 16892
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/agents/openai.yaml",
@@ -4170,8 +4170,8 @@
     },
     {
       "path": "tests/test_aspen_tool_router.py",
-      "sha256": "674114df567848e5da69cf5cfca94f1a2a96cdb6104e37cab51b3178e9b878e5",
-      "bytes": 28010
+      "sha256": "0a9d27f8348784ff232cf7e5e6140551ee7dd92994afeee01700e729733192d1",
+      "bytes": 33189
     },
     {
       "path": "tests/test_design_stage.py",
@@ -4270,8 +4270,8 @@
     },
     {
       "path": "tools/aspen_tool_router.py",
-      "sha256": "3e578a3c593d0a1f105fb2ba55c127ae036f7a8d058e7669d32c22bfc237457a",
-      "bytes": 24291
+      "sha256": "3339f90dea47ba7b17fc4d102155ddc8a059f4ba450ba320becd5af1c82dc382",
+      "bytes": 26119
     },
     {
       "path": "tools/build_release.py",

@@ -144,6 +144,71 @@ class AspenToolRouterTests(unittest.TestCase):
         self.assertFalse(study["decision_chain"]["feedback_events_evaluated"])
         self.assertEqual(self.route("read_value")["decision_chain"]["feedback_triggers"], [])
 
+    def test_classified_studies_handoff_to_stage_owner_before_method_execution(self):
+        owner = "chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md"
+        for intent in ("scan_range", "match_target", "optimize", "discrete_scenarios"):
+            with self.subTest(intent=intent):
+                values = {"objective": {"definition": "synthetic study objective", "direction": "minimize"}} if intent == "optimize" else {}
+                result = self.route(intent, **values)
+                self.assertTrue(result["classification"]["routing_ready"])
+                needs = [n for n in result["needs"] if n["code"] == "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED"]
+                self.assertEqual(len(needs), 1)
+                self.assertEqual(needs[0]["owner"], owner)
+                ids = [x["id"] for x in result["decision_chain"]["steps"]]
+                self.assertLess(ids.index("resolve_applicable_stage_and_use_knowledge"), ids.index("define_comparison_basis"))
+                self.assertLess(ids.index("resolve_applicable_stage_and_use_knowledge"), ids.index("verify_native_definition_and_current_execution"))
+                references = [r for r in result["required_reading"] if r["logical_path"] == owner]
+                self.assertEqual(len(references), 1)
+                self.assertTrue(Path(references[0]["path"]).is_file())
+                self.assertEqual(references[0]["sha256"], hashlib.sha256(Path(references[0]["path"]).read_bytes()).hexdigest())
+
+    def test_non_study_tasks_do_not_gain_a_stage_query_obligation(self):
+        for intent in ("read_value", "derive_once", "live_relation", "fit_data", "diagnose"):
+            with self.subTest(intent=intent):
+                result = self.route(intent)
+                self.assertFalse(any(n["code"] == "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED" for n in result["needs"]))
+                self.assertNotIn("resolve_applicable_stage_and_use_knowledge", [s["id"] for s in result["decision_chain"]["steps"]])
+                self.assertFalse(any(r["logical_path"].endswith("DESIGN_STAGE_ROUTING.md") for r in result["required_reading"]))
+
+    def test_ambiguous_study_hints_cannot_issue_stage_execution_handoff(self):
+        for result in (self.route("optimize"), self.route("read_value", question="读取结果，不扫描"),
+                       solve_route({"question": "工具名称是什么"}, self.root)):
+            with self.subTest(pending=result["pending_route_intents"]):
+                self.assertEqual(result["status"], "AGENT_CLASSIFICATION_REQUIRED")
+                self.assertEqual(result["routes"], [])
+                self.assertFalse(any(n["code"] == "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED" for n in result["needs"]))
+                self.assertNotIn("resolve_applicable_stage_and_use_knowledge", [s["id"] for s in result["decision_chain"]["steps"]])
+                self.assertFalse(any(r["logical_path"].endswith("DESIGN_STAGE_ROUTING.md") for r in result["required_reading"]))
+
+    def test_study_word_in_principle_question_keeps_scope_and_reuse_conditional(self):
+        result = solve_route({"question": "Sensitivity 的名称与原理说明"}, self.root)
+        self.assertIn("scan_range", result["classification"]["intents"])
+        need = next(n for n in result["needs"] if n["code"] == "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED")
+        self.assertEqual(need["scope_decision"], "AGENT_REVIEW_REQUIRED")
+        self.assertIn("tool-name explanation", need["not_required_for"])
+        self.assertIn("principle-only explanation", need["not_required_for"])
+        self.assertIn("existing-result readback", need["not_required_for"])
+        self.assertIn("same current source, conditions and task scope", need["reuse_condition"])
+        self.assertNotIn("stage", need)
+        self.assertEqual(need["execution_status"], "NOT_EXECUTED_BY_ROUTER")
+        self.assertFalse(need["knowledge_results_used"])
+        self.assertFalse(result["stage_advanced"])
+
+    def test_study_handoff_does_not_call_stage_or_equipment_from_router(self):
+        with (mock.patch("tools.design_stage.check_stage", side_effect=AssertionError("Stage must remain agent work")) as stage,
+              mock.patch.object(expert_cli, "search", side_effect=AssertionError("Router must not query knowledge")) as search,
+              mock.patch.object(expert_cli, "EquipmentSession", side_effect=AssertionError("Unexpected equipment session"))):
+            result = expert_cli.execute({"operation": "solve_route", "payload": {
+                "question": "Synthetic process study preparation", "intents": ["scan_range"]}}, self.root,
+                equipment_runner=mock.Mock(side_effect=AssertionError("Unexpected equipment call")))
+        stage.assert_not_called()
+        search.assert_not_called()
+        self.assertTrue(any(n["code"] == "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED" for n in result["needs"]))
+        self.assertFalse(result["engineering_accepted"])
+        self.assertFalse(result["native_tools_executed"])
+        self.assertFalse(result["flowsheet_modified"])
+        self.assertFalse(result["external_request"]["execution_authorized"])
+
     def test_stage_passes_study_context_without_replacing_identity_or_equipment(self):
         fixture = stage_fixtures.DesignStageTests()
         fixture.setUp()

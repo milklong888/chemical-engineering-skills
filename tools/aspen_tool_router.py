@@ -18,6 +18,7 @@ OBJECTIVE_DIRECTIONS = ("minimize", "maximize")
 STUDY_MODES = ("unspecified", "fixed_controls", "same_targets")
 STUDY_LISTS = ("varied_variables", "fixed_conditions", "maintained_targets", "inner_controls")
 STUDY_INTENTS = {"scan_range", "match_target", "optimize", "discrete_scenarios"}
+STAGE_REFERENCE = "chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md"
 REFERENCES = (
     "aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md",
     "aspen-plus-operations/references/operation_graph.md",
@@ -141,6 +142,16 @@ def study_contract(value, intents):
         "boundary": "Declared names are not a degree-of-freedom, unit, control, or same-case proof. Empty inner controls may be justified by naturally satisfied targets; never invent a controller to fill a field."}
 
 
+def study_stage_handoff():
+    """Conditional agent work, never a selected stage or an automatic call."""
+    return {"owner": STAGE_REFERENCE, "scope_decision": "AGENT_REVIEW_REQUIRED",
+        "applies_to": "Current process/section study or its preparation, within the actual authorized task",
+        "not_required_for": ["tool-name explanation", "principle-only explanation", "existing-result readback", "one-off arithmetic without process study"],
+        "reuse_condition": "An existing applicable stage receipt has the same current source, conditions and task scope; read and use its relevant results",
+        "action": "先读取阶段归属说明，按当前实际任务范围确认是否需要 source/island/change 等适用阶段；为当前流程或工段准备研究方案也须完成已有资料支持的阶段调用，读取相关知识命中并用于方案。已有同来源、同条件、同范围且仍适用的回执先复用；仅工具名称、原理解释、已有结果读值或无流程研究的一次算数不因此扩大检查。阶段由助手依据当前任务判断，路由不猜阶段；缺商业模型不妨碍获准的只读知识准备。",
+        "execution_status": "NOT_EXECUTED_BY_ROUTER", "knowledge_results_used": False}
+
+
 def decision_chain(intents, study):
     """Observable next-action guidance, not hidden reasoning or an executed plan."""
     selected = set(intents)
@@ -155,6 +166,7 @@ def decision_chain(intents, study):
             steps.append({"id": "classify_failure_before_interface_probe", "action": "先依据当前报错分清物理/输入/控制关系与接口问题；识别变量影响谁、由谁维持指标，再针对性查映射、单位和卡片，不盲扫掩盖根因。"})
         if selected & STUDY_INTENTS:
             steps.extend([
+                {"id": "resolve_applicable_stage_and_use_knowledge", **study_stage_handoff()},
                 {"id": "define_comparison_basis", "action": "确认研究条件：fixed_controls保持约定操作设置看响应，不强开内层控制；same_targets按约定目标逐点重解必要的授权控制，或核实目标自然满足。不能算前者却宣称后者最优。", "policy": study["inner_control_policy"]},
                 {"id": "derive_seed_or_reuse_valid_bracket", "action": "用当前可行基准、守恒/代数关系给初值；有未失效的同案区间就复用，未知响应才有界稀疏扫描。初值不是永久固定规格。"},
                 {"id": "map_controls_and_degrees_of_freedom", "action": "分清研究变量、保持条件、目标和授权操纵量；检查目标—操纵量配对、自由度和唯一主写入者。接口字段检查实现这个关系，不能替代它。"},
@@ -179,12 +191,14 @@ def decision_chain(intents, study):
             "execution_proven": False, "feedback_events_evaluated": False}
 
 
-def reference_inventory(intents):
+def reference_inventory(intents, *, include_stage=False):
     from tools.product_contract import skill_location
     location = skill_location()
     root = Path(location["path"]).parent.parent if location.get("available") else None
     result = []
     selected = REFERENCES[:2] if set(intents) <= {"read_value", "derive_once"} else REFERENCES
+    if include_stage:
+        selected = (*selected, STAGE_REFERENCE)
     for relative in selected:
         path = root / relative if root else None
         available = bool(path and path.is_file())
@@ -252,9 +266,13 @@ def solve_route(payload, evidence_root):
     # agent can inspect and resolve the conflict without hiding the first receipt.
     routed_intents = [] if classification_required else intents
     plans = [{"intent": intent, **ROUTES[intent], "execution_status": "NOT_EXECUTED_BY_ROUTER"} for intent in routed_intents]
+    study_stage_required = bool(set(routed_intents) & STUDY_INTENTS)
+    if study_stage_required:
+        handoff = study_stage_handoff()
+        needs.append({"code": "APPLICABLE_STAGE_KNOWLEDGE_REVIEW_REQUIRED", **handoff, "detail": handoff["action"]})
     for plan in plans:
         needs.append({"code": "DOMAIN_TOOL_ACTION_REQUIRED", "intent": plan["intent"], "detail": plan["purpose"]})
-    refs = reference_inventory(intents)
+    refs = reference_inventory(intents, include_stage=study_stage_required)
     for item in refs:
         if not item["available"]:
             needs.append({"code": "DOMAIN_REFERENCE_UNAVAILABLE", "detail": item["logical_path"]})
