@@ -1,0 +1,44 @@
+{
+  "applicability": [
+    "适用于相平衡显示共沸类型随压力转换的特殊二元体系；路线、循环、压力补偿和热集成需用该物系的相平衡及全流程动态扰动验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-B4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH10A-PSD-01",
+    "CH10A-PSD-02",
+    "CH10A-PSD-04",
+    "PressureControllerRule",
+    "DistillationTemperatureControl",
+    "DynamicDisturbanceTest",
+    "RatioCascadeRule"
+  ],
+  "text": "对于某些二元体系，共沸类型随压力区间改变：低压区可能呈最低沸点共沸，高压区变为最高沸点共沸，或发生反向转换，所以变压精馏不能只按常规最低/最高沸点的单一路线选择。应先核对各候选压力的 T–x–y 或其他相平衡结果，识别共沸组成、类型和可分离方向，再决定两塔的压力与物流顺序；跨越类型转换时，产品抽出位置、循环方向和压力控制对象都要重新定义。\n\n这种“非常规”变压精馏通常把高压塔/低压塔连接成与常规方案不同的循环，控制上除塔压、液位、回流和热负荷外，可能需要以高压侧循环或底部流量作级联内环，并用压力补偿温度或组成回路保持质量。部分热集成相对无热集成可能节省热负荷或设备，但同时引入热/压力耦合；换热匹配约束会限制可独立操纵的热负荷，压力扰动则沿耦合路径跨塔传播，必须在动态扰动下核对两产品，而不能只看稳态收敛。\n\n书中比较表明，非常规路线在所研究案例中控制性更好但 TAC 不一定更低；该案例中的经济收益取决于选定压力范围内的共沸组成响应以及循环物流和热负荷的变化。动态优势也有方向性，所比较的扰动中存在例外，不能宣称对所有流量或组成扰动都更优。",
+  "title": "共沸类型随压力转换时的非常规变压精馏",
+  "units_basis": "定性方法；不提供可迁移的压力、TAC、IAE或控制器数值。",
+  "text_sha256": "7acd0b2593280b5a877da5ed8550e86f8f0fe966a413a637ec50b424b09cbb99",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-B4.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页188–189、191、194–205（印刷页177–178、180、183–194；最低/最高沸点转换图与路线定义见188–189，比较结论见204–205）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

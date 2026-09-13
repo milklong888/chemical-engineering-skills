@@ -16,3 +16,16 @@ python knowledge/scripts/query_knowledge.py --query "固定床 孔内扩散 热�
 节点位于 [RE01 知识块目录](../chemical_principles/knowledge_graph/source_records/RE01/)，采纳范围见 [RE01 来源记录](../source_adoptions/RE01.json)。原有记录没有被重写或替换。
 
 来源采用编号 `RE01`、原文件 SHA256 和每块 PDF 物理页锚追溯；完整文件身份保留在私有来源台账，原件不随包。这里公开的是新写的通用知识释义，不包含整页文字或例题数据，也不转授源材料权利。
+
+## OC02：精馏动态控制与特殊分离
+
+本批新增 13 个完整知识块，覆盖动态精馏的质量变量、温度代理、压力补偿、库存回路、串级/比值/前馈和稳态到动态的物理闭合，并延伸到萃取、变压、共沸与隔壁塔的可行性判断，以及热集成控制耦合、CO2 吸收—解吸循环负荷补偿、带中间罐的批式精馏和含反应/分离/回收的全流程案例。使用时可按“物系可分离性—流程拓扑—控制结构—流量/组成扰动”的问题顺序定位主题；这些内容提供章级方法与筛选条件，不把案例参数当默认设计值。
+
+可直接查询：
+
+```text
+python knowledge/scripts/query_knowledge.py --query "动态精馏 温度代理 压力补偿 串级 扰动验证" --json
+python knowledge/scripts/query_knowledge.py --query "中间罐 间歇精馏 库存" --vector --json
+```
+
+[OC02 知识块目录](../chemical_principles/knowledge_graph/source_records/OC02/) · [OC02 来源采纳记录](../source_adoptions/OC02.json)

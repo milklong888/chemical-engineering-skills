@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于精馏质量控制的串级、流量/热负荷比值和可测进料扰动前馈方案；未测扰动、强非线性或严重耦合时仍需反馈和动态复验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-A3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "RatioCascadeRule",
+    "ControlSignalConnection",
+    "PIDIncrController",
+    "DynamicDisturbanceTest"
+  ],
+  "text": "当直接组成回路太慢而温度回路不能长期保持纯度时，可用串级：外环以组成/质量为目标，给内环温度或流量/热负荷设定值；内环先把快速的局部扰动压住，外环再纠正长期质量偏差。内环必须先在可用测量和操纵量下稳定，外环设定值还要落在内环量程内；含有明显滞后、非线性或多回路耦合时，不能照搬单回路调谐结果。比值控制把两个可测流量或热负荷维持在物理上有意义的比值，适合把进料变化同步传给回流或再沸器，但比值关系需明确定义测量位置、计量/时间基准和量程；热负荷/进料比必须采用能量每物质量等正确量纲。前馈可在进料流量或组成等扰动可测时提前改变操纵量，减少质量变量先偏离再纠正的过程，但它依赖扰动测量和过程关系，不能替代对未测扰动和模型误差的反馈。验收应在相同产品目标下分别施加进料流量和组成扰动，比较纯度、温度、库存及热负荷是否回到可接受范围，而不是把书中的死区、增益或运行时间当作默认。",
+  "title": "串级、比值和前馈控制的使用边界",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "5c9b9fb767a80025c95e2f956ce3499eaff23977a271266d57b5cea073a1e041",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A3.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页22–24、56–64、72–75（重点56–64、72–75）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

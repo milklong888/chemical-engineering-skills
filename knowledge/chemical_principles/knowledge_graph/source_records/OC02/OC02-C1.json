@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于存在三元共沸与压力敏感相图、需要比较分离序列及热集成控制方案的精馏流程。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-C1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH06",
+    "CH10A-PSD-01",
+    "CH10A-PSD-04",
+    "CH10A-AZ-03"
+  ],
+  "text": "三元共沸物的分离序列不能从组分挥发性或单塔经验直接套用：先在各候选压力下建立相平衡/残余曲线，确认精馏边界和各塔产品路径与总物料衡算相容，再联合优化塔压、级数、进料/侧线及回流等变量；热集成会把一个塔的冷凝负荷绑定到另一塔再沸负荷，限制可独立操纵的热负荷和可行操作组合，具体减少哪项自由度取决于连接结构，负荷不匹配时需保留辅助换热或调整集成条件。因此集成后要重算可行域并配套压力、温度或组成控制，评估扰动下的纯度、振荡和恢复，而不能只按稳态总费用选最低方案。",
+  "title": "三元共沸变压精馏：可行序列、热集成与控制耦合",
+  "units_basis": "定性机制与选型判断；无直接设计数值。",
+  "text_sha256": "6180e581309037d060b5e61a0f530487e1557cb378867da8a647eff64670a8cf",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-C1.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页 206–235",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

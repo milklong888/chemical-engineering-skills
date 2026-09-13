@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "适用于冷凝热与再沸热共享的变压/热集成精馏控制评估；压力补偿和测点选择仅在已核定物系、拓扑、压力区间及扰动范围内有效。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-A5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "RatioCascadeRule",
+    "DistillationSensitiveTrayCriteria",
+    "DistillationCompositionControl",
+    "PressureControllerRule",
+    "DynamicDisturbanceTest"
+  ],
+  "text": "热集成把原本独立的再沸器和冷凝器热负荷变成共享耦合：一座塔的冷凝热可供另一座塔再沸，但热量、压力和流量变化会沿换热路径同时影响两塔的温度、组成和压力回路。对这种流程，单纯用某一块板的温度串级可能能让温度回到设定值，却不能保证产品纯度在进料流量或组成改变后仍满足目标；书中的改进思路是把组成外环、温度内环与热负荷/进料比或压力补偿联立，并用方程/热负荷关系保持热量匹配。压力补偿只能在选定物系和压力区间内把压力变化换算成温度修正，不能把任意温度当成纯度。测点、回流比和热负荷配对要在实际热集成拓扑上做流量/组成扰动试验，比较产品、温度、回流比、热负荷和压力的瞬态及稳态；进料组成改变还可能改变可行的压力顺序和热集成方案，因此不能把一个组成下的静态优化或控制结构直接迁移。",
+  "title": "热集成耦合、压力补偿与扰动验证",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "2f1ddf993ae944976d6137ca7aae017a96b8e76483fa04b9029b500fafc5cbe7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A5.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页65–100（重点65–72、89–100）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

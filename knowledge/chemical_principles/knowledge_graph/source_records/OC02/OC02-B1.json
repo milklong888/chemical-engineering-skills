@@ -1,0 +1,45 @@
+{
+  "applicability": [
+    "适用于需用高沸溶剂改变相对挥发度的共沸/难分体系；溶剂选择、S/F窗口、回收拓扑和动态回路必须按物系与扰动重新验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-B1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH10A-ED-01",
+    "CH10A-ED-02",
+    "CH10A-ED-05",
+    "CH10A-ED-06",
+    "CH10A-ED-07",
+    "DistillationSensitiveTrayCriteria",
+    "DistillationCompositionControl",
+    "DynamicDisturbanceTest"
+  ],
+  "text": "萃取精馏通过加入高沸、与原料不形成新的共沸且能改变相对挥发度的溶剂，使原本难以普通精馏的共沸分离转为可分离的塔内汽液平衡；溶剂随后在回收段分离、循环，损失量才需要补加。溶剂不是越多越好：溶剂流量过低时改变相对挥发度不足；所读案例中，过高流量还观察到溶剂进入上部、目标产品纯度下降并增加再生负荷。因此，适用的溶剂流量和 S/F 窗口必须由该物系的分离效果、溶剂损失与再生负荷共同检查；同一流程中回流比对纯度和总费用也可能非单调，不能用单调经验调高回流替代搜索。\n\n萃取精馏的动态回路还受结构耦合影响。固定回流或仅用温度回路可以在部分进料流量扰动下恢复，但组成扰动可能留下纯度偏差；例如可用产品组成外环修正 S/F 设定，再按测得的进料流量调节溶剂量；回流及热负荷采用何种配对仍取决于实际结构。书中案例显示，静态 TAC 最小的溶剂流量和动态上更易控制的工作点不必相同；选择略牺牲静态经济性的工作点必须以同一产品目标下的扰动恢复和回路可操作性证明。\n\n实际采用何种溶剂、溶剂流量、回收塔配置、温度测点和回流/热负荷配对，必须由该物系的汽液平衡、溶剂损失和扰动试验确定；示例中的溶剂名称、流量、调谐参数和恢复时间不外推。",
+  "title": "萃取精馏：溶剂作用、溶剂量窗口与静态最优—可控性取舍",
+  "units_basis": "定性方法；S/F、回流比和TAC仅作为待验证变量，不携带案例数值。",
+  "text_sha256": "09b3851f315365c60d7ef0aa41de3e2c325218614294d968ebd21e35d71ddaf1",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-B1.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页107–110、120–127（印刷页96–99、109–116）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

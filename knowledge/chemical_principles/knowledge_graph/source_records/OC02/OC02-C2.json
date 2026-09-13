@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于含反应溶剂循环、需在气体流量或 CO2 进料组成变化下维持净化气质量的吸收—解吸流程。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-C2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH07"
+  ],
+  "text": "在含电解质反应平衡的 CO2 吸收—解吸循环中，气体流量或组分扰动会改变吸收负荷；仅固定气液比会使净化气体的 CO2 含量偏离目标。基础的压力、液位、汽提温度和冷凝回流回路之外，一种改进方式是用净化气体组成反馈修正贫溶剂与进料气的比值，并在给定扰动范围内验证能否把负荷变化转为可操纵的补偿、恢复产品质量。该判断以可信的电解质反应/相平衡及物性模型、足够的阀泵调节范围和可用的组成测量或软测量为前提，不能把某一溶剂配方或控制器参数直接迁移。",
+  "title": "CO2吸收—解吸流程的负荷补偿控制",
+  "units_basis": "定性机制与控制配对判断；无直接设计数值。",
+  "text_sha256": "2abc847b21f4e03c2e227946c41f1af3e468cf0184342430adfe086dc1d51104",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-C2.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页 236–244",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}
