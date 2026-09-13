@@ -131,6 +131,25 @@ class DesignStageTests(unittest.TestCase):
         self.assertIn("PER_DEVICE_CALCULATION_REQUIRED", {row["code"] for row in result["needs"]})
         self.assertEqual(self.requests, [])
 
+    def test_pressure_summary_preserves_request_error_and_later_calculation(self):
+        valid = {"method": "series_pressure", "input_basis": "Synthetic absolute Pa; local screen only",
+                 "inputs": {"inlet_pressure_pa": 500000, "losses_pa": [20000]}}
+        wrong = copy.deepcopy(valid)
+        wrong["inputs"]["outlet_pressure_pa"] = 480000
+        result = self.check({**self.payload, "stage": "change", "pressure_checks": [wrong, valid]})
+        summary = result["execution_summary"]["pressure_checks"]
+        self.assertEqual(summary[0]["call_status"], "EXECUTED")
+        failed = summary[0]["check_results"][0]
+        self.assertEqual(failed["status"], "LOCAL_CALCULATION_GAP")
+        self.assertIn("unexpected keyword argument", failed["reason"])
+        self.assertIn("outlet_pressure_pa", failed["reason"])
+        self.assertEqual(failed["reason"], result["pressure"][0]["result"]["checks"][0]["reason"])
+        self.assertFalse(failed["result_present"])
+        self.assertTrue(summary[1]["check_results"][0]["result_present"])
+        self.assertEqual(result["pressure"][1]["result"]["checks"][0]["result"]["outlet_pressure_pa"], 480000)
+        self.assertEqual(result["status"], "ACTION_REQUIRED")
+        self.assertFalse(result["engineering_accepted"])
+
     def test_no_knowledge_hits_is_not_hidden(self):
         result = self.check(search=lambda **kwargs: {"knowledge": {"results": []}})
         self.assertEqual(result["status"], "ACTION_REQUIRED")

@@ -14,9 +14,11 @@ SCHEMA = "document-flow-handoff-v1"
 RETURNS = {"method_basis", "boundary_states", "closure_targets", "execution_evidence"}
 
 
-def obj(value, keys, where):
-    if not isinstance(value, dict) or set(value) != set(keys):
-        raise ValueError(f"{where}: expected object with fields {', '.join(sorted(keys))}")
+def obj(value, keys, where, optional=()):
+    if (not isinstance(value, dict) or not set(keys).issubset(value)
+            or not set(value).issubset(set(keys) | set(optional))):
+        suffix = f"; optional {', '.join(sorted(optional))}" if optional else ""
+        raise ValueError(f"{where}: expected object with fields {', '.join(sorted(keys))}{suffix}")
     return value
 
 
@@ -41,10 +43,10 @@ def names(value, where, nonempty=False):
     return result
 
 
-def indexed(values, keys, where):
+def indexed(values, keys, where, optional=()):
     result = {}
     for i, value in enumerate(rows(values, where)):
-        obj(value, keys, f"{where}[{i}]")
+        obj(value, keys, f"{where}[{i}]", optional)
         identifier = text(value["id"], f"{where}[{i}].id")
         if identifier in result:
             raise ValueError(f"{where}: duplicate id {identifier}")
@@ -55,6 +57,7 @@ def indexed(values, keys, where):
 def check(data):
     result = {"schema": "document-flow-handoff-check-v1", "status": "STRUCTURE_INVALID",
               "errors": [], "unresolved": [], "boundary_rows": [], "volume_terms": [],
+              "node_interface_rows": [],
               "handoff_rows": [], "engineering_accepted": False, "execution_verified": False,
               "authority_verified": False, "source_inventory_verified": False,
               "scope": "Declared field/edge consistency only; no source truth, physical or numerical closure, or model execution proof."}
@@ -75,12 +78,17 @@ def _check(data, result):
         raise ValueError("input: expected document-flow-handoff-v1 and source/scaffold stage")
     result["stage"] = data["stage"]
     result["authority_reference"] = text(data["authority_reference"], "authority_reference")
-    nodes = indexed(data["nodes"], {"id", "kind"}, "nodes")
+    nodes = indexed(data["nodes"], {"id", "kind"}, "nodes",
+                    optional={"no_inflow_reason", "no_outflow_reason"})
     if not nodes:
         raise ValueError("nodes: explicit process/external inventory required")
     for identifier, node in nodes.items():
         if node["kind"] not in ("process", "external"):
             raise ValueError(f"node {identifier}: kind must be process or external")
+        for key in ("no_inflow_reason", "no_outflow_reason"):
+            reason = text(node.get(key), f"node {identifier}.{key}", nullable=True)
+            if node["kind"] == "external" and reason is not None:
+                raise ValueError(f"node {identifier}: absence reasons apply only to process nodes")
 
     streams = indexed(data["streams"], {"id", "from", "to", "state", "evidence", "gap"}, "streams")
     if not streams:
@@ -103,6 +111,29 @@ def _check(data, result):
             raise ValueError(f"stream {identifier}: documented/proposed needs known endpoints and evidence/permission citation")
         if state != "documented":
             result["unresolved"].append(f"stream {identifier}: {state}; {stream['gap'] or 'proposal, not observed connectivity'}")
+
+    for identifier, node in nodes.items():
+        if node["kind"] != "process":
+            continue
+        record = {"node": identifier, "missing": [], "declared_absent": {}}
+        for side, endpoint, other, reason_key in (
+                ("in", "to", "from", "no_inflow_reason"),
+                ("out", "from", "to", "no_outflow_reason")):
+            connected = [sid for sid, stream in streams.items()
+                         if stream[endpoint] == identifier and stream[other] != identifier]
+            record[side] = connected
+            reason = node.get(reason_key)
+            if connected and reason is not None:
+                result["errors"].append(f"node {identifier} {side}: {reason_key} contradicts declared streams {connected}")
+            elif not connected and reason is None:
+                record["missing"].append(side)
+                result["errors"].append(
+                    f"node {identifier} {side}: missing process interface; declare its stream "
+                    f"(use a null other endpoint with a precise gap if unknown), or give a "
+                    f"source-bound {reason_key} only if this interface is actually absent")
+            elif reason is not None:
+                record["declared_absent"][side] = reason
+        result["node_interface_rows"].append(record)
 
     volumes = indexed(data["control_volumes"],
                       {"id", "members", "inflows", "outflows", "balance_basis", "reaction_terms"}, "control_volumes")
@@ -210,6 +241,13 @@ def markdown(result):
         lines.append("| " + " | ".join(cell(x) for x in [row["volume"], row["stream"],
             f"{row['from']} ({row['from_kind']})", f"{row['to']} ({row['to_kind']})",
             row["direction"], f"{row['state']} / {row['evidence']} / {row['gap']}"]) + " |")
+    lines += ["", "## Process-node interface coverage", "",
+              "Declared connections or absence reasons only; absence reasons require source/phase review, not verified by this checker. No physical closure is proven.", "",
+              "| Process node | Inlet streams | Outlet streams | Missing interfaces | Declared absence reason |",
+              "|---|---|---|---|---|"]
+    for row in result["node_interface_rows"]:
+        lines.append("| " + " | ".join(cell(row[key]) for key in
+                     ("node", "in", "out", "missing", "declared_absent")) + " |")
     lines += ["", "## Control-volume terms", ""]
     for row in result["volume_terms"]:
         lines += [f"- {cell(row['id'])}; members: {cell(row['members'])}; inflows: {cell(row['in'])}; outflows: {cell(row['out'])}; internal: {cell(row['internal'])}; unresolved: {cell(row['unresolved'])}",

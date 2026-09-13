@@ -54,7 +54,13 @@ CLI 的请求外层必须是 `{"operation":"design_stage","payload":{...}}`，
 
 `EXECUTED` 不能代替路由结论。独立 `solve_route` 回执则直接读其顶层
 `status`。对照实际返回结构，不把这些不同层次都缩写成“检查通过”。
-`execution_summary` 汇集阶段与路由的上述实际状态及错误；查询和设备仍逐项核读。
+`execution_summary` 汇集阶段、路由与逐项压力计算的实际状态及原始错误；查询和设备仍逐项核读。
+其中 `pressure_checks[].call_status` 只说明调用状态；继续读 `check_results` 的
+`result_present/status/reason`，不能把 `EXECUTED` 当成本项已经算出结果。
+摘要没有压力条目时仍核读 `needs`，区分未声明检查与整个检查列表无效。
+参数名、结构或类型错误先按当前 schema/函数签名修正；只有现有输入和权限足够时重调。
+不继续计算也须准确报告原错误和当前未完成范围，不能把接口拒绝改称缺模型、
+缺软件或物理不可行。真实数据缺口与调用错误可以同时存在，分别列明依据。
 缺少内层结果显示 `NOT_AVAILABLE`，
 便于先读摘要再核对应回执。重复的嵌套 `solve_request.question` 与当前问题不一致
 时仍拒绝该调用；按返回提示更正后取得新回执，不把顶层阶段状态代替失败的路由。

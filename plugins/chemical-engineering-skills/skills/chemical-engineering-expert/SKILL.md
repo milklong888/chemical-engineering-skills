@@ -102,6 +102,12 @@ including during ongoing work; they never become default knowledge. Formal
 prompt/rule promotion follows `references/EVOLUTION_LOOP.md` only when the user
 requests consolidation and explicitly closes the relevant task revision.
 
+For a batch consolidation request, execute the [batch review](references/EVOLUTION_LOOP.md#批次事实核查与处置交付)
+and deliver its [current disposition record](references/EVOLUTION_LOOP.md#当次处置记录).
+Keep the proposal's identity separate from the actual current owner's file identity.
+A `no_change` result still needs that owner basis and a reason no source rollback
+is needed. Missing closure blocks promotion, not the authorized technical review.
+
 Its two channels are `prompt_principle` (macro design principles and ways of
 working, not wording or small preferences) and `data_pattern` (testable faster
 convergence or better-design relations). Follow `references/MEMORY_MAINTENANCE.md`
@@ -141,6 +147,9 @@ or calculations, assumptions, uncertainty/status, and decisive macro checks.
 Bind each reported tool state to its actual request and returned field. Before
 finishing, complete applicable checks that the available inputs support; a
 missing permission or source blocks its dependent action, not independent review.
+Preserve the actual reason for a failed call. An invalid argument or request is
+not evidence of a missing model or software dependency; resolve a supported
+request correction or report that interface error separately from real data gaps.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 

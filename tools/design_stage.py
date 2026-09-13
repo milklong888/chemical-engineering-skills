@@ -320,12 +320,23 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     if stage == "change":
         receipt["planning_requirements"] = change_planning_requirements(receipt, documents)
     solve_result = solve.get("result") if isinstance(solve.get("result"), dict) else {}
+    pressure_summary = []
+    for index, row in enumerate(pressure):
+        request = row.get("request") if isinstance(row.get("request"), dict) else {}
+        checks = (row.get("result") or {}).get("checks", [])
+        pressure_summary.append({"index": index, "method": copy.deepcopy(request.get("method")),
+            "call_status": row.get("status") or "NOT_AVAILABLE",
+            "call_error": copy.deepcopy(row.get("error", row.get("reason"))),
+            "check_results": [{"method": item.get("method"), "status": item.get("status"),
+                               "reason": item.get("reason"), "result_present": "result" in item}
+                              for item in checks]})
     receipt["execution_summary"] = {
         "stage": receipt["stage"], "stage_status": receipt["status"],
         "solve_call_status": solve.get("status") or "NOT_AVAILABLE",
         "solve_result_status": solve_result.get("status") or "NOT_AVAILABLE",
         "solve_call_error": copy.deepcopy(solve.get("error")),
         "solve_result_error": copy.deepcopy(solve_result.get("error")),
+        "pressure_checks": pressure_summary,
     }
     receipt["implementation"] = [{"path": name, "sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
         for name in ("tools/design_stage.py", "tools/aspen_tool_router.py", "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")]

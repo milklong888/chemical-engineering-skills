@@ -96,6 +96,11 @@ For a `source` or `scaffold` arrangement, fill the current project's
 and run its read-only structural check before returning the arrangement.
 Deliver the resulting edge table and one handoff row per allowed placeholder
 now, including unknown endpoints, missing inputs and owner-selection conditions.
+Trace each declared process node's inlet and outlet, including the source of a
+recycle return. If its location is unknown, declare a stream with the known node
+and a null other endpoint plus the precise gap; an unconnected return arrow or
+future-work note is not a complete route. Only a source-supported absence in the
+current phase permits a no-interface reason; missing data is not such a reason.
 Use the checked control-volume rows for every displayed stream balance and
 sketch; retain reaction terms under the expert's existing derivation rule.
 This checks the declared arrangement, not source truth, numerical closure or

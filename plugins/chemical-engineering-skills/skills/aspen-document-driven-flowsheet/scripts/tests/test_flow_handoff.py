@@ -39,6 +39,15 @@ def fixture():
             "execution_status": "not_executed", "execution_reference": None}]}
 
 
+def missing_inlet_fixture():
+    data = fixture()
+    data["nodes"].append({"id": "C", "kind": "process"})
+    data["streams"].append({"id": "supply", "from": "C", "to": "A", "state": "documented",
+                            "evidence": "Synthetic return interface", "gap": None})
+    data["control_volumes"][0]["inflows"].append("supply")
+    return data
+
+
 class FlowHandoffTests(unittest.TestCase):
     def test_combined_internal_streams_excluded(self):
         result = module.check(fixture())
@@ -84,6 +93,92 @@ class FlowHandoffTests(unittest.TestCase):
     def test_unknown_endpoint_cannot_enter_balance_as_known(self):
         data = fixture()
         data["streams"][0].update({"from": None, "state": "unresolved", "gap": "Unknown origin"})
+        self.assertEqual(module.check(data)["status"], "STRUCTURE_INVALID")
+
+    def test_process_return_without_inlet_is_not_complete(self):
+        data = missing_inlet_fixture()
+        data["handoffs"][0]["inputs"][0].update({"reference": None,
+                                                "gap": "Incoming source still unknown"})
+        result = module.check(data)
+        self.assertEqual(result["status"], "STRUCTURE_INVALID")
+        self.assertIn("node C in: missing process interface", " ".join(result["errors"]))
+        self.assertEqual(result["node_interface_rows"][-1]["missing"], ["in"])
+
+    def test_unknown_inlet_explicitly_connects_to_process(self):
+        data = missing_inlet_fixture()
+        data["streams"].append({"id": "unresolved_supply", "from": None, "to": "C",
+            "state": "unresolved", "evidence": None, "gap": "Source does not identify the upstream recovery location"})
+        result = module.check(data)
+        self.assertEqual(result["status"], "STRUCTURE_VALID_WITH_UNRESOLVED")
+        self.assertEqual(result["node_interface_rows"][-1]["in"], ["unresolved_supply"])
+        self.assertIn("unresolved_supply", result["volume_terms"][0]["unresolved"])
+        self.assertNotIn("unresolved_supply", result["volume_terms"][0]["in"])
+        self.assertFalse(result["source_inventory_verified"])
+
+    def test_process_outlet_must_be_declared_even_with_unknown_destination(self):
+        data = fixture()
+        data["streams"] = [s for s in data["streams"] if s["id"] not in ("return", "product")]
+        data["control_volumes"][0]["outflows"] = []
+        result = module.check(data)
+        self.assertIn("node B out: missing process interface", " ".join(result["errors"]))
+        data["streams"].append({"id": "unresolved_outlet", "from": "B", "to": None,
+            "state": "unresolved", "evidence": None, "gap": "Current source omits the terminal destination"})
+        result = module.check(data)
+        self.assertEqual(result["status"], "STRUCTURE_VALID_WITH_UNRESOLVED")
+        self.assertEqual(result["node_interface_rows"][1]["out"], ["unresolved_outlet"])
+        self.assertEqual(result["volume_terms"][0]["out"], [])
+
+    def test_unattached_unknown_stream_does_not_cover_missing_interface(self):
+        data = missing_inlet_fixture()
+        data["streams"].append({"id": "unplaced", "from": None, "to": None,
+            "state": "unresolved", "evidence": None, "gap": "Unplaced boundary is not an inlet identity"})
+        self.assertIn("node C in: missing process interface", " ".join(module.check(data)["errors"]))
+
+    def test_self_loop_does_not_supply_a_missing_interface(self):
+        data = missing_inlet_fixture()
+        data["streams"].append({"id": "self_loop", "from": "C", "to": "C",
+            "state": "documented", "evidence": "Synthetic internal circulation", "gap": None})
+        self.assertIn("node C in: missing process interface", " ".join(module.check(data)["errors"]))
+
+    def test_source_declared_absent_inlet_is_reported_without_source_verification(self):
+        data = missing_inlet_fixture()
+        reason = "Synthetic phase record revision b: batch discharge from existing inventory; no inlet in this phase"
+        data["nodes"][-1]["no_inflow_reason"] = reason
+        result = module.check(data)
+        self.assertEqual(result["status"], "STRUCTURE_VALID")
+        self.assertEqual(result["node_interface_rows"][-1]["declared_absent"], {"in": reason})
+        self.assertIn(reason, module.markdown(result))
+        self.assertFalse(result["authority_verified"])
+        self.assertFalse(result["source_inventory_verified"])
+        self.assertFalse(result["engineering_accepted"])
+
+    def test_explicit_absence_cannot_contradict_known_or_unknown_connections(self):
+        for state in ("documented", "unresolved"):
+            with self.subTest(state=state):
+                data = fixture()
+                data["nodes"][1]["no_inflow_reason"] = "Contradictory no-inlet declaration"
+                if state == "unresolved":
+                    data["streams"][0].update({"from": None, "state": state, "gap": "Unknown feed source"})
+                    data["control_volumes"][0]["inflows"] = []
+                self.assertIn("no_inflow_reason contradicts", " ".join(module.check(data)["errors"]))
+
+    def test_declared_storage_phase_can_have_no_outlet(self):
+        data = fixture()
+        data["streams"] = [s for s in data["streams"] if s["id"] not in ("return", "product")]
+        data["control_volumes"][0]["outflows"] = []
+        reason = "Synthetic phase record c: inventory accumulates during filling; no outlet in the declared phase"
+        data["nodes"][2]["no_outflow_reason"] = reason
+        result = module.check(data)
+        self.assertEqual(result["status"], "STRUCTURE_VALID")
+        self.assertEqual(result["node_interface_rows"][1]["declared_absent"], {"out": reason})
+        self.assertFalse(result["engineering_accepted"])
+
+    def test_absence_fields_retain_strict_shape_and_nonempty_text(self):
+        for value in ("", " ", {}, False):
+            with self.subTest(value=value):
+                data = missing_inlet_fixture(); data["nodes"][-1]["no_inflow_reason"] = value
+                self.assertEqual(module.check(data)["status"], "STRUCTURE_INVALID")
+        data = fixture(); data["nodes"][1]["invented_interface_field"] = "unused"
         self.assertEqual(module.check(data)["status"], "STRUCTURE_INVALID")
 
     def test_external_node_cannot_be_a_process_member(self):

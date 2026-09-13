@@ -11,7 +11,7 @@ entries. Missing evidence stays explicit in the current record.
 
 ## Fill the arrangement
 
-- `authority_reference` identifies the current task/source and revision or hash;
+- `authority_reference` is nonempty text identifying the current task/source and revision or hash;
   it is a citation to inspect, not a verified identity supplied by this checker.
 - `nodes` declares each process node and each external endpoint separately with
   `kind=process|external`. Each control volume lists its process `members`.
@@ -21,6 +21,22 @@ entries. Missing evidence stays explicit in the current record.
   permitted arrangement, and `unresolved` with `null` endpoint(s) and a specific
   `gap` when the connection is unknown. A familiar stream name supplies no endpoint.
   Split mixed or aggregated boundary terms into disjoint stream IDs first.
+- Trace every declared process node's incoming and outgoing interfaces. A recycle
+  return also needs its upstream recovery/source connection; a missing origin or
+  destination is a stream with the known node at one end and `null` at the other,
+  not a reason to omit the stream. Do not invent a recovery location from a name.
+  An unrelated null-to-null stream, a self-loop or a handoff gap does not supply
+  a missing node interface. External endpoints need no artificial reverse flow.
+  The check applies to the declared graph, independently of the selected local
+  control volume; it does not require enlarging that volume.
+- If the current source actually defines a phase with no inlet or no outlet
+  (for example, a documented inventory withdrawal or filling phase), a process
+  node may include optional `no_inflow_reason` or `no_outflow_reason` text. Give
+  the actual reason and source/phase anchor. Unknown connectivity, missing data
+  or a decision postponed to a later stage must instead use an unresolved stream.
+  The checker reports these absence declarations but cannot verify their meaning
+  or source: the assistant must check them against the current material. A reason
+  contradicting a known or unresolved connection is a structural error.
 - For each control volume, declare the intended `inflows` and `outflows` by
   stream ID, the material/time/component basis in `balance_basis`, and the
   relevant `reaction_terms` (or its source-bound absence/unknown status).
@@ -64,20 +80,20 @@ Run the installed script with the project's filled input and a new output direct
 ```
 
 It writes `review.json` and `handoff.md`, bound to the exact input SHA-256.
-Use the generated edge table and per-volume crossing lists in the delivered
+Use the generated process-interface table, edge table and per-volume crossing lists in the delivered
 arrangement. Unknown endpoints are listed outside the balance terms; do not
 turn them into an assumed external stream. A stream with both endpoints inside
 a combined volume cannot appear on either single side of that volume's balance.
 In a smaller volume, only actual crossings belong in its inflow/outflow lists.
 
-`STRUCTURE_INVALID` means correct the stated mismatch or report that arrangement
+`STRUCTURE_INVALID` means correct the stated mismatch or undeclared process interface, or report that arrangement
 as incomplete; `STRUCTURE_VALID_WITH_UNRESOLVED` preserves proposed connections,
 unknown endpoints or missing handoff evidence. `STRUCTURE_VALID` means only
 that the submitted fields and declared edge memberships are consistent.
 All outcomes retain `engineering_accepted=false` and `execution_verified=false`.
 An unexecuted or `reported_unverified` handoff may still have valid structure;
 `STRUCTURE_VALID` does not upgrade either execution state.
-The assistant still compares every diagram/equation and the placeholder inventory
+The assistant still compares every diagram/equation, absence declaration and placeholder inventory
 against the actual source. The script cannot detect omitted source duties,
 invented citations, wrong physical choices or a contradictory free-text equation.
 
