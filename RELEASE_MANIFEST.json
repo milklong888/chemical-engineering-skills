@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "f8c5adebcc3774dd9647c4ab63fb66718ceeadfb9b5310b00b417501ea0b7d9a",
-      "bytes": 7898
+      "sha256": "5e5c40902e41d8e5748bcc15b4255082356fbcea44fdc9182150197cd89eabe4",
+      "bytes": 8368
     },
     {
       "path": "backends/equipment/README.md",
@@ -3305,8 +3305,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/COMMON_SENSE_RAG.md",
-      "sha256": "4adf4c9f1eb2cf83c8794c2a24a8cac4963028afe8130393416a280dc2a6ce42",
-      "bytes": 4986
+      "sha256": "1c9e228357f41e87d7f2bc4a08de342379d6b1e59a0a36d389f626e937255489",
+      "bytes": 5947
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md",
@@ -3350,8 +3350,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_DISTILLATION_PIPELINE.md",
-      "sha256": "92f3b089493f379c8e5972343452d736449e96764028e33a87b36538d83d39bf",
-      "bytes": 13047
+      "sha256": "684c9e43723239e19ae91e19971ff940d43e7f02c323a074e3e464c997f8d372",
+      "bytes": 13686
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/MACRO_DESIGN_QUALITY.md",
@@ -3380,8 +3380,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/OFFICIAL_PLUGIN_MIGRATION.md",
-      "sha256": "18005d76fe8d9dbc1ce7984d57ee4272e47d1db40cb967f5b50a08609297b63a",
-      "bytes": 2984
+      "sha256": "2e37f3c20858a452c8e51085fccbee0f2886a54815673a2f694f934a959692f5",
+      "bytes": 4965
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/PROCESS_EQUIPMENT_FEEDBACK.md",
