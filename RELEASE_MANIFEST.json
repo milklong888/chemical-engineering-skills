@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "3db7cac29352795ec0e02ec66a2a2427445321e7ce244e03ec2c387633ae49fd",
-      "bytes": 9509
+      "sha256": "a037ee1d999fa65757e088cdbecc8f5f5cedea09869ab140a74e28503b516ac1",
+      "bytes": 9979
     },
     {
       "path": "backends/equipment/README.md",
@@ -1010,8 +1010,8 @@
     },
     {
       "path": "docs/Agent任务执行与经验整理修复_0.4.7.md",
-      "sha256": "d31863b056b627ef1e3b72fff486927c4d36f3e75f1e5e2076d5c4a8279ba17d",
-      "bytes": 7582
+      "sha256": "e689e2f481cb95489c2c1001cf54e894e9e0dc2d55a65b774b723e1fb054278f",
+      "bytes": 8043
     },
     {
       "path": "docs/Agent工作流更新_2026-09-12.md",
@@ -3345,8 +3345,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/COMMON_SENSE_RAG.md",
-      "sha256": "4adf4c9f1eb2cf83c8794c2a24a8cac4963028afe8130393416a280dc2a6ce42",
-      "bytes": 4986
+      "sha256": "1c9e228357f41e87d7f2bc4a08de342379d6b1e59a0a36d389f626e937255489",
+      "bytes": 5947
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md",
@@ -3390,8 +3390,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_DISTILLATION_PIPELINE.md",
-      "sha256": "c94ec6d72897fc03c1a75abeb5f35aba298ec1d05076f5db8bc68fc4de7c8eb2",
-      "bytes": 13122
+      "sha256": "2f8fc7314ab143433df89c72f391d7f784ce40c4ff224d213f3f253c7f5563c8",
+      "bytes": 13761
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/MACRO_DESIGN_QUALITY.md",
@@ -3420,8 +3420,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/OFFICIAL_PLUGIN_MIGRATION.md",
-      "sha256": "18005d76fe8d9dbc1ce7984d57ee4272e47d1db40cb967f5b50a08609297b63a",
-      "bytes": 2984
+      "sha256": "2e37f3c20858a452c8e51085fccbee0f2886a54815673a2f694f934a959692f5",
+      "bytes": 4965
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/PROCESS_EQUIPMENT_FEEDBACK.md",

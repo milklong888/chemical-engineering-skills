@@ -34,6 +34,16 @@ and does not start canonical learning, default retrieval or Skill reorganization
 Directly requested source ingestion or mechanism maintenance remains its own
 authorized task; it cannot be used to disguise premature experience learning.
 
+For ordinary `direct_source` explanatory knowledge, use the practical-value,
+semantic-deduplication and unambiguous-retelling content gate in
+[COMMON_SENSE_RAG.md](COMMON_SENSE_RAG.md). A complete useful explanation is the
+unit, not every symbol or sentence. Source identity, scope and review still
+apply; do not turn routine reading into the task-derived promotion benchmark
+suite below. New executable methods, empirical rules and task-derived behavior
+changes still receive the validation appropriate to those changes. Reading
+acceptance does not claim engineering execution or convert source knowledge
+into current-project authority.
+
 ### Stage 0 — Freeze the intake contract
 
 First apply `STRICT_ACCEPTANCE_AND_LEARNING.md` and run the lineage-aware
