@@ -1,0 +1,19 @@
+{
+  "schema": "document-flow-handoff-v1",
+  "stage": "source",
+  "authority_reference": null,
+  "nodes": [{"id": null, "kind": "process"}, {"id": null, "kind": "external"}],
+  "streams": [{"id": null, "from": null, "to": null, "state": "unresolved", "evidence": null, "gap": null}],
+  "control_volumes": [{"id": null, "members": [], "inflows": [], "outflows": [], "balance_basis": null, "reaction_terms": null}],
+  "placeholders": [{"id": null, "node_ids": [], "purpose": null, "valid_scope": null, "permission_reference": null}],
+  "no_placeholders_reason": null,
+  "handoffs": [{
+    "id": null,
+    "owner": null,
+    "selection_condition": null,
+    "inputs": [{"name": null, "reference": null, "gap": null}],
+    "required_returns": {"method_basis": null, "boundary_states": null, "closure_targets": null, "execution_evidence": null},
+    "execution_status": "not_executed",
+    "execution_reference": null
+  }]
+}

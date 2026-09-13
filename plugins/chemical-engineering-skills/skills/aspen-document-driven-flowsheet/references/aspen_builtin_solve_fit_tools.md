@@ -18,6 +18,11 @@ method, pressure equipment, or source-unit conversion.
 提示，主代理必须根据实际目标确认 intents；没有命中不表示工具不适用。
 显式 `intents` 是调用者自己的分类，`finite_hints` 才是程序的词面提示。
 只有目标匹配而无优选目标函数时不添加 `optimize`；变量多不改变这个条件。
+候选包含 `optimize` 时，须按当前真实目标提供 `objective.definition`（优化什么）
+与 `objective.direction`（`minimize` 或 `maximize`）；阶段请求使用
+`solve_request.objective`。缺任一项只返回分类待核，不选定 Optimization。
+这个声明不替代目标的项目来源、用户范围、量纲、可行性或真实执行证据；不能为
+通过路由编造目标。纯读值、匹配目标等任务无需该字段，也不由它自动增加优化意图。
 发现自己传错意图时，保留原回执并按已澄清问题重新调用，不能只在答复中否定
 旧路由或把自己传入的意图解释为程序误识别。未知/冲突状态与阶段状态分别报告。
 `AGENT_CLASSIFICATION_REQUIRED` 时 `routes` 为空，`pending_route_intents` 仅是

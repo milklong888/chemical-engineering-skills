@@ -13,7 +13,8 @@ from backends.process.selector_analysis import canonical_sha
 
 INTENTS = ("read_value", "derive_once", "live_relation", "scan_range", "match_target",
            "optimize", "fit_data", "discrete_scenarios", "diagnose")
-FIELDS = {"question", "intents", "external_request", "fit_data", "fit_authority", "study_context"}
+FIELDS = {"question", "intents", "external_request", "fit_data", "fit_authority", "study_context", "objective"}
+OBJECTIVE_DIRECTIONS = ("minimize", "maximize")
 STUDY_MODES = ("unspecified", "fixed_controls", "same_targets")
 STUDY_LISTS = ("varied_variables", "fixed_conditions", "maintained_targets", "inner_controls")
 STUDY_INTENTS = {"scan_range", "match_target", "optimize", "discrete_scenarios"}
@@ -90,6 +91,21 @@ ROUTES = {
         "evidence": ["same-case diagnostic lines", "attributable repair and unchanged acceptance gates"],
     },
 }
+
+
+def objective_contract(value, intents):
+    """Require a declared preference for optimize, not a semantic or source proof."""
+    if not isinstance(value, dict) or set(value) - {"definition", "direction"}:
+        raise ValueError("objective accepts only definition and direction")
+    if "definition" in value and (not isinstance(value["definition"], str) or not value["definition"].strip()):
+        raise ValueError("objective definition must be a nonempty string")
+    if "direction" in value and (not isinstance(value["direction"], str) or value["direction"] not in OBJECTIVE_DIRECTIONS):
+        raise ValueError("objective direction must be minimize or maximize")
+    applicable = "optimize" in intents
+    return {"applicable": applicable, "declaration": value,
+        "missing_parts": [field for field in ("definition", "direction") if field not in value] if applicable else [],
+        "semantic_verified": False,
+        "boundary": "Caller declaration only, not a source, user-scope, objective-function, feasibility or execution proof. Target matching alone does not supply a preference objective; never invent one to make a route available."}
 
 
 def study_contract(value, intents):
@@ -216,7 +232,8 @@ def solve_route(payload, evidence_root):
     # domain agent must resolve that ambiguity, rather than silently bypass it.
     conflicts = sorted(set(hinted) - set(explicit)) if explicit else []
     intents = list(dict.fromkeys([*explicit, *hinted]))
-    classification_required = not intents or bool(conflicts)
+    objective = objective_contract(payload.get("objective", {}), intents)
+    classification_required = not intents or bool(conflicts) or bool(objective["missing_parts"])
     study = study_contract(payload.get("study_context", {}), intents)
     ambiguous_multivariable = bool(re.search(r"多变量|多个连续变量|多参数|几个参数|multivariable|multiple variables", question, re.I)) and not intents
     needs = []
@@ -224,6 +241,10 @@ def solve_route(payload, evidence_root):
         needs.append({"code": "AGENT_CLASSIFICATION_REQUIRED",
             "detail": "尚未形成可采用的工具路线。对照原请求核查显式意图与关键词冲突；否定句或背景提及也可能命中。保留当前回执，按已核实的实际任务重述后再调用，或明确报告仍待分类。不要把候选意图转述为已经选定的路线。",
             "conflicting_hints": conflicts})
+    if objective["missing_parts"]:
+        needs.append({"code": "OPTIMIZATION_OBJECTIVE_DECLARATION_REQUIRED", "scope": "objective",
+            "detail": "候选含 optimize，但尚未声明优选目标及方向。核对原问题和当前来源：确有优选目标才补 definition 与 minimize/maximize；只有达标任务则更正错传意图后重调。保留原请求和回执，不为填字段编造目标或删去真实任务；声明不替代来源、用户范围或工程核验。",
+            "missing_parts": objective["missing_parts"]})
     if study["missing_parts"]:
         needs.append({"code": "STUDY_CONTEXT_REVIEW_REQUIRED", "scope": "study_context", "detail": "Resolve only the relevant comparison roles from current authority; do not invent missing controls or block unrelated work", "missing_parts": study["missing_parts"]})
     # An unresolved interpretation must not simultaneously emit a selected
@@ -267,7 +288,7 @@ def solve_route(payload, evidence_root):
         "strong_trigger": bool(intents or ambiguous_multivariable or external["requested"]),
         "routes": plans, "pending_route_intents": intents if classification_required else [],
         "needs": needs, "required_reading": refs, "fitting": fitting, "external_request": external,
-        "study": study, "decision_chain": decision_chain(routed_intents, study),
+        "study": study, "objective": objective, "decision_chain": decision_chain(routed_intents, study),
         "vendor_sensitivity": {"classification": "EXTERNAL_POINT_SWEEP_NOT_NATIVE", "native_sensitivity_evidence": False,
             "implementation": "vendor/aspen-mcp-toolkit/src/aspen_mcp/tools/sensitivity_advanced.py",
             "boundary": "Python values loop writes parameters and reruns; it does not create native SENSITIVITY or DESIGN-SPEC objects"},

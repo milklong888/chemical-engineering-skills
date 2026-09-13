@@ -91,22 +91,17 @@ verified results, unresolved/relaxed gates and the next scoped action. Keep
 operation completion, local repair, simulation cleanliness, products and final
 delivery separate. Report only relevant artifacts actually produced.
 
-For a `source` or `scaffold` arrangement, deliver these two checks now, even
-when the model is not available or must not run:
-
-- **Boundary and connections**: name the control volume and show each stream's
-  origin, destination and crossing direction. An unsupported connection stays
-  explicitly unresolved. Match every displayed balance term to that ledger;
-  define whether an input includes recycle and keep outlet categories disjoint.
-  Apply the expert's reaction/recycle balance rule rather than inventing a
-  second formula. A sketch, equation and explanation must describe the same boundary.
-- **Placeholder-to-rigorous handoff**: for each allowed placeholder, return its
-  purpose/valid scope, the inputs or evidence that enable rigorous replacement,
-  the receiving professional owner (or the discriminator still needed to select
-  it), and the results it must return: applicable method/basis, same-case boundary
-  states, relevant closure/target checks and execution status. Mark unavailable
-  inputs in this handoff; a missing-data list alone does not deliver it. Selection
-  and future verification remain conditional where evidence is absent.
+For a `source` or `scaffold` arrangement, fill the current project's
+[boundary and rigorous-handoff record](references/source_scaffold_handoff.md)
+and run its read-only structural check before returning the arrangement.
+Deliver the resulting edge table and one handoff row per allowed placeholder
+now, including unknown endpoints, missing inputs and owner-selection conditions.
+Use the checked control-volume rows for every displayed stream balance and
+sketch; retain reaction terms under the expert's existing derivation rule.
+This checks the declared arrangement, not source truth, numerical closure or
+Aspen execution. A source-only task still returns the record without building
+or running a model. Reuse an equivalent current project ledger through the
+same check instead of maintaining a second engineering contract.
 
 阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
 [主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)

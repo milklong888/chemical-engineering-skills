@@ -1,6 +1,6 @@
 ---
 name: subagent-dispatch
-description: Enforce conscious delegation of simple factual work to subagents while the main agent keeps judgment and integration. Use when the user asks to use subagents, low-intelligence agents, delegation, parallel read/search/execute/query work, or complains that Codex is doing simple chores itself instead of dispatching them.
+description: Coordinate bounded subagent work, dependent handoffs and shared-file ownership while the main agent retains acceptance and final integration. Use for delegation, parallel read/search/execute/query work, or coordinating assistants whose edits overlap or depend on each other.
 ---
 
 # Subagent Dispatch
@@ -9,14 +9,16 @@ description: Enforce conscious delegation of simple factual work to subagents wh
 
 先把当前任务拆成可以独立核对的事实工作和必须统筹判断的工作。文件定位、参数提取、脚本执行及独立检查可分给范围明确的子代理，每项都说明输入、允许改动的文件、停止条件和返回证据；工艺取舍、跨模块耦合、验收以及最终交付仍由主代理负责。
 
-主代理在并行期间继续处理不重叠的工作，收到结果后核对来源和范围，再合并到当前项目。默认最多三个子代理，后续任务优先复用；完成或空闲时停止不再需要的工作并释放自有资源，不删除用户成果。若当前环境没有并行能力，按同一分工顺序执行，不能把没有委派过的检查写成独立复核。
+分工前先检查输入依赖和重叠写入：后续任务依赖前一结果时，等主代理接纳该版本后再启动；多人需要改同一目标时，使用独立候选文件或串行移交写权限。分工方案须明确主代理负责最终核对、合并及正式目标的唯一写入，不能把最后一个子代理的产物直接当作正式交付。具体接纳检查见下方 Main-Agent Integration。
+
+主代理在并行期间继续处理不重叠的工作。默认最多三个子代理，后续任务优先复用；完成或空闲时停止不再需要的工作并释放自有资源，不删除用户成果。若当前环境没有并行能力，按同一分工顺序执行，不能把没有委派过的检查写成独立复核。
 
 ## Trigger Rule
 
 Before starting a nontrivial task, run a quick dispatch check:
 
 1. List the next facts, files, searches, or executions needed.
-2. Mark each item as `delegate` or `main`.
+2. Mark each item as `delegate` or `main`, including its input dependencies and writable paths.
 3. Delegate simple factual chores when subagents are authorized.
 4. Keep synthesis, risk judgment, final decisions, and tightly coupled edits in the main agent.
 
@@ -93,9 +95,20 @@ If multi-agent tools are not visible, use `tool_search` for `multi-agent` before
 When a subagent returns:
 
 1. Treat its message as factual evidence, not authority.
-2. Check for missing scope, command failures, or overreach.
-3. Integrate only the facts needed for the main decision.
-4. In the final answer, mention delegated results only when relevant.
+2. The main agent checks the actual output against its accepted parent version,
+   assigned scope and required evidence. For file handoffs, record the input and
+   output identities and changed fields or paths; a completion message alone is
+   not acceptance.
+3. Release a dependent task only against that accepted output. If the parent
+   changes, identities disagree, or the assigned scope is exceeded, stop affected
+   downstream work and resolve or recalculate it before integration.
+4. The main agent owns the final acceptance and merge into the formal target.
+   Subagents return candidates and checks; only the main agent writes the final
+   combined result after checking the dependency chain and change scope. An
+   independent review may support this decision but does not transfer ownership.
+5. Report the actual final artifact and remaining gaps. For a planning-only
+   request, name these responsibilities in the plan without claiming execution
+   or creating unrelated work.
 
 阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
 [主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)

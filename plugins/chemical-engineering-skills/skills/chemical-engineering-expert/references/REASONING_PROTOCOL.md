@@ -86,6 +86,14 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    A unit-label edit does not convert stored numbers. Bind each numeric value
    to its original unit, transform the pair together, and check the physical
    quantity is unchanged before downstream calculations use the new representation.
+   A percentage needs a defined measured quantity, numerator, denominator and
+   basis. Preserve the source's mass/molar/volume and wet/dry basis for purity,
+   composition, recovery and yield; never choose one because a familiar model
+   or symbol uses it. If the source gives only a percentage, retain that stated
+   threshold and mark its basis unresolved in the actual specification or
+   comparison artifact. Resolve it from current authority before constructing
+   a basis-specific variable or an acceptance gate. An unresolved definition is
+   not permission to loosen the threshold or replace an inequality with equality.
    Composition ratios are not throughput ratios. For mass fraction `w` and total
    wet mass flow `F`, component flow is `W = w * F`, so
    `W_new/W_old = (w_new/w_old) * (F_new/F_old)`. Define the remaining mass
@@ -96,6 +104,14 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    A fixed-flow assumption must accompany the reported ratio itself, not appear
    later as a future check. Omit an optional numeric comparison if its basis
    cannot be stated correctly and it adds nothing to the task decision.
+   Pressure differences may use gauge readings only when they share the same
+   reference pressure. Thermodynamic pressure ratios and compression relations
+   require absolute pressure: `p_abs = p_gauge + p_reference` and
+   `ratio = p_out_abs / p_in_abs`. A shared unit or a shared gauge basis does not
+   make a ratio of gauge readings a physical pressure ratio. If gauge versus
+   absolute is unspecified, keep that ratio unresolved or show the absolute-
+   pressure assumption beside the conditional result; a later checklist cannot
+   qualify an earlier unconditional claim.
    Check dimensions in the explanation as well as the calculation: a symbol
    keeps the same unit wherever it appears, products carry the multiplied units,
    and arguments of exponentials and logarithms must be dimensionless. A correct

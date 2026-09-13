@@ -167,10 +167,94 @@ class AspenToolRouterTests(unittest.TestCase):
         self.assertIn("target residual/status", result["routes"][0]["evidence"])
 
     def test_continuous_objective_routes_native_with_inner_quality_specs(self):
-        result = self.route("optimize", question="多连续变量目标约束优化")
+        result = self.route("optimize", question="多连续变量目标约束优化",
+                            objective={"definition": "same-basis utility use", "direction": "minimize"})
         self.assertIn("NATIVE_OPTIMIZATION", self.tools(result))
         self.assertIn("INNER_DESIGN_SPECS_WHEN_REQUIRED", self.tools(result))
         self.assertFalse(any(tool.startswith("EXTERNAL") for tool in self.tools(result)))
+
+    def test_explicit_optimization_without_preference_keeps_all_candidates_pending(self):
+        result = self.route("match_target", "optimize")
+        self.assertEqual(result["status"], "AGENT_CLASSIFICATION_REQUIRED")
+        self.assertEqual(result["classification"]["finite_hints"], [])
+        self.assertEqual(result["pending_route_intents"], ["match_target", "optimize"])
+        self.assertEqual(result["routes"], [])
+        self.assertFalse(result["classification"]["routing_ready"])
+        self.assertEqual(result["objective"]["missing_parts"], ["definition", "direction"])
+        self.assertFalse(any(n["code"] == "DOMAIN_TOOL_ACTION_REQUIRED" for n in result["needs"]))
+        self.assertEqual([s["id"] for s in result["decision_chain"]["steps"]],
+                         ["define_engineering_question", "classify_next_action"])
+
+    def test_partial_objective_is_preserved_for_classification_not_filled_by_hints(self):
+        for declaration, missing in (({}, ["definition", "direction"]),
+                ({"definition": "utility use"}, ["direction"]),
+                ({"direction": "maximize"}, ["definition"])):
+            with self.subTest(declaration=declaration):
+                result = solve_route({"question": "最小化公用工程", "objective": declaration}, self.root)
+                self.assertEqual(result["status"], "AGENT_CLASSIFICATION_REQUIRED")
+                self.assertEqual(result["objective"]["declaration"], declaration)
+                self.assertEqual(result["objective"]["missing_parts"], missing)
+                self.assertEqual(result["routes"], [])
+
+    def test_non_optimization_routes_need_no_objective_and_declaration_does_not_add_intent(self):
+        for intent in ("read_value", "match_target", "scan_range"):
+            with self.subTest(intent=intent):
+                missing = self.route(intent)
+                declared = self.route(intent, objective={"definition": "utility use", "direction": "minimize"})
+                for result in (missing, declared):
+                    self.assertEqual(result["status"], "ACTION_REQUIRED")
+                    self.assertFalse(result["objective"]["applicable"])
+                    self.assertEqual(result["classification"]["intents"], [intent])
+                    self.assertNotIn("NATIVE_OPTIMIZATION", self.tools(result))
+
+    def test_complete_objective_does_not_override_conflicting_intents_or_claim_execution(self):
+        declared = {"definition": "net product output", "direction": "maximize"}
+        routed = self.route("optimize", objective=declared)
+        conflict = self.route("read_value", question="优化当前方案", objective=declared)
+        self.assertEqual(routed["status"], "ACTION_REQUIRED")
+        self.assertIn("NATIVE_OPTIMIZATION", self.tools(routed))
+        self.assertFalse(routed["objective"]["semantic_verified"])
+        self.assertFalse(routed["native_tools_executed"])
+        self.assertFalse(routed["engineering_accepted"])
+        self.assertEqual(conflict["status"], "AGENT_CLASSIFICATION_REQUIRED")
+        self.assertEqual(conflict["routes"], [])
+        self.assertIn("optimize", conflict["classification"]["conflicts"])
+
+    def test_corrected_objective_request_has_new_identity_without_rewriting_old_receipt(self):
+        original = self.route("match_target", "optimize")
+        frozen = json.dumps(original, sort_keys=True)
+        target_only = self.route("match_target")
+        minimize = self.route("optimize", objective={"definition": "utility use", "direction": "minimize"})
+        maximize = self.route("optimize", objective={"definition": "utility use", "direction": "maximize"})
+        self.assertEqual(target_only["status"], "ACTION_REQUIRED")
+        self.assertEqual(len({r["input_sha256"] for r in (original, target_only, minimize, maximize)}), 4)
+        self.assertNotEqual(minimize["receipt_sha256"], maximize["receipt_sha256"])
+        self.assertEqual(json.dumps(original, sort_keys=True), frozen)
+
+    def test_illegal_objective_shapes_or_self_reported_authority_are_rejected(self):
+        for value in (None, [], True, {"definition": 1}, {"definition": " "},
+                      {"direction": True}, {"direction": "target"}, {"approved": True}):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.route("optimize", objective=value)
+
+    def test_stage_preserves_objective_declaration_and_pending_inner_result(self):
+        fixture = stage_fixtures.DesignStageTests()
+        fixture.setUp()
+        try:
+            fixture.payload["question"] = "Synthetic routing request"
+            for objective, expected in (({"definition": "utility use"}, "AGENT_CLASSIFICATION_REQUIRED"),
+                    ({"definition": "utility use", "direction": "minimize"}, "ACTION_REQUIRED")):
+                with self.subTest(objective=objective):
+                    fixture.payload["solve_request"] = {"intents": ["optimize"], "objective": objective}
+                    result = fixture.check()
+                    self.assertEqual(result["solve_route"]["status"], "EXECUTED")
+                    routed = result["solve_route"]["result"]
+                    self.assertEqual(routed["status"], expected)
+                    self.assertEqual(routed["objective"]["declaration"], objective)
+                    self.assertEqual(result["execution_summary"]["solve_result_status"], expected)
+                    self.assertFalse(result["engineering_accepted"])
+        finally:
+            fixture.tearDown()
 
     def test_multiple_variables_without_objective_requires_classification(self):
         for question in ("多个连续变量复杂调参", "多参数调一调", "几个参数怎么调"):
@@ -213,7 +297,8 @@ class AspenToolRouterTests(unittest.TestCase):
 
     def test_external_reason_and_correct_hash_never_approve_substitution(self):
         for evidence in ([], [self.ref("external.json")]):
-            result = self.route("optimize", external_request={"reason": "Native tools are inconvenient", "evidence": evidence})
+            result = self.route("optimize", objective={"definition": "utility use", "direction": "minimize"},
+                                external_request={"reason": "Native tools are inconvenient", "evidence": evidence})
             self.assertFalse(result["external_request"]["execution_authorized"])
             self.assertEqual(result["external_request"]["status"], "DOMAIN_REVIEW_REQUIRED")
             self.assertTrue(result["external_request"]["native_assessment_required"])
@@ -273,6 +358,11 @@ class AspenToolRouterTests(unittest.TestCase):
         self.assertFalse(study["additionalProperties"])
         self.assertEqual(set(study["properties"]), {"mode", "varied_variables", "fixed_conditions", "maintained_targets", "inner_controls"})
         self.assertEqual(product_contract.schema("design-stage", None)["properties"]["solve_request"]["properties"]["study_context"], study)
+        objective = result["properties"]["objective"]
+        self.assertFalse(objective["additionalProperties"])
+        self.assertEqual(set(objective["properties"]), {"definition", "direction"})
+        self.assertEqual(objective["properties"]["direction"]["enum"], ["minimize", "maximize"])
+        self.assertEqual(product_contract.schema("design-stage", None)["properties"]["solve_request"]["properties"]["objective"], objective)
         self.assertIn("solve_request", product_contract.schema("design-stage", None)["properties"])
 
     def test_stage_strong_trigger_calls_router_but_keeps_declared_equipment_calls(self):

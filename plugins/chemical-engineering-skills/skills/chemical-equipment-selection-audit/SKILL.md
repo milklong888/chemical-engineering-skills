@@ -11,6 +11,12 @@ description: Audit and script chemical equipment design/selection calculations f
 
 能够判定的错误直接给出纠正及依据，确需EDR、SW6、塔内件或厂家证据的结论留在相应边界。设计值变化时按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)交回工艺与设备负责人复核影响，再更新报告、图表和设备清单。最后交付逐项计算及正文级修改情况，不用章节提纲冒充完整报告。
 
+当设备映射涉及实际采购项、采购数量或成套报价的费用范围时，在给出采购映射结论前，
+实际读取[费用映射负责人入口](../aspen-flowsheet-cost-skill-builder/SKILL.md)，
+由其[设备映射规则](../aspen-flowsheet-cost-skill-builder/references/mapping-rules.md)
+完成该部分交付。仅有文字流程或块清单、没有 BKP/INP 时同样适用；本模块继续负责
+技术选型与尺寸核查，不另建费用边界规则。纯技术选型问题保持当前范围。
+
 ## Product Retrieval And Optional Local Sources
 
 Resolve this product's runtime through `LOCAL_KNOWLEDGE_GRAPH_LINKS.md`.
@@ -19,6 +25,20 @@ knowledge, equipment rules and structured standards facts. Read
 `equipment-design-app` for the actual backend contracts. Private project
 overlays and textbook/standard source pages are optional user-supplied sources;
 their absence does not mean the bundled calculation backend is absent.
+
+用户要求查依据、核对结论的证据归属，或当前方法/标准的适用性不确定时，先做
+相关查询再作判断。按当前设备族和待核结论构造查询，实际执行本节已解析的
+`tools/expert_cli.py --query "查询内容" --corpus equipment` 或已发现的 MCP
+`knowledge_search`；标准事实使用 `equipment_standards`。读取相关命中的正文、
+来源位置与适用范围，将“待核结论—依据能证明什么—当前同设备证据—尚缺什么”
+逐项对应后给出纠正或最少交接项，并保留实际查询及来源标识。只读 Skill、列出
+附件目录或凭熟悉的术语回答，不能代替这一步。当前任务已有适用的查询回执和
+已读来源时直接复用，不重复检索。
+
+附件缺失仍可查询通用方法，但方法节点不补成同案计算书。无相关命中、内容不足
+或接口不可用时，明确记录查询结果和剩余缺口；结论限制在现有证据能支持的范围，
+不能把检索失败解释成已经核验。只审证据归属的窄任务停在查询与交接范围，
+无需为此启动流程设计、设备匹配或 Aspen/EDR/SW6 计算。
 
 The vector index is retrieval support only. It does not replace source
 documents, calculation ledgers, software/vendor evidence or decision gates.

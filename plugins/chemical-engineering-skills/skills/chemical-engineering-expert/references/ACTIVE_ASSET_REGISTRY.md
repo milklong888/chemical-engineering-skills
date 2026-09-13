@@ -19,7 +19,7 @@
 | 主导入口 | 何时进入 | 接收 → 交回 | 按需协作与边界 |
 |---|---|---|---|
 | [chemical-engineering-expert](../../chemical-engineering-expert/SKILL.md) | 方案、依据或可行性判断 | 当前问题、资料、允许修改 → 设计合同、来源分级和结论 | 相关专业按需实施；具体卡片与公式仍回各自 owner |
-| [subagent-dispatch](../../subagent-dispatch/SKILL.md) | 可独立并行的事实任务 | 边界、材料、允许动作 → 可复核事实与产物 | 主任务保留工程判断和整合；不能多人同时写同一模型 |
+| [subagent-dispatch](../../subagent-dispatch/SKILL.md) | 并行事实任务、依赖交接或重叠编辑协调 | 边界、材料、依赖与写入范围 → 可复核产物及主助手接纳结果 | 主助手负责最终整合；按依赖安排先后，不能多人同时写同一模型；分工规划不强制实际委派 |
 
 ## 流程组织
 
@@ -59,7 +59,7 @@
 
 | 主导入口 | 何时进入 | 接收 → 交回 | 按需协作与边界 |
 |---|---|---|---|
-| [aspen-flowsheet-cost-skill-builder](../../aspen-flowsheet-cost-skill-builder/SKILL.md) | 新流程建立设备费用方法 | 新模板、设备族与经济基准 → 来源、尺寸/购置费配方和批量方法 | 方法具备后按适用渠道取数；无来源不能自填费用默认值 |
+| [aspen-flowsheet-cost-skill-builder](../../aspen-flowsheet-cost-skill-builder/SKILL.md) | 块到实物/采购项映射、重复计费审查，或新流程建立费用方法 | 文字清单或模板、设备族与已有经济基准 → 物理候选与待核采购范围；需要计算时再交来源、尺寸/购置费配方和批量方法 | 映射审查不要求先建模型或生成 Skill；费用数字仍须来源与审查 |
 | [aspen-non-reactor-equipment-cost](../../aspen-non-reactor-equipment-cost/SKILL.md) | 已有费用流程的非反应器费用提取 | 同案BKP/APW或验证清单、经济基准 → 逐设备费用与覆盖缺口 | 需生成 Scenario1 时按本模块；新费用方法回 cost-skill-builder |
 | [aspen-kinetics-documentation](../../aspen-kinetics-documentation/SKILL.md) | 写清动力学来源及 Aspen 换算输入 | 文献、冻结台账、卡片/USER来源 → 可追溯动力学说明 | 反应参数权威仍是当前冻结链；只写说明不擅自改模型 |
 

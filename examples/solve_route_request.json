@@ -3,6 +3,7 @@
   "payload": {
     "question": "进料变化时自动补充溶剂，同时在产品约束下联合调整连续参数以降低能耗",
     "intents": ["live_relation", "optimize"],
+    "objective": {"definition": "产品约束与共同比较基准下的能耗", "direction": "minimize"},
     "study_context": {
       "mode": "same_targets",
       "varied_variables": ["连续操作参数"],

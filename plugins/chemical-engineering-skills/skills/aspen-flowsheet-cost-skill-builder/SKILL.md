@@ -1,11 +1,17 @@
 ---
 name: aspen-flowsheet-cost-skill-builder
-description: Inspect a new Aspen flowsheet, discover and qualify equipment-cost sources, map simulation blocks to physical non-reactor equipment, define per-equipment sizing and purchased-cost recipes, and generate a project-specific batch-analysis Skill. Use when a BKP/INP, new mother template, or unfamiliar equipment family must be converted into a mother-template, contained-equipment, calculation-method, and validated-batch-script structure.
+description: Map process descriptions or simulation block lists to physical non-reactor equipment and purchased-equipment scope, including package quotation boundaries, even without a BKP/INP. Also inspect new Aspen flowsheets, qualify cost sources, define sizing and purchased-cost recipes, and generate project-specific batch-analysis Skills. Use for block-to-procurement mapping, purchase counts, package cost coverage, or a new mother template and unfamiliar equipment family needing validated cost methods.
 ---
 
 # Aspen Flowsheet Cost Skill Builder
 
 ## 工作过程
+
+若当前只需把文字流程、块清单或报告摘录对应到实际采购设备，先实际读取
+[设备映射规则](references/mapping-rules.md)，按其待核映射格式完成当前资料能支持的
+物理项与采购边界判断。这个入口不以 BKP/INP 为前提，也不要求为了文字映射先生成
+新 Skill、费用脚本或执行 Aspen。只有任务进一步要求建立或运行费用方法时，才进入
+下方完整流程；设备尺寸与技术选型仍交给原专业负责人。
 
 面对一个尚无适用费用方法的新流程，先读取当前导出，把模拟块对应到真实的非反应器设备，弄清哪些辅助设备属于同一套装置。随后按设备用途查找并核实原始费用来源，逐项固定尺寸变量、单位、适用范围、年份、币种、材料和压力修正，再生成这个项目专用的计算说明、脚本入口与审计表。
 
