@@ -1,0 +1,44 @@
+{
+  "applicability": [
+    "适用于气固催化颗粒的有效表面、孔内传递、非等温边界和选择性初判；强耦合体系需用当前颗粒结构、物性和反应数据验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-B3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-03",
+    "L3-04",
+    "L3-07",
+    "CEPR-CH10",
+    "CH08B-LHHW-MAIN",
+    "CH08B-LHHW-ADS",
+    "CH08F-RATE-BASIS"
+  ],
+  "text": "名义或物理吸附测得的总表面积不自动等于可接触的有效活性表面积。孔容、孔径及分布、孔隙率、曲折度、颗粒形状和成型结构共同决定反应物能否到达内部活性位及其利用率；制备、焙烧、活化和再生还可能改变这些结构。孔内传递应按分子扩散、Knudsen 扩散或二者并存判断，并对主体扩散能力作孔隙率/曲折度等有效性修正，不能直接把主体相扩散系数当作颗粒内系数。\n\n颗粒微元衡算把扩散通量与反应消耗联立；弱内扩散时可近似用外表面浓度，强内扩散时颗粒内部利用不足，宏观颗粒速率是本征速率经过浓度梯度和有效利用程度修正后的结果。快速放热反应还会产生颗粒内温度梯度，中心可能高于表面，必须检查最高温度和热传导，不能沿用等温修正。内扩散对选择性的影响取决于竞争反应级数和扩散差异：并行反应级数相同时影响可能抵消，级数不同时可能向有利或不利方向变化；连续反应中间体通常因颗粒内停留/继续反应而使总体目标选择性下降。",
+  "title": "有效表面、孔内扩散、非等温颗粒与选择性",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "8bf1bfa895f966dd71944f375ebda3b3f3949a0025b30ec2ade8440ecfab0d53",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-B3.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 115–120、142–158（印刷页 103–108、130–146）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

@@ -1,0 +1,43 @@
+{
+  "applicability": [
+    "均相单一反应的理想批式、平推流和全混流设计概念；变容、多相或强传递耦合需扩展模型。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-A1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L1-01",
+    "L3-01",
+    "L3-03",
+    "L3-04",
+    "CH08C-RCSTR-005",
+    "CH08D-RPLUG-011"
+  ],
+  "text": "同一反应的化学计量、相态和速率基准必须保持一致，才能把物料衡算与动力学联立到可计算的设计问题；转化率、平衡组成和反应速率是不同量，组分速率还要按计量关系换算。\n\n间歇反应器求达到目标转化率所需的反应持续时间，它不包含装料、卸料、升温和降温等总周期辅助时间；平推流反应器沿流向经历连续变化的局部组成，需按沿程速率计算；全混流反应器全釜组成等于出口组成，设计采用出口状态的速率。空间时间是有效反应体积与入口体积流量的比值，不能无条件当作真实停留时间。气相膨胀、压力变化或传递不均匀时，必须把相应耦合关系带入；非等温时速率定义仍可使用，但动力学和能量衡算要随温度联立，不能直接套用恒温简式。",
+  "title": "均相理想反应器的体积与时间",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "0ebb999763fc7a6440bd33f8fc4abebd533c0bba3ba866ff6d8df494993b702c",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-A1.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页16–51（实际锚16–20、45–48）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

@@ -1,0 +1,44 @@
+{
+  "applicability": [
+    "适用于由机理、控制步骤、位点守恒和实验约束建立气固催化本征速率模型；不能仅凭反应总式或单个拟合指标选式。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-B2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH08B-POWERLAW-EXP",
+    "CH08B-KINETIC-GEN",
+    "CH08B-LHHW-MAIN",
+    "CH08B-LHHW-DF",
+    "CH08B-LHHW-ADS",
+    "CH08B-USER",
+    "SUN-KINETICS_EXPERT_SYSTEM"
+  ],
+  "text": "排除外扩散和孔内扩散后，本征动力学描述吸附、表面反应和脱附等表面化学步骤。吸附物覆盖度、空位和气相分压共同决定速率；竞争吸附时多个组分共享有限活性位，解离吸附等机理会改变覆盖度与可观测变量的关系。同一总反应式并不唯一决定速率方程，必须说明所假定的机理和控制步骤。\n\n实用的建模顺序是：提出候选机理，指定一个控制步骤，其余快速步骤取准平衡，用位点守恒把覆盖度换成分压或浓度形式，再用全套实验数据和物理约束筛选模型、估计参数、检验参数显著性并检查残差。第 4 章给出的实验边界和模型筛选不能被单个拟合优度或习惯性速率式替代；本段不展开各类吸附模型的完整假设分类。",
+  "title": "本征机理、表面覆盖与模型选择",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "8d64427e47067fcf9ab6592695770626b111f9a834857f06ca1f6fde8a398da1",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-B2.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 121–139（印刷页 109–127）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于采用气泡相—气泡晕—乳化相分相及相间交换近似的鼓泡流化床反应速率初筛。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-C2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH03"
+  ],
+  "text": "鼓泡流化床的密相区不能直接当成一个均匀相，应分为气泡相、气泡晕（气泡云与尾涡的合称）和乳化相：气体从气泡经气泡晕再与乳化相交换，固体主要在乳化相接触；相间传质依次连接各相，各相中的反应消耗与交换共同决定总体有效反应速率，因此不能把单一气固相的速率常数直接当成鼓泡段速率。该模型只适用于其分相、近似均匀气泡和传质交换假设，实际使用仍需当前气泡尺寸、相含率和相间传质证据；若床层强非均匀，还需核实上述分相近似是否成立。",
+  "title": "鼓泡流化床三相分相与有效反应速率",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "f45a0e18adfb3453597a435c35200b4f137eaaf314e5dd79d4816ace5b109b71",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-C2.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 201–207",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

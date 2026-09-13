@@ -1,0 +1,51 @@
+{
+  "applicability": [
+    "适用于固定床流动、压降、热/质传递和一维—二维拟均相—非均相模型的层级初选；实际模型需由当前床层、传递系数和相间梯度证据闭合。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-B5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-03",
+    "L3-04",
+    "L1-02",
+    "CH08D-RPLUG-001",
+    "CH08D-RPLUG-002",
+    "CH08D-RPLUG-003",
+    "CH08D-RPLUG-004",
+    "CH08D-RPLUG-005",
+    "CH08D-RPLUG-006",
+    "CH08D-RPLUG-007",
+    "CH08D-RPLUG-008",
+    "CH08D-RPLUG-009",
+    "CH08D-RPLUG-010",
+    "CH08D-RPLUG-011"
+  ],
+  "text": "固定床的空隙率、颗粒形状/尺寸、装填和壁效应会改变速度、停留时间、传热传质和压降；靠壁区域或入口分布不良可导致沟流和局部转化率/温度偏差，所以需要均匀装填和可靠的入口分布。压降明显时必须沿床层求压力和物料/热量变化，不能用入口或平均压力替代。热效应小且温度窗口宽时可用绝热单床；放热或吸热过程可用段间冷却/加热，多管式固定床用于强化换热但结构和成本更复杂。模型与床层结构选择应先看床层尺度的径向/轴向热梯度、颗粒内质量梯度和相间差异是否会改变结论。\n\n模型层级应按被忽略的梯度逐级提高：一维拟均相理想模型假设横截面温度和浓度均匀、流体与催化剂处在同一局部温度/浓度、轴向近似平推流，适合小管径、热效应不大或初步估算；一维拟均相非理想模型仍保持径向均匀，但加入轴向弥散/有效导热以描述轴向非理想流动。大管径、大放热或连续换热使径向温度/浓度梯度重要时，升到二维拟均相模型；当流体—颗粒外膜差异不可忽略、需要更高精度或相间温度/浓度差会改变速率时，再使用非均相模型，分别求流体、颗粒和外部传递。若有效传递系数和床层换热已可靠标定，一维拟均相结果可能已接近非均相结果；应采用能证明省略梯度不影响结论的最简单模型。\n\n这里“流体与催化剂温度/浓度相同”是拟均相模型的局部假设；“床层方程使用已含颗粒内外传递修正的宏观速率”是速率输入的层级处理，两者不能混写成同一物理事实。",
+  "title": "固定床流动、温度/压力与模型层级",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "95b152b33853a0a3bdf37ef007f3d9cea111cab5ce5d25801dc9de0187e9b3ec",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-B5.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 169–181、186–190（印刷页 157–169、174–178）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

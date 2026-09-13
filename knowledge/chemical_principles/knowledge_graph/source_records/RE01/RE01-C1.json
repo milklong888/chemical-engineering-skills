@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于本章所讨论的常规鼓泡、颗粒主要保留在床内的气固流化床操作初筛，不外推所有循环流化床。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-C1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH03"
+  ],
+  "text": "在本章讨论的常规鼓泡、颗粒主要保留在床内的气固流化床中，气体表观速度决定床层状态：低于起始流化速度 `u_mf` 时仍是固定床，超过它后形成流化，接近或超过颗粒终端速度 `u_T` 时则会夹带颗粒进入输送/稀相。因此这类床层的常规操作窗口是 `u_mf<u_0<u_T`，还要分别核对密相区、上部稀相区和顶部分离空间，不能把它概括成所有循环流化床的通用规则。气固床常呈聚式流化，分布器不良会形成沟流，小直径深床会出现节涌；流化有利于接触、混合和传热，却增加颗粒磨损、夹带和催化剂损失。液固床通常更接近分散式流化，但物性和压力仍可能改变流型。",
+  "title": "气固流化床的操作窗口、床层分区与失常边界",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "26b842ca6b5e49ecb1b185f560c7d6019aafe4feeaa2c4706abfd5a13f8afd13",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-C1.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 193–200、206–207",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

@@ -1,0 +1,45 @@
+{
+  "applicability": [
+    "适用于气固催化反应的速率基准、传递链和本征动力学测定边界；实际反应器仍需按当前相态、温度、组成和传递条件闭合。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-B1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-01",
+    "L1-01",
+    "L3-03",
+    "CEPR-CH07",
+    "CH08B-RXN-OBJ",
+    "CH08B-KINETIC-GEN",
+    "CH08B-KINETIC-UNITS",
+    "SUN-KINETICS_EXPERT_SYSTEM"
+  ],
+  "text": "催化剂可以改变反应途径和速率，但不改变可逆反应的热力学平衡。对同一可逆反应，催化路径对正、逆方向的加速都必须保持平衡关系，因此“正、逆反应都加快”本身不是选择性改变的原因；只有并行或连续的竞争路径被促进程度不同，才会引起选择性变化。气固催化速率还必须先声明基准，例如催化剂体积、催化剂质量或催化剂表面积；更换基准会同时改变单位和设备计算的量纲。\n\n气固非均相反应的步骤链是主体气相到颗粒外表面的外扩散、进入孔道的内扩散、反应物吸附、表面反应、产物脱附、孔内外扩散再回到主体相；按同一组分和计量基准核算时，稳态串联传递与反应通量相衔接，总速率受占主导的阻力限制。本征动力学只在外膜和孔内传递影响已被排除后才成立：在温度、组成与接触时间等保持可比的条件下，改变表观流速与颗粒尺寸，分别检查外膜和孔内传递是否影响观测速率，并在此边界下把表面浓度/温度与主体相区别开来。反应器计算则可把这些传递影响折算进宏观有效速率，但这不等于实际各处浓度和温度相同。",
+  "title": "反应—传递链与本征速率的测定边界",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "82318d3e89b1061decc78a20ba0516a50047722dbb56fbb5300da27eb175206f",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-B1.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 111–114、133–139、158–162（印刷页 99–102、121–127、146–150）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}
