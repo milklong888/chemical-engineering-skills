@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于以 Hatta 数比较液相反应与液膜传质并初筛气液反应器型式，不代替当前物系闭合。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-C3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH07"
+  ],
+  "text": "气相反应物由气相主体传到界面并进入液相，可以在液膜内或主体液相中反应；不挥发产物无需再返回气相。化学增强因子 `β` 只表示液相发生反应时的表观吸收速率相对物理吸收的增强程度；Hatta 数 `γ` 则比较液相反应速率和液膜传质速率。`γ` 较小时反应主要在液体主体，较大时更多发生在液膜，居中时两者都重要；若瞬时反应物 B 足够高，反应面贴在界面，液相阻力被压低而气膜可能成为控制边界。快速/瞬时反应通常更重视有效界面，不必仅为反应增加主体持液量；低持液量的填料塔可适用。较慢反应需要液体持留和主体反应，鼓泡塔或板式塔更合适。`γ` 只能作机理初筛，最终仍需当前相平衡、物性、界面面积、压降、放热和运行窗口。",
+  "title": "气液反应速率区间、化学增强与反应器匹配",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "dfaa036bc5664e1d1d33786f4b4d66726fdda9c2c9456e01e03916a1c95fc06f",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-C3.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 209–218、220–227",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

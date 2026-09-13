@@ -21,6 +21,11 @@ In a claim review, deliver a finding or a specific conditional gap for each item
 below. Brief prose is enough; reading this contract or returning only a revised
 headline does not complete the review.
 
+审查新增电耗时，先确认用电设备，再交代它的入口与出口状态依据；设备身份未知，
+就把设备类型和进出口温压、相态记录一起列为待核项。只有确认属于压缩设备时，
+才按压缩服务检查排气等条件；不能仅凭电耗假定有压缩机。这些条件应出现在当前
+答复或审查稿中，仅提到塔压、分离温位改变不能代替新增设备的状态核查。
+
 | Review item | Finding to include in this handoff |
 | --- | --- |
 | Common basis | Product quality/capacity, time and system boundary, pressure constraints, heat and added power on comparable bases; state which changes prevent comparison. |

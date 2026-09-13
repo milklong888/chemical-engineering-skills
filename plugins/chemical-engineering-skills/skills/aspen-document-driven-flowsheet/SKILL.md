@@ -11,6 +11,8 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 
 图谱在选择方法和处理未知问题时介入，设备程序在骨架有负荷、岛内工况确定及接回后分别复核，执行[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。若设备限制要求改工况或结构，先更新项目决定，再交操作模块修改和重算。最终交付的是同一版本的模型、来源和修改记录、全流程结果及真实验收证据；简化骨架和单岛收敛不冒充最终全流程。
 
+交付 `source` 或 `scaffold` 安排时，现在就完成[边界与严化交接记录](references/source_scaffold_handoff.md)及其结构检查。每个简化占位要有接手专业（未定时写选择条件）、必要输入和必须返回的结果；循环既列返回端，也列来源端，未知端点明确保留。只做安排、尚不能运行模型时仍交这些内容，不能以“以后严化”或“另行立项”代替当前交接。阶段查询回执不代替这份安排记录。
+
 ## Authority First
 
 Read `references/ERROR_MEMORY.md`, the chemical expert, and its
@@ -91,22 +93,12 @@ verified results, unresolved/relaxed gates and the next scoped action. Keep
 operation completion, local repair, simulation cleanliness, products and final
 delivery separate. Report only relevant artifacts actually produced.
 
-For a `source` or `scaffold` arrangement, fill the current project's
-[boundary and rigorous-handoff record](references/source_scaffold_handoff.md)
-and run its read-only structural check before returning the arrangement.
-Deliver the resulting edge table and one handoff row per allowed placeholder
-now, including unknown endpoints, missing inputs and owner-selection conditions.
-Trace each declared process node's inlet and outlet, including the source of a
-recycle return. If its location is unknown, declare a stream with the known node
-and a null other endpoint plus the precise gap; an unconnected return arrow or
-future-work note is not a complete route. Only a source-supported absence in the
-current phase permits a no-interface reason; missing data is not such a reason.
-Use the checked control-volume rows for every displayed stream balance and
-sketch; retain reaction terms under the expert's existing derivation rule.
-This checks the declared arrangement, not source truth, numerical closure or
-Aspen execution. A source-only task still returns the record without building
-or running a model. Reuse an equivalent current project ledger through the
-same check instead of maintaining a second engineering contract.
+For source/scaffold arrangements, deliver the current handoff defined in
+工作过程 and its linked record. Use its checked control-volume rows for the
+displayed balances and sketches, retaining reaction terms. The check verifies
+declared structure, not source truth, numerical closure or Aspen execution.
+Reuse an equivalent current project ledger through the same check rather than
+maintaining a second engineering contract.
 
 阶段收尾若发现有证据且值得复用的新方法或原则，将候选交主助手，按
 [主动经验提醒](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md#主动提醒使用者)

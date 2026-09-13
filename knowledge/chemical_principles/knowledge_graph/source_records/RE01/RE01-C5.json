@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于有径向传热的管式/固定床热点与参数灵敏性初筛，以及理想绝热平推流温升风险边界。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-C5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-04"
+  ],
+  "text": "对有径向传热的管式或固定床反应器，局部稳定性取决于单位床层放热能否及时由管壁移走；放热强、催化剂活性过高、管径/床层尺度过大或冷却不足，都会增加热点和失控风险，因此尺度与活性必须同移热能力一起取舍。轴向上温度升高会进一步加快反应，热点还会受到进料温度、浓度、压力、冷却介质和催化剂状态的放大。理想绝热平推流模型中，温升由入口条件和沿程反应共同确定，这不等于没有热风险：高活化能、绝热温升和入口扰动仍可能把出口温度显著放大，非等温非绝热床甚至可能因很小的压力或入口温度变化突然出现高热点。工程上应以当前动力学、传热和床层条件做灵敏度扫描，联同冷却、催化剂窗口、控制保护、机械缺陷和危险副反应检查；灵敏度分析只用于暴露边界，不替代设备强度和安全仪表验收。",
+  "title": "管式/固定床的热点、允许尺度与参数灵敏性",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "fc8902d6f651bd292fe7bd6d86bbf4413e1a95319db30b3cada0332fe8c9ad1f",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-C5.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 233–239",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "source-adoption-v1",
+  "source_adoption_id": "source_adoptions/RE01.json",
+  "source_id": "RE01",
+  "source_sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+  "base_manifest_sha256": "d226825251f8fd6d80a6c49979f5c024d04443665043de6700df20a171a2cc09",
+  "candidate_manifest_sha256": "c877806bbaa4314baec41159f05f4154274f4a88651a5bcfd7192412717b7fc4",
+  "review_proof_sha256": "74517785baaf28d924b7b2bccaac987e9b04d02bbd63287fde0d33f1b2af6732",
+  "node_ids": {
+    "RE01-A1": "0ebb999763fc7a6440bd33f8fc4abebd533c0bba3ba866ff6d8df494993b702c",
+    "RE01-A2": "a9d96873f1a6c5d376be0957d17e5663ffbf6a9b9a35dff597388e35c7060096",
+    "RE01-A3": "f98a33148391c728a351bf92a6d23566fb3debda516236ac6c12ee663d0389de",
+    "RE01-A4": "1d38a6cadb619783be6ca296f718fd6da0f0b55801681ebaeb5be07526e92f7f",
+    "RE01-B1": "82318d3e89b1061decc78a20ba0516a50047722dbb56fbb5300da27eb175206f",
+    "RE01-B2": "8d64427e47067fcf9ab6592695770626b111f9a834857f06ca1f6fde8a398da1",
+    "RE01-B3": "8bf1bfa895f966dd71944f375ebda3b3f3949a0025b30ec2ade8440ecfab0d53",
+    "RE01-B4": "4fcc3433964e7fc9e85aa6c9f351dcdefdb32d699d93834a1043352a406536af",
+    "RE01-B5": "95b152b33853a0a3bdf37ef007f3d9cea111cab5ce5d25801dc9de0187e9b3ec",
+    "RE01-C1": "26b842ca6b5e49ecb1b185f560c7d6019aafe4feeaa2c4706abfd5a13f8afd13",
+    "RE01-C2": "f45a0e18adfb3453597a435c35200b4f137eaaf314e5dd79d4816ace5b109b71",
+    "RE01-C3": "dfaa036bc5664e1d1d33786f4b4d66726fdda9c2c9456e01e03916a1c95fc06f",
+    "RE01-C4": "ba86d5adb0e28a1cc1e48d2e8cd63a9c378254bb580c24d48065d9ecfd28c06b",
+    "RE01-C5": "fc8902d6f651bd292fe7bd6d86bbf4413e1a95319db30b3cada0332fe8c9ad1f"
+  },
+  "scope": {
+    "distribution_scope": "redistributable",
+    "evidence_class": "X",
+    "authority_scope": "shared",
+    "project_value_transfer_allowed": false
+  },
+  "rights_summary": [
+    "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授"
+  ],
+  "engineering_acceptance_verified": false
+}

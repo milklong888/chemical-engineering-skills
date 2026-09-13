@@ -13,7 +13,7 @@ description: Build, audit, repair, and deliver Aspen Plus EDR shell-and-tube exc
 分别列已知事实与缺项。未找到证明不能据此标成“没有 EDR”；确认不存在需要
 检查当前设备的绑定、设置及对应文件记录。
 
-EDR改变面积、压降或出口状态时，不能只更新换热器表；按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)回到工艺层复算受影响的循环、产品和公用工程。最后同时交付逐台覆盖记录、EDR依据和精确Aspen文件的验收证据。包内提供方法及接口，不提供商业软件，也不把热工评级当作厂家机械设计批准。
+已有同设备读回显示面积、压降或出口状态改变时，即使本题只问能否交付、尚不允许改模型，也先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际执行 `change`；独立求解路由或设备查询不代替阶段检查。随后明确受影响的循环、产品和公用工程及其复算要求，不能只更新换热器表。最后同时交付逐台覆盖记录、EDR依据和精确Aspen文件的验收证据。包内提供方法及接口，不提供商业软件，也不把热工评级当作厂家机械设计批准。
 
 ## Role
 
@@ -228,10 +228,18 @@ arrangement without same-equipment evidence.
 
 ## Return Contract
 
+For each exchanger in an EDR evidence-gap audit or thermal-rating delivery, compare actual hot-side and cold-side
+pressure drops with their respective allowed pressure-drop limits on the same
+equipment and operating basis. List missing limits as missing inputs with their
+source to obtain; an actual DP value alone does not establish acceptability.
+This comparison belongs in the returned checks even when the task only asks for
+an evidence-gap review and no commercial calculation is performed.
+
 ```text
 Coverage: <covered eligible HeatX>/<total eligible HeatX>
 True EDR identity: <per-tag mode/file/readback>
 Engineering gates: <area/DP/RhoV2/vibration/property/material status>
+Pressure-drop basis: <hot actual/allowed; cold actual/allowed; sources or gaps>
 Aspen delivery gate: <Required Input and Run Status/history>
 Exact delivery file and SHA256:
 Quarantined branches:

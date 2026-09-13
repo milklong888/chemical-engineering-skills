@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于催化剂结构失活、覆盖/中毒、再生可行性和全寿命设计的边界判断；失活模型及寿命参数必须由当前机理和运行数据验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-B4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "SUN-KINETICS_EXPERT_SYSTEM"
+  ],
+  "text": "失活可来自结构变化（相变、分散度下降、烧结、孔堵塞）、物理覆盖/积炭或吸附中毒，以及毒物与活性组分发生化学反应。它们的可逆性不能一概而论，取决于失活机理、毒物和再生条件；有些覆盖可清除，有些结构损伤或化学反应难以恢复。均匀失活和“表层先失活、失活层向颗粒内推进”等模型只能作为近似，真实失活可能同时受孔堵、扩散和活性位变化影响，不能单独充当设计证据。\n\n工业设计要按全寿命而不是初始活性处理：净化原料以降低毒物负荷，控制温度防止烧结/相变，只有在机理和验证支持时安排再生，并按中期活性、历史波动和安全系数确定催化剂量；分段、调温或其他操作补偿可以延缓性能下降，但不能把补偿措施当作失活已经消失。",
+  "title": "催化剂失活与全寿命设计",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "4fcc3433964e7fc9e85aa6c9f351dcdefdb32d699d93834a1043352a406536af",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-B4.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 163–167（印刷页 151–155）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

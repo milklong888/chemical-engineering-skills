@@ -47,6 +47,8 @@ Skill 是供助手读取的工作指南，连接相应资料和工具。此前�
 
 知识增补按资料逐份处理，先检查实际用途和已有覆盖：重复知识、无用内容跳过，只保留有用的增量。内容以完整知识块组织，读者能无歧义地复述其含义和必要条件即可，不追求零碎条目数量；查询先找足以回答问题的层次，需要时再下钻。具体见[知识入库与读取规则](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/COMMON_SENSE_RAG.md)。
 
+本次新增主题与实际处理范围见 [knowledge/intake/README.md](knowledge/intake/README.md)。
+
 路由结果用于安排下一步工作；实际软件操作和验收另行执行。原生 Sensitivity 的目标接口资格核验仍待完成。接口、调用时机和范围见[内置工具使用说明](plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/aspen_builtin_solve_fit_tools.md)与[设计阶段调用](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。
 
 ## 0.4.6 更新：Agent 工作流与经验管理

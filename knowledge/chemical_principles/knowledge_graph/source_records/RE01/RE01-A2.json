@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "给定动力学和目标转化率下的理想单一反应器组合比较；泵功、传热、压降和实测RTD需另行校验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-A2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-03",
+    "L3-04",
+    "CH08C-RCSTR-005",
+    "CH08D-RPLUG-011"
+  ],
+  "text": "在相同动力学和目标转化率下，平推流的组成沿程变化，全混流的全釜组成等于出口组成。对速率随反应物浓度增加而增加的常见正级数反应，平推流通常体积较小、全混流较大；低转化率时差别较小，转化率升高时返混使全混流长期处于较低速率，体积代价变大。零级反应对这种流态差异不敏感。这个结论依赖同一速率式、温度和密度等理想条件。\n\n并联平推流要同时满足物料分配和支路空间时间的匹配；平推流串联相当于把沿程积分分段执行，而全混釜串联可逐步减少返混，釜数增大时接近平推流。不同型式的串联顺序，应看反应速率随浓度的曲线，把物料尽量安排在高速率区。循环比 β 可在平推流和全混流之间调节入口状态与返混；它能把产物带回入口、帮助自催化反应启动，也可能降低给定转化率的体积，但最优值必须由该反应的速率曲线和物料衡算求出。自催化反应低转化率时常需要全混或循环提供产物，高转化率时才可能转向平推流，不能直接套用普通不可逆反应的顺序。",
+  "title": "流态与组合方式决定单一反应的体积/返混代价",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "a9d96873f1a6c5d376be0957d17e5663ffbf6a9b9a35dff597388e35c7060096",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-A2.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页52–83（实际锚52–77、78–80）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

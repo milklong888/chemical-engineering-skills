@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "并联、可逆和串联反应的理想选择性、温度和停留时间判断；复杂网络或非等温变容体系必须重算。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-A3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-04",
+    "N08A-01"
+  ],
+  "text": "并联反应中，转化率只说明 A 消耗了多少；以消耗 A 为基准并按计量关系归一时，瞬时选择性是某一时刻目标物生成速率占 A 总消耗速率的比例，平均选择性是沿全过程按 A 消耗量加权的结果，目标产物收率等于转化率乘以平均选择性。全混流组成均匀，瞬时和平均选择性相同；平推流、间歇或分段操作中浓度和温度变化，必须按整个历程评价。选型的核心是改变目标反应相对副反应的速率：级数、浓度和活化能差异决定提高浓度或升温是否有利，最终还要受传热、材料和分离约束。\n\n可逆反应的净速率是正向减逆向，平衡时净速率为零。温度影响不能简单套用单向反应的“升温必加快”：可逆放热反应可能因动力学加速与平衡限制竞争出现最佳温度，最佳温度还随转化率变化，需同时检查材料耐温和移热能力。\n\n串联反应 A→P→S 的中间产物 P 先积累后被继续消耗，所以目标是 P 时，停留过久会降低目标产物，应在 P 接近峰值处停止或分离。峰值位置由两步动力学、温度和流态共同决定；书中给出的一级、恒温、恒容、初始无 P 的间歇/PFR 与 CSTR 最佳时间只是特例，不能当作任意串联反应的默认值。",
+  "title": "并联/可逆/串联反应要以选择性、平衡和停留时间共同选型",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "f98a33148391c728a351bf92a6d23566fb3debda516236ac6c12ee663d0389de",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-A3.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页52–83（重点锚67–77、79–80）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

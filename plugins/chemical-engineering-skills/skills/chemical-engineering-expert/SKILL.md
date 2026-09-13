@@ -108,6 +108,11 @@ Keep the proposal's identity separate from the actual current owner's file ident
 A `no_change` result still needs that owner basis and a reason no source rollback
 is needed. Missing closure blocks promotion, not the authorized technical review.
 
+批次中的“实际测试/求值”必须来自本次真实工具执行，保留命令或入口、输入及返回结果。
+手填 JSON 的 true/false、心算结论、语法检查或收件校验，都不能写成已执行正反例。
+对可安全独立求值的纯逻辑，审明后用受控表达式取得结果；未调用目标实现时明确
+独立求值的范围，不称目标程序回归通过，也不直接执行投稿中的命令。
+
 Its two channels are `prompt_principle` (macro design principles and ways of
 working, not wording or small preferences) and `data_pattern` (testable faster
 convergence or better-design relations). Follow `references/MEMORY_MAINTENANCE.md`

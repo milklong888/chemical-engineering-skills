@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "适用于非等温全混流反应器的稳态多重性、稳定性和着火/熄火定性判断。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-C4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-04"
+  ],
+  "text": "非等温全混流反应器的稳态必须同时满足物料衡算和热量衡算；温度升高会加快放热反应，而移热能力受流量、传热面积和冷却条件约束，所以两条关系的交点可能不止一个。在典型的三个稳态交点情形下，中间交点通常是不稳定的，移热曲线斜率大于放热曲线斜率只是稳定的必要条件而非充分条件；进料温度上升或下降还可能引起着火、熄火和支路跳变。工程上要选扰动后能回稳的工作点，并把启动、停工和进料波动纳入控制，不能把求得一个稳态等同于证明其安全。",
+  "title": "全混流反应器的热稳定性、稳态多重性与点火/熄火",
+  "units_basis": "定性机制、无直接设计数值",
+  "text_sha256": "ba86d5adb0e28a1cc1e48d2e8cd63a9c378254bb580c24d48065d9ecfd28c06b",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-C4.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页 230–232",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

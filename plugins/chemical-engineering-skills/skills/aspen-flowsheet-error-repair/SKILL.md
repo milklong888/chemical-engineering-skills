@@ -11,6 +11,11 @@ description: Diagnose and repair Aspen flow failures using current authority, ph
 
 按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)和下方 Repair Loop 先选择当前事件分支，再诊断和修复。修复后让受影响结果重新计算。返回原报错、修改、同案复跑和剩余问题；修好一个块只表示局部修复，不表示全流程已经交付。
 
+只要求诊断、暂不允许改模型时，仍在当前交付中落实下一步修复安排：保护哪份原文件、
+拿到什么证据后只改哪一项、如何在同一候选上比较修改前后，以及失败后回退到哪里。
+文件尚未提供就把原件和副本记为待取得、待建立；证据未定就写条件，不猜具体改值。
+这是安排，不能写成已经复制、修改或复跑。通用接口返回的 planning 字段不代替本案安排。
+
 ## First reads and scope
 
 Read `references/ERROR_MEMORY.md`, the chemical expert's
@@ -89,10 +94,7 @@ affected consumers, verified scope and remaining actions. Audit logs may retain
 all attempts; they are not automatically learning examples.
 
 For a preparation-only handoff, return the specific next repair contract alongside
-the diagnosis: which current candidate will be copied and protected, the first
-evidence-dependent change, and which same-candidate before/after results will test
-it. Name unavailable files as dependencies; do not claim a copy, edit or replay
-was performed. For a changed-case event, also link the actual stage receipt and
+the diagnosis, as defined in 工作过程. For a changed-case event, also link the actual stage receipt and
 report the stage and embedded routing conclusions separately. Check these items
 are present in the delivered answer or its linked artifact before closing.
 

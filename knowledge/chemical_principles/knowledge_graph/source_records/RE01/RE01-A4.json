@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "用惰性示踪实测RTD并选择非理想流动模型；强反应—混合—传热传质耦合需额外验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "RE01-A4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-03",
+    "L3-04",
+    "CH08D-RPLUG-011"
+  ],
+  "text": "真实反应器中不同流体微元经历的时间不同，并可能发生空间和时间上的返混；停留时间分布（RTD）用出口物料的停留历史描述这种宏观不均匀性，并可由分布函数、密度函数、平均停留时间和离散程度来比较装置。PFR 的停留时间集中在一个值，CSTR 的停留时间呈连续分散，部分返混介于两种理想极限之间。平均停留时间相同，并不表示浓度历史或反应结果相同。\n\nRTD 通常用惰性示踪剂测量。阶跃输入通过出口响应得到累计分布，脉冲出口响应按其积分面积归一化得到分布密度；示踪剂必须不反应、不改变流动、可准确测量，并尽量无毒、不燃、不腐蚀。输入信号、检测滞后或示踪剂与原料发生作用，都会使测得分布失去代表性。\n\n有了实测 RTD，可以按反应对混合的敏感程度选择模型。凝集流模型把物料看成停留时间不同但彼此不交换的流体元，各元按自身的间歇反应历程变化；它便于计算，却忽略微观物料交换，书中明确指出对返混能促进的自催化反应可能得到与真实情况完全不符的结果。多级混合槽模型把装置等效为若干等容 CSTR 串联，用等效槽数表示分散程度；槽数为 1 是全混流，槽数增大逐渐接近平推流，但等效槽数可以是由实测分布得到的实数。\n\n轴向扩散模型把平推流与逆向弥散叠加，适合偏离平推流不大的管式、固定床或塔式流动；入口/出口边界条件必须按实际流动选取，开式边界还可能使平均停留时间与空间时间不一致。把管段在出口外延长是求解方便的数值处理，不代表真实出口后仍有反应。RTD 只描述宏观停留历史，不能单独决定非线性反应的转化率；还要确认微观混合/物料交换、温度场和传质等假设适合该反应。工程上应先用冷模或示踪实验检验 RTD，再选模型；模型选择错误会产生明显偏差，增加数值精度不能补偿物理假设错误。",
+  "title": "用停留时间分布把真实返混转成可验证的反应器模型",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "1d38a6cadb619783be6ca296f718fd6da0f0b55801681ebaeb5be07526e92f7f",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/RE01/RE01-A4.json",
+  "source": {
+    "source_id": "RE01",
+    "sha256": "e66077b0393c6ee658fbe54eec3984f2f7ad635577b02eb41d7f1d90bf578e18",
+    "locator": "PDF物理页84–110（实际锚84–105、106–110）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/RE01.json"
+}

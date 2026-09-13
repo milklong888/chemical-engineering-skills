@@ -89,15 +89,20 @@ class StandaloneKnowledge(unittest.TestCase):
         self.assertIn(self.record['node_id'],[r['node_id'] for r in json.loads(process.stdout)['results']])
 
     def test_03_unreviewed_preserved_but_not_indexed(self):
+        _,baseline_records=query.load_records(BASE)
+        baseline_vectors=(BASE/'vectors/records.jsonl').read_bytes()
+        baseline_config=json.loads((BASE/'vectors/config.json').read_text(encoding='utf-8'))
         result=self.cli(review=False,expected=2)
         self.assertEqual(result['pending_count'],1);self.assertEqual(result['admitted_count'],0)
         target=self.output/'knowledge';_,records=query.load_records(target)
-        self.assertEqual(len(records),6873)
+        self.assertEqual(records,baseline_records)
         self.assertNotIn(self.record['node_id'],{r['node_id'] for r in records})
         pending=json.loads((target/'candidate_intake.json').read_text(encoding='utf-8'))
         self.assertEqual(pending['pending'][0]['change']['record']['text'],self.record['text'])
         self.assertFalse(pending['default_retrieval_eligible'])
-        config=json.loads((target/'vectors/config.json').read_text());self.assertEqual(config['record_count'],6850)
+        config=json.loads((target/'vectors/config.json').read_text(encoding='utf-8'))
+        self.assertEqual(config['record_count'],baseline_config['record_count'])
+        self.assertEqual((target/'vectors/records.jsonl').read_bytes(),baseline_vectors)
 
     def test_04_source_drift_no_output(self):
         self.source.write_text('Changed source',encoding='utf-8')
