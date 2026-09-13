@@ -3315,8 +3315,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-tower-optimization-workflow/SKILL.md",
-      "sha256": "5918615d2fc4467fbc89461fc32b97a5dab7a2cc1f581476717b3393c9f5e835",
-      "bytes": 6489
+      "sha256": "29f6f74758fc53f9e05a9b58342b47e85c9b333fc195968a9005399ab8fb82d6",
+      "bytes": 7558
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-tower-optimization-workflow/agents/openai.yaml",

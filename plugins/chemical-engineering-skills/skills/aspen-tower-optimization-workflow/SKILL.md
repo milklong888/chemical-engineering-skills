@@ -9,6 +9,16 @@ description: Optimize and reconnect a source-frozen Aspen distillation or solven
 
 为当前塔岛制定约束求解或操作点比较方案时，先按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际执行 `island` 知识准备，并与本次 `solve_route` 回执一起核对。准备方案也需要完成已有资料支持的查询；缺模型只限制依赖模型的计算，具体缺口写入结果。独立求解路由和读取规则都不能代替岛阶段调用。单纯解释优化原理、不涉及当前塔岛方案的问答不因此扩成工程任务。
 
+执行入口是运行库 `tools/expert_cli.py` 的 `design_stage` 操作，或同一实现的 `design_stage_check`。从工作区链接图取得运行库位置并查看 `--schema design-stage`，把当前任务原文写入 `question`，以 `stage=island` 保存请求；CLI 使用 `--request 请求文件 --output 回执文件`。方案准备可只提交这一最小结构：
+
+```json
+{"operation":"design_stage","payload":{"stage":"island","question":"当前任务原文"}}
+```
+
+其中 `question` 必须替换为本题实际内容。这个最小请求执行本地知识准备和阶段编排，不会打开或运行 Aspen、EDR、SW6；未提供的模型身份与设备工况保持缺口。取得并读取本次阶段回执后再交回求解方案，不能把“禁止启动商业软件”解释成跳过该只读入口。独立路由回执仍另外核对，不能写成阶段回执。
+
+回执先核 `stage`、`status`、`execution_summary` 和缺口，再读取实际采用的知识命中与适用条件；完整回执保存一次，不反复打印整份大文件。
+
 先固定当前塔的进料、物性、产品纯度、产量和回收要求，判断指定的快捷方法是否适用；适用时用DSTWU给严谨塔初始化，不适用时说明原因并按获准方法建立基准。基准稳定后，复用同版有效响应区间，未知时先做有边界的敏感性分析。按实际目标确定直接约束或有独立操纵量的在线Design Spec，再比较不同操作点的热量、回流和设备负荷。
 
 每个候选都必须在同一产品基准下比较。流量、级数、温压或负荷变化时，按上述阶段调用规则调用知识与设备检查，再交塔设计模块核对水力学；有真实能力限制才评估并联等方案。合格塔岛逐个接回全流程，并用新的入口和循环重新验证，不能把岛内最优点直接当整厂最优。
