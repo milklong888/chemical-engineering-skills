@@ -1,0 +1,47 @@
+{
+  "applicability": [
+    "适用于候选压力下相平衡已证实压敏的二元共沸PSD及其部分热集成控制；压力顺序、补偿关系和换热配置须按物系、压力边界和扰动复验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-B2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH10A-PSD-01",
+    "CH10A-PSD-02",
+    "CH10A-PSD-04",
+    "D-OPT-01",
+    "D-OPT-02",
+    "D-OPT-03",
+    "DistillationSensitiveTrayCriteria",
+    "PressureControllerRule",
+    "RatioCascadeRule",
+    "DynamicDisturbanceTest"
+  ],
+  "text": "变压精馏不是“有共沸就升压”：先在候选压力下确认共沸组成、温度变化、共沸消失或类型变化，再判断是否存在低压/高压塔的分离路径及各塔的分离方向。两塔的压力、级数、进料/回流位置、回流比和热集成要在同一产品约束下联合比较，不能把一个塔的局部优化当全流程结论。热集成只应作为全流程比较的一种配置：它可能降低负荷，也会引入热/压力耦合。\n\n压力和进料组成共同决定路线次序：书中乙醇–THF 案例在不同组成下得到不同的高压/低压先后顺序和辅助换热配置；因此压力顺序和热集成方案不能从一个进料组成直接迁移。案例比较还显示，控制性、TAC 和设备复杂度可能互相牵制，最终选择要在相同产品目标、压力边界和扰动范围下比较，而不能只看稳态 TAC。",
+  "title": "变压精馏的相平衡可行性与进料组成换序",
+  "units_basis": "定性方法；不携带案例压力、级数、热负荷或调谐数值。",
+  "text_sha256": "3d4d0beee4b8f659f2193db0f43994bc3c6c6435990e9a1b23572ae0e6a378ef",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-B2.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页128–157（印刷页117–146）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

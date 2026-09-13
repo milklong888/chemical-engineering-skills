@@ -1,0 +1,34 @@
+{
+  "schema": "source-adoption-v1",
+  "source_adoption_id": "source_adoptions/OC02.json",
+  "source_id": "OC02",
+  "source_sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+  "base_manifest_sha256": "7ce845647b09d71f540546dff46efea1bfa7c54348c1ba8a1bfe57be92c1638b",
+  "candidate_manifest_sha256": "2e396c03b97994485b99c4e6268bb07e93787f19c63d7471ed31d4c15a3554e4",
+  "review_proof_sha256": "39b9c28a26fff9d4b9f2a516e6af78f5b0d4549b8013d2d8402b7b2a6d8e7ae1",
+  "node_ids": {
+    "OC02-A1": "62cfff902edb9c0fa9323adcac100456e08e9a5421eba4f498c7591dfcfe2ff4",
+    "OC02-A2": "d616adf7203187ec85e3626b307f74fdd46b621810c20da8888a99ca6a7fa8e7",
+    "OC02-A3": "5c9b9fb767a80025c95e2f956ce3499eaff23977a271266d57b5cea073a1e041",
+    "OC02-A4": "803e9ddd81ec7e231e1211364253673ba9998ee0b454631d5c61a46d73270c80",
+    "OC02-A5": "2f1ddf993ae944976d6137ca7aae017a96b8e76483fa04b9029b500fafc5cbe7",
+    "OC02-B1": "09b3851f315365c60d7ef0aa41de3e2c325218614294d968ebd21e35d71ddaf1",
+    "OC02-B2": "3d4d0beee4b8f659f2193db0f43994bc3c6c6435990e9a1b23572ae0e6a378ef",
+    "OC02-B3": "e68c2ea1e95dd1adff80a5846714b7b566330f25c0d7a8fcf1f6729f53ec7f94",
+    "OC02-B4": "7acd0b2593280b5a877da5ed8550e86f8f0fe966a413a637ec50b424b09cbb99",
+    "OC02-C1": "6180e581309037d060b5e61a0f530487e1557cb378867da8a647eff64670a8cf",
+    "OC02-C2": "2abc847b21f4e03c2e227946c41f1af3e468cf0184342430adfe086dc1d51104",
+    "OC02-C3": "0ffc348566cc7b1b0758c269c0214d01e46bd48ae0bb8761ab8ad925ee1009d0",
+    "OC02-C4": "4063bee5742acef55ce1061e67e57a9fd3596387a8d68fb8da5702267f5037a3"
+  },
+  "scope": {
+    "distribution_scope": "redistributable",
+    "evidence_class": "X",
+    "authority_scope": "shared",
+    "project_value_transfer_allowed": false
+  },
+  "rights_summary": [
+    "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授"
+  ],
+  "engineering_acceptance_verified": false
+}

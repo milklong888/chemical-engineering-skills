@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于有回流罐/塔釜库存、压力和产品质量目标的精馏回路规划；具体操纵量、作用方向和量程必须按流程拓扑校验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-A2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "LevelControllerRule",
+    "PressureControllerRule",
+    "DistillationTemperatureControl",
+    "DistillationCompositionControl"
+  ],
+  "text": "库存、压力和质量回路必须协同而非各自追指标。回流罐和塔釜液位是库存控制：选择合适的进出流量/阀门保持可用库存，使塔内物料衡算有缓冲并避免设备干涸或溢流；具体配对由流程拓扑及质量控制需要决定，不能把某个案例设置当默认。压力回路保持塔顶/塔内压力，并可通过冷凝器热移出、再沸器/气相通路或压力阀等可用操纵量调节；压力波动会改变汽液平衡，从而使温度—组成代理和产品质量回路产生偏差，所以质量控制必须在受控压力下评估，必要时加入压力补偿。单独固定回流、再沸器热负荷或流量只能锁住一个自由度，质量、库存和能量目标仍要用成对的真实操纵量配平；双质量控制或质量—温度组合可提高质量保持能力，但会增加回路交互，必须检查阀门饱和、方向和产品/库存响应。",
+  "title": "库存、压力与质量回路的配对和补偿",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "d616adf7203187ec85e3626b307f74fdd46b621810c20da8888a99ca6a7fa8e7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A2.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页17–24（重点17–21）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

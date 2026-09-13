@@ -654,11 +654,11 @@
     {
       "path": "knowledge/vectors/vectors.npy",
       "kind": "numpy_index",
-      "sha256": "3a43a6885020e4be806cbc18c3d2d6e17fa7c99d45f0c04d0b99209adf4543ec",
-      "bytes": 21086336,
+      "sha256": "bef6a510b5bec56ec0102ee57a29e76400bf1c7fbca669f03942e082686e3e74",
+      "bytes": 21126272,
       "dtype": "float32",
       "shape": [
-        6864,
+        6877,
         768
       ],
       "allow_pickle": false,

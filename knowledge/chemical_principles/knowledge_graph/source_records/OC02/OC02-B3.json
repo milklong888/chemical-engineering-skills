@@ -1,0 +1,44 @@
+{
+  "applicability": [
+    "适用于萃取或非均相共沸隔壁塔的拓扑、分相和动态控制初筛；两液相形成、液相分配窗口、内部连接与测点需按具体物系和流程验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-B3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "node_ch10c_003",
+    "node_ch10c_004",
+    "node_ch10c_005",
+    "DWCControlStructure",
+    "DistillationSensitiveTrayCriteria",
+    "DynamicDisturbanceTest",
+    "RatioCascadeRule"
+  ],
+  "text": "隔壁塔用于共沸或萃取体系时，节能优势不能掩盖内耦合。隔板两侧和公共段的液、汽分流与侧线采出共同决定分离；对于萃取隔壁塔，溶剂 S/F、侧线采出和内部汽液分流是联动变量，固定一个分流比或把侧线段当普通独立塔可能使产品纯度和动态响应失真。书中一个萃取结构通过限制隔板一侧的顶部回流，使该侧近似承担侧线塔任务；这种拓扑使侧线采出和温度/组成回路的配对具有特定含义，不是所有隔壁塔的默认结构。设计时应先保证物料衡算、压力和内部连接物流可行，再在同一产品约束下调级数、进料/分相位置、液相分配和热负荷。\n\n对于非均相共沸隔壁塔，冷凝液必须形成可分离的两液相，分相器以及有机相—水相回流是流程的一部分；液相分配 βL 只有物系依赖的可行范围，偏离可行范围可能先损害一个产品纯度而不是另一产品。动态上，在存在滞后和内部耦合时，固定 βL 未必能适应进料扰动，可能使一侧纯度恢复较慢；可将组成/质量外环级联到液相分配或有机相回流，但要承认分相器持液和内部耦合带来的慢响应。温度灵敏度也不保证每个塔段都存在：若某公共段无明显温度梯度，不能仅凭该段温度假定可靠质量代理；需验证其操纵/扰动响应，必要时换测点或使用组成控制。\n\n萃取剂、夹带剂、液相分配、分相位置、级数和 TAC 的具体范围只属于相应物系；本块提供的是拓扑和控制选择条件，不能把一个隔壁塔案例的分流比或回路直接迁移。",
+  "title": "萃取/非均相共沸隔壁塔：内耦合、分相与可变液相分配",
+  "units_basis": "定性方法；βL、S/F、级数、分相位置和TAC不含案例数值。",
+  "text_sha256": "e68c2ea1e95dd1adff80a5846714b7b566330f25c0d7a8fcf1f6729f53ec7f94",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-B3.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页159–186（印刷页148–175；重点159–161、164–173、179–186）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

@@ -1,0 +1,36 @@
+{
+  "applicability": [
+    "适用于带中间储罐、回流或回收连接的间歇精馏动态操作与控制结构选择。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-C3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [],
+  "text": "这里讨论的带中间罐的间歇精馏在动态模拟中是封闭批式：稳态计算只用于初始化，随后关闭外部进、出料，批次组成在各储液区随时间富集；中间罐、塔釜和回流罐的持液量把进出流量与回流连接成动态库存，流量不匹配会引起液位、组分和产品纯度的动态偏移或波动，单一组成回路往往顾不到全部产品与持液量。控制上可选对产品组成敏感的塔板温度，用高选择器/流量—温度串级结构配对组成目标与回流流量，并配合液位/流量回路，跟踪批次组成和库存轨迹，使终点纯度满足目标。前提是中间罐容量、泵阀调节范围、信号量程/方向和动态物料/能量模型已核实，敏感板位需由当前物系确定。",
+  "title": "带中间罐的间歇精馏：非稳态库存与控制配对",
+  "units_basis": "定性库存与控制机制；无直接设计数值。",
+  "text_sha256": "0ffc348566cc7b1b0758c269c0214d01e46bd48ae0bb8761ab8ad925ee1009d0",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-C3.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页 245–260",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

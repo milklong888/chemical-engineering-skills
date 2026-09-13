@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "适用于把已收敛稳态精馏流程建立为可初始化、可控和可扰动运行的动态模型；缺少设备持液、压力驱动或可操纵出口时不能宣称动态闭合。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-A4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "AspenPlusDynamics",
+    "PressureDrivenExportGate",
+    "DynamicModeInput",
+    "InitializationRun",
+    "LevelControllerRule"
+  ],
+  "text": "把稳态塔转成可运行的动态模型，关键不是导出按钮而是把动态所需的物理容量、压力路径和初始状态补齐。流量一定时，设备体积/持液量决定响应快慢；回流罐和塔釜要给出几何尺寸与初始液量，塔板/填料段要有有效级间几何和水力学，阀门/泵要使进料和各出料在动态模式下有明确压降与相态。有效相态选错会导致闪蒸/求解不一致；没有直接下游阀或其他可操纵出口时，液位控制可能没有稳定的操纵路径。还要确认全流程压力驱动、回流/循环和产品规格之间的连接，在初始化状态下先检查压力、液位、流量和能量闭合，再加入控制器和扰动。稳态 Design Spec/调节变量不能自动等同于动态控制回路；动态模型必须明确每个质量/库存目标的测量量、设定值、操纵量和作用方向，并在初始化后从同一物料状态运行。",
+  "title": "从稳态流程到动态模型的物理闭合",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "803e9ddd81ec7e231e1211364253673ba9998ee0b454631d5c61a46d73270c80",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A4.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页31–41（重点31–34、39–41）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

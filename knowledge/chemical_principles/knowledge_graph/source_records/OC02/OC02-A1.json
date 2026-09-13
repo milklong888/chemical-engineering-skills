@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于动态精馏中质量变量、温度代理和塔内测点的初筛；多组分或压力变化显著时必须按物系和扰动重新验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-A1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "DistillationSensitiveTrayCriteria",
+    "DistillationTemperatureControl",
+    "DistillationCompositionControl",
+    "DynamicDisturbanceTest"
+  ],
+  "text": "精馏动态控制先把产品质量、物料/能量平衡和安全/设备约束分开：质量变量要能代表产品目标，库存变量（回流罐、塔釜液位）要保持可用容量，压力要受控以维持相平衡，操纵量则通常从回流、再沸器/冷凝器热负荷、产品流量或进料流量中选择。组成测量对质量目标直接但往往较慢；温度响应较快，却只是代理变量。在给定压力和合适组成区间内，温度可随组成变化而有用；多组分体系不保证一一对应，压力变化也会改变这种关系。因此温度测点应从温度剖面的明显变化区筛选，并结合进料与塔端的边界影响检查候选测点，不能只凭剖面陡峭选板；再用实际的流量、组成和压力扰动检查测点对目标产品的灵敏度、增益、滞后与回路耦合。弱响应或耦合严重时，不能靠把控制器参数调得更激进来补救。书中给出的具体塔板、增益、死区和测量时间只属于示例。",
+  "title": "动态精馏的质量目标、温度代理与测点筛选",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "62cfff902edb9c0fa9323adcac100456e08e9a5421eba4f498c7591dfcfe2ff4",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A1.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页12–18（重点13–16）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}

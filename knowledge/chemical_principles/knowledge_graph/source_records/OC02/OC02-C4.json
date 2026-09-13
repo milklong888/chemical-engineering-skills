@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于含反应、共沸分离、回收物流和热集成的醋酸丁酯类全流程优化与动态控制评估。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "OC02-C4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH06",
+    "L3-03",
+    "L3-05",
+    "L3-06"
+  ],
+  "text": "醋酸丁酯生产的优化对象是反应—三塔分离—两股回收物流的整体，而不是把某一塔的稳态算例复制到新物系。先用当前反应动力学、相平衡和共沸位置确定反应器及各塔压力、级数、进料位置和回流，使产量、纯度、回收与物流闭合，再以总成本比较序列和压力/级数；可把高压塔冷凝热供给预分离塔再沸，但热负荷不匹配需辅助冷却，完全匹配会减少自由度并改变回流/控制耦合，必须重新优化。动态控制中，进料比、液位和压力基础回路还需针对高压塔产品使用组成反馈（在所读流程的比较中，直接操纵回流量相比经温度回路操纵再沸负荷响应更快），必要时用再沸负荷/进料比抑制流量扰动；前提是组成测量或可靠软测量、泵阀压降和调节范围已核实，最终要以流量和组成扰动下全流程的纯度、温度与库存恢复共同验收。",
+  "title": "醋酸丁酯全流程优化与动态控制",
+  "units_basis": "定性全流程机制与控制判断；无直接设计数值。",
+  "text_sha256": "4063bee5742acef55ce1061e67e57a9fd3596387a8d68fb8da5702267f5037a3",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-C4.json",
+  "source": {
+    "source_id": "OC02",
+    "sha256": "7ae342ed2d30cc3e5bed4943a095a88169cfd13af9edd91203463b9053ac76a6",
+    "locator": "PDF物理页 261–294",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/OC02.json"
+}
