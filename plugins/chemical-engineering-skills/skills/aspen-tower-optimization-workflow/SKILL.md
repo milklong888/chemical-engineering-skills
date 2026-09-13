@@ -7,7 +7,7 @@ description: Optimize and reconnect a source-frozen Aspen distillation or solven
 
 ## 工作过程
 
-先固定当前塔的进料、物性、产品纯度、产量和回收要求，判断指定的快捷方法是否适用；适用时用DSTWU给严谨塔初始化，不适用时说明原因并按获准方法建立基准。基准稳定后，复用同版有效响应区间，未知时先做有边界的敏感性分析，再用在线Design Spec保持产品目标，比较不同操作点的热量、回流和设备负荷。
+先固定当前塔的进料、物性、产品纯度、产量和回收要求，判断指定的快捷方法是否适用；适用时用DSTWU给严谨塔初始化，不适用时说明原因并按获准方法建立基准。基准稳定后，复用同版有效响应区间，未知时先做有边界的敏感性分析。按实际目标确定直接约束或有独立操纵量的在线Design Spec，再比较不同操作点的热量、回流和设备负荷。
 
 每个候选都必须在同一产品基准下比较。流量、级数、温压或负荷变化时，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)调用知识与设备检查，再交塔设计模块核对水力学；有真实能力限制才评估并联等方案。合格塔岛逐个接回全流程，并用新的入口和循环重新验证，不能把岛内最优点直接当整厂最优。
 
@@ -39,6 +39,11 @@ rigorous route. Do not silently substitute a different required method.
 不以独立 `solve_route` 回执替代岛阶段。找指定指标用 live SPEC/VARY；看未知响应先 Sensitivity，
 已有同版有效区间可复用；多个连续变量在产品约束下寻优先评估原生 Optimization。
 板数、进料板等离散变量分开编排，每个候选内重解质量控制，不固定旧内层操纵值。
+
+交出求解方案时列明外层变量、产品约束，以及每个必要内层目标对应的独立操纵量、
+边界和主写入者。只写“逐点重解质量目标”不构成控制配对。未有资料证明另一个
+获准自由度时，明确记录内层操纵量尚未确定；保留“至少/不超过”为直接不等式，
+不能为配 Design Spec 擅自把它改成等式，也不能让内外两层争用同一变量。
 
 `target/property freeze -> shortcut or justified rigorous initialization ->
 converged baseline -> establish/reuse bounded response evidence -> live SPEC/VARY -> full-flow

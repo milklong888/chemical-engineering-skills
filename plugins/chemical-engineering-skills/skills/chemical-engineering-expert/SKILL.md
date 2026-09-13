@@ -150,6 +150,8 @@ missing permission or source blocks its dependent action, not independent review
 Preserve the actual reason for a failed call. An invalid argument or request is
 not evidence of a missing model or software dependency; resolve a supported
 request correction or report that interface error separately from real data gaps.
+Use the actual resolved output path for each delivered file link and check that
+the target exists; do not reconstruct a path from a remembered workspace name.
 Do not reveal private chain-of-thought or force a verbose template when a short
 auditable answer is enough.
 

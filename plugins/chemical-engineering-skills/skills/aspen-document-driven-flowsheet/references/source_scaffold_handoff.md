@@ -44,7 +44,12 @@ entries. Missing evidence stays explicit in the current record.
   It does not calculate reaction terms, rates, inventory or numerical closure;
   those remain under the expert's [derivation protocol](../../chemical-engineering-expert/references/REASONING_PROTOCOL.md).
 - Inventory every currently allowed placeholder in `placeholders`, binding its
-  duty to `node_ids`, purpose, valid scope and permission/source reference. Each
+  duty to `node_ids`, purpose, valid scope and permission/source reference. Keep
+  that reference faithful to the actual source: cite the authorizing statement
+  and state any execution restriction separately in direct wording. Check that
+  the reference and `required_returns` do not contradict one another; permission
+  to arrange or calculate a placeholder does not override an explicit
+  software-execution restriction. Each
   needs exactly one `handoffs` row. If there are none, give the actual reason in
   `no_placeholders_reason`; do not omit planned placeholders to shorten the form.
 

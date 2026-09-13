@@ -1010,8 +1010,8 @@
     },
     {
       "path": "docs/Agent任务执行与经验整理修复_0.4.7.md",
-      "sha256": "d2b322f7ebdc15bf02cd5c345ac267fbeafe714f0d65bf4cafa590ce9330c87b",
-      "bytes": 7077
+      "sha256": "d31863b056b627ef1e3b72fff486927c4d36f3e75f1e5e2076d5c4a8279ba17d",
+      "bytes": 7582
     },
     {
       "path": "docs/Agent工作流更新_2026-09-12.md",
@@ -2680,8 +2680,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/source_scaffold_handoff.md",
-      "sha256": "ecadecf7f3950a2fad3d48ae35c4524d2cf052dbdc1c93a8d533d72258850dd7",
-      "bytes": 7010
+      "sha256": "1e373831553118c9f9593639c73647010cbde628d9ffa689fb881ba0076eea5b",
+      "bytes": 7358
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/source_taskbook_and_gate_protocol.md",
@@ -2960,8 +2960,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/SKILL.md",
-      "sha256": "0ff901b6d0e4a4c8dc4a61d7c5b7533335d311a7d2a197ca11afa4b3db4759b6",
-      "bytes": 6454
+      "sha256": "56a3af28675e8aa1402cca1b26685ed21b781803e36dbcb5534e58d3a7e598e4",
+      "bytes": 6544
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/agents/openai.yaml",
@@ -3235,8 +3235,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-tower-optimization-workflow/SKILL.md",
-      "sha256": "7e7bb3577b00da5890329ebe51c5e4af08345dff1b9105c45d5a7997c4d6f282",
-      "bytes": 5747
+      "sha256": "d1a5f2e74a54de23ad232420c66662518e2437a665801bf6d0d1debdebb48770",
+      "bytes": 6222
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-tower-optimization-workflow/agents/openai.yaml",
@@ -3325,8 +3325,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md",
-      "sha256": "31174d14e7062869173ff1ccff1184afa79944d73b21bae29bcb781692281601",
-      "bytes": 14916
+      "sha256": "6d2a1f8f4a80d5a58d3b9fcf6f8eb47d4fc228e80737cf6c9ea7c394bb1c210e",
+      "bytes": 15075
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/agents/openai.yaml",
