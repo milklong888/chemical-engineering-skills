@@ -103,8 +103,6 @@ def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT,
         raise ValueError("Non-empty query is required")
     vectors, routes = modules()
     _, original = load_records(root)
-    fragments = select_query_fragments(query, original)
-    terms = query_terms(query, original, fragments=fragments)
     by_identity = {(row["corpus"], row["node_id"]): row for row in original}
     output = root / "vectors"
     config = json.loads((output / "config.json").read_text(encoding="utf-8"))
@@ -122,11 +120,26 @@ def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT,
     matrix = np.load(output / "vectors.npy", allow_pickle=False)
     if matrix.shape != (len(docs), vectors.DIM) or matrix.dtype != np.float32 or not np.isfinite(matrix).all():
         raise ValueError("Invalid numeric vector payload")
+    selected = routes.infer_routes(query, routes.load_route_config())
+    selected_routes = [route for route, _ in selected]
+    query_documents = []
+    for doc in docs:
+        if corpus != "all" and doc["corpus"] != corpus:
+            continue
+        if vectors.record_admission_reason(doc) or not routes.scope_allowed(query, doc):
+            continue
+        identity = (doc["corpus"], doc["node_id"])
+        record = by_identity.get(identity)
+        if record is None:
+            raise ValueError("Vector record identity missing from source records: " + repr(identity))
+        if not (record.get("content_available", False) and record.get("retrieval_eligible", False)):
+            continue
+        query_documents.append(record)
+    fragments = select_query_fragments(query, query_documents)
+    terms = query_terms(query, query_documents, fragments=fragments)
     expanded_query = " ".join(terms)
     qvec = vectors.vectorize_text(expanded_query)
     scores = matrix @ qvec
-    selected = routes.infer_routes(query, routes.load_route_config())
-    selected_routes = [route for route, _ in selected]
     results = []
     eligible_pool = []
     raw_matched_count = 0

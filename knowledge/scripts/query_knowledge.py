@@ -105,13 +105,31 @@ def layer_order(mode: str) -> dict[str, int]:
     return {layer: index for index, layer in enumerate(("L1", "L2", "L0", "L3") if mode == "detail" else ("L3", "L2", "L1", "L0"))}
 
 
+def _natural_query_records(records: list[dict], corpus: str) -> list[dict]:
+    """Return the records whose text may contribute to natural-query terms."""
+    return [
+        record for record in records
+        if (corpus == "all" or record["corpus"] == corpus)
+        and record.get("content_available", False)
+        and record.get("retrieval_eligible", False)
+    ]
+
+
 def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
            limit: int = 5, detail: bool = False, root: Path = ROOT,
            full_text: bool = False) -> dict:
     manifest, records = load_records(root)
     score_text = load_original_scorer(root)
-    fragments = select_query_fragments(query, records)
-    terms = query_terms(query, records, fragments=fragments)
+    if node_id:
+        # Preserve the original exact-read scoring/match preparation.  The
+        # scoped pool below applies only to natural-language retrieval.
+        query_records = records
+        fragments = select_query_fragments(query, query_records)
+        terms = query_terms(query, query_records, fragments=fragments)
+    else:
+        query_records = _natural_query_records(records, corpus)
+        fragments = select_query_fragments(query, query_records)
+        terms = query_terms(query, query_records, fragments=fragments)
     mode = determine_mode(query, detail)
     ranked = []
     for record in records:
@@ -119,7 +137,10 @@ def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
             continue
         if node_id and record["node_id"].casefold() != node_id.casefold():
             continue
-        if not node_id and not record.get("retrieval_eligible", False):
+        if not node_id and not (
+            record.get("content_available", False)
+            and record.get("retrieval_eligible", False)
+        ):
             continue
         text = " ".join((record["node_id"], record["title"], record["text"], " ".join(record.get("routes", [])), " ".join(record.get("keywords", []))))
         score, matches = score_text(text, record["title"], terms)

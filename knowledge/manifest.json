@@ -7459,8 +7459,8 @@
     {
       "kind": "knowledge_contribution_and_reading_policy",
       "path": "CONTRIBUTING.md",
-      "bytes": 2797,
-      "sha256": "84c2c8bedd8f0397436a1c4ff5560e1bb66db27fac9f1628ebc14b49585dc2bd"
+      "bytes": 3103,
+      "sha256": "4cfe4c90dbac35d32e67a2d45fd0fcdfa31e7fad6e1bb5b013dd7a255cdf6020"
     },
     {
       "bytes": 1023,
@@ -8705,10 +8705,10 @@
       "sha256": "15e6a6787c80ba516a61105222b11e0bc48c835fe35abc20c47e46773b857fc9"
     },
     {
-      "bytes": 4895,
+      "bytes": 5377,
       "kind": "distribution_availability_contract",
       "path": "README.md",
-      "sha256": "ef2336498829d8a24a5a853dfd906e0ba726d37b42ac4486172711124d9f2617"
+      "sha256": "73adc2dab74f07e521d06a8c44a81d95d3ff5a64040d64caf183fe97607f0c4d"
     },
     {
       "bytes": 7971346,
@@ -8741,10 +8741,10 @@
       "sha256": "266335549dd9d754d89b7ac05a9a2a18a292b95c6286207e7b7141bbcc7b8757"
     },
     {
-      "bytes": 11318,
+      "bytes": 12197,
       "kind": "offline_runtime_adapter",
       "path": "scripts/query_knowledge.py",
-      "sha256": "cf91b39b66ff21e5f04a1c5fe898b7a97b49f5bb43c70999bf31bc450d39c681"
+      "sha256": "8f96595de8b76a35d810b908dcb88ad295d04b4b32309b2c14982afc28467d11"
     },
     {
       "bytes": 3137,
@@ -8759,10 +8759,10 @@
       "sha256": "e28efedf7a7e8aad7fdb8eba4fdc3a6648914693d120ffabcc5486b536debb08"
     },
     {
-      "bytes": 10611,
+      "bytes": 11242,
       "kind": "offline_runtime_adapter",
       "path": "scripts/vector_adapter.py",
-      "sha256": "ecd49753be6300e70adcda15af0dfcaed94d830f542810bcef868d9e426743fa"
+      "sha256": "e6fc86a311ac01f48d47e257848021de6e555e83bde7b843e8b1901b3f737acc"
     },
     {
       "bytes": 2812,

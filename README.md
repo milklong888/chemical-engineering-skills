@@ -6,6 +6,10 @@
 
 [下载发行包](https://github.com/milklong888/chemical-engineering-skills/releases) · [使用手册](docs/使用手册.md) · [19 个模块说明](docs/模块说明.md) · [任务入口与协作图](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md)
 
+## 0.4.9 修复：分库查询范围
+
+指定知识分库时，查询词的统计也限定到该分库的可用内容，避免其他分库的零碎片段干扰召回。原来的知识正文、来源、关系和哈希向量不变；四批 69 个新增知识块继续完整提供。修复范围、复现与限制见[0.4.9 查询修复](docs/知识查询修复_0.4.9.md)。
+
 ## 0.4.8 更新：知识内容与查询
 
 四批新增资料已按实际用途筛选，共保留 69 个完整知识块，覆盖反应过程、精馏动态控制、热力学与相平衡、换热网络和蒸汽动力系统。知识库现有 6942 条记录，6919 条进入随包哈希向量索引；完整释义、关联和来源记录都在仓库及发行包内，原始 PDF 不公开。

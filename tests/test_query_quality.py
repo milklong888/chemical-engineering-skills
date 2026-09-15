@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 
 CANDIDATE = Path(__file__).resolve().parents[1]
@@ -37,6 +38,49 @@ class QueryQuality(unittest.TestCase):
         self.assertEqual(result["results"][0]["node_id"], "TH03-B4")
         self.assertEqual(vector_adapter.query("天气 预报 明天 下雨", limit=5)["results"], [])
         self.assertEqual(vector_adapter.query("菜谱 土豆 鸡蛋 做法", limit=5)["results"], [])
+
+    def test_corpus_scoped_queries_reach_expected_nodes(self):
+        cases = (
+            ("二元汽液平衡数据拿来回归活度系数之前，怎样筛查整体一致性和局部错误？", "TH03-C6"),
+            ("同样是降压，阀门出口和透平出口的闪蒸求解分别要守什么能量约束？", "TH03-C10"),
+        )
+        for text, expected in cases:
+            lexical = query.search(text, corpus="chemical_principles", limit=5)
+            vector = vector_adapter.query(text, corpus="chemical_principles", limit=5)
+            self.assertIn(expected, {row["node_id"] for row in lexical["results"]})
+            self.assertIn(expected, {row["node_id"] for row in vector["results"]})
+
+    def test_fragment_spies_receive_only_scoped_admitted_records(self):
+        text = "二元汽液平衡数据拿来回归活度系数之前，怎样筛查整体一致性和局部错误？"
+        lexical_calls = []
+        vector_calls = []
+        lexical_original = query.select_query_fragments
+        vector_original = vector_adapter.select_query_fragments
+
+        def lexical_spy(value, documents=None, **kwargs):
+            lexical_calls.append(list(documents or []))
+            return lexical_original(value, documents, **kwargs)
+
+        def vector_spy(value, documents=None, **kwargs):
+            vector_calls.append(list(documents or []))
+            return vector_original(value, documents, **kwargs)
+
+        with patch.object(query, "select_query_fragments", side_effect=lexical_spy), \
+             patch.object(vector_adapter, "select_query_fragments", side_effect=vector_spy):
+            query.search(text, corpus="chemical_principles", limit=5)
+            vector_adapter.query(text, corpus="chemical_principles", limit=5)
+
+        self.assertEqual(len(lexical_calls), 1)
+        self.assertEqual(len(vector_calls), 1)
+        for rows in (*lexical_calls, *vector_calls):
+            self.assertTrue(rows)
+            self.assertTrue(all(
+                row["corpus"] == "chemical_principles"
+                and row.get("content_available")
+                and row.get("retrieval_eligible")
+                for row in rows
+            ))
+            self.assertNotIn("UG10-CH06-D017", {row["node_id"] for row in rows})
 
     def test_weather_sentence_has_no_syntax_only_answer(self):
         result = query.search("明天上海会不会下雨，出门需要带伞吗？", limit=5)
