@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于用第二定律判断封闭或稳流过程可逆性、熵产和可用功损失的初步分析。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-B1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH04",
+    "D-TA-06"
+  ],
+  "text": "熵是状态函数，系统从一个状态到另一个状态的熵变只由始末状态决定，因此可另设一条连接两状态的可逆路径，用可逆传热积分得到它。对闭口系统，熵平衡把过程中的熵变化与边界热交换带来的熵流、系统内部不可逆性产生的熵产联系起来；稳流控制体还必须计入物流带入和带出的熵流。熵产不能为负，绝热过程也可能因内部不可逆而产生熵。功损表示同一始末状态和边界下，实际过程相对可逆极限少得到的输出功或多付出的输入功，不等同于熵变或传热量；在固定环境温度 T0 下，功损可按 T0 乘总熵产折算，不应拿任意系统温度代替环境基准，即使系统温度不均匀也应使用同一固定环境基准。",
+  "title": "熵变、熵产与过程功损的区别",
+  "units_basis": "定性第二定律关系；不携带过程数值，功损折算使用选定环境温度 T0 与总熵产。",
+  "text_sha256": "001d539e43207e9f53105b7afb0eb3d882b4e924d693be232e07bcd62fb71379",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-B1.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 134-150、200",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

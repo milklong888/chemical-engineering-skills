@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "使用标准态和活度系数进行非电解质溶液相平衡或热力学性质计算；组成端、稀溶质、温压范围及过量性质数据必须一致。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-06",
+    "CH3-PM-07"
+  ],
+  "text": "理想溶液不是“所有组分都理想气体”。在全组成范围的狭义理想溶液中，液相各组分逸度在相应标准态下与摩尔分数成正比，且标准态为同一 T、p 下的纯组分逸度；在只考察一个局部组成范围时，线性逸度关系也可用相应端点的标准态/参考逸度表达，不能据此宣称全组成理想性。接近纯组分端，Lewis–Randall 规则描述与纯组分标准态相容的行为；在溶质无限稀释端，Henry 规则用无限稀释溶液环境的 Henry 常数作标准态。\n\n活度是在摩尔分数基础上加入非理想校正的无量纲量，组分逸度可写成 a_i f_i^0=γ_i x_i f_i^0。γ_i 的数值不只由混合物决定，也由 f_i^0 标准态决定。Lewis–Randall 标准态下 γ_i 在纯组分端归一为1；Henry 标准态下无限稀释端相应归一为1，二者之间通过无限稀释活度系数关联。使用数据或模型时必须先声明标准态；标准态选取要跟组成范围、温度和压力条件一致，标准态压力或参考逸度换了，后续活度系数的数值也会换，不能跨标准态直接比较。\n\n活度系数随温度、压力变化并非自动可忽略；其温度导数由偏摩尔过量焓、压力导数由偏摩尔过量体积控制。相平衡、热量或压力范围改变时，应检查这些项以及 Gibbs–Duhem 约束，不能把窄范围的 γ 当作普适常数。",
+  "title": "标准态与活度的使用边界",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "c493c13d3b1db6f6e14e65f4cb2a025c9a923ac5c56e02e55923d2259617e56e",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C3.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 259-268",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

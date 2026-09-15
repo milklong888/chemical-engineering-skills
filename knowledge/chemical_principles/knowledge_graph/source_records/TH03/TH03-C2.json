@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "纯流体及多组分流体的逸度/逸度系数和相平衡判定；EOS/混合规则要按当前物系与压力范围核验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-04",
+    "UG10-CH07-D074"
+  ],
+  "text": "化学势绝对值依赖参考态，逸度把真实流体的压力效应折算为可比较的有效压力：在恒温下按 dμ=RT dln f 定义，并对纯组分在压力趋零时令 f/p→1；逸度系数 φ=f/p，低压理想极限接近1。同一温度压力下两相平衡可等价判为每个组分在两相的逸度相等。\n\n纯流体的逸度可从状态方程的残余 Gibbs 自由能或相应积分得到；混合物中组分逸度写成组分摩尔分数、总压与组分逸度系数的乘积。组分逸度系数不能只由 p(T,v) 的单变量式机械套出，状态方程需显式保留总体积和组分依赖，才能通过偏导得到部分摩尔体积/组分逸度；混合规则与二元交互参数因此是结果的一部分。低压或弱非理想时可简化；高压、临界附近或强非理想液相通常需要保留相应 EOS/活度和压力修正，具体取舍仍要按当前物系与相态验证。",
+  "title": "逸度与组分逸度系数的计算边界",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "fbc68ee6080e9910a5767f267445729203de84232944d764f8c18ea4ba06f2d0",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C2.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 247-258",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "含水气—液—固水合物的生成压力/温度初筛；晶体结构、客体适配、Langmuir 参数和抑制剂必须由当前体系数据验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C14",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "UG10-CH27-D055"
+  ],
+  "text": "含水体系的气—液—固多相平衡不能把固相当普通液相：气液相仍按组分逸度相等，水合物固相还要由其晶体结构和客体占位模型给出化学势。经典占位模型假定每个笼穴最多容纳一个客体、空穴近似固定且客体间不直接相互作用；占位率随客体逸度和温度变化；客体形状和笼穴适配会影响所用势能/占位模型的准确性，需要选用相应模型和参数。\n\n基于生成机理的模型把水合物形成拆成基本水合物生成与小分子气体进入连接孔/笼穴，并用 Langmuir 占位、纯水/富水相活度和抑制剂修正固相化学势。给定温度求生成压力时，需先算气液平衡和气相逸度，再按水合物结构、参数和水活度迭代压力直到化学势和占位条件闭合；结构类型、参数来源和抑制剂都必须明确，不能把某一气体的形成压力或占位参数外推到其他体系。",
+  "title": "气液固水合物平衡的结构与占位条件",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "b1136c0bbe12c158cc75b1f0529c9e3148e25afc14cbacf83e7d72529840d07c",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C14.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 390-399",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "低溶解度气体在液体中的气液平衡及高压修正；反应吸收、电解质或强缔合体系不适用该简单 Henry 近似。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C11",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-07",
+    "CEPR-CH07",
+    "OC02-C2"
+  ],
+  "text": "气液平衡中的气体溶解度很小时，Henry 标准态给出溶质逸度与液相摩尔分数近似成正比；低压 Henry 常数主要由物种和温度决定。压力升高后，Henry 常数还随总压力变化，需用 Krichevsky–Kasarnovsky 型压力修正引入溶质偏摩尔体积；不能把低压常数原样外推到高压。\n\n真实溶液中溶质可用 Henry 标准态，溶剂可用 Lewis–Randall 标准态；气相组分逸度系数由 EOS 计算，液相溶剂逸度的压力影响用 Poynting 等修正。Henry 近似的前提是低溶解度且溶质不在溶剂中缔合、离解或反应；电解质吸收、化学反应或强缔合体系须另建反应/活度模型。",
+  "title": "高压气液平衡中的 Henry 压力修正",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "5ac1059952b946d750ed6ce3b9cd3a8e461bf308aae14f23cd553965d3f602fa",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C11.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 376-380",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

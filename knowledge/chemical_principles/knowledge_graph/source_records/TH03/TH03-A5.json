@@ -1,0 +1,45 @@
+{
+  "applicability": [
+    "适用于以 EOS/PVT 和理想气体热容关系计算单相物流焓、熵、内能及相变焓差，并保持跨物流参考态一致。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH04",
+    "CEPR-CH05",
+    "UG10-CH08-D017",
+    "UG10-CH08-D024",
+    "UG10-CH08-D163",
+    "UG10-CH08-D187",
+    "UG10-CH08-D191",
+    "UG10-CH08-D192"
+  ],
+  "text": "在同一 T,p 下，实际流体的性质可拆成理想气体部分与残余部分，定义 Mᴿ=M-Mⁱᵈ。理想气体 Cp(T) 关系提供温度基准项，EOS/PVT 提供非理想修正；残余项的具体求法须与选定 EOS、根和单位基准匹配。\n\n状态变化的 ΔM 只由始末状态决定；绝对焓、熵和残余量的参考态必须在所有物流中一致。对同一 T、p 饱和条件下的汽化焓，理想气体焓项相互抵消，汽化焓由饱和蒸气与饱和液体的残余焓差给出，不能用单一气相理想焓代替液相贡献。",
+  "title": "理想气体、残余性质与参考态/焓差",
+  "units_basis": "残余积分的 p-v、T、Cp 和能量单位须一致；参考态可选但不能在同一衡算中混用。",
+  "text_sha256": "eac2c97c63dac721069182cc26d12261d45c1bf44324be3f96b7a15b05b0fd53",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A5.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 68-80",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

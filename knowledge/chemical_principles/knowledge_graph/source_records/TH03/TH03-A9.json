@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "适用于气体压缩的理想/真实气体路线、压缩终温趋势、可逆基准功和多级级间冷却初筛；具体级数、压比、Z 和效率必须由当前设备与物性资料确定。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A9",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH02",
+    "N5-04",
+    "N5-06",
+    "N5-07",
+    "N5-08"
+  ],
+  "text": "理想压缩路径可分为等温与绝热；定比热理想气体的可逆绝热路径才满足 p vᴷ=常数，K 为相应气体的比热比 Cp/Cv。真实压缩可用 p vᵐ=常数作多变近似：m=1 为等温，m=K 为绝热，1<m<K 表示有冷却但仍升温的多变过程；摩擦发热等情形也可能使 m>K，因此不能把多变过程永远写成等温与绝热之间。\n\n只有在同一气体、同一入口温度和出口压力（或压比）下比较可逆理想路径，且 1<m<K 时，才可说等温压缩功幅值最小、绝热最大、多变居中，并相应得到终温大小规律。若 m>K，不能套用“多变居中”的断言；实际压缩机应按当前状态方程、物性和设备状态核算。若压缩过程中 Z 变化不大，可用入口/出口平均 Z 对理想气体关系作近似；若气体易液化或压缩比使 Z 变化显著，必须用 EOS/PVT 计算。可逆绝热出口温度未知时，可试定 T₂，以熵变为零求可逆出口，再由一致的焓差或 PVT 关系求基准功；实际输入功还需按实测或核定的设备效率修正。\n\n多级压缩用级间冷却降低每级终温，使整体逼近等温过程。在同一气体、压力采用绝对压力、各级采用同一多变指数、各级出口完全冷却回同一入口温度、各级效率相同或按同一理想等效比较、无阀门/管线/冷却器压降且入口和出口压力固定的理想比较下，各级压比相等使可逆总功最小。实际分级还须把中间设备压降、允许终温、设备投资和控制边界一起修正，增加级数并非无限有利。",
+  "title": "气体压缩：等温、绝热、多变与多级冷却",
+  "units_basis": "p、v、T、R、K、m、Z 和比轴功必须在一致质量基准下计算；不迁移特定气体例题数值。",
+  "text_sha256": "083ea0eb827ccf38f616d4e0b7f5f9ec66d526d77fd54fad170e71652133b96b",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A9.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 118-129",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

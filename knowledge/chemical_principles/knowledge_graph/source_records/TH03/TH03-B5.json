@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于以明确环境基准评价物流或设备的有效能、理想功和不可逆损失；需要完整状态和物料组成。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-B5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-06",
+    "L3-05"
+  ],
+  "text": "有效能（火用）是在给定环境温度、压力和化学组成基准下，系统由当前状态经完全可逆过程达到与环境热、力、化学平衡的死态时理论上能够得到的最大有用功；到达死态时有效能为零。它同时反映温度、压力等物理状态差异和组成或反应等化学差异，因而不是把热量或焓简单换一个单位，也不能脱离环境基准比较。对于指定始末状态和热交换边界的需功过程，可逆过程的理想功才对应最小理论输入功；实际不可逆性造成的有效能损失则是可逆功极限未被实现的部分。有效能分析还可把输入有效能按可用输出、外部损失和系统内部不可逆损耗分开。能量衡算只证明数量闭合，不能单独指出品位下降和损失位置，所以评价节能或设备改进时必须先明确控制体、环境基准、物流状态和边界，再同时复核物料、能量、有效能和设备约束。",
+  "title": "有效能与理想功的环境基准及损失诊断",
+  "units_basis": "定性有效能、理想功与边界关系；不携带环境状态、物性或效率数值。",
+  "text_sha256": "c2131fad2c40bb22ccb0244d47d97e2ddff730a6ab56fe04da8dd9b68e58daec",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-B5.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 195-204、211-225",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

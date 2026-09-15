@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "非电解质溶液的过量 Gibbs/活度模型选型与参数解释；强极性、LLE、聚合物和多元体系必须按模型假设及数据验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-06",
+    "CH3-PM-13",
+    "CH3-PM-14"
+  ],
+  "text": "过量函数是在同 T、p、x 下真实溶液性质减去理想溶液性质；过量 Gibbs 自由能最有用，因为各组分 lnγ_i 等于总过量 Gibbs 自由能偏摩尔量除以 RT（即偏摩尔过量 Gibbs 自由能/RT）。计算活度系数时必须对广度量求偏导，不能把摩尔过量 g^E 直接当总量而漏掉摩尔数因子。\n\n模型选择要跟体系和数据匹配：Margules/Redlich–Kister 用少量参数拟合二元数据，物理意义弱且难直接扩到多元；van Laar 依赖随机混合、近似无过量体积/熵及状态方程假设，在其推导限制下给出正偏差倾向，不能当通用规律。Scatchard–Hildebrand 正规溶液适合接近非极性的、分子大小相近体系，形式可扩多元，但强极性或大分子时会失效；Flory–Huggins 用链节/组合熵描述大小差异很大的聚合物—溶剂，能抓住大分子特征但不保证完整描述真实聚合物。\n\nWilson、NRTL 等局部组成模型允许非随机分子邻近，参数通常由二元平衡数据回归；原始 Wilson 不适合液—液分相，NRTL 可处理部分互溶体系。UNIQUAC 将分子尺寸/表面贡献与相互作用分开，适用范围较广；UNIFAC 用基团贡献估算，依赖基团划分和现有参数。多元、强非理想、LLE 或聚合物体系应以目标相态和实验/可靠参数比较模型，不能因模型名字或一次拟合收敛就宣称适用。",
+  "title": "过量 Gibbs 自由能与活度模型的选用边界",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "011bc7ef9a34adf5094f29b614312575e1f7e9be372bd6d4e83a2a8f68d43260",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C5.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 269-304",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

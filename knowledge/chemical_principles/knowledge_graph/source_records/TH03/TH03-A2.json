@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "适用于按物系极性、密度、压力、相态和数据可得性初筛 EOS/PVT 路线；具体软件方法和参数需由当前物系验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-04",
+    "CH3-PM-05",
+    "CH3-PM-09",
+    "CH3-PM-10",
+    "CH04-015"
+  ],
+  "text": "状态方程以 f(p,v,T)=0 或 p=F(T,v) 表示 PVT 关系；PVT 是计算流体其他热力学函数的基础。理想气体 pv=RT 适合作为高温、低密度的参考状态，不能作为所有真实气体的默认模型；用压缩因子 Z=pv/(RT) 表示偏离理想气体的程度。Virial 展开把 Z 写成按密度（或体积倒数）展开的级数，第二、第三 virial 系数分别反映成对和三体分子作用；低密度时可截取两项，压力形式通常比体积形式更便于工程使用，但截断式不适用于致密气体或液体。低压示例范围只作为该关联式的适用提示，不是普适压力上限。\n\n立方 EOS（vdW、RK、SRK、PR）以较少参数换取易计算和易与 VLE 联用：vdW 主要保留相变定性，RK 对非极性/弱极性气体的 PVT 有改进但液相体积和 VLE 有限，SRK 对纯物质饱和压力和烃类 VLE 通常较好但液体积偏差较大，PR 对液体体积通常优于 SRK 但临界附近仍需谨慎。多参数 BWR/BWRS 可在烃类 PVT/VLE 上取得更高精度，但 BWR 对极性或重组分及低约化温度区域不可靠；BWRS 的参数必须来自相互一致的数据源。约化温度、约化压力、约化体积和偏心因子可用于对应状态或广义关联：分子结构差异越重要，单靠两参数越不可靠；广义第二 virial 方法只宜用于低约化压力、气相低密度范围，不能替代高压致密流体 EOS。",
+  "title": "EOS/PVT 层级、约化变量与模型适用边界",
+  "units_basis": "Z、Tr、pr、Vr 和偏心因子为无量纲；p、v、T、R 及 virial 系数必须保持同一单位体系。",
+  "text_sha256": "30c2c3aaf7f107fafcafa9f24c0015f592d5677e345e028d4185b6eece51619c",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A2.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 28-35、39-45、50-62",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

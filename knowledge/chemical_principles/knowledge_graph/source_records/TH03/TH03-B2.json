@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于给定入口状态和出口压力的稳流单相或有效相态压缩机、膨胀机基准功和出口状态初步分析。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-B2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH02",
+    "N5-04",
+    "N5-05",
+    "N5-06"
+  ],
+  "text": "稳流压缩机或膨胀机的停留时间短，若可忽略与外界热交换，可先按绝热过程处理；但实际过程不可逆，不能直接把实际路径当理想路径。给定入口状态和出口压力后，先求同入口熵的等熵出口作为可逆基准；在动位能变化可忽略时，再用相应焓差得到基准轴功，结合设备等熵效率求实际功和出口状态。压缩机的实际输入功大于等熵基准，膨胀机的实际输出功小于等熵基准；两者效率定义的分子分母方向不同。机械效率只在从轴功到驱动功或输出功的设备层换算中使用，不能把已经由实际焓差得到的结果再次套用等熵效率。",
+  "title": "等熵基准与实际压缩/膨胀",
+  "units_basis": "定性等熵基准与效率关系；不携带压力、焓、效率或设备参数。",
+  "text_sha256": "63b564dcbfe8df73cb8d03766b935ca0588a1bd740797f3c87a5fe77b82fd40e",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-B2.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 161-167",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

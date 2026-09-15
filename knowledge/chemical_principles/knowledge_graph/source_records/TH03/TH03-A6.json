@@ -1,0 +1,43 @@
+{
+  "applicability": [
+    "适用于稳流控制体中压缩机、泵、透平、阀、喷嘴和换热设备的第一定律约化判断；显著动能、位能、摩擦或两相效应需保留完整项。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A6",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-01",
+    "CEPR-CH01",
+    "CEPR-CH02",
+    "CEPR-CH04",
+    "CH09-N14",
+    "N11-10"
+  ],
+  "text": "采用质量基准并约定热量 q 流入系统为正、环境对系统做功 wₛ 为正，因此系统对外做功取负。开放稳流物流的比能量写成 h+u²/2+gz，其中 h=U+pv 为单位质量焓，已包含流动功；轴功是机械装置通过控制体表面传递的功，不能与流动功混为一项。稳流且无积累时，多股物流按质量流率加权的能量平衡可写为\nΣ_in ṁ(h+u²/2+gz)−Σ_out ṁ(h+u²/2+gz)+q̇+ẇₛ=0。\n在稳流、内可逆、忽略动能和位能变化的单进单出设备中，质量基准的可逆轴功可写为 wₛ,ᵣₑᵥ=∫v dp；不可压液体泵的可逆比功近似为 vΔp。\n上述多股物流衡算式的各项均为能量率；若改用摩尔基准，必须把焓、热、轴功和动位能项同时改为摩尔量，不能把 u²/2 与摩尔焓混用。\n\n对单进单出、动能和位能变化可忽略的稳流设备，按质量基准写成比量后方程约化为 Δh=q+wₛ；此处明确约去的是动能、位能项，不是流动功。绝热时 wₛ=Δh，无轴功时 Δh=q。节流阀在无热、无轴功且动能和位能变化可忽略时近似等焓；喷嘴/扩压器在无热、无轴功时则主要在焓与动能之间转换。不可压、无黏且无热/轴功的流动还可约化为 Δp/ρ+gΔz+Δ(u²/2)=0，但该理想化式不能代替含摩擦或有设备功的完整能量平衡。",
+  "title": "稳流第一定律：流动功、轴功与能量方程约化",
+  "units_basis": "本块统一采用质量基准；h、q、wₛ、u²/2、gz 需采用一致的比能量单位和控制体符号约定。",
+  "text_sha256": "79866700d1aee6fc4ebe5281f31b105acfc7cd1282386eabf27fd44cba0f9160",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A6.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 85-110（重点 85-98、102、108-109）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

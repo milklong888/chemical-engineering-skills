@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于以水为循环介质的蒸汽动力循环热力学基准和改进方案筛选；工质状态与设备约束需由当前系统核定。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-B3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "D-TA-06"
+  ],
+  "text": "蒸汽动力循环把锅炉吸热、透平膨胀做功、冷凝器向低温热源放热和水泵加压连成闭环；卡诺循环给出在同冷热源极限温度下全程可逆热机的效率上限，理想朗肯即使内部过程可逆，也受锅炉、冷凝器等热交换边界约束，不等同于卡诺循环，实际循环中的流动摩擦、有限温差换热和不可逆膨胀或压缩还会进一步降低效率。提高过热温度或锅炉压力可改变循环的温位和可得功，并减小部分外部传热不可逆，但会提高材料耐温耐压和设备投资要求；再热是在高压膨胀后重新加热再进入低压透平，可降低末端湿度并改善效率，同时增加锅炉、透平和控制负担。循环改进应在热源/冷源温位、蒸汽状态、设备材料和经济边界共同约束下比较，不能把理想效率或示例参数当成设计值。",
+  "title": "蒸汽动力循环的理想基准与改进取舍",
+  "units_basis": "定性循环和选型边界；不携带蒸汽状态、效率、材料或投资数值。",
+  "text_sha256": "4a00a3481a78a890f5c4b27e8d03f6c8599607583921c54fe7cc540b29c82660",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-B3.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 168-180",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

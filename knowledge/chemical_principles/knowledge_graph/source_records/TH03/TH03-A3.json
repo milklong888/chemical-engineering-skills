@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于含液/汽多根的立方 EOS 饱和压力求解、根的相态选择和两相物性初算。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-04",
+    "CEPR-CH02"
+  ],
+  "text": "低于临界温度时，vdW 类立方 EOS 的 P-v 等温线可能出现 S 形段，而实验两相区是恒压平台；用 Maxwell 等面积条件替代 S 形回线，物理上等价于气液两相化学势（或逸度）相等。因而求 EOS 根不能只挑数值上收敛的根，必须先确定相平衡条件和根的相态含义。\n\n在给定温度的饱和压力上联立 EOS 与饱和条件迭代时，最小体积根对应饱和液体、最大体积根对应饱和蒸气，中间根不作为稳定饱和相体积。工程流程是：给定 T、临界性质及 EOS 参数，试算饱和压力，求立方方程根，按液/汽根计算等面积残差，按预先选定的收敛标准迭代，再把相应根用于物性和焓差。已知 T、p 时仍需结合饱和压力和实际体积判相，不能从“有三个根”直接推出体系一定处于两相。",
+  "title": "立方 EOS 多根、Maxwell 等面积与饱和根",
+  "units_basis": "等面积积分和 EOS 根必须采用一致的压力-体积单位；示例流程图容差不作为通用数值默认值。",
+  "text_sha256": "549d24b8331dfab846b5f71d5a07f34d1945884c97cb93d3a183e9a2e1ef6902",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A3.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 36、42-49",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

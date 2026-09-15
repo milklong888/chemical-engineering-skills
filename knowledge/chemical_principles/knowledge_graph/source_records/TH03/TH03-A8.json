@@ -1,0 +1,36 @@
+{
+  "applicability": [
+    "适用于单相气体或流体经阀/孔板节流的等焓温度趋势判断和 EOS 计算接口；接近相变或动能显著时需保留完整能量与相平衡分析。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A8",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [],
+  "text": "节流阀或孔板主要造成压力降，若与外界无热交换、无轴功且动能和位能变化可忽略，过程近似等焓（ΔH≈0）。在等焓条件下，Joule-Thomson 系数为 μJT=(∂T/∂p)H=[T(∂v/∂T)p-v]/Cp。理想气体的 μJT 为零；真实气体的 μJT>0 时降压导致降温，μJT=0 时温度不变，μJT<0 时降压反而升温，同一气体的符号会随状态变化，μJT=0 的边界称为反转条件。\n\n反转温度图示表明，多数气体在室温附近处于降温一侧，但也有部分气体的反转边界低于室温；对这类气体，若要靠节流制冷需先预冷。具体气体的反转温度不能脱离当前物性数据直接套用。没有可靠 EOS 时，Joule-Thomson 系数可由实验测定；有 EOS 时应按当前 T、p、Cp 和体积导数计算，不能只从“压降”一词猜定温度必然下降。",
+  "title": "节流与 Joule-Thomson 温度效应",
+  "units_basis": "μJT 的温度/压力单位需与 Cp、v 和 PVT 导数一致；不携带任何气体的反转温度数值。",
+  "text_sha256": "4a1174a370b92e61d5c6cdb470cf18429e41f1e039a57d5ffb84cc654e997880",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A8.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 98-102",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

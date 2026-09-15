@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于压缩式或吸收式制冷循环的理想上限、温位和工质初筛；冷媒和设备需按当前制冷任务验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-B4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "CEPR-CH05",
+    "N5-04",
+    "N5-06"
+  ],
+  "text": "制冷是把热量从低温源送到高温环境的逆向热机过程，因此必须输入轴功或其他外部能量；压缩式制冷的制冷系数是制冷量与输入功之比，吸收式制冷则以制冷量与外部热输入之比表示，逆卡诺循环只是在同一冷热源温度下压缩式制冷系数的理想上限，不能直接把两类输入能量当作同品位效率比较。实际蒸汽压缩循环的压缩、节流和换热不可逆，冷凝温度受环境或冷却介质和换热温差限制，蒸发温度受被冷却对象和换热温差限制；提高蒸发温度或降低不必要的温差可减轻压缩负担，但仍要满足冷却目标、传热面积和环境条件，低蒸发压力或高冷凝压力会使压缩更困难，多级压缩只是在低蒸发温度或压力场合的可选工程措施。吸收式制冷用热代替机械功，可利用余热；由于输入能量品位不同，应按热源品位和实际耗能评价其表现。工质选择还要同时检查相变能力、稳定性、腐蚀、安全和价格。",
+  "title": "制冷循环的制冷系数与温位边界",
+  "units_basis": "定性制冷系数、温位和工质选择关系；不携带冷媒物性、温差或设备参数。",
+  "text_sha256": "cf9285ae06bab7ff0961aba207f9b6e2cd58eac6bf2d8ea18eb2ce92efe4a67d",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-B4.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 181-190",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

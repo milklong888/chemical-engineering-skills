@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "恒温恒压混合物的偏摩尔性质、化学势及二元数据一致性检查；变温变压或多相计算需补充对应项。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-01",
+    "CEPR-CH01"
+  ],
+  "text": "偏摩尔性质描述在恒温、恒压下对某一组分作微量加入时，总性质对该组分物质的量的变化率；它是强度性质，不是一次有限加入一摩尔的平均变化。对 M(T,p,n_i)，保持 T、p 和其余组分量不变定义偏摩尔量，混合物的广度性质由各组分摩尔数与偏摩尔性质加和恢复。化学势是偏摩尔 Gibbs 自由能，因此组成变化的驱动力可用偏摩尔量表达。\n\n恒温恒压改变组成时，Gibbs–Duhem 关系要求各组分偏摩尔性质的变化相互约束；二元体系一组分偏摩尔量上升时，另一组分不能独立任意变化。对活度系数、偏摩尔体积等实验数据，先做这种一致性检查；绘制摩尔性质的切线/截距时不能把总广度量直接当摩尔量。",
+  "title": "偏摩尔性质与 Gibbs–Duhem 约束",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "174d096c7e1d9829b22eec6ffbab61e73968051d2a0aea21fa3076d1e6ee330e",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C1.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 236-243",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

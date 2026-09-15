@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "给定进料状态下的 V–L 闪蒸、节流和膨胀机出口平衡估算；设备效率、热损失及多相稳定性需单独核验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C10",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH04-007",
+    "CH04-009",
+    "CH04-012"
+  ],
+  "text": "p–T 闪蒸给定 T、p 和进料总组成，求相数、各相量和组成及密度、焓、熵等性质；V–L 解不能只由 K 值硬选，须以总 Gibbs 自由能最小来判断能否分成两相或多相。对两相解，物料衡算把进料组成写成气液相量与相组成的加权和，K 关系闭合相组成，汽化率是待解变量。\n\n等焓闪蒸用于节流等近似绝热降压：先假设出口温度做 p–T 闪蒸，用相量加权的出口焓与进料焓比较并迭代温度；等熵膨胀则先求等熵状态，再按膨胀机效率换算实际出口焓后做平衡。二者热力学约束不同，不能把等焓节流结果当成等熵透平结果；p–T 闪蒸是这些平衡闪蒸的基础。",
+  "title": "p–T、等焓与等熵闪蒸的约束差异",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "18434ffdaa27288cf1d6f68055bc85c0cffab74d0d7f84ead65744eee8622e3a",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C10.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 367-375",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

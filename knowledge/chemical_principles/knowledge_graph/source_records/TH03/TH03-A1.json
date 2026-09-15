@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "适用于纯物质在给定 T、p、v 下的相区初判、EOS 选择前检查和气液两相判别；临界附近及混合物需另用相平衡模型核验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-04",
+    "CH3-PM-05",
+    "CEPR-CH02"
+  ],
+  "text": "纯流体相态初判先比较给定 T、p 与同温度饱和线，并检查临界/三相边界；饱和压力的比较必须对应同一温度及适用相区。P-T 图给出固体、液体、蒸气/气体、压缩流体等单相区及两相共存边界：三相点是三相共存点，临界点处液-气相界终止，超过临界温度后不再有由相界分隔的液/气两相；跨过临界点进入超临界或压缩流体区时没有相变。\n\n若 T,p 落在液-汽共存条件，再以体系总体积（或比体积）与同一温度下饱和液、饱和蒸气体积的关系求相量；P-v 等温线在两者之间表现为两相平台，临界点的等温线同时满足一阶和二阶体积导数为零。处于单相区时不强制再提供第三个独立状态量；需要 PVT 量时再由 EOS 求状态体积。EOS 能否正确表示气、液和超临界区域的定性形状，是后续 PVT、相平衡和热力学函数计算的前置检查。",
+  "title": "纯流体相区、P-T/P-v 图与状态判别",
+  "units_basis": "T、p、v 以及饱和性质必须采用一致的摩尔或质量基准；不携带具体物质参数或压力阈值。",
+  "text_sha256": "cc2fd052f9239409cd822dcd6948c1247c3ddb73548c7c4f0df8952ca8cfabd7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A1.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 22-28、46-49",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

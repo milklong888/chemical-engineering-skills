@@ -29,3 +29,19 @@ python knowledge/scripts/query_knowledge.py --query "中间罐 间歇精馏 库�
 ```
 
 [OC02 知识块目录](../chemical_principles/knowledge_graph/source_records/OC02/) · [OC02 来源采纳记录](../source_adoptions/OC02.json)
+
+## TH03：热力学性质、能量利用与相平衡
+
+本批新增 25 个完整知识块，覆盖相区与状态方程、多根选择、参考态和残余性质、稳流能量衡算、节流温度效应、多级压缩、熵产与设备效率、动力/制冷循环、有效能，以及混合物的逸度/活度标准态、数据一致性、相平衡与闪蒸、气体溶解、液液/固液平衡和水合物。
+
+按章节筛选并回读有用主题，合并重复解释，跳过无独立用途的公式展开、附录条目和例题数值；不是全文转写。公式或结论保留必要条件，具体物系参数仍需当前来源核验。原始资料不随包，公开来源编号、文件哈希与物理页锚；正文、关联节点和查询索引均随包可用，内容采纳不代表物性模型或工程计算已经验证。
+
+可直接查询：
+
+```text
+python knowledge/scripts/query_knowledge.py --query "活度系数 标准态 Henry" --json
+python knowledge/scripts/query_knowledge.py --query "节流 压降 温度" --limit 12 --json
+python knowledge/scripts/query_knowledge.py --node-id TH03-B4 --full-text --json
+```
+
+[TH03 知识块目录](../chemical_principles/knowledge_graph/source_records/TH03/) · [TH03 来源采纳记录](../source_adoptions/TH03.json)

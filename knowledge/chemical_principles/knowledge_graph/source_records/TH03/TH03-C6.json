@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "二元/多元活度数据的实验反算、热力学一致性筛查与模型回归前质量门；不替代当前物系数据核验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C6",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH3-PM-10",
+    "UG10-CH31-D012",
+    "UG10-CH31-D017"
+  ],
+  "text": "活度系数不能直接测量，通常在密闭平衡釜建立汽—液平衡，测温度、压力以及两相组成（必要时测密度），再结合饱和蒸气压、纯组分和气相逸度系数反算液相 γ。取得 T–p–x–y 数据只是起点；模型参数回归前先检查热力学一致性。\n\nGibbs–Duhem 使各组分 γ 相互约束。在相应温压条件下，斜率检验可用于明显错误筛查；对等温二元数据，液相过量体积较小且实验总压变化不大、压力项可忽略时，可用简化积分/面积检验作全组成整体检查，但误差可能相互抵消；逐点微分/切线检验更有针对性却难准确。等压数据还要考虑过量焓项，不能把等温简化式直接套用。数据符合一个整体指标也不等于每一点、每相态都可靠，测量范围和模型适用域仍需回查。",
+  "title": "活度数据测定、Gibbs–Duhem 一致性与可靠性",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "2165c9f1b38bc030c981a92a2b3726736d074c9a38aee0113b42f396a73d6073",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C6.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 305-317",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

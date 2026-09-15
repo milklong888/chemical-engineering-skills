@@ -1,0 +1,46 @@
+{
+  "schema": "source-adoption-v1",
+  "source_adoption_id": "source_adoptions/TH03.json",
+  "source_id": "TH03",
+  "source_sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+  "base_manifest_sha256": "9a816d46e877a442e14ed887fb0a6dadc0dbfcb7aac4e8e4239dd8563a1d4a87",
+  "candidate_manifest_sha256": "9a630a6dbb5d9953aae958ac9f8de8d1098be1c569a4bac56703e607d72be293",
+  "review_proof_sha256": "5a5ab18dbc9765cb67dbd03935b0914ca6453a4241af849ec34cf8b609b4f3c3",
+  "node_ids": {
+    "TH03-A1": "cc2fd052f9239409cd822dcd6948c1247c3ddb73548c7c4f0df8952ca8cfabd7",
+    "TH03-A2": "30c2c3aaf7f107fafcafa9f24c0015f592d5677e345e028d4185b6eece51619c",
+    "TH03-A3": "549d24b8331dfab846b5f71d5a07f34d1945884c97cb93d3a183e9a2e1ef6902",
+    "TH03-A4": "4fe459f821b26577b57b92fa6ae7d7eb7ac9672be65ef01719d8b50daf12abc7",
+    "TH03-A5": "eac2c97c63dac721069182cc26d12261d45c1bf44324be3f96b7a15b05b0fd53",
+    "TH03-A6": "79866700d1aee6fc4ebe5281f31b105acfc7cd1282386eabf27fd44cba0f9160",
+    "TH03-A8": "4a1174a370b92e61d5c6cdb470cf18429e41f1e039a57d5ffb84cc654e997880",
+    "TH03-A9": "083ea0eb827ccf38f616d4e0b7f5f9ec66d526d77fd54fad170e71652133b96b",
+    "TH03-B1": "001d539e43207e9f53105b7afb0eb3d882b4e924d693be232e07bcd62fb71379",
+    "TH03-B2": "63b564dcbfe8df73cb8d03766b935ca0588a1bd740797f3c87a5fe77b82fd40e",
+    "TH03-B3": "4a00a3481a78a890f5c4b27e8d03f6c8599607583921c54fe7cc540b29c82660",
+    "TH03-B4": "cf9285ae06bab7ff0961aba207f9b6e2cd58eac6bf2d8ea18eb2ce92efe4a67d",
+    "TH03-B5": "c2131fad2c40bb22ccb0244d47d97e2ddff730a6ab56fe04da8dd9b68e58daec",
+    "TH03-C1": "174d096c7e1d9829b22eec6ffbab61e73968051d2a0aea21fa3076d1e6ee330e",
+    "TH03-C2": "fbc68ee6080e9910a5767f267445729203de84232944d764f8c18ea4ba06f2d0",
+    "TH03-C3": "c493c13d3b1db6f6e14e65f4cb2a025c9a923ac5c56e02e55923d2259617e56e",
+    "TH03-C5": "011bc7ef9a34adf5094f29b614312575e1f7e9be372bd6d4e83a2a8f68d43260",
+    "TH03-C6": "2165c9f1b38bc030c981a92a2b3726736d074c9a38aee0113b42f396a73d6073",
+    "TH03-C7": "8fc8c9932a00c85cad77d0b23db125443c3a71406f4c7be833be02918797ecc0",
+    "TH03-C8": "e9d714c5b8167205f6ad295f8174c59347c1fc340d607c3de56583d6a231abb2",
+    "TH03-C10": "18434ffdaa27288cf1d6f68055bc85c0cffab74d0d7f84ead65744eee8622e3a",
+    "TH03-C11": "5ac1059952b946d750ed6ce3b9cd3a8e461bf308aae14f23cd553965d3f602fa",
+    "TH03-C12": "a72615d773b0987dd193c42d3cfbadba116d0de3e04f4cd898bbe23107109c69",
+    "TH03-C13": "67f678d96498bfea2db57fe74401c1ff64f381bf067b462d032e54dc51a4d704",
+    "TH03-C14": "b1136c0bbe12c158cc75b1f0529c9e3148e25afc14cbacf83e7d72529840d07c"
+  },
+  "scope": {
+    "distribution_scope": "redistributable",
+    "evidence_class": "X",
+    "authority_scope": "shared",
+    "project_value_transfer_allowed": false
+  },
+  "rights_summary": [
+    "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授"
+  ],
+  "engineering_acceptance_verified": false
+}

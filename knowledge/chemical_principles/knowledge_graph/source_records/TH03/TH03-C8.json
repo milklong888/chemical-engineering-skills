@@ -1,0 +1,43 @@
+{
+  "applicability": [
+    "多组分汽—液平衡的自由度规格、泡点/露点闭合与 EOS/活度系数方法选型；高压、近临界、强液相非理想和特殊分离需当前物系验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C8",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH06",
+    "CH3-PM-04",
+    "CH3-PM-06",
+    "OC02-B2",
+    "OC02-B4",
+    "OC02-C1"
+  ],
+  "text": "多相平衡的基本判据是各相温度、压力相等，且每个组分的化学势相等；工程计算常用等价的组分逸度相等。Gibbs 相律给出在给定组分数和相数下的强度自由度数量，不把相量计入其中；规格少则问题不定，规格多则会互相冲突。先数强度自由度再选温度、压力和相组成等规格，气液相量还要由物料衡算另行闭合。\n\nVLE 可用状态方程法或活度系数法。状态方程法用气液两相逸度系数，通常更适合高压、气液均明显非理想或近临界混合物；活度系数法用液相 γ、标准态逸度和气相 φ，通常适合低/中压而液相非理想由模型承担的体系。压力、组成和相态一变，方法的近似边界也会变，不能因旧流程选过某模型就跳过当前物系的相平衡验证。\n\n泡点以给定液相组成求即将出现的气相、温度或压力，露点反之；平衡组成满足 y_i=K_i x_i，并分别用 Σy_i=1 或 Σx_i=1 闭合。对状态方程法，K_i 同时依赖 T、p 和两相组成，需交替更新相组成、两相逸度系数及 T/p，直到平衡方程和归一化同时满足；图解或纯组分饱和温度只能提供初猜，不能替代求解。\n\n低压可在液相体积压力效应和气相非理想性都足够小的前提下简化；中压液相 γ 仍可能近似与压力无关但气相非理想性要保留；高压、近临界或明显压力敏感体系通常应优先评估合适的两相 EOS，但是否采用仍需按当前物系、相态和参数验证决定，不是一概必须；同时保留混合规则和压力修正。实际“低/中/高”的界线随物系而变，示例压力范围不可迁移。",
+  "title": "相平衡与泡点/露点的闭合",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "e9d714c5b8167205f6ad295f8174c59347c1fc340d607c3de56583d6a231abb2",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C8.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 331-366",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

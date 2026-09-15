@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "非电解质液液平衡与分相判定；需合适的活度模型、参数和稳定性/相量验证，不能由 VLE 卡片替代。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C12",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH10A-AZ-04",
+    "CH10B-N14",
+    "CH04-014",
+    "CEPR-CH08",
+    "OC02-B3"
+  ],
+  "text": "液液分相取决于给定 T、p、x 下摩尔 Gibbs 自由能曲线的形状，而不是单看两组分沸点。对于二元、固定 T、p 情形，若均相曲线在组成方向的局部曲率为正，只说明状态对小扰动局部稳定，仍可能是亚稳态；出现负曲率区是自发组成分裂的条件，不能只用局部曲率判定最终稳定相，最终要比较候选状态的总 Gibbs 自由能。在二元固定 T、p 的两相区内，改变总组成时两相组成可由使总 Gibbs 自由能更低的平衡条件确定并在该区间保持不变，而相量按物料衡算改变。\n\n液液平衡要求各组分在两液相的逸度或活度相等；由于液相通常高度非理想，实际计算多用有合适二元/多元参数的活度系数模型，普通 EOS 未必能可靠给出分相。低压时压力影响常较弱但温度和组成仍关键；部分互溶、强非理想或三相候选都必须用 LLE 数据和稳定性检查验证。",
+  "title": "液液分相的 Gibbs 稳定性与活度模型",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "a72615d773b0987dd193c42d3cfbadba116d0de3e04f4cd898bbe23107109c69",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C12.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 381-385",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

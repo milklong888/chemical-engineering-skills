@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "原油、凝析油和复杂石油馏分的相平衡预处理；假组分性质及合并数必须回到样品分析和当前模型验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C7",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "UG10-CH32",
+    "UG10-CH30",
+    "CH3-PM-10"
+  ],
+  "text": "石油含大量未明确烃组分，直接按纯组分计算相平衡前要先表征。常用假组分法把 C7 以后非明确馏分切成窄沸程并合成若干虚拟纯组分；连续热力学法用分布函数表示无限多组分，但计算更复杂且不自动比假组分更准，因此方法选择要看数据与验证。\n\nTBP 或色谱模拟蒸馏给出沸程和平均沸点；TBP 还可能取得窄馏分密度和平均分子量，模拟蒸馏则需由相关表或关联估计，再由沸点、密度等估计临界温度、临界压力和偏心因子。对“+馏分”还要给出单碳数分布、按质量或摩尔分数合并为少量假组分并校准其性质；合并数目没有通用默认，应以相平衡和物性结果的敏感性及验证决定。",
+  "title": "石油馏分的假组分与“+馏分”特征化",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "8fc8c9932a00c85cad77d0b23db125443c3a71406f4c7be833be02918797ecc0",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C7.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 318-325",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

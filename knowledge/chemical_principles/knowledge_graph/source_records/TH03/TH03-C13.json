@@ -1,0 +1,38 @@
+{
+  "applicability": [
+    "高压气固溶解度及非高压液固平衡的热力学初筛；固溶体、反应沉淀、高压和固相组成变化需专门固相模型。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-C13",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "UG10-CH27-D225"
+  ],
+  "text": "气固平衡可看作高压气体萃取固体溶质，平衡仍要求固相溶质逸度等于气相组分逸度；固相参考逸度可由蒸气压、固体或过冷液体性质及压力修正建立。气相组分逸度系数是高压溶解度计算的关键，需用适合的 EOS 和混合规则，经验关联不能因为拟合过数据就当普适预测。\n\n液固平衡常把固体溶质与过冷液体参考态联系起来，再用液相活度系数求溶解度；这个简化假设溶剂不进入固相，且在非高压下忽略液固压力体积差影响。若固相组成变化、形成固溶体或压力很高，必须改用相应固相模型和数据，不能直接套用这一简式。",
+  "title": "气固/液固平衡的参考态与模型限制",
+  "units_basis": "定性方法；无直接设计数值。",
+  "text_sha256": "67f678d96498bfea2db57fe74401c1ff64f381bf067b462d032e54dc51a4d704",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-C13.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 386-389",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}

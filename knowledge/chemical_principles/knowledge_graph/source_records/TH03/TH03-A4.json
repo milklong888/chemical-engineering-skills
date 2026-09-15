@@ -1,0 +1,42 @@
+{
+  "applicability": [
+    "适用于固定组成简单可压缩单相体系由 EOS/PVT 计算 U、H、S 变化，并据状态变量选择积分路线；两相和临界邻域需另行核验。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "TH03-A4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH04",
+    "CEPR-CH05",
+    "UG10-CH08-D017",
+    "UG10-CH08-D024",
+    "UG10-CH08-D163"
+  ],
+  "text": "对固定组成的简单可压缩单相体系，状态方程提供 PVT 关系；结合热容和 PVT 导数，可由状态变量积分得到 U、H、S 等热力学函数。热容给出温度变化贡献，PVT 导数给出压力或体积修正；函数绝对值需先定参考态，整条计算链及跨物流比较必须保持参考态一致。\n\n若 EOS 以 p(T,v) 形式给出，适合沿 T-v 路线求 U、S；若状态以 T,p 给出，H、S 更适合沿 T-p 路线计算。理想气体是特殊情形，U、H 只随 T 变；两相或临界邻域需改用适合的相平衡或物性路线。",
+  "title": "用 PVT 导出 U/H/S：基本关系与路线选择",
+  "units_basis": "摩尔或质量基准须统一；压力、体积、热容和能量单位必须使各项量纲一致。",
+  "text_sha256": "4fe459f821b26577b57b92fa6ae7d7eb7ac9672be65ef01719d8b50daf12abc7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/TH03/TH03-A4.json",
+  "source": {
+    "source_id": "TH03",
+    "sha256": "17b0116b7ccddbad706856b7c2cde9ce63537dfd95a5b7081e29b2b229293c9f",
+    "locator": "PDF物理页 63-69",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/TH03.json"
+}
