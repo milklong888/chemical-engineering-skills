@@ -1,0 +1,43 @@
+{
+  "applicability": [
+    "分隔壁反应精馏或相近反应精馏中存在可压缩塔顶蒸汽、多个不同温位热汇和可实现的压缩前分流；必须有当前塔热负荷、最小换热温差、压缩机边界和分离指标。普通塔顶热泵流程不能未经温差与分流核查直接套用。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-C1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH10B-N01",
+    "node_ch10c_006",
+    "node_ch10c_007",
+    "node_ch10c_010",
+    "node_ch10c_012",
+    "L3-05"
+  ],
+  "text": "在分隔壁反应精馏的自热回收中，压缩机压比不是只按少用热公用工程任意调节的自由旋钮：压比直接受所需最小换热温差制约，改变压比还会改变压缩功和可匹配热汇。若全量塔顶蒸汽都走主高温升压缩支路，压缩流量和功可能偏大；可在压缩前将反应精馏塔顶蒸汽分流，一部分经主压缩后供较高温位热汇，另一部分直接送冷凝器。同时可将侧线精馏塔塔顶蒸汽经另一台较低所需温升/压比的压缩支路升温后承担较低温位的进料预热，从而间接降低进入主压缩机的流量；该支路的压缩功和实际温差可行性必须单独计入。改变压比、分流或热汇后，应重新提取物流、重做组合曲线和能量目标，并检查塔内及产品分离状态。全部压缩功与回收热必须放在同一能耗边界，不能把回收热重复算成免费热；案例中的压比、分流比例、功率和收益不迁移。",
+  "title": "分隔壁反应精馏中按温差约束分配自热回收蒸汽",
+  "units_basis": "定性机制；热负荷与压缩功须置于同一能量基准，具体压力、温度、流量、压比、分流比例、功率和收益不可迁移。",
+  "text_sha256": "94ea959a63e11d2f340506d75008718d9fb93e1ffad98ccf56d4d49d5c50e8e2",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-C1.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 238-243（4.3.4.1-4.3.4.2；图4-67至图4-85；实际视觉复核页238-243）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

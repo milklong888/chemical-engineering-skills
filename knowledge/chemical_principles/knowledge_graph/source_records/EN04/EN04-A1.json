@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于由流股构造复合曲线、问题表、热级联、GCC/UGCC，求固定数据与 ΔTmin 下的最小目标并识别阈值；不替代实际 HEN 设计。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-02",
+    "CH15_PINCH_STREAM_FILTER",
+    "L3-05",
+    "HX-010"
+  ],
+  "text": "T–H 图以温度为纵轴、焓或累计热负荷为横轴；在物性近似不变的显热段，热容流率为 CP = m_dot × cp，并可用 ΔH = CP × ΔT 表示，沸腾、冷凝和多组分相变应分段或用曲线表示。把所有热、冷流股按独特供应/目标温度分区并求和 CP，可构造热、冷复合曲线；为表示 ΔTmin，将热流股温度向下平移 ΔTmin/2、冷流股温度向上平移 ΔTmin/2，曲线接触或热级联残差为零的位置给出过程夹点。\n\n问题表从高温区向低温区逐段计算净热量并级联；为消除负残差加入最小热公用工程，级联末端残余量为最小冷公用工程。曲线重叠区给出热回收和最小公用工程目标，但不是实际换热器面积或网络拓扑。GCC/UGCC 可把各温位的热源、热汇余量及公用工程等级放在同一图上，并识别公用工程夹点和热回收口袋；口袋能否利用仍要检查温差、压力、输送和设备边界。\n\n阈值问题是只需热或只需冷一种外部公用工程的情形。定义阈值 ΔTTH 后，ΔTmin > ΔTTH 属于夹点问题；ΔTmin ≤ ΔTTH 进入阈值区，进一步降低 ΔTmin 时运行费用保持不变。通常可将 ΔTmin 选在阈值处，以在不增加公用工程热负荷的条件下取得较大的实际温差、较小的换热面积；仍须检查污垢、压降、控制和制造约束。有限热负荷若被迫通过趋零的实际驱动温差传递，面积会急增，但 ΔTmin=0 的设定本身不等于真实设备在零温差传热。",
+  "title": "复合曲线、热级联、能量目标与阈值问题",
+  "units_basis": "CP、热负荷、公用工程和 ΔT 必须采用一致质量或摩尔基准；不携带案例温度或负荷。",
+  "text_sha256": "7c249dc13d3a4ca3b6ce45eafd90cc5440b3c6a833a8523f45abca040e83e4a7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A1.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 15–25、30",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

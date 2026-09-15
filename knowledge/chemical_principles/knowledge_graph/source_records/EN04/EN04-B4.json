@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "用于锅炉、汽轮机、燃机等设备的变负荷建模输入审查；查表数据必须来自当前项目或合格设备资料。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-B4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "TH03-B3"
+  ],
+  "text": "当设备性能随负荷变化时，不能用一个常数效率替代已有的设备曲线。来源把燃气轮机的流量曲线、热量曲线和温度曲线分别定义为发电功率与排气质量流量、热需求及排气温度的关系；锅炉效率表把效率与蒸汽质量流量关联；汽轮机功率表把发电功率与进汽质量流量关联。只有在同一设备、同一工况范围和同一单位基础上有证据时，才选择 Constant 或 LookUpTable；采用查表时要保存表点、有效范围、单位、外推策略和物理单调性/极值检查。优化范围应与已有曲线的有效范围及经确认的外推策略相容，不能默认表点之外同样可靠；也不能把来源例题的效率、流量或功率表直接当作通用默认值，或在没有曲线数据时声称已完成变负荷校核。",
+  "title": "变负荷设备的性能曲线与查表边界",
+  "units_basis": "发电功率、排气/蒸汽质量流量、热需求、排气温度、效率和查表范围；曲线横纵轴单位必须与设备接口一致。",
+  "text_sha256": "a8a8a569346e5fa4d1cddf981304544422b0e0bb48b3b0db366e00ebd7d00c67",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B4.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页343–344",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

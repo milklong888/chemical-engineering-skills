@@ -18,7 +18,7 @@
   },
   "corpora_note": "Original source baseline statistics; active version totals are corpus_record_counts and layer_record_counts.",
   "corpus_record_counts": {
-    "chemical_principles": 75,
+    "chemical_principles": 92,
     "sun_lanyi": 396,
     "aspen_v10": 6454
   },
@@ -6969,6 +6969,108 @@
     },
     {
       "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A1.json",
+      "bytes": 3325,
+      "sha256": "f38453ba89c6ea41c51997861164622ca2fe3b65b3c2e5047709b803c43a0ca3"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A10.json",
+      "bytes": 2607,
+      "sha256": "0177f5f95cd1104e4ba7286f77b079f27e238935f099712076052d01d4afae62"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A11.json",
+      "bytes": 2887,
+      "sha256": "f7a17ca32ff696eb81f2c410268077632fe39ca2f6b2376a6de4bccc68a2eb41"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A2.json",
+      "bytes": 2805,
+      "sha256": "1984600abe87ca6ab006354f7d6570e4349c3b9814f63007abcd58f740381f36"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A3.json",
+      "bytes": 2964,
+      "sha256": "9bed9c2bafb1040174a0624e97221512667ed0697bc5afbafc2f74e7a33e16f7"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A4.json",
+      "bytes": 2916,
+      "sha256": "a1dded9738db140be27c279246b11845485e08a2866e91861a7c0fd459d964b3"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A5.json",
+      "bytes": 2608,
+      "sha256": "f90685158139ce89c50c65cf995d3615ec42c8a8ab59885810288acf41cc8f51"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A6.json",
+      "bytes": 2721,
+      "sha256": "501c9d4cbc4b8d11678b63e0ed4f35b652f209a4a88bb99ec17cef79ca91152d"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A7.json",
+      "bytes": 2695,
+      "sha256": "74117a27c31c56506203466d4ee1246c934c07275e189a0191bd84dbc3b9d975"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A8.json",
+      "bytes": 3051,
+      "sha256": "a6d2c1ac224e85e977ce008b41865a8a15634d6e352998d0488495d4f091327b"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A9.json",
+      "bytes": 2136,
+      "sha256": "dae5d4d1e1a93674a8a533bda00905644cb2e3d969858453c6fd48a2f59afb8b"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B1.json",
+      "bytes": 2588,
+      "sha256": "80a098ce770c862d6d47c4efce5d763821125ef0183d92e83796b2dcb1423716"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B2.json",
+      "bytes": 2583,
+      "sha256": "e5f7bce5e9aca46b34144b7aa19c84cdb1eb2a6132237d9f84fabc7f205d9d04"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B3.json",
+      "bytes": 3035,
+      "sha256": "8b1dd7cc2d0c3371ed2fd0cb37bbd01796b496026c37b8730b9e6770f182aa80"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B4.json",
+      "bytes": 2554,
+      "sha256": "d0cabb0337fe7dc8ccbd56167d6b834100746698b2b839bbf530517a5033d471"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B5.json",
+      "bytes": 2966,
+      "sha256": "8a1db7f5ce0c1440e092842f9569de5dabf093f45d2537c0a30daa7692176c7e"
+    },
+    {
+      "kind": "reviewed_source_summary",
+      "path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-C1.json",
+      "bytes": 3044,
+      "sha256": "d2c45339fc9693891cc5f481209a5955b1b41d453e068fd3b55f1f6e4fb49557"
+    },
+    {
+      "kind": "reviewed_source_summary",
       "path": "chemical_principles/knowledge_graph/source_records/OC02/OC02-A1.json",
       "bytes": 2785,
       "sha256": "69c32db85e4ab67c775f5e68f5a866f7e690a8fc92130cb35d36b3b21aa103bb"
@@ -7355,6 +7457,12 @@
       "source_sha256": "fcc7b9f14a97f4c8dac8d629847d756a878b7555e4797fd4a4219167e40d1f2c"
     },
     {
+      "kind": "knowledge_contribution_and_reading_policy",
+      "path": "CONTRIBUTING.md",
+      "bytes": 2797,
+      "sha256": "84c2c8bedd8f0397436a1c4ff5560e1bb66db27fac9f1628ebc14b49585dc2bd"
+    },
+    {
       "bytes": 1023,
       "default_retrieval_eligible": false,
       "kind": "governance_route_not_retrieval_body",
@@ -7381,8 +7489,8 @@
     {
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "intake/README.md",
-      "bytes": 3654,
-      "sha256": "cdeaf5cafd10a42e3954394bf797074f281317f215e8c1f1e5c0f336126a747a"
+      "bytes": 5260,
+      "sha256": "491caa95cb5522f81b913ec0ab220bb9791bca336971d385a48934626c090bf2"
     },
     {
       "bytes": 979,
@@ -8585,10 +8693,10 @@
       "sha256": "e900a452facce7966403f2915d412db673383e83338512d5a61dc371b7262d3e"
     },
     {
-      "bytes": 6582,
+      "bytes": 6705,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "MAINTENANCE.md",
-      "sha256": "33029c947f374f22db68993db6ad243ad1bafeea916f85cf9797646ffad871f6"
+      "sha256": "9daffe3f28a9f62ed6f87a2aee09fe44dc85ab18b9e722b5b0031f805b39ef6f"
     },
     {
       "bytes": 1873,
@@ -8597,16 +8705,16 @@
       "sha256": "15e6a6787c80ba516a61105222b11e0bc48c835fe35abc20c47e46773b857fc9"
     },
     {
-      "bytes": 3906,
+      "bytes": 4895,
       "kind": "distribution_availability_contract",
       "path": "README.md",
-      "sha256": "e7d5a4fd1a7b39bc5702f6b354cdcdc1aac5cd45048706f0628aa3fd1d9f869d"
+      "sha256": "ef2336498829d8a24a5a853dfd906e0ba726d37b42ac4486172711124d9f2617"
     },
     {
-      "bytes": 7926446,
+      "bytes": 7971346,
       "kind": "lookup_projection_of_original_records",
       "path": "records.jsonl",
-      "sha256": "0f913c3a87f0272f549a459fe32b016ecd182d1c7f7776fa2f178f1c1149976a"
+      "sha256": "73a2a0fc29ac5660a22aaf6586d5d510c5d4d9dab70bd0a7b952ea20b6bf2c4b"
     },
     {
       "bytes": 2332,
@@ -8633,10 +8741,10 @@
       "sha256": "266335549dd9d754d89b7ac05a9a2a18a292b95c6286207e7b7141bbcc7b8757"
     },
     {
-      "bytes": 8879,
+      "bytes": 11318,
       "kind": "offline_runtime_adapter",
       "path": "scripts/query_knowledge.py",
-      "sha256": "2570adc487bf4a0f76b3093ce935c1a5c2a6174a078aaa2328e9ccf0bbb4fa90"
+      "sha256": "cf91b39b66ff21e5f04a1c5fe898b7a97b49f5bb43c70999bf31bc450d39c681"
     },
     {
       "bytes": 3137,
@@ -8645,16 +8753,28 @@
       "sha256": "b83865cf4b87502757cde471e0ce24b9326af5e00b1610f54ed22da57bf2786c"
     },
     {
-      "bytes": 9430,
+      "kind": "offline_query_display_adapter",
+      "path": "scripts/retrieval_quality.py",
+      "bytes": 11361,
+      "sha256": "e28efedf7a7e8aad7fdb8eba4fdc3a6648914693d120ffabcc5486b536debb08"
+    },
+    {
+      "bytes": 10611,
       "kind": "offline_runtime_adapter",
       "path": "scripts/vector_adapter.py",
-      "sha256": "19dabf885fbedb427e154117301b03f6cb959fd0821cd79555a7810e1ef01b24"
+      "sha256": "ecd49753be6300e70adcda15af0dfcaed94d830f542810bcef868d9e426743fa"
     },
     {
       "bytes": 2812,
       "kind": "offline_runtime_adapter",
       "path": "scripts/verify_knowledge.py",
       "sha256": "d3a0f439c0e9c63229bc58fd70b480632cc734ac9d5c827c712a998ef57b7710"
+    },
+    {
+      "kind": "source_maintenance_adoption",
+      "path": "source_adoptions/EN04.json",
+      "bytes": 2320,
+      "sha256": "f0e56ab168a78ff12afbc5309e08763fd93ae83bb88b90545dce8e2f9380ec0b"
     },
     {
       "kind": "source_maintenance_adoption",
@@ -8859,26 +8979,26 @@
       "bytes": 4447,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/config.json",
-      "sha256": "182f86eee41e71d27fecc384cd1a8c620adb0c6dca12c3beaa7d72fdb20fb524"
+      "sha256": "96eb86ccfdb3ffe95dbe077dbefd3e88ed03fd0d4460e532f3c8509431e387f6"
     },
     {
-      "bytes": 11089614,
+      "bytes": 11142586,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/records.jsonl",
-      "sha256": "467d5a4926ebc83f159197437eee6e793d8ff2669a34e24d8c6353fb50c9af56"
+      "sha256": "6bc2f8e1e703c8b24432303d5875b7ad14f43d142cc5aa0eb9003e46ec54f599"
     },
     {
-      "bytes": 21203072,
+      "bytes": 21255296,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/vectors.npy",
-      "sha256": "9fcb4524ff8cab0fafc192f996794d2cf189697c1e3b67e66633b77b0154c4f3"
+      "sha256": "79d1fb6647d31e9686d829d87dc7c5e18b12b819cc5d855e2a370f59eeeac436"
     }
   ],
   "layer_record_counts": {
     "chemical_principles": {
       "L3": 8,
-      "L2": 62,
-      "L1": 5
+      "L2": 71,
+      "L1": 13
     },
     "sun_lanyi": {
       "L1": 396
@@ -8890,7 +9010,7 @@
   },
   "learning_event": false,
   "original_pdf_payload_bundled": false,
-  "records": 6925,
+  "records": 6942,
   "remote_payload_available": false,
   "schema": "chemical-offline-knowledge-manifest-v1",
   "scripts_disposition": "script_source_manifest.json",

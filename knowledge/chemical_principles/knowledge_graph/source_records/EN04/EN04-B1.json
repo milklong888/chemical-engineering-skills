@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "用于能源分析前的提取前提、utility角色和曲线/命名审查；不把V9提取路径限制直接当作当前软件实测结论。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-B1",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH15_ENERGY_ANALYZER_DETAILS",
+    "CH15_UTILITY_CREATE_BIND",
+    "HX-010",
+    "CEPR-CH04"
+  ],
+  "text": "本段只保留旧版 Energy Analyzer 提取路径的增量限制：按来源所述 V9 提取流程，前置模拟结果应已完成且不存在 Not Solved/Under-Specified 状态；多物流换热器和含固体物流处于该提取流程的边界之外。这是所述提取路径的版本化限制，不应泛化为所有当前工具的永久禁用规则。公用工程若仅作为普通物料流建模，会被提取为工艺流并固定其负荷；若要保留公用工程可调性，当前模型必须明确 utility 角色和设备绑定。塔冷凝器/再沸器在曲线缺失时可能需要当前模型提供焓—温度曲线，并检查曲线是否可用；不同温度物流混合前要检查是否跨越目标夹点；操作单元与物流的命名要保持无歧义，以免提取时发生对象混淆。",
+  "title": "Energy Analyzer提取路径限制与可解释性边界",
+  "units_basis": "温度、焓—温度曲线、公用工程负荷及对象命名；具体单位和曲线范围按当前项目模型确认。",
+  "text_sha256": "fc7f409cd0fe4ecff59e32ff6ee7a0e6defdeb31a00bf518bc73d3a1c6bcc75d",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B1.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页122–124",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

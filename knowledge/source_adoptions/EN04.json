@@ -1,0 +1,38 @@
+{
+  "schema": "source-adoption-v1",
+  "source_adoption_id": "source_adoptions/EN04.json",
+  "source_id": "EN04",
+  "source_sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+  "base_manifest_sha256": "a39674db7905396ec0249a866c9e222b07dddf8ae6b1e5e8e90016c98aa200a2",
+  "candidate_manifest_sha256": "a62788db2939273d1d90591ec0be3d84743991759b2e56d950a666a78c523424",
+  "review_proof_sha256": "c2a37ae2a48467b7f2ddf56013c9f11de18623b763f7bee8b4e720268b904ff7",
+  "node_ids": {
+    "EN04-A1": "7c249dc13d3a4ca3b6ce45eafd90cc5440b3c6a833a8523f45abca040e83e4a7",
+    "EN04-A2": "48a1e7176f6176c61a8dd2ee407eef5476978b72e25d855fb15ae35cc1942a00",
+    "EN04-A3": "cf25ed3a5aa4123ddb39666fc7b58f7f95857faaefb8f1d4ff35aa25979e1c3c",
+    "EN04-A4": "6e72f1861c69c078f6999ec6d388beb509ea30167dec8e65b0d3f0414e93bab7",
+    "EN04-A5": "bace3d98603e36a6580362108e7ac926c0d054b9cf7af192a3867e4b79045987",
+    "EN04-A6": "67821ad734b554e5dd1eeb396f7d0e375bf2df5b07758573d916a89d76cdc326",
+    "EN04-A7": "7514f85d2cf60f9561188750b61186a96006f7957f9eb5fe7d788fdb8e9aa545",
+    "EN04-A8": "a7d3cb4436f8610ddcbc805bc6d40660403330a2e14ad576427afcaa8ead4d3f",
+    "EN04-A9": "bc86ddf431ed2111d8e7f0e37e2d78b257ed7335e0bade38289b79ac093633bb",
+    "EN04-A10": "ab09303f1807a13da976e427c8cd3ed2fd1f28d575d0465ce3e2d1140da22d6c",
+    "EN04-A11": "fd5a20b83b08898eb7bf6a06ffb18686741af889092c70056f241ee9696c23af",
+    "EN04-B1": "fc7f409cd0fe4ecff59e32ff6ee7a0e6defdeb31a00bf518bc73d3a1c6bcc75d",
+    "EN04-B2": "cf9923fbb03a68560b972252f857d36599fa468380dc50aaa34e84f65e1bf757",
+    "EN04-B3": "008e93f21e35c9e21a2445190b091d0948d42c384765962807b20c41e889d2a8",
+    "EN04-B4": "a8a8a569346e5fa4d1cddf981304544422b0e0bb48b3b0db366e00ebd7d00c67",
+    "EN04-B5": "337dcc56fdc082cae5dbb9f8b022d36426a5358800876bae062e46c620d0f560",
+    "EN04-C1": "94ea959a63e11d2f340506d75008718d9fb93e1ffad98ccf56d4d49d5c50e8e2"
+  },
+  "scope": {
+    "distribution_scope": "redistributable",
+    "evidence_class": "X",
+    "authority_scope": "shared",
+    "project_value_transfer_allowed": false
+  },
+  "rights_summary": [
+    "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授"
+  ],
+  "engineering_acceptance_verified": false
+}

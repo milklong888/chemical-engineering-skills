@@ -1,7 +1,7 @@
 {
   "schema": "chemical-public-release-v2",
   "release_name": "chemical-engineering-skills",
-  "release_version": "0.4.7",
+  "release_version": "0.4.8",
   "scope": "reviewed_headless_offline_tools_and_knowledge",
   "skill_names": [
     "aspen-adaptive-generalization-loop",
@@ -100,13 +100,13 @@
     },
     {
       "path": "BINARY_ASSETS.json",
-      "sha256": "f624a58ccdad12e6066e7b6ad3d20fbcc34941a1b7d09361f9e05446a921f2ce",
+      "sha256": "ea32d90812f79c23e60c33dd9a210c93ed0f25cdf6255bf03a484b92a509abe0",
       "bytes": 36067
     },
     {
       "path": "README.md",
-      "sha256": "cc241b77fcfe959f3e4a3f3889a36c1c9672d2c6990de6f1e88289e934b3cd49",
-      "bytes": 10083
+      "sha256": "591147a4c098af4c775e557edb04241ab3c960dcac262122f98994d3af8865f8",
+      "bytes": 10871
     },
     {
       "path": "backends/equipment/README.md",
@@ -1074,6 +1074,11 @@
       "bytes": 4537
     },
     {
+      "path": "docs/知识库更新_0.4.8.md",
+      "sha256": "8e1472f5b48f2e300611c87022f4d9b4865cdc439b1d6da5a9b72941841f819e",
+      "bytes": 3984
+    },
+    {
       "path": "docs/验证记录_0.2.0.json",
       "sha256": "177e041ce6728c70d68beee546d7a2869fdf71c2b0ec04383015a01482a196c4",
       "bytes": 8441
@@ -1110,8 +1115,8 @@
     },
     {
       "path": "docs/验证说明.md",
-      "sha256": "2cda30a1cf52d9f7fef9b7f9bbe2af62475f00ad16deb65293b820b01660fac4",
-      "bytes": 17981
+      "sha256": "e2bbf1a72c14a7f657ed7fbc39eef183ce27aa54eca5941f4b1d4cfa433d3db2",
+      "bytes": 18105
     },
     {
       "path": "examples/heat_exchanger_request.json",
@@ -1144,9 +1149,14 @@
       "bytes": 189
     },
     {
+      "path": "knowledge/CONTRIBUTING.md",
+      "sha256": "84c2c8bedd8f0397436a1c4ff5560e1bb66db27fac9f1628ebc14b49585dc2bd",
+      "bytes": 2797
+    },
+    {
       "path": "knowledge/MAINTENANCE.md",
-      "sha256": "33029c947f374f22db68993db6ad243ad1bafeea916f85cf9797646ffad871f6",
-      "bytes": 6582
+      "sha256": "9daffe3f28a9f62ed6f87a2aee09fe44dc85ab18b9e722b5b0031f805b39ef6f",
+      "bytes": 6705
     },
     {
       "path": "knowledge/OWNER_ROUTES.md",
@@ -1155,8 +1165,8 @@
     },
     {
       "path": "knowledge/README.md",
-      "sha256": "e7d5a4fd1a7b39bc5702f6b354cdcdc1aac5cd45048706f0628aa3fd1d9f869d",
-      "bytes": 3906
+      "sha256": "ef2336498829d8a24a5a853dfd906e0ba726d37b42ac4486172711124d9f2617",
+      "bytes": 4895
     },
     {
       "path": "knowledge/aspen_v10/README.md",
@@ -1774,6 +1784,91 @@
       "bytes": 2432
     },
     {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A1.json",
+      "sha256": "f38453ba89c6ea41c51997861164622ca2fe3b65b3c2e5047709b803c43a0ca3",
+      "bytes": 3325
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A10.json",
+      "sha256": "0177f5f95cd1104e4ba7286f77b079f27e238935f099712076052d01d4afae62",
+      "bytes": 2607
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A11.json",
+      "sha256": "f7a17ca32ff696eb81f2c410268077632fe39ca2f6b2376a6de4bccc68a2eb41",
+      "bytes": 2887
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A2.json",
+      "sha256": "1984600abe87ca6ab006354f7d6570e4349c3b9814f63007abcd58f740381f36",
+      "bytes": 2805
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A3.json",
+      "sha256": "9bed9c2bafb1040174a0624e97221512667ed0697bc5afbafc2f74e7a33e16f7",
+      "bytes": 2964
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A4.json",
+      "sha256": "a1dded9738db140be27c279246b11845485e08a2866e91861a7c0fd459d964b3",
+      "bytes": 2916
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A5.json",
+      "sha256": "f90685158139ce89c50c65cf995d3615ec42c8a8ab59885810288acf41cc8f51",
+      "bytes": 2608
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A6.json",
+      "sha256": "501c9d4cbc4b8d11678b63e0ed4f35b652f209a4a88bb99ec17cef79ca91152d",
+      "bytes": 2721
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A7.json",
+      "sha256": "74117a27c31c56506203466d4ee1246c934c07275e189a0191bd84dbc3b9d975",
+      "bytes": 2695
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A8.json",
+      "sha256": "a6d2c1ac224e85e977ce008b41865a8a15634d6e352998d0488495d4f091327b",
+      "bytes": 3051
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A9.json",
+      "sha256": "dae5d4d1e1a93674a8a533bda00905644cb2e3d969858453c6fd48a2f59afb8b",
+      "bytes": 2136
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B1.json",
+      "sha256": "80a098ce770c862d6d47c4efce5d763821125ef0183d92e83796b2dcb1423716",
+      "bytes": 2588
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B2.json",
+      "sha256": "e5f7bce5e9aca46b34144b7aa19c84cdb1eb2a6132237d9f84fabc7f205d9d04",
+      "bytes": 2583
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B3.json",
+      "sha256": "8b1dd7cc2d0c3371ed2fd0cb37bbd01796b496026c37b8730b9e6770f182aa80",
+      "bytes": 3035
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B4.json",
+      "sha256": "d0cabb0337fe7dc8ccbd56167d6b834100746698b2b839bbf530517a5033d471",
+      "bytes": 2554
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B5.json",
+      "sha256": "8a1db7f5ce0c1440e092842f9569de5dabf093f45d2537c0a30daa7692176c7e",
+      "bytes": 2966
+    },
+    {
+      "path": "knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-C1.json",
+      "sha256": "d2c45339fc9693891cc5f481209a5955b1b41d453e068fd3b55f1f6e4fb49557",
+      "bytes": 3044
+    },
+    {
       "path": "knowledge/chemical_principles/knowledge_graph/source_records/OC02/OC02-A1.json",
       "sha256": "69c32db85e4ab67c775f5e68f5a866f7e690a8fc92130cb35d36b3b21aa103bb",
       "bytes": 2785
@@ -2085,8 +2180,8 @@
     },
     {
       "path": "knowledge/intake/README.md",
-      "sha256": "cdeaf5cafd10a42e3954394bf797074f281317f215e8c1f1e5c0f336126a747a",
-      "bytes": 3654
+      "sha256": "491caa95cb5522f81b913ec0ab220bb9791bca336971d385a48934626c090bf2",
+      "bytes": 5260
     },
     {
       "path": "knowledge/learning_owner_contract.json",
@@ -2555,13 +2650,13 @@
     },
     {
       "path": "knowledge/manifest.json",
-      "sha256": "a39674db7905396ec0249a866c9e222b07dddf8ae6b1e5e8e90016c98aa200a2",
-      "bytes": 438643
+      "sha256": "fc6961417ff1ac05dce258e0f218e36f212a49c55adce3077de5115d25b324f5",
+      "bytes": 443542
     },
     {
       "path": "knowledge/records.jsonl",
-      "sha256": "0f913c3a87f0272f549a459fe32b016ecd182d1c7f7776fa2f178f1c1149976a",
-      "bytes": 7926446
+      "sha256": "73a2a0fc29ac5660a22aaf6586d5d510c5d4d9dab70bd0a7b952ea20b6bf2c4b",
+      "bytes": 7971346
     },
     {
       "path": "knowledge/schemas/knowledge_intake_review.schema.json",
@@ -2585,8 +2680,8 @@
     },
     {
       "path": "knowledge/scripts/query_knowledge.py",
-      "sha256": "2570adc487bf4a0f76b3093ce935c1a5c2a6174a078aaa2328e9ccf0bbb4fa90",
-      "bytes": 8879
+      "sha256": "cf91b39b66ff21e5f04a1c5fe898b7a97b49f5bb43c70999bf31bc450d39c681",
+      "bytes": 11318
     },
     {
       "path": "knowledge/scripts/resolve_knowledge_owner.py",
@@ -2594,14 +2689,24 @@
       "bytes": 3137
     },
     {
+      "path": "knowledge/scripts/retrieval_quality.py",
+      "sha256": "e28efedf7a7e8aad7fdb8eba4fdc3a6648914693d120ffabcc5486b536debb08",
+      "bytes": 11361
+    },
+    {
       "path": "knowledge/scripts/vector_adapter.py",
-      "sha256": "19dabf885fbedb427e154117301b03f6cb959fd0821cd79555a7810e1ef01b24",
-      "bytes": 9430
+      "sha256": "ecd49753be6300e70adcda15af0dfcaed94d830f542810bcef868d9e426743fa",
+      "bytes": 10611
     },
     {
       "path": "knowledge/scripts/verify_knowledge.py",
       "sha256": "d3a0f439c0e9c63229bc58fd70b480632cc734ac9d5c827c712a998ef57b7710",
       "bytes": 2812
+    },
+    {
+      "path": "knowledge/source_adoptions/EN04.json",
+      "sha256": "f0e56ab168a78ff12afbc5309e08763fd93ae83bb88b90545dce8e2f9380ec0b",
+      "bytes": 2320
     },
     {
       "path": "knowledge/source_adoptions/OC02.json",
@@ -2670,22 +2775,22 @@
     },
     {
       "path": "knowledge/vectors/config.json",
-      "sha256": "182f86eee41e71d27fecc384cd1a8c620adb0c6dca12c3beaa7d72fdb20fb524",
+      "sha256": "96eb86ccfdb3ffe95dbe077dbefd3e88ed03fd0d4460e532f3c8509431e387f6",
       "bytes": 4447
     },
     {
       "path": "knowledge/vectors/records.jsonl",
-      "sha256": "467d5a4926ebc83f159197437eee6e793d8ff2669a34e24d8c6353fb50c9af56",
-      "bytes": 11089614
+      "sha256": "6bc2f8e1e703c8b24432303d5875b7ad14f43d142cc5aa0eb9003e46ec54f599",
+      "bytes": 11142586
     },
     {
       "path": "knowledge/vectors/vectors.npy",
-      "sha256": "9fcb4524ff8cab0fafc192f996794d2cf189697c1e3b67e66633b77b0154c4f3",
-      "bytes": 21203072
+      "sha256": "79d1fb6647d31e9686d829d87dc7c5e18b12b819cc5d855e2a370f59eeeac436",
+      "bytes": 21255296
     },
     {
       "path": "plugins/chemical-engineering-skills/.codex-plugin/plugin.json",
-      "sha256": "7e71859b885b2c63069c04144195a70432bff7fe0d648cac8f6734d171ac3222",
+      "sha256": "36d2f461fbe7e6a883376937e8ac9d82c0645c0dbe48029315eb81f373a0443f",
       "bytes": 999
     },
     {
@@ -4347,6 +4452,11 @@
       "path": "tests/test_public_contract.py",
       "sha256": "103c0b49c8da7de37e6970c5923bf9a8aa8e74bb6deb40ef2a9a9bfbe00e792d",
       "bytes": 6161
+    },
+    {
+      "path": "tests/test_query_quality.py",
+      "sha256": "7430b4b472437c42c2308bbb1a5e495cba1ea9efcd60d7751d10569fb857c474",
+      "bytes": 5722
     },
     {
       "path": "tests/test_skill_organization.py",

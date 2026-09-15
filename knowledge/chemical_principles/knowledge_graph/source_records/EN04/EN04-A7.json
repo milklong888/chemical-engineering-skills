@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "适用于初始 HEN 的断环、路径调整、能量松弛和残余目标再分析；实际换热面积和控制需另做设备级校核。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-A7",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-02",
+    "CEPR-CH04",
+    "L3-07"
+  ],
+  "text": "初始网络的实际单位数超过最小单位数时会形成热负荷回路；独立回路数可由实际单位数与最小单位数之差表征。断回路可先移除一个热负荷较小的换热连接，再检查各端温差；若仍满足 ΔTmin，可保留简化网络；若端温差不足，可沿路径转移热负荷或用能量松弛恢复可行温差。能量松弛允许热、冷两端公用工程同时增加 X、工艺热回收量减少 X，以换取可行温差；反向恢复时两端公用工程共同减少。\n\n剩余问题分析（RPA）在部分匹配或初始网络完成后，扣除已匹配流股数据，重新求剩余流股的热/冷目标和面积目标；它可判断网络匹配是否引入跨夹点热传递、是否只改变面积或已增加公用工程。传热系数差异显著或匹配非竖直时，简单复合曲线面积会偏离真实面积，应采用非竖直模型、线性规划或设备级校核。",
+  "title": "网络调优：回路、路径、能量松弛与 RPA",
+  "units_basis": "单位数为计数，路径热量、公用工程、温差、h 和面积需统一基准；环路动作不是无条件经济规则。",
+  "text_sha256": "7514f85d2cf60f9561188750b61186a96006f7957f9eb5fe7d788fdb8e9aa545",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A7.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 71–77（重点 71、76–77）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

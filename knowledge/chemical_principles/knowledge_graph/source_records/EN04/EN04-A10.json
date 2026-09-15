@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于由各单元 GCC 构造总厂源/汇剖面、TSCC 和蒸汽等级目标；总厂结果须包含当前边界、管网损失和运行工况。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A10",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "HX-010"
+  ],
+  "text": "总厂分析先从各装置的复合曲线或 GCC 提取源段与汇段，再汇总为 Total Site Source Profile 和 Total Site Sink Profile。应决定装置内热回收口袋是否已被使用、是否有可输送温位；若抽取口袋，源热必须能生成可用的公用工程等级，热阱则需由相应等级公用工程供热。汇总流股应保留实际供应/目标温度、相态、CP 和焓负荷，并按统一的实际/平移温度约定构造总厂曲线。\n\nTSCC 把总厂热源与热汇叠加，显示外部热/冷公用工程目标、蒸汽生成与使用以及不同等级蒸汽的潜在回收。蒸汽线要按压力/饱和温度和 ΔTmin 放置；过程产生的蒸汽、蒸汽供热和汽轮机膨胀必须避免重复计热。单装置节能不一定降低总厂外供公用工程，只有总厂源/汇和蒸汽管网边界闭合后才能下结论。",
+  "title": "总厂源/汇剖面、TSCC 与蒸汽等级",
+  "units_basis": "总厂热源/热汇、蒸汽和公用工程均采用统一时间、能量和温度平移基准；不携带案例热量或蒸汽量。",
+  "text_sha256": "ab09303f1807a13da976e427c8cd3ed2fd1f28d575d0465ce3e2d1140da22d6c",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A10.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 85–92（重点 85、90）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "适用于在 GCC/UGCC 中筛选热机、汽轮机 CHP 或热泵相对夹点的位置；实际功/热、温升、损失和经济性必须另算。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A4",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "CEPR-CH05",
+    "HX-010"
+  ],
+  "text": "热机应放在过程热源/热汇和功输入输出的同一边界中判断。热机跨越过程夹点会使实际热、冷公用工程用量相对各自最小目标上升；夹点以上可利用热机排热供给过程，夹点以下可利用过程余热做功并减少冷却负荷。蒸汽汽轮机 CHP 还要联立高/中/低压力蒸汽供热、背压或抽凝压力、燃料、泵功、热损失和电力价值；理想边际能量关系不能表述为实际热机效率 100%。\n\n在固定过程 MER 边界下，热泵整体位于夹点以上时，输入功 W 相当于热区的可用热增量，实际热公用工程用量可相对最小目标减少 W，而冷公用工程用量不变；整体位于夹点以下时，热公用工程用量不变、冷公用工程用量增加 W。跨夹点热泵才可能同时减少实际热、冷公用工程用量，但必须核查温升、最小温差、压缩功或驱动热、污染/泄漏、控制、设备范围和费用，不能由目标曲线直接宣称净节能。MVR 把工艺蒸汽作为可压缩流股，闭式热泵有独立工质，吸收式系统以驱动热换取较低电功；这些差异不能用基础 COP 公式替代。",
+  "title": "热机、CHP 与热泵的夹点位置",
+  "units_basis": "热量、功率、燃料、蒸汽和公用工程量必须在同一时间与能量边界下比较；不携带效率、功率、压力或 COP 默认值。",
+  "text_sha256": "6e72f1861c69c078f6999ec6d388beb509ea30167dec8e65b0d3f0414e93bab7",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A4.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 38–45",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

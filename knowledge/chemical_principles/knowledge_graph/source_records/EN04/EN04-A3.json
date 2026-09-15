@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于建立 HEN 的单位数、面积和运行费/资本费年化目标，并按温位筛选公用工程等级；不替代设备级传热和水力学。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH04",
+    "D-TA-02",
+    "HX-010",
+    "CH15_UTILITY_CREATE_BIND"
+  ],
+  "text": "换热单位数目标可写为 U = N + L − S：N 是包含公用工程、但不包含流股分支的流股数；L 是独立的热负荷回路数；S 是独立子系统数。只有在没有可分离的独立子系统（S=1）且网络中不存在独立热负荷回路（L=0）时，才得到 Umin = N − 1；分流需检查是否形成回路，夹点两侧的独立网络分别计数；分支本身不增加 N，改变公用工程等级或独立子系统时应重算。面积目标由各温区的热负荷、冷热侧传热系数、对数平均温差和必要的多程修正构成，仍只是目标近似，不能替代实际设备传热、污垢、压降和布置校核。\n\n经济比较应把公用工程运行费、换热器资本费及年化因子放在同一年度化边界中。降低 ΔTmin 可能减小公用工程而增大面积、压降、控制和维护；提高 ΔTmin 可能相反。炉、蒸汽、热流体、烟气、空气、水和制冷剂应按温位和负荷选级，烟气还受酸露点、材料和最低排烟温度约束；公用工程线与复合曲线相切处形成公用工程夹点。源页行业温差范围、价格和运行小时仅为例示，不是默认输入。",
+  "title": "单位数、面积/经济目标与公用工程等级",
+  "units_basis": "N、L、S 为计数；热负荷、h、ΔT、面积、费用、利率、寿命、温位和压力须采用项目统一基准。",
+  "text_sha256": "cf25ed3a5aa4123ddb39666fc7b58f7f95857faaefb8f1d4ff35aa25979e1c3c",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A3.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 30–37",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

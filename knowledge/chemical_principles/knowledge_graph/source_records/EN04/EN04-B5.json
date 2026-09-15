@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "用于多周期蒸汽/公用工程优化的数据表与可行性检查；不提供通用需求、费率、可用性或生产计划。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-B5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "HX-010",
+    "L3-05",
+    "TH03-B3"
+  ],
+  "text": "蒸汽系统优化的输入不只是一组静态需求，还包括公用工程需求、设备可用性和价格/合同；来源语境下的优化目标是最小化运行成本，项目若采用其他目标或多目标必须显式说明。多周期数据应明确周期数量、起止时间和长度、运行模式以及各周期的生产或过程输入；需求预测以这些周期和过程变量计算各类公用工程需求。可用性状态至少要区分不可用、可用和必须运行，且 profile 的限制可能比设备设计边界更紧；设备处于停机/不可用状态也不等于可以任意降低其开机时的运行最小负荷。设计/硬约束保存在设备优化边界中，临时/运行约束由可用性 profile 提供；合并时下界取各下界的较大值、上界取各上界的较小值，交集为空即为不可行，不能靠优化器静默“修正”。合同和分档价格应明确固定/变量费用、购入或卖出方向、最小/最大流量或用量、优先级、峰值费用及随周期变化的费率。目标函数、需求、可用性、价格和时间单位必须在同一周期基础上对齐；来源的案例数值和合同费率不迁移。",
+  "title": "多周期需求、可用性、价格与约束交集",
+  "units_basis": "周期时间、需求/可用性状态、流量或用量边界、固定/变量价格、峰值费用及优先级；所有表需统一周期和货币/能量单位。",
+  "text_sha256": "337dcc56fdc082cae5dbb9f8b022d36426a5358800876bae062e46c620d0f560",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B5.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页335–345，重点336、338–342",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

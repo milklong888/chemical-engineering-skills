@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "用于组织季节、产能、结垢、维护等变工况研究；不把旧版操作界面、事件按钮或案例趋势当作当前软件实测流程。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-B2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH15_ENERGY_ANALYZER_DETAILS",
+    "CH15_PINCH_STREAM_FILTER",
+    "L3-05",
+    "CEPR-CH04"
+  ],
+  "text": "场景层用于保存生产率、季节、工艺/公用工程、经济和禁止匹配等假设；设计层描述换热网络连接和结构；改造层在现有结构和设备基础上研究替换或增改；运行研究则通过事件/研究工况改变入口温度、流量、设备状态、传热系数或吞吐量。维护、操作变化、结垢和按比例改变生产流量是不同的扰动类别，不应混成一个“效率修正”。趋势分析可按日、周、月或年等时间间隔计算关键变量，但其结果是同一设计边界下的假设比较，不是对现场测量的自动验证。运行工况研究应明确哪些值继承设计基准、哪些值随事件改变，并在每个工况重新检查网络平衡、温差和公用工程需求。",
+  "title": "场景、设计、改造与变工况研究的分层",
+  "units_basis": "温度、流量、传热系数、吞吐量、时间间隔及公用工程需求；各场景必须说明继承值、扰动值和时间基准。",
+  "text_sha256": "cf9923fbb03a68560b972252f857d36599fa468380dc50aaa34e84f65e1bf757",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B2.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页107、109、193、197",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

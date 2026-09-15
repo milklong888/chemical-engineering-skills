@@ -1,7 +1,10 @@
 """Thin offline adapter to the existing workspace hash-vector and route code.
 
-No learned embedding, training, model download, or new ranking algorithm is
-introduced. Only eligible original records enter this separate numeric index.
+No learned embedding, training, model download, or matrix algorithm is
+introduced. The adapter adds deterministic query-fragment qualification,
+bounded layer preference, and exact-text display grouping after the preserved
+workspace score is calculated. Only eligible original records enter this
+separate numeric index.
 """
 from __future__ import annotations
 import argparse
@@ -10,6 +13,13 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+
+from retrieval_quality import (
+    attach_relevance,
+    is_pure_chapter_title,
+    merge_exact_text_results,
+    select_query_fragments,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE_SCRIPTS = ROOT.parent / "workspace/scripts"
@@ -87,12 +97,14 @@ def build(root: Path = ROOT) -> dict:
 
 
 def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT, full_text=False) -> dict:
-    from query_knowledge import load_records, query_terms, determine_mode, layer_order
+    from query_knowledge import load_records, query_terms, determine_mode
     import numpy as np
     if not query.strip():
         raise ValueError("Non-empty query is required")
     vectors, routes = modules()
     _, original = load_records(root)
+    fragments = select_query_fragments(query, original)
+    terms = query_terms(query, original, fragments=fragments)
     by_identity = {(row["corpus"], row["node_id"]): row for row in original}
     output = root / "vectors"
     config = json.loads((output / "config.json").read_text(encoding="utf-8"))
@@ -110,40 +122,50 @@ def query(query: str, *, corpus="all", limit=5, detail=False, root: Path = ROOT,
     matrix = np.load(output / "vectors.npy", allow_pickle=False)
     if matrix.shape != (len(docs), vectors.DIM) or matrix.dtype != np.float32 or not np.isfinite(matrix).all():
         raise ValueError("Invalid numeric vector payload")
-    expanded_query = " ".join(query_terms(query))
+    expanded_query = " ".join(terms)
     qvec = vectors.vectorize_text(expanded_query)
     scores = matrix @ qvec
     selected = routes.infer_routes(query, routes.load_route_config())
     selected_routes = [route for route, _ in selected]
     results = []
+    eligible_pool = []
+    raw_matched_count = 0
     for index, doc in enumerate(docs):
         if corpus != "all" and doc["corpus"] != corpus:
             continue
         if vectors.record_admission_reason(doc) or not routes.scope_allowed(query, doc):
             continue
+        eligible_pool.append(by_identity[(doc["corpus"], doc["node_id"])])
         # Standard hash vectors are fuzzy routing support, never a claim of
         # semantic or engineering truth. Reuse the original hybrid bonuses.
         lexical = routes.lexical_bonus(expanded_query, doc)
         if doc["source_knowledge_layer"] in {"L3", "L2"} and lexical <= 0:
             continue
-        score = float(scores[index]) + lexical + routes.route_bonus(doc, selected_routes) + routes.knowledge_role_bonus(query, doc) + routes.knowledge_layer_bonus(query, doc)
+        layer_bonus = routes.knowledge_layer_bonus(query, doc)
+        score = float(scores[index]) + lexical + routes.route_bonus(doc, selected_routes) + routes.knowledge_role_bonus(query, doc) + layer_bonus
         if score <= 0:
             continue
+        # Preserve the pre-display count: qualification and pure-title filtering
+        # below are adapter presentation gates, not score/corpus eligibility.
+        raw_matched_count += 1
         row = dict(by_identity[(doc["corpus"], doc["node_id"])])
-        row.update(score=score, provenance_path={"corpus": row["corpus"], "node_id": row["node_id"], "source": row["source"], "public_path": row["public_path"]})
-        row["text_is_excerpt"] = not full_text and len(row["text"]) > 1600
-        if row['text_is_excerpt']:
-            row["text"] = row["text"][:1600]
+        row.update(score=score, knowledge_layer_bonus=layer_bonus,
+                   provenance_path={"corpus": row["corpus"], "node_id": row["node_id"], "source": row["source"], "public_path": row["public_path"]})
+        attach_relevance(row, query=query, terms=terms, fragments=fragments,
+                         mode=determine_mode(query, detail), source_kind="vector")
+        if not row["content_qualified"] or is_pure_chapter_title(row):
+            continue
         results.append(row)
     mode = determine_mode(query, detail)
-    order = layer_order(mode)
-    results.sort(key=lambda row: (order[row["knowledge_layer"]], -row["score"], row["node_id"]))
+    results.sort(key=lambda row: (-row["display_rank_score"], -row["relevance_score"], -row["score"], row["node_id"]))
+    displayed = merge_exact_text_results(results, limit=limit, full_text=full_text,
+                                        all_records=eligible_pool)
     return {"schema": "offline-knowledge-query-v1", "query": query, "corpus": corpus,
             "retrieval_method": "existing_workspace_hash_vector_and_routes", "mode": mode,
-            "matched_count": len(results), "results": results[:max(1, min(limit, 100))],
+            "matched_count": len(results), "raw_matched_count": raw_matched_count, "displayed_count": len(displayed), "results": displayed,
             "routes": [route["name"] for route in selected_routes], "remote_payload_available": False,
             "current_project_authority": False, "project_value_transfer_allowed": False, "learning_event": False,
-            "scope_notice": "Deterministic offline hash-vector routing over preserved source knowledge; not a learned embedding or project evidence."}
+            "scope_notice": "Deterministic offline hash-vector routing over preserved source knowledge; not a learned embedding or project evidence. Exact-text duplicates are grouped for display only, not treated as semantic equivalents."}
 
 
 def main():

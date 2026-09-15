@@ -45,3 +45,21 @@ python knowledge/scripts/query_knowledge.py --node-id TH03-B4 --full-text --json
 ```
 
 [TH03 知识块目录](../chemical_principles/knowledge_graph/source_records/TH03/) · [TH03 来源采纳记录](../source_adoptions/TH03.json)
+
+## EN04：换热网络与蒸汽动力系统
+
+本批新增 17 个完整知识块：11 个夹点、换热网络及总厂集成主题，5 个能量分析工具与蒸汽系统建模主题，以及 1 个按温差要求分配自热回收蒸汽的案例机制。内容覆盖复合曲线和热级联、数据提取与安全侧、经济及公用工程目标、热机/热泵位置、塔器集成、网络设计/调优/改造、总厂源汇与蒸汽等级，以及模型接口、负荷曲线和多周期约束。
+
+按目录和真实章节边界筛选，定向回读有用主题；不是全书逐页转写。八个案例分别检查新增机制，已覆盖的常规流程、重复经济判断、旧界面操作、例题数字和无独立用途的推导跳过。线上附录不在所供资料内，未访问、不算已处理。工具相关说明保留 V9 来源边界，不视为当前软件能力验证。
+
+可直接查询：
+
+```text
+python knowledge/scripts/query_knowledge.py --query "热泵 夹点 热公用工程" --json
+python knowledge/scripts/query_knowledge.py --query "蒸汽 多周期 可用性 约束" --vector --json
+python knowledge/scripts/query_knowledge.py --node-id EN04-C1 --full-text --json
+```
+
+[EN04 知识块目录](../chemical_principles/knowledge_graph/source_records/EN04/) · [EN04 来源采纳记录](../source_adoptions/EN04.json)
+
+本轮四批合计新增 69 块（14 + 13 + 25 + 17）。完整释义、关系与查询索引随包公开；原始 PDF、整页转写、私人路径与未审稿不公开。入库标准与贡献步骤见[知识贡献与读取准则](../CONTRIBUTING.md)。

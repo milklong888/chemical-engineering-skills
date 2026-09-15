@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "适用于按夹点两侧方向筛选工艺改变，并把精馏塔热负荷与背景 HEN 联立；分离可行性必须由当前严格塔计算确认。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A5",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CEPR-CH05",
+    "CEPR-CH04",
+    "L3-05"
+  ],
+  "text": "夹点以上，增加可用热量或减少冷负荷有利于降低热公用工程；夹点以下，减少热负荷或增加冷负荷有利于降低冷公用工程。压力、流量、目标温度和相态改变会同时传播到物料衡算、分离负荷、复合曲线、设备和控制，必须以全流程产品、安全和经济结果复核。\n\n塔冷凝器、再沸器、进料预热/冷却及中间冷凝器/再沸器应作为热源/热汇进入 HEN。塔的 CGCC/CCC 随塔压、回流、进料热状态和分离指标改变；应先确定进料位置/回流等分离基准，再判断塔与背景夹点的相对位置。塔整体温位相容时可直接集成，跨越背景夹点时需检查跨夹点热量；改塔压虽然可能移动冷凝器/再沸器温位，却会改变相对挥发度、回流、真空/压缩负荷，必须重新进行严格塔和 HEN 校核。",
+  "title": "Plus–Minus 工艺改变与塔器 CGCC 集成",
+  "units_basis": "塔压、回流、进料板、热负荷、纯度、回收率和温位采用当前分离模型基准；不迁移案例塔参数。",
+  "text_sha256": "bace3d98603e36a6580362108e7ac926c0d054b9cf7af192a3867e4b79045987",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A5.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 46–57",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

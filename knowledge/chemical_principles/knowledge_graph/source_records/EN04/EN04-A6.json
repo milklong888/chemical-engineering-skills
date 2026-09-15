@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于构造夹点两侧的 MER 起始网络、确定匹配顺序、分流位置及多/公用工程夹点边界；PDM 不能证明复杂网络全局最优。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-A6",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-02",
+    "CH15_PINCH_STREAM_FILTER",
+    "CEPR-CH04",
+    "HX-010"
+  ],
+  "text": "夹点设计方法的三条基本规则是：夹点以上不放冷公用工程，夹点以下不放热公用工程，不跨过程夹点传热。满足规则可构造达到 MER 目标的起始网络，但不保证面积、投资、控制或全局经济最优。夹点以上通常要求热流股数不多于冷流股数且热流股 CP 不大于对应冷流股；夹点以下方向相反。匹配应从最受约束端开始，远离夹点时可在温差和操作性允许的范围内调整。\n\n若数量或 CP 条件不满足，可分流成支路；每条支路需满足热量闭合、出口温度和 ΔTmin，汇合还要检查相态、混合温度、压降、分流控制和失去支路的安全状态。阈值/近夹点设计只可在实际驱动温差和损失可核验时小量跨近夹点。多个过程或公用工程夹点应把公用工程作为普通流股识别边界，按最紧夹点向外展开，并按温位选择高/中/低等级公用工程。",
+  "title": "PDM 网络设计、匹配、分流与多夹点",
+  "units_basis": "热负荷、CP、支路流量、温度、压力和蒸汽等级采用统一流程单位；分流/汇合能量必须闭合。",
+  "text_sha256": "67821ad734b554e5dd1eeb396f7d0e375bf2df5b07758573d916a89d76cdc326",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A6.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 58–67",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

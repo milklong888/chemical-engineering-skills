@@ -1,0 +1,39 @@
+{
+  "applicability": [
+    "适用于区分 process pinch 与 network pinch 并筛选换热器重排、重配对、新增和分流动作；结构动作需在当前设备和管路约束下验证。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-A9",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-02",
+    "CEPR-CH04"
+  ],
+  "text": "Network pinch 是现有换热网络结构的瓶颈，不等同于由全部过程流股得到的过程夹点。仅增加某一换热器面积可能把局部端温差推到 ΔT=0，之后不能继续提高该位置的传热，需要改变网络结构。可用的四类动作是重排换热器顺序、重新配对流股、增加换热器和分裂流股；动作可组合，但每次都要重算端温度、ΔTmin、面积、压降、公用工程和控制。",
+  "title": "Network pinch 与结构性改造",
+  "units_basis": "温度、ΔTmin、面积、压降、公用工程和控制指标应按当前网络统一基准重算。",
+  "text_sha256": "bc86ddf431ed2111d8e7f0e37e2d78b257ed7335e0bade38289b79ac093633bb",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A9.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 84",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

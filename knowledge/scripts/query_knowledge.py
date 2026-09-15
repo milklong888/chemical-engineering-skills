@@ -1,8 +1,9 @@
 """Read-only offline lookup over preserved original knowledge records.
 
 The lexical scorer is the retained Aspen V10 query implementation; this adapter
-adds source identity checks, corpus selection, and abstraction-layer ordering.
-It does not load the original workspace, PDFs, cloud APIs, or project overlays.
+adds source identity checks, corpus selection, content qualification, bounded
+layer preference, and exact-text display grouping. It does not load the original
+workspace, PDFs, cloud APIs, or project overlays.
 """
 from __future__ import annotations
 
@@ -13,6 +14,13 @@ import json
 from pathlib import Path
 import re
 import sys
+
+from retrieval_quality import (
+    attach_relevance,
+    is_pure_chapter_title,
+    merge_exact_text_results,
+    select_query_fragments,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPORA = ("chemical_principles", "sun_lanyi", "aspen_v10")
@@ -78,11 +86,13 @@ def load_original_scorer(root: Path = ROOT):
     return module.score_text
 
 
-def query_terms(query: str) -> list[str]:
+def query_terms(query: str, documents: list[dict] | None = None,
+                fragments: list[str] | None = None) -> list[str]:
     terms = [term for term in re.split(r"[\s,，;；。！？、/]+", query.strip()) if term]
     for trigger, aliases in ALIASES.items():
         if trigger in query:
             terms.extend([trigger, *aliases])
+    terms.extend(fragments if fragments is not None else select_query_fragments(query, documents))
     return list(dict.fromkeys(terms))[:24]
 
 
@@ -100,9 +110,9 @@ def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
            full_text: bool = False) -> dict:
     manifest, records = load_records(root)
     score_text = load_original_scorer(root)
-    terms = query_terms(query)
+    fragments = select_query_fragments(query, records)
+    terms = query_terms(query, records, fragments=fragments)
     mode = determine_mode(query, detail)
-    order = layer_order(mode)
     ranked = []
     for record in records:
         if corpus != "all" and record["corpus"] != corpus:
@@ -120,18 +130,38 @@ def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
                       provenance_path={"corpus": record["corpus"], "node_id": record["node_id"],
                                        "source": record["source"], "public_path": record["public_path"],
                                        "public_json_pointer": record.get("public_json_pointer")})
-        result["text_is_excerpt"] = not full_text and len(result["text"]) > 1600
-        if result["text_is_excerpt"]:
-            result["text"] = result["text"][:1600]
         ranked.append(result)
-    ranked.sort(key=lambda item: (order[item["knowledge_layer"]], -item["score"], item["node_id"]))
+    if node_id:
+        # Exact identity is a record read, not a natural-language answer.  It
+        # bypasses title filtering, relevance qualification, and grouping.
+        displayed = merge_exact_text_results(ranked, limit=limit, full_text=full_text, merge=False)
+        return {"schema": "offline-knowledge-query-v1", "query": query, "corpus": corpus,
+                "mode": mode, "retrieval_method": "preserved_v10_lexical_score_plus_content_quality",
+                "matched_count": len(ranked), "displayed_count": len(displayed), "results": displayed,
+                "remote_payload_available": False, "original_pdf_payload_bundled": False,
+                "current_project_authority": False, "project_value_transfer_allowed": False,
+                "learning_event": False, "knowledge_records_sha256": next(item["sha256"] for item in manifest["files"] if item["path"] == "records.jsonl"),
+                "scope_notice": "Original method/operation knowledge; not current-project evidence. Exact ID reads the preserved record; held bodies are not exposed."}
+    qualified = []
+    for result in ranked:
+        attach_relevance(result, query=query, terms=terms, fragments=fragments,
+                         mode=mode, source_kind="lexical")
+        if not result["content_qualified"] or is_pure_chapter_title(result):
+            continue
+        qualified.append(result)
+    qualified.sort(key=lambda item: (-item["display_rank_score"], -item["relevance_score"], -item["score"], item["node_id"]))
+    eligible_pool = [record for record in records
+                     if record.get("content_available") and record.get("retrieval_eligible")
+                     and (corpus == "all" or record.get("corpus") == corpus)]
+    displayed = merge_exact_text_results(qualified, limit=limit, full_text=full_text,
+                                        all_records=eligible_pool)
     return {"schema": "offline-knowledge-query-v1", "query": query, "corpus": corpus,
-            "mode": mode, "retrieval_method": "preserved_v10_lexical_score_plus_layer_priority",
-            "matched_count": len(ranked), "results": ranked[:max(1, min(limit, 100))],
+            "mode": mode, "retrieval_method": "preserved_v10_lexical_score_plus_content_quality",
+            "matched_count": len(qualified), "raw_matched_count": len(ranked), "displayed_count": len(displayed), "results": displayed,
             "remote_payload_available": False, "original_pdf_payload_bundled": False,
             "current_project_authority": False, "project_value_transfer_allowed": False,
             "learning_event": False, "knowledge_records_sha256": next(item["sha256"] for item in manifest["files"] if item["path"] == "records.jsonl"),
-            "scope_notice": "Original method/operation knowledge; not current-project evidence. Unbundled source pages and held bodies are not silently fetched."}
+            "scope_notice": "Original method/operation knowledge; not current-project evidence. Exact-text duplicates are grouped for display only, not treated as semantic equivalents. Unbundled source pages and held bodies are not silently fetched."}
 
 
 def main(argv=None) -> int:
@@ -162,6 +192,9 @@ def main(argv=None) -> int:
         print(result["scope_notice"])
         for item in result["results"]:
             print(f"{item['node_id']} | {item['knowledge_layer']} | {item['knowledge_status']} | {item['public_path']}")
+            if item.get("same_text_count", 1) > 1:
+                ids = ", ".join(str(row.get("node_id")) for row in item.get("same_text_group", []))
+                print(f"  same exact text shown once ({item['same_text_count']} records): {ids}")
             print(item["text"] if item["content_available"] else "Body held for item-specific source-expression review; see identity and source hash.")
     return 0 if result["results"] else 1
 

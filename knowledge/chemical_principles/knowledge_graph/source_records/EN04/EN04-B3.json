@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "用于蒸汽/公用工程网络的物理范围、供需/回水端点、接口类型和自由度审查；具体模块字段、设备方程与端点清单必须由当前版本和同一项目数据确认。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-B3",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "HX-010",
+    "L3-05",
+    "TH03-B3"
+  ],
+  "text": "蒸汽公用工程系统应同时表示供给、生产、分配、需求和回收/损失，而不是只放一个锅炉。物理边界可包括燃料、空气、外购蒸汽/电力、锅炉或余热锅炉、不同压力等级的蒸汽母管、背压/凝汽式汽轮机、减温器、冷凝器、工艺蒸汽和电力需求，以及给水、补水、除氧、凝结水、放空和排污端点；具体端点是否存在由当前项目边界决定。母管负责混合/分流并维持热量与物料平衡，只有接口类型相同的蒸汽、燃料、电力或空气端口才可连接。设备模型至少要把各端口的流量、压力、温度、热/电负荷和效率方法等自由度定义清楚，必要时还要表达启停、备用和可用性状态。方程导向模型要求固定变量、自由变量与方程数相容；连接流的一侧必须负责给定、另一侧负责求解，并检查过度指定或欠指定状态。多周期优化的输出还应能解释各压力级供需、母管间转移、凝结水/补水、放空/排污以及电力进出口的变化；加入除氧器、泵或其他设备必须有当前案例的物料、压力和操作依据，不能迁移示例拓扑。",
+  "title": "蒸汽公用工程系统边界、接口与方程闭合",
+  "units_basis": "蒸汽/燃料/空气/凝结水/补水质量流量，压力、温度、热负荷、电力、效率、启停与可用性状态；单位按当前模型端口定义。",
+  "text_sha256": "008e93f21e35c9e21a2445190b091d0948d42c384765962807b20c41e889d2a8",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-B3.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页307、310–319、345–347",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

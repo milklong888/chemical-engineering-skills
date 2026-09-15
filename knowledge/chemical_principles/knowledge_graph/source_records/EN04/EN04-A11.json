@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于建立总厂 SUGCC、CHP/蒸汽等级和过程—公用工程路线图候选，并比较直接、蒸汽和热油集成；不替代锅炉、汽轮机或管网详细设计。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-A11",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "L3-05",
+    "HX-010",
+    "CEPR-CH04",
+    "CEPR-CH05"
+  ],
+  "text": "SUGCC 将总厂源/汇曲线与公用工程系统联立，用于观察高/中/低压蒸汽供需、蒸汽膨胀发电、CHP、锅炉供热、冷却负荷和可回收热之间的耦合。最大发电或最低 VHP 供给只是不同的总厂目标；最佳方案要由蒸汽等级数量/压力、燃料相对费用、全局电力需求、锅炉与管网损失共同决定。全局路线图把过程节能项目与锅炉替换、低压蒸汽发电/联产和其他热回收投资组合起来，便于按技术/经济可行性安排长期项目。\n\n装置间可直接换热，也可通过蒸汽系统或热油循环间接集成。直接集成可能减少能量转换，但受距离、安全、开停车、控制和负荷同步限制；蒸汽间接集成便于调度和等级转换，却有锅炉、汽轮机和管网损失；热油循环的传热量受热源最高温度、热阱最低温度、两侧 CP、供回温度和 ΔTmin 限制，并增加泵功、保温、泄漏和材料边界。总厂方案必须在同一热量、温位、可靠性和经济边界下比较三种路径。",
+  "title": "SUGCC、全局路线图与直接/间接能量集成",
+  "units_basis": "蒸汽热负荷、压力、温度、燃料、电力、冷却、输送损失和资本/运行费用必须按当前总厂统一基准比较。",
+  "text_sha256": "fd5a20b83b08898eb7bf6a06ffb18686741af889092c70056f241ee9696c23af",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A11.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 93–99（重点 93–99）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

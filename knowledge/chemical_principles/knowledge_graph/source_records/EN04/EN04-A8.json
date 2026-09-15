@@ -1,0 +1,41 @@
+{
+  "applicability": [
+    "适用于既有 HEN 的节能改造筛选、HRAT 目标、跨夹点实际超用识别和面积—能量—资本比较；改造方案须保留可操作、可维护和备用边界。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L1",
+  "node_id": "EN04-A8",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "D-TA-02",
+    "CH15_PINCH_STREAM_FILTER",
+    "CEPR-CH04",
+    "L3-07"
+  ],
+  "text": "改造目标不是复制新建网络的最小单位数，而是在既有换热器、管路、停工和控制约束下，以面积—能量—投资/回收期共同确定可达目标。可由改造目标的面积效率或节能—投资曲线选定目标热回收温差（Heat Recovery Approach Temperature，HRAT_new），再计算新目标下的热/冷公用工程减少量。固定流股与 ΔTmin 的热力学最小目标不因旧网络跨夹点而改变；跨夹点热量表示实际热、冷公用工程用量相对该最小目标的超用差额。固定过程 MER 边界下，热、冷实际超用量相等；实际边界改变时仍须分别核算。跨夹点热量还应区分工艺流股、夹点下加热公用工程和夹点上冷却公用工程造成的来源。\n\n改造动作可以改变操作温度、增加或重排换热器、分流和改变换热顺序；应优先利用仍可用的既有面积，并把新增设备、管路、控制、压降、清洗、启动和产品质量代价纳入同一比较。跨夹点热量的温位、负荷和新增结构复杂度可用于排序；小负荷单元在新增设备/控制代价超过可回收收益时可保留。删除或合并设备不能只按单位数最小化决定。",
+  "title": "换热网络改造：HRAT、跨夹点热量与经济筛选",
+  "units_basis": "现有/目标热负荷、面积、HRAT、实际公用工程、投资和回收期必须采用同一流股及经济基准；不迁移案例数值。",
+  "text_sha256": "a7d3cb4436f8610ddcbc805bc6d40660403330a2e14ad576427afcaa8ead4d3f",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A8.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 80–83",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}

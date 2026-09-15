@@ -1,0 +1,40 @@
+{
+  "applicability": [
+    "适用于从当前衡算筛选 HEN 流股、处理混合/相变/非线性流股并建立保守目标；有效温度和线性化必须由当前设备确认。"
+  ],
+  "authority_scope": "shared",
+  "corpus": "chemical_principles",
+  "evidence_class": "X",
+  "forbidden_transfer": [
+    "源PDF、整页文字、例题数据和具体项目数值不得直接迁移为项目默认；经验常数和设备条件需回到当前来源或项目证据核验。"
+  ],
+  "knowledge_layer": "L2",
+  "node_id": "EN04-A2",
+  "project_value_transfer_allowed": false,
+  "related_node_ids": [
+    "CH15_PINCH_STREAM_FILTER",
+    "CEPR-CH04",
+    "L3-05"
+  ],
+  "text": "流股数据应从当前物料/热量衡算提取，而不是把已有换热器的每个进出口和匹配关系原样锁死。温度不同的物流混合会改变有效热负荷和温位；同温混合通常更易保持目标，但若工艺必须混合，应把混合温度、相态和新增负荷显式纳入。对急冷、产汽或相变受限的物流，有效换热温度应按实际换热机理提取，不能直接使用物流完整终点温度。\n\n非线性汽化/冷凝流股宜分段。以同一热负荷坐标比较时，安全侧线性化要求实际热流体温度高于提取的热流体温度，实际冷流体温度低于提取的冷流体温度；这样提取曲线不会把可用温差和匹配可行性乐观高估。公用工程、直接注入/反应蒸汽和可被过程热替代的加热介质还需按物料边界与热量边界分别判定。压力、流量、供应/目标温度等可为柔性数据，但产品、安全、设备和强制连接属于不能任意改变的约束；调整后必须重建曲线、衡算和产品/控制检查。",
+  "title": "流股数据提取、有效温度与安全侧",
+  "units_basis": "流量、温度、CP 和焓负荷需同一质量或摩尔基准；分段接口处的能量必须闭合。",
+  "text_sha256": "48a1e7176f6176c61a8dd2ee407eef5476978b72e25d855fb15ae35cc1942a00",
+  "knowledge_status": "source_backed_method",
+  "public_path": "chemical_principles/knowledge_graph/source_records/EN04/EN04-A2.json",
+  "source": {
+    "source_id": "EN04",
+    "sha256": "8984931953491e5ef1e080e6dfaf82cfbf190bcbc2441ff2c1636e6d29bba848",
+    "locator": "PDF物理页 26–29（重点 28）",
+    "private_provenance_retained": true
+  },
+  "source_payload_available": false,
+  "content_available": true,
+  "retrieval_eligible": true,
+  "current_project_authority": false,
+  "license": {
+    "basis": "仅新写的通用知识释义；不包含源PDF、整页文字或例题数据，源材料权利不随此声明转授",
+    "distribution_scope": "redistributable"
+  },
+  "source_adoption_id": "source_adoptions/EN04.json"
+}
