@@ -189,6 +189,22 @@ class MessageDecodeTests(unittest.TestCase):
         self.assertEqual(messages[0]['line'], 1)
         self.assertEqual(messages[0]['raw'], lines[0])
 
+    def test_native_double_star_error_is_detected_even_if_summary_is_zero(self):
+        fragment = native_table() + '\n  **  ERROR\n      TEMPERATURE CROSSOVER DETECTED\nNO ERRORS OR WARNINGS GENERATED'
+        messages = ev.find_hard_messages(fragment, source='control_panel', source_sha256='A' * 64)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0]['raw'], '  **  ERROR')
+        self.assertEqual(messages[0]['severity'], 'error')
+        self.assertIn('CLEAN_STATEMENT_CONFLICTS_WITH_MESSAGES',
+                      [item['code'] for item in ev.inspect_history_text(fragment)['issues']])
+
+    def test_plain_severity_prefixes_are_not_hidden_by_zero_summary(self):
+        fragment = native_table() + '\nWARNING: pressure drop exceeded\nERROR: block failed\nNO ERRORS OR WARNINGS GENERATED'
+        messages = ev.find_hard_messages(fragment)
+        self.assertEqual([item['severity'] for item in messages], ['warning', 'error'])
+        self.assertIn('CLEAN_STATEMENT_CONFLICTS_WITH_MESSAGES',
+                      [item['code'] for item in ev.inspect_history_text(fragment)['issues']])
+
     def test_diagnostic_inside_or_after_summary_never_skipped(self):
         for text in [table() + '\n* WARNING REAL\nNO ERRORS OR WARNINGS GENERATED', table().replace('Errors  0 0 0 0 0', 'Errors 0 0 0 0 0 * WARNING REAL', 1), table().replace('Severe Errors', '* WARNING REAL\nSevere Errors')]:
             self.assertTrue(ev.find_hard_messages(text))
@@ -212,6 +228,14 @@ class GateTests(unittest.TestCase):
         identity = {'verified': True, 'run_id': 'RUN-1', 'case_sha256': 'A' * 64}
         return dict(run={'status': 'returned', 'run_id': 'RUN-1', 'case_sha256': 'A' * 64, 'started_epoch': 100.0, 'finished_epoch': 110.0}, summary=ev.parse_summary_counts(native_table()), control_messages=[], control_association=identity.copy(), histories=[{'path': '/owned/run.his', 'size': 20, 'sha256': 'B' * 64, 'decode_verified': True, 'complete': True, 'association': identity.copy(), 'messages': []}])
 
+    def test_all_zero_summary_does_not_excuse_native_double_star_error(self):
+        args = self.inputs()
+        args['control_messages'] = ev.find_hard_messages('  **  ERROR\n      TEMPERATURE CROSSOVER DETECTED')
+        result = ev.evaluate_clean_gate(**args)
+        self.assertFalse(result['passed'])
+        self.assertIn('ACTUAL_CONTROL_PROBLEM',
+                      [row['code'] for row in result['gate_results'] if not row['passed']])
+
     def test_explicit_diagnostic_five_cannot_pass_clean_gate(self):
         args = self.inputs()
         args['summary'] = diagnostic_five(table())
@@ -225,6 +249,7 @@ class GateTests(unittest.TestCase):
         self.assertTrue(result['passed'])
         self.assertTrue(result['simulation_clean'])
         self.assertFalse(result['delivery_verified'])
+        self.assertFalse(result['precision_lock_verified'])
 
     def test_missing_empty_unverified_history_and_wrong_run(self):
         for mutation in ['missing', 'empty', 'decode', 'association', 'run', 'case', 'hash', 'run_unknown', 'control', 'incomplete']:

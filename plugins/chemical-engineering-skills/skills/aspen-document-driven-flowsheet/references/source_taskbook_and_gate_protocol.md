@@ -31,6 +31,15 @@ Use three gate families plus one overlay:
 
 ## Property-Method Freeze
 
+For a full-flow generation request, also follow the source and scaffold review
+gates in [fullflow_generation_workflow.md](fullflow_generation_workflow.md).
+Every module has a property row; shared methods may cite one common source only
+with module-specific applicability. When uncertain, query the external monograph
+library first (thermodynamics/design-overview evidence), then verify Aspen method
+and parameter implementation with the built-in graph. Keep the two query origins
+separate. An external-library miss requires a recorded targeted/source-page
+fallback, not a guessed method or a false claim that an internal hit was external.
+
 Choose the property method from the real module service before any scaffold,
 reactor, tower, flash, separator, recycle closure, Calculator, Design Spec,
 Sensitivity, or Optimization. Record:

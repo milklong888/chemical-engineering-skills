@@ -155,8 +155,8 @@ rigorous block types.
 - When a RadFrac block eventually converges but the final history still carries
   early nonterminal tower errors, compare the accepted final tray profile with
   the block's initial estimates such as `T-EST`. If the initial profile is far
-  from the accepted solution, try a local profile-seeded estimate repair before
-  changing algorithms, tower specs, tolerances, or property methods. No-run
+  from the accepted solution, try a local profile-seeded estimate repair without
+  changing tower specs, default or existing solver tolerances, or property methods. No-run
   export the revised estimate card first, then reopen/run the generated BKP to
   prove the historical errors do not recur. Do not promote the project-specific
   tray temperatures as defaults for another case.
@@ -181,10 +181,10 @@ Useful fast-convergence sequence:
    Do not change the product spec itself.
 3. Add local advanced convergence such as `EXTRA-ML=1` only to the tower named
    by Aspen and only after a no-run export proves the card syntax.
-4. If the remaining warning says mass imbalance is due to loose tear tolerance,
-   inspect the final sequence monitor before tightening global tolerance.
-   Moving an ill-placed tear boundary plus a realistic initial estimate can
-   clear the warning faster than tolerance bracketing.
+4. If the remaining warning names tear tolerance or mass imbalance, keep the
+   existing/default tolerance unchanged. Inspect the final sequence monitor;
+   a supported tear-boundary correction or realistic initial estimate may
+   repair the actual cause without relaxing or tightening a threshold.
 5. Clean harmless input-basis warnings last, and only when component entries
    already have a valid fraction basis with a separate total-flow specification.
 
@@ -228,18 +228,22 @@ diagnosis before editing the model.
 - Component-group narrowing is diagnostic unless it improves the final loop,
   report counts, and key block mass balance together. If narrowing hides trace
   residuals but shifts imbalance to another block, quarantine the branch.
-- Keep tear boundary edits separate from tolerance edits. Do not change
-  boundary, component group, method, and tolerance in one candidate unless the
-  previous no-run/dynamic evidence has already isolated all but one effect.
+- Keep the existing/default tolerance fixed while testing an evidenced tear
+  boundary, component group, method or initial-estimate change. Do not combine
+  independent levers in one candidate.
 
-### 6. Use Solver Options As Bounded Last-Mile Tools
+### 6. Use Non-Tolerance Solver Options As Bounded Last-Mile Tools
 
-- Try global solver-method or tolerance changes only after topology, pressure,
-  local tower cards, Design Spec paths, and initial estimates are reasonable.
-- Change one convergence lever per candidate: method, maximum iterations,
-  damping/acceleration bounds, final-pass option, state basis, or tolerance.
-- If the user freezes tolerance, do not loosen it. Keep the exact exported
-  `CONV-OPTIONS PARAM TOL` value in every candidate and final file. Other
+- Do not change default/global, tear, tower or pre-existing local solver
+  tolerances in either direction, even as a convergence diagnostic. Preserve
+  both the value and its default-versus-explicit card state in every candidate
+  and final export, including `CONV-OPTIONS PARAM TOL`, `TOL-SPEC` and
+  `FLASH_TOL`. A new Design Spec's source-backed target tolerance defines
+  that specification; it is not a repair lever for an existing failed model.
+- After topology, pressure, local cards, Design Spec paths and estimates are
+  reasonable, change at most one authorized non-tolerance convergence lever
+  per candidate: method, maximum iterations, damping/acceleration bounds,
+  final-pass option or state basis. Other
   convergence-layer controls may be set directly to high or maximum practical
   values when the final Control Panel/history evidence names a convergence
   object: maximum iterations, Wegstein/Broyden/Newton wait counts,
@@ -340,7 +344,7 @@ Keep three levers separate:
 
 - Explicit tear boundary: which stream is torn.
 - Initial estimate or state basis: how the torn stream is initialized.
-- Tolerance/solver settings: how Aspen judges convergence.
+- Existing/default tolerances: frozen; other solver settings may be reviewed.
 
 Do not promote a candidate merely because one displayed Err/Tol value improved.
 Acceptance requires report counts, final loop convergence, and key block
@@ -350,16 +354,16 @@ upstream or downstream block; that is diagnostic, not final.
 
 Stop broad global solver sweeps when they trade one failure mode for another:
 
-- If tighter global tolerance removes a loose-tolerance mass-balance warning
-  only by reintroducing final-pass nonconvergence, stop bracketing tolerance.
+- Do not bracket global or local tolerance to remove a warning. Diagnose the
+  tear boundary, initialization, material balance and current solver state.
 - If raising global `MAXIT` just lengthens the same final-pass residual, stop
   increasing wait time and inspect the tear boundary or local tower cards.
 - If Direct/Broyden/Wegstein method probes worsen active block status, report
   totals, or severe errors, quarantine those branches. Do not keep continuing a
   saved Broyden branch if the next run exactly reproduces the same residue.
-- If a local `TEAR` numeric/tolerance spelling is preserved in export but the
-  final warning still reports the global `PARAM TOL`, stop repeating that local
-  spelling probe after one no-run plus one dynamic test.
+- If a local `TEAR` tolerance spelling is present in the original export,
+  preserve it unchanged and distinguish it from a global `PARAM TOL` message.
+  Do not probe another local tolerance spelling or value.
 
 ## Feed-Basis Warning Cleanup
 

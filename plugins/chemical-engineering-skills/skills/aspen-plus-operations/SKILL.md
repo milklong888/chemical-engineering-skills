@@ -7,6 +7,17 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 ## 工作过程
 
+单模块文字规划也要交接完整：必须实际读取
+[单模块方法及交接检查](references/unit_modeling_workflow.md)
+的适用部分。输出当前目标—具体操纵/写入变量—边界来源—插入阶段—每轮执行先后
+及验证对象，不能只说“用设计规定/计算器”。仅禁止启动Aspen时仍执行相关只读查询
+和原 solve_route；真实数值与软件结果保持未验证。每座正式塔必须有有效DS配对方案。
+
+首次建单元、从骨架严化或审核模块遗漏时，先读
+[单模块建模入口与必要条件](references/unit_modeling_workflow.md)，按单元族进入既有 owner。
+需要控制/分析时读取其中所链的完整内置工具方法；塔正式建模强制 Design Spec/Vary，
+不能只列工具名而不说明插入阶段、每轮执行位置和验证证据。
+
 接收上层已经确定的模型、单位、允许修改范围和取证要求后，先查操作图谱或当前版本帮助，选择已有脚本处理卡片、文件读写、运行及导出。操作始终在受控文件和自有会话内进行，完成后读取实际输入与结果，确认修改被软件接受，而不是只根据调用返回值判断成功。
 
 它不替上层挑工艺路线。发现要求涉及未冻结的反应、分离或工况变更时先交回专业模块，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)补齐需要的检索与设备检查。正式交付时复用唯一错误汇总与原始历史检查器，并对最终路径文件无编辑复开运行；返回操作、运行、产品及交付的不同状态和对应证据。
@@ -67,12 +78,19 @@ history, uncertain engine state or unsupported format is explicit—not zero.
   using it; missing MCP does not block the available COM/script route.
 - A run return, save, readable stream, `BLKSTAT=0`, product result or clean
   success phrase cannot substitute for strict acceptance.
+- Never change Aspen default or pre-existing global/local solver tolerances
+  (including tear/recycle, `CONV-OPTIONS PARAM TOL`, tower `TOL-SPEC` and
+  `FLASH_TOL`) to obtain convergence, in either direction. Preserve the
+  baseline value and default/explicit card state; no-edit audit alone does not
+  prove earlier candidates kept that precision contract.
 
 ## Strict handoff
 
 Verify the same candidate's complete source-verified version/format Summary
 (Terminal Errors, Severe Errors, Errors, Warnings: all named counts zero),
-current raw history, run identity, and no contradictions. Physical Property is
+current Control Panel actual-message scan, raw history, run identity, and no
+contradictions. Compare the final export's tolerance cards with the frozen
+pre-edit baseline; missing comparison remains an open gate. Physical Property is
 one wrapped column in the observed local format; never fabricate columns or
 missing zeros. Then check current project targets, balances and equipment.
 

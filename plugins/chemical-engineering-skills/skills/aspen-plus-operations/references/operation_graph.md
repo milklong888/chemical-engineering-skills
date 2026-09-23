@@ -108,9 +108,12 @@ delivery QA.
 3. `equipment-card`: set reactor type, phase, dimensions/volume, catalyst basis,
    temperature/pressure, and pressure drop. For RPlug, query
    `rplug.geometry`, `rplug.temperature`, and `rplug.catalyst` when relevant.
-4. `sensitivity`: bracket physical variables such as length, volume, residence
-   time, temperature, pressure, feed ratio, or catalyst amount.
-5. `design-spec` or `optimization-regression` only after a feasible bracket.
+4. When the task needs a target solve or response study, reuse a still-valid
+   same-case bracket; otherwise use native `sensitivity` on real bounded inputs
+   such as length, volume, residence time, temperature, pressure or feed ratio.
+   A fixed source-specified reactor does not need a gratuitous sweep.
+5. `design-spec` or `optimization-regression` only for the requested target/
+   objective after a feasible bracket and degree-of-freedom check.
 6. `run-export`: prove conversion/selectivity and downstream gates in the same
    accepted run. For RStoic cases, run or reproduce the
    `check_rstoic_series.py` scan on the accepted after-run `.inp` and include
@@ -124,11 +127,13 @@ Read-only indicators run after their producers; input writers run after valid
 producers and before consumers, with a reviewed convergence sequence for cycles.
 Reuse a still-valid bracket. Do not infer native execution from a wrapper name.
 
-1. `calculator`: query `calculator.define_sequence`, define every read variable
-   and write variable, and choose execution point before the consuming block.
+1. `calculator`: query `calculator.define_sequence`, define every read variable,
+   units, formula and permitted write. Input writers run after current producers
+   and before consumers; read-only metrics run after all result producers.
+   Establish needed feed-forward writers before the first dependent unit trial.
 2. Audit circular dependencies and stale/locked values.
-3. `sensitivity`: query `sensitivity.vary_tabulate` and bracket the manipulated
-   variable when possible.
+3. Reuse valid current response evidence; when it is absent, query
+   `sensitivity.vary_tabulate` and bracket the real manipulated input.
 4. `design-spec`: query `design_spec.define_vary`, set target expression,
    manipulated variable, lower/upper bounds, tolerance, and convergence block.
 5. If the spec reports bound contact after a reasonable bound expansion, compare
@@ -159,6 +164,9 @@ CONV-OPTIONS
     BROYDEN MAXIT=<current-authorized-limit> WAIT=<current-authorized-wait>
 ```
 
+The numeric settings above are a historical repair example, not a default.
+First inspect same-case iteration history and version-supported nesting; do not
+copy CHECKSEQ=NO or larger iteration counts to bypass an ordering defect.
 This is a convergence-layer repair only. Accept it only if the exported input
 preserves the card, the exact BKP/APW reopen `.his` has zero warnings/errors,
 and all upstream product, pressure, no-SEP, property-method, reactor, and
@@ -167,9 +175,10 @@ hydraulic gates still pass.
 ### Replace SEP-Like Boundary With Physical Separation
 
 1. Upstream skill chooses the physical separation method and target components.
-2. `equipment-card`: create flash/decanter/absorber/column/extractor/membrane
-   surrogate or rigorous block as appropriate.
-3. `component-property`: verify phase/property support.
+2. `component-property`: verify phase/property support before creating the
+   strict replacement.
+3. `equipment-card`: create the authorized flash/decanter/absorber/column/
+   extractor or other physical separation model with its required inputs.
 4. `sensitivity`/`design-spec`: target recovery, purity, solvent rate, reflux,
    stage, pressure, or purge using live feed inventory.
 5. `run-export`: prove source block status, product/recovery streams, and

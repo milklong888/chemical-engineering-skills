@@ -11,9 +11,6 @@ from .selector_analysis import canonical_sha, equipment_records, feedback_record
 from . import pressure
 from .pressure import number
 
-PREFERRED = {"family_heat_exchanger": "exchanger_series", "family_exchanger": "exchanger_series",
-             "family_compressor": "compressor_stages_series", "family_tower": "tower_parallel",
-             "family_column": "tower_parallel"}
 REPLAY_GATES = ["native_model_topology", "material_component_balance", "energy_balance",
                 "pressure_network", "phase_and_temperature_approach", "product_targets",
                 "equipment_reselection", "operability_control", "safety_and_materials",
@@ -24,11 +21,46 @@ FIELD_UNITS = {"heat_transfer_area_m2": "m2", "flow_m3_h": "m3/h", "mass_flow_kg
     "heat_duty_kw": "kW", "overall_u_w_m2k": "W/m2/K", "lmtd_k": "K", "lmtd_correction_factor": "1",
     "pressure_ratio": "1", "compression_pressure_ratio": "1", "velocity_m_s": "m/s",
     "inlet_pressure_mpa": "MPa", "outlet_pressure_mpa": "MPa", "pressure_drop_pa": "Pa",
-    "pressure_drop_mpa": "MPa", "head_m": "m", "density_kg_m3": "kg/m3", "efficiency": "1",
+    "pressure_drop_mpa": "MPa", "head_m": "m", "column_height_m": "m", "column_diameter_m": "m",
+    "shell_length_m": "m", "stage_count": "1",
+    "density_kg_m3": "kg/m3", "efficiency": "1",
     "temperature_c": "C", "inlet_temperature_c": "C", "outlet_temperature_c": "C"}
 QUANTITY_ALIASES = {"area": "heat_transfer_area_m2", "flow": "flow_m3_h", "feed_flow": "flow_m3_h",
-    "velocity": "velocity_m_s", "inlet_pressure": "inlet_pressure_mpa", "pressure_drop": "pressure_drop_pa"}
-THROUGHFLOW_QUANTITIES = {"flow_m3_h", "mass_flow_kg_h", "velocity_m_s", "inlet_pressure_mpa", "pressure_drop_pa", "pressure_drop_mpa"}
+    "velocity": "velocity_m_s", "inlet_pressure": "inlet_pressure_mpa", "pressure_drop": "pressure_drop_pa",
+    "tower_height": "column_height_m", "stages": "stage_count"}
+
+
+def topology_route(family, constraint):
+    """Suggest a topology only for a verified *maximum* that it can address.
+
+    A minimum/catalog mismatch is not an oversized-machine constraint. The
+    returned route is a review candidate, never a claim that the limit is fixed.
+    """
+    if constraint.get("relation") != "max":
+        return None
+    name = str(family).lower()
+    quantity = canonical_quantity(constraint.get("quantity"))
+    if "exchanger" in name:
+        if quantity in {"heat_transfer_area_m2", "heat_duty_kw", "shell_length_m"}:
+            return "exchanger_series"
+        if quantity in {"flow_m3_h", "mass_flow_kg_h"}:
+            return "exchanger_parallel"
+    if "compressor" in name:
+        if quantity in {"pressure_ratio", "compression_pressure_ratio", "outlet_temperature_c"}:
+            return "compressor_stages_series"
+        if quantity in {"flow_m3_h", "mass_flow_kg_h"}:
+            return "compressor_parallel"
+    if "pump" in name:
+        if quantity == "head_m":
+            return "pump_series"
+        if quantity in {"flow_m3_h", "mass_flow_kg_h"}:
+            return "pump_parallel"
+    if "tower" in name or "column" in name:
+        if quantity in {"flow_m3_h", "mass_flow_kg_h", "velocity_m_s", "column_diameter_m"}:
+            return "tower_parallel"
+        if quantity in {"column_height_m", "stage_count"}:
+            return "tower_series_review"
+    return None
 
 class BindingGap(ValueError):
     """A missing applicable link blocks only this configuration conclusion."""
@@ -96,6 +128,10 @@ def count_bound(route, constraints):
             n = math.ceil(value / limit)
             formula = "ceil(A_total_current/A_max_per_unit)"
             assumption = "Current total area held fixed for initial bound; segment thermal states may change required total area"
+        elif route == "exchanger_series" and quantity == "heat_duty_kw":
+            n = math.ceil(value / limit)
+            formula = "ceil(Q_total/applicable_duty_per_unit)"
+            assumption = "Initial duty bound only; each segment's temperature approach, phase and actual duty must be recalculated"
         elif route == "compressor_stages_series" and quantity in {"pressure_ratio", "compression_pressure_ratio"} and limit > 1 and value > 1:
             n = math.ceil(math.log(value) / math.log(limit) - 1e-12)
             formula = "ceil(log(overall_absolute_ratio)/log(applicable_stage_ratio_limit))"
@@ -104,6 +140,14 @@ def count_bound(route, constraints):
             n = math.ceil(value / limit)
             formula = "ceil(total_feed/applicable_per_train_capacity)"
             assumption = "Equivalent branch separation and capacity basis; pressure distribution and each tower still require calculation"
+        elif route in {"pump_parallel", "compressor_parallel", "exchanger_parallel"} and quantity in {"flow_m3_h", "mass_flow_kg_h"}:
+            n = math.ceil(value / limit)
+            formula = "ceil(total_flow/applicable_per_train_flow)"
+            assumption = "Equal branch flow is an initial bound only; solve common boundary pressure and each machine/exchanger curve"
+        elif route == "pump_series" and quantity == "head_m":
+            n = math.ceil(value / limit)
+            formula = "ceil(required_head/applicable_head_per_stage)"
+            assumption = "Initial head bound only; include new friction losses, NPSH and operating curves"
         if n is not None:
             bounds.append({"count": n, "formula": formula, "assumption": assumption,
                            "source_constraint": row["review_record"], "status": "CONDITIONAL_INITIAL_BOUND_NOT_SELECTED_COUNT"})
@@ -252,31 +296,45 @@ def build_plan(selector_response, context, root):
         exceeded = [row for row in constraints if row["exceeded"]]
         plan = None
         if old.get("physical_equipment") and old.get("primary_feedback_category") != "basis_invalid" and exceeded and not binding_gaps:
-            route = PREFERRED.get(family)
-            if route is None and "exchanger" in str(family):
-                route = "exchanger_series"
-            if route is None and any(word in str(family) for word in ("column", "tower")):
-                route = "tower_parallel"
-            if route:
-                unresolved = []
-                if route == "exchanger_series":
-                    unresolved = [r["quantity"] for r in exceeded
-                                  if r["quantity"] in THROUGHFLOW_QUANTITIES or r["quantity"] != "heat_transfer_area_m2"]
+            # Only upper-bound conflicts can motivate a specific split. A
+            # verified minimum shortfall still needs review; catalog no-match
+            # alone is not a verified equipment limit.
+            upper = [row for row in exceeded if row["relation"] == "max"]
+            lower = [row for row in exceeded if row["relation"] == "min"]
+            routes = [topology_route(family, row) for row in upper]
+            supported = {route for route in routes if route}
+            route = next(iter(supported)) if len(supported) == 1 and not lower else None
+            if exceeded:
+                unresolved = [row["quantity"] for row, candidate in zip(upper, routes) if candidate != route]
+                unresolved += [row["quantity"] for row in lower]
+                if route is None:
+                    unresolved = [row["quantity"] for row in exceeded]
                 instructions = {
                     "exchanger_series": ["Keep through-flow; each segment outlet feeds the next inlet.",
-                        "Solve heat/phase state and area in each segment; do not divide duty or area equally by default.",
-                        "Add each side pressure drop and interconnecting losses; compare remaining driving force."],
-                    "compressor_stages_series": ["Choose candidate stage count from applicable gas/vendor limits.",
-                        "Recompute suction after each cooler, separator and pipe loss; check phase and carryover.",
+                        "Recompute each intermediate temperature/phase, duty, area and temperature approach; total area need not remain fixed.",
+                        "Add both-side segment and connector pressure losses; series does not reduce through-flow."],
+                    "exchanger_parallel": ["Divide flow only for a verified per-train throughput limit; retain total duty.",
+                        "Solve branch flow, duty, temperature approach and common-boundary pressure difference."],
+                    "compressor_stages_series": ["Stage a verified pressure-ratio limit, not a throughput limit.",
+                        "Recompute suction after each cooler, separator and pipe loss; check phase, carryover and surge.",
                         "Recompute discharge temperature, shaft power and operating map for every stage."],
-                    "tower_parallel": ["Divide feed, not equilibrium stages; retain separation requirements per branch.",
-                        "Solve common-boundary branch flow and pressure difference, not the sum of branch drops.",
-                        "Recalculate separation, internal traffic, hydraulics, utilities and product mixing."]}[route]
-                plan = {"preferred_route": route, "status": "REVIEW_CANDIDATE",
+                    "compressor_parallel": ["Divide gas throughput at a common suction/discharge pressure basis.",
+                        "Check each train map, turndown/surge, power, distribution and control."],
+                    "pump_series": ["Add required head at the same through-flow; do not multiply flow.",
+                        "Recompute system curve, suction/NPSH, interstage pressure, power and control."],
+                    "pump_parallel": ["Divide liquid flow at common suction/discharge headers; do not add head.",
+                        "Solve branch curves against the system curve, NPSH, minimum flow and controls."],
+                    "tower_parallel": ["Divide feed for a verified capacity/hydraulic limit, not separation difficulty.",
+                        "Keep product purity/recovery in each branch and recalculate traffic, hydraulics, utilities and mixing."],
+                    "tower_series_review": ["Study separate column shells only for a verified height/stage envelope and a defensible intermediate separation.",
+                        "Preserve stage sequence, intermediate composition/phase/pressure, condenser/reboiler duties and product targets."],
+                }.get(route, ["Compare current single-unit design with applicable process/equipment alternatives; no topology is selected."])
+                plan = {"preferred_route": route, "candidate_routes": sorted(supported),
+                        "status": "REVIEW_CANDIDATE" if route else "LIMIT_REVIEW_REQUIRED",
                         "unit_count": None, "unresolved_by_this_topology": unresolved,
-                        "initial_count_bounds": count_bound(route, exceeded),
-                        "cannot_claim_limit_resolved": bool(unresolved), "instructions": instructions,
-                        "reason": "hash-bound applicable limit exceeded",
+                        "initial_count_bounds": count_bound(route, upper) if route else [],
+                        "cannot_claim_limit_resolved": True, "instructions": instructions,
+                        "reason": "hash-bound applicable limit not satisfied; topology is a candidate only",
                         "automatic_aspen_mutation": False,
                         "requires_authority_change_before_implementation": True}
         records.append({"legacy_analysis": old, "equipment_id": tag, "family_id": family,
@@ -342,7 +400,7 @@ def _recheck_aspen_summary(native, receipt, root, candidate, implementation):
 # content identity is fixed and checked before importing, regardless of path.
 TRUSTED_REPLAY_VALIDATORS = {
     "aspen_summary_history_v2": {
-        "implementation_sha256": "A2AF20FB4444DDE9DBCBD69E343F01D3AA908265BF7EFE764D3422505ACF7A27",
+        "implementation_sha256": "7465D04FC8D1114D65A9F64C94ABDA32FA885B7A6C8E493AEC4B90034E9A3F31",
         "implementation_paths": ("plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/aspen_evidence.py", "validators/aspen_evidence.py"),
         "native_schema": "aspen_clean_delivery_audit/2", "native_schema_field": "schema_version",
         "gates": frozenset({"strict_run_status"}), "recheck": _recheck_aspen_summary,

@@ -9,7 +9,9 @@ from __future__ import annotations
 import copy
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 from pathlib import Path
+import re
 import subprocess
 import uuid
 
@@ -19,19 +21,24 @@ from backends.process.selector_analysis import canonical_sha, equipment_records
 
 STAGES = ("source", "scaffold", "island", "reconnect", "change", "delivery")
 FIELDS = {"stage", "question", "case_id", "run_id", "source_export", "authority",
-          "equipment_requests", "context", "pressure_checks", "plan", "replay", "detail", "solve_request"}
+          "equipment_requests", "context", "pressure_checks", "plan", "replay", "detail", "solve_request",
+          "fullflow_contract", "source_work", "planning_handoff"}
 IDENTITY_FIELDS = ("case_id", "run_id", "source_export", "authority")
 CALCULATIONS = {"manual_match", "auto_match", "equipment.match"}
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def domain_reads(stage, question):
+def domain_reads(stage, question, source_work=None):
     """Resolve current paths; reading/using the domain instructions remains work."""
     from tools.product_contract import skill_location
     location = skill_location()
     skills = Path(location["path"]).parent.parent if location.get("available") else None
     names = ["chemical-engineering-expert/SKILL.md", "aspen-document-driven-flowsheet/SKILL.md",
              "chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md"]
+    if source_work == "expert_plan":
+        names += ["aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md",
+                  "aspen-document-driven-flowsheet/references/source_scaffold_handoff.md",
+                  "aspen-pressure-pfd-delivery/SKILL.md"]
     if stage != "source":
         names += ["equipment-design-app/SKILL.md", "chemical-engineering-expert/references/PROCESS_EQUIPMENT_FEEDBACK.md"]
     if stage in {"reconnect", "change"}:
@@ -39,18 +46,127 @@ def domain_reads(stage, question):
     if stage == "delivery":
         names += ["aspen-plus-operations/SKILL.md", "chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md"]
     lowered = question.casefold()
-    if any(word in lowered for word in ("精馏", "塔优化", "distillation", "radfrac")):
+    # Whole-plant questions may mention distillation and unrelated MVR evaporation.
+    # Route the replacement specialist only for explicit service phrases, never
+    # distant word co-occurrence or the generic English word "column".
+    distillation_heat_pump_hint = bool(re.search(
+        r"热泵\s*精馏|精馏\s*热泵|塔顶\s*蒸[汽气]\s*再压缩|"
+        r"(?:mvr|vrc)\s*精馏|精馏\s*(?:mvr|vrc)|"
+        r"\b(?:mvr|vrc)(?:\s*/\s*(?:mvr|vrc))?[\s-]+distillation\b|"
+        r"\bheat[\s-]+pump[\s-]+distillation\b|"
+        r"\bdistillation[\s-]+(?:heat[\s-]+pump|mvr|vrc)\b|"
+        r"\bvapou?r[\s-]+recompression[\s-]+distillation\b", lowered))
+    column_hint = distillation_heat_pump_hint or any(word in lowered for word in ("精馏", "塔优化", "distillation", "radfrac"))
+    heat_pump_hint = distillation_heat_pump_hint or any(word in lowered for word in ("热泵", "vrc", "mvr", "heat pump", "heat-pump"))
+    if column_hint:
         names.append("aspen-tower-optimization-workflow/SKILL.md")
-    if any(word in lowered for word in ("热泵", "vrc", "mvr", "heat pump")):
-        names.append("aspen-heat-pump-distillation-replacement/SKILL.md")
+    if heat_pump_hint:
+        names += ["chemical-engineering-expert/references/MACRO_DESIGN_QUALITY.md",
+                  "aspen-pressure-pfd-delivery/SKILL.md"]
+        if distillation_heat_pump_hint:
+            names.append("aspen-heat-pump-distillation-replacement/SKILL.md")
     result = []
     for name in dict.fromkeys(names):
         path = skills / name if skills else None
         exists = bool(path and path.is_file())
         result.append({"logical_path": name, "path": str(path) if path else None,
             "available": exists, "sha256": hashlib.sha256(path.read_bytes()).hexdigest() if exists else None,
-            "reading_status": "AGENT_READING_REQUIRED_NOT_PROVEN_BY_HASH"})
+            "reading_status": "AGENT_READING_REQUIRED_NOT_PROVEN_BY_HASH",
+            "routing_boundary": "Explicit service phrases and keywords are reading hints only; the agent must classify the actual service and applicability."})
     return result
+
+
+def check_expert_planning(reference, root, identity):
+    """Execute the registered owner's declaration checker, never a caller's code."""
+    if (not isinstance(reference, dict) or set(reference) != {"path", "sha256"}
+            or not isinstance(reference["path"], str) or not reference["path"].strip()
+            or not isinstance(reference["sha256"], str)
+            or not re.fullmatch(r"[a-fA-F0-9]{64}", reference["sha256"])):
+        raise ValueError("planning_handoff requires only a nonempty path and exact SHA-256")
+    data = read_reference(root, reference)
+    if not isinstance(data, dict) or data.get("schema") != "document-flow-handoff-v1" or data.get("stage") != "source":
+        raise ValueError("planning_handoff must be document-flow-handoff-v1 at source stage")
+    from tools.product_contract import skill_location
+    location = skill_location()
+    skills = Path(location["path"]).parent.parent if location.get("available") else None
+    logical_path = "aspen-document-driven-flowsheet/scripts/check_flow_handoff.py"
+    owner = skills / logical_path if skills else None
+    if not owner or not owner.is_file():
+        raise ValueError("Registered source handoff checker is unavailable; no caller or alternate checker is allowed")
+    spec = importlib.util.spec_from_file_location("source_existing_handoff_checker", owner)
+    checker = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(checker)
+    checked = checker.check(data, require_expert_plan=True, require_named_methods=True,
+                            require_plan_actions=True, require_reaction_math=True,
+                            require_source_review=True, source_root=root)
+    if (not isinstance(checked, dict) or checked.get("schema") != "document-flow-handoff-check-v1"
+            or not isinstance(checked.get("errors"), list) or not isinstance(checked.get("unresolved"), list)):
+        raise ValueError("Existing checker returned an invalid declaration-check result")
+    if not checked["errors"]:
+        if not (checked.get("expert_plan_checked") is True
+                and checked.get("named_method_declarations_checked") is True
+                and checked.get("plan_action_declarations_checked") is True
+                and checked.get("reaction_derivations_checked") is True
+                and checked.get("source_review_checked") is True):
+            raise ValueError("Existing checker did not perform all required source-review, planning declaration and reaction-math checks")
+        source_review = checked.get("source_review")
+        if (not isinstance(source_review, dict) or source_review.get("errors") != []
+                or not isinstance(source_review.get("inventory"), list) or not source_review["inventory"]
+                or not isinstance(source_review.get("rows"), list)
+                or len(source_review["rows"]) != len(source_review["inventory"])
+                or any(source_review.get(flag) is not False for flag in
+                       ("source_inventory_verified", "source_truth_verified", "engineering_accepted", "execution_verified"))):
+            raise ValueError("Existing checker returned an invalid bounded source-review receipt")
+        reaction_math = checked.get("reaction_math")
+        math_result = reaction_math.get("result") if isinstance(reaction_math, dict) else None
+        helper = reaction_math.get("helper") if isinstance(reaction_math, dict) else None
+        if (not isinstance(helper, dict) or not isinstance(helper.get("path"), str)
+                or not helper["path"].strip() or not isinstance(helper.get("sha256"), str)
+                or not re.fullmatch(r"[a-fA-F0-9]{64}", helper["sha256"])
+                or not isinstance(math_result, dict)
+                or math_result.get("schema") != "reaction-derivations-check-v1"
+                or math_result.get("errors") != []
+                or any(math_result.get(flag) is not False for flag in
+                       ("source_verified", "engineering_accepted", "reaction_feasible"))):
+            raise ValueError("Existing checker returned an invalid reaction-arithmetic receipt")
+        explicit_na = (
+            math_result.get("status") == "not_applicable"
+            and math_result.get("applicable") is False
+            and math_result.get("math_checked") is False
+            and math_result.get("math_valid") is False
+            and math_result.get("reactions") == []
+            and isinstance(math_result.get("none_reason"), str)
+            and bool(math_result["none_reason"].strip()))
+        checked_math = (
+            math_result.get("status") == "checked"
+            and math_result.get("applicable") is True
+            and math_result.get("math_checked") is True
+            and math_result.get("math_valid") is True
+            and isinstance(math_result.get("reactions"), list)
+            and bool(math_result["reactions"]))
+        if not (explicit_na or checked_math):
+            raise ValueError("Reaction arithmetic requires a checked valid result or explicit justified not_applicable")
+    input_path = Path(reference["path"])
+    input_path = input_path if input_path.is_absolute() else Path(root) / input_path
+    return {
+        "status": "STRUCTURE_INVALID" if checked["errors"] else "DECLARATIONS_CHECKED_WITH_UNRESOLVED" if checked["unresolved"] else "DECLARATIONS_CHECKED",
+        "checker_execution_status": "EXECUTED", "input_identity": copy.deepcopy(identity),
+        "input_reference": {"path": str(input_path.resolve()), "sha256": reference["sha256"].lower()},
+        "declared_authority_reference": data.get("authority_reference"),
+        "skill_location": location,
+        "checker": {"logical_path": logical_path, "path": str(owner.resolve()),
+                    "sha256": hashlib.sha256(owner.read_bytes()).hexdigest(),
+                    "flags": {"require_expert_plan": True, "require_named_methods": True, "require_plan_actions": True,
+                              "require_reaction_math": True, "require_source_review": True}},
+        "source_review": checked.get("source_review"),
+        "named_method_catalog": checked.get("named_method_catalog"),
+        "reaction_math": checked.get("reaction_math"),
+        "catalog_boundary": "Hash is reported only if the original checker loaded its fixed catalog; source-defined names need no catalog load.",
+        "check_result": checked, "errors": checked["errors"], "unresolved": checked["unresolved"],
+        "engineering_accepted": False, "execution_verified": False, "source_truth_verified": False,
+        "planning_complete": False,
+        "boundary": "The registered checker executed. Source-review checks bind only the explicitly supplied text documents and require one disposition per generated paragraph with registered-stream references; they do not verify the document set, extraction completeness, source meaning or correctness of dispositions. Helper execution/status is only as separately reported. Reaction arithmetic has its finite boundary. Source/body alignment, method applicability and physical judgments still need review; no reaction feasibility, Aspen execution or planning completion is certified.",
+    }
 
 
 def change_planning_requirements(receipt, documents):
@@ -97,6 +213,11 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         raise ValueError("design-stage requires a registered stage and nonempty current question")
     if "detail" in payload and type(payload["detail"]) is not bool:
         raise ValueError("detail must be boolean")
+    source_work = payload.get("source_work")
+    if "source_work" in payload and (stage != "source" or source_work != "expert_plan"):
+        raise ValueError("source_work supports only expert_plan at stage=source; omit it for a narrow source query")
+    if "planning_handoff" in payload and (stage != "source" or source_work != "expert_plan"):
+        raise ValueError("planning_handoff is permitted only for source_work=expert_plan at stage=source")
     root = Path(evidence_root)
     needs, queries, equipment, calls, pressure = [], [], [], [], []
 
@@ -110,7 +231,7 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
             if not isinstance(value, dict):
                 raise ValueError("Existing module did not return a JSON object")
             row.update(status="EXECUTED", result=value, result_sha256=canonical_sha(value))
-        except (ValueError, TypeError, KeyError, AttributeError, IndexError, OSError, RuntimeError, TimeoutError, subprocess.TimeoutExpired) as exc:
+        except (ValueError, TypeError, KeyError, AttributeError, IndexError, OSError, RuntimeError, ImportError, SyntaxError, TimeoutError, subprocess.TimeoutExpired) as exc:
             row.update(status="FAILED", error={"type": type(exc).__name__, "message": str(exc)})
             gap("MODULE_CALL_FAILED", kind, row["error"])
         calls.append(row)
@@ -253,6 +374,48 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
                 for problem in item.get("binding_gaps", []): gap("EQUIPMENT_CURRENT_INPUT_GAP", tag, problem)
 
     export_ids = set((documents.get("source_export") or {}).get("equipment", {}))
+    from tools.fullflow_gate import check_fullflow
+    fullflow = check_fullflow(payload, root, documents=documents)
+    for item in fullflow.get("needs", []):
+        gap(item.get("code", "FULLFLOW_EVIDENCE_REQUIRED"),
+            item.get("scope", "fullflow"), item.get("detail", item))
+    whole_flow = bool(fullflow.get("gate_summary", {}).get("equipment_scope", {}).get("whole_flow_required"))
+    if whole_flow:
+        if not export_ids:
+            gap("WHOLE_FLOW_INVENTORY_REQUIRED", "equipment", "A current nonempty physical-equipment export is required")
+        if export_ids - declared:
+            gap("EXPORTED_DEVICES_NOT_REQUESTED", "equipment", sorted(export_ids - declared))
+        if declared - export_ids:
+            gap("REQUESTED_DEVICES_NOT_IN_EXPORT", "equipment", sorted(declared - export_ids))
+
+    expert_planning = None
+    if source_work == "expert_plan":
+        expert_planning = {
+            "schema": "source-expert-planning-stage-v1", "status": "HANDOFF_REQUIRED",
+            "checker_execution_status": "NOT_EXECUTED", "engineering_accepted": False,
+            "execution_verified": False, "source_truth_verified": False, "planning_complete": False,
+            "requirements": [
+                "先在原handoff.source_review登记当前UTF-8来源文本及哈希，执行原checker的source-inventory取得真实段落；按原步骤逐段对应原streams，最后逆查各分支，不能用聚合区名或一个已映射分支代替整段来源。",
+                "逐服务给出命名物性方法/候选、相态、依据和适用边界；候选与缺参保持未验证。",
+                "按真实连接接口表达压力关系、适用计算与输入缺口，不能把无数据写成零压降。",
+                "循环计划交代撕裂边的临时边界替代、先算顺序与原接口接回；不是已执行或已收敛声明。",
+            ],
+            "boundary": "Read and apply the existing fullflow/source-handoff workflow. These short obligations and the checker do not certify source truth, formula/physics correctness or completion, and never waive the original fullflow gates.",
+        }
+        if "planning_handoff" not in payload:
+            gap("EXPERT_PLAN_HANDOFF_REQUIRED", "expert_planning",
+                "Continue the routed source planning workflow; first inventory its explicitly supplied source_review.documents under the declared evidence root, then submit the hash-bound document-flow-handoff-v1 with paragraph dispositions and current graph")
+        else:
+            checked = call("source_expert_planning", {"planning_handoff": payload["planning_handoff"], "identity": identity},
+                           lambda: check_expert_planning(payload["planning_handoff"], root, identity))
+            if checked["status"] == "FAILED":
+                expert_planning.update(status="CHECK_FAILED", checker_execution_status="FAILED", error=checked["error"],
+                                       input_reference=copy.deepcopy(payload["planning_handoff"]), input_identity=copy.deepcopy(identity))
+                gap("EXPERT_PLAN_HANDOFF_INVALID", "expert_planning", checked["error"])
+            else:
+                expert_planning.update(checked["result"])
+                if expert_planning["errors"]:
+                    gap("EXPERT_PLAN_STRUCTURE_INVALID", "expert_planning", expert_planning["errors"])
 
     checks = payload.get("pressure_checks", [])
     if not isinstance(checks, list):
@@ -293,7 +456,10 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
             if not replay_result.get("result", {}).get("evidence_chain_complete"):
                 gap("DOMAIN_REPLAY_INCOMPLETE", "delivery", replay_result.get("result"))
 
-    reads = domain_reads(stage, question)
+    reads = domain_reads(stage, question, source_work)
+    for required in fullflow.get("required_reading", []):
+        if required["logical_path"] not in {item["logical_path"] for item in reads}:
+            reads.append(required)
     for required in solve.get("result", {}).get("required_reading", []) if solve_action_required else []:
         if required["logical_path"] not in {item["logical_path"] for item in reads}:
             reads.append(required)
@@ -306,10 +472,12 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "frozen_method": documents.get("authority", {}).get("required_method"),
         "status": "ACTION_REQUIRED" if needs else "MODULE_CHECKS_EXECUTED", "needs": needs,
         "queries": queries, "equipment": equipment, "pressure": pressure, "replay": replay_result, "solve_route": solve,
-        "calls": calls, "domain_reads": reads,
+        "calls": calls, "domain_reads": reads, "fullflow_gate": fullflow,
         "inventory_coverage": {"declared_count": len(requests), "declared_ids": sorted(declared),
             "export_declared_ids": sorted(export_ids), "exported_not_requested": sorted(export_ids - declared),
-            "scope": "DECLARED_DEVICES_ONLY", "independently_verified_complete": False,
+            "scope": "WHOLE_EXPORTED_PHYSICAL_INVENTORY" if whole_flow else "DECLARED_DEVICES_ONLY",
+            "export_request_set_equal": export_ids == declared,
+            "independently_verified_complete": False,
             "boundary": "Neither caller inventory nor canonical projection proves all real physical devices are covered"},
         "recalculation": {"required": pressure_required, "state": "NATIVE_FLOWSHEET_RERUN_REQUIRED" if pressure_required else "DOMAIN_WORKFLOW_REQUIRED",
             "consumers": ["affected streams", "upstream/downstream devices", "recycle/Design Specs", "heat network", "utilities and costs"] if pressure_required else [],
@@ -319,6 +487,14 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "acceptance_boundary": "Module execution and hashes are not engineering acceptance, real Aspen provenance, or proof of inventory completeness"}
     if stage == "change":
         receipt["planning_requirements"] = change_planning_requirements(receipt, documents)
+    if expert_planning is not None:
+        receipt["source_work"] = source_work
+        receipt["expert_planning"] = expert_planning
+        receipt["next_action"] = (
+            "按已路由的 docflow fullflow_generation_workflow.md 与 source_scaffold_handoff.md 完成source_review逐段落点与来源反查、"
+            "逐服务命名选法、真实接口压力关系和撕裂边临时替代—先算—接回计划；"
+            "提交/修正 planning_handoff 后重查，保留候选和缺口供逐项判断。"
+            "原 fullflow_contract/source 独立复核门继续有效；本回执不证明规划完成或授权越过用户停止阶段。")
     solve_result = solve.get("result") if isinstance(solve.get("result"), dict) else {}
     pressure_summary = []
     for index, row in enumerate(pressure):
@@ -338,7 +514,14 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "solve_result_error": copy.deepcopy(solve_result.get("error")),
         "pressure_checks": pressure_summary,
     }
-    receipt["implementation"] = [{"path": name, "sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
-        for name in ("tools/design_stage.py", "tools/aspen_tool_router.py", "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")]
+    from tools import product_contract
+    implementations = {name: ROOT / name for name in (
+        "tools/design_stage.py", "tools/product_contract.py", "tools/fullflow_gate.py", "tools/aspen_tool_router.py",
+        "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")}
+    implementations["tools/design_stage.py"] = Path(__file__)
+    implementations["tools/product_contract.py"] = Path(product_contract.__file__)
+    receipt["implementation"] = [{"path": name, "resolved_path": str(path.resolve()),
+                                  "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                                 for name, path in implementations.items()]
     receipt["receipt_sha256"] = canonical_sha(receipt)
     return receipt

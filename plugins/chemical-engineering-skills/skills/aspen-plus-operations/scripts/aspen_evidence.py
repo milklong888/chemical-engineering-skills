@@ -32,7 +32,8 @@ PROFILE_AUTHORITY = {
                          'acceptance_eligible': False, 'reason': 'Synthetic diagnostic profile; no native five-column source is registered.'},
 }
 HARD_PATTERNS = [
-    r'\*\s+WARNING', r'WARNING IN THE', r'WARNING WHILE', r'SEVERE ERROR',
+    r'\*\s+WARNING', r'^\s*\*{2,}\s+ERROR\b', r'^\s*WARNING\b', r'^\s*ERROR\b',
+    r'WARNING IN THE', r'WARNING WHILE', r'SEVERE ERROR',
     r'ERROR IN THE', r'ERROR WHILE EXECUTING', r'TERMINAL ERROR',
     r'CHECK THE RUN STATUS', r'M-BAL LOOP DID NOT CONVERGE',
     r'ZEROTH ORDER REACTANT NOT PRESENT', r'FAILED TO CONVERGE',
@@ -309,6 +310,7 @@ def evaluate_clean_gate(*, run: dict[str, Any], summary: dict[str, Any],
             check('ARTIFACT_MISSING_EMPTY_OR_UNHASHED', item.get('exists') is True and isinstance(size, (int, float)) and size > 0 and bool(_HASH.fullmatch(str(item.get('sha256', '')))), path=item.get('path'))
     passed = all(gate['passed'] for gate in gates)
     return {'schema_version': 'aspen_clean_gate/2', 'passed': passed, 'simulation_clean': simulation_clean,
-            'delivery_verified': False, 'gate_status': 'PASS' if passed else 'FAIL',
+            'delivery_verified': False, 'precision_lock_verified': False,
+            'gate_status': 'PASS' if passed else 'FAIL',
             'gate_results': gates, 'rejection_reasons': [gate for gate in gates if not gate['passed']],
-            'boundary': 'Solver evidence only. Exact delivery identity, lifecycle and current project engineering targets remain separate required gates.'}
+            'boundary': 'Solver evidence only. Exact delivery identity, lifecycle, pre-edit versus final solver-tolerance card/default-state comparison, and current project engineering targets remain separate required gates.'}

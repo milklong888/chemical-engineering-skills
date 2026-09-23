@@ -79,6 +79,10 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
 
 1. Search the authority file, tables, captions, appendices, nearby paragraphs,
    alternate spellings, IDs, and units.
+   Preserve the original source term beside a consequential translated material
+   or equipment name, then check its component identity and duty across the
+   diagram, tables and summary. A fluent translation or similar-looking node ID
+   is not evidence; inspect the cited sentence/node before attributing a claim.
 2. Inspect structured artifacts: Aspen exports, stream/block tables, ledgers,
    spreadsheets, scripts, JSON/CSV/XML, software reports, and drawings.
 3. Normalize units, bases, reference states, dry/wet basis, mass/molar basis,
@@ -118,6 +122,26 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    converted number does not excuse a contradictory unit definition beside it.
 4. Derive with algebra, ratios, chemical stoichiometry, composition closure,
    reaction extent, recovery/selectivity/yield identities, and time ordering.
+   For a reaction-based yield or bound, first state the balanced reaction on
+   the same molecular/repeat-unit basis and check element conservation (and
+   charge when applicable); then evaluate the mass ratio and independently
+   recalculate the important numbers. A numeric calculator cannot repair a
+   wrong stoichiometric coefficient. Keep empirical COD/lumped-component
+   mappings separate when an exact molecular formula is unavailable.
+   Match the source quantity's chemical entity to the coefficient denominator:
+   molecular species, repeat unit, element, hydrated material and dry organic
+   mass are not interchangeable bases. Trace source mass -> moles on that basis
+   -> reaction extent -> product mass. A balanced downstream reaction does not
+   justify applying its monomer-basis ratio to a different feed entity. Where
+   an intermediate transformation changes mass, compare the stepwise balance
+   with the combined reaction before stating a yield.
+   Keep the quantified set and assumptions attached to the conclusion: a
+   subset's maximum contribution is not a plant-product upper bound unless
+   every omitted contribution is independently excluded or bounded. Check the
+   conclusion's scope again even when its equation is locally correct.
+   Keep that quantified set in headings, summary sentences and converted-product
+   conclusions too. Changing the purity/time basis or adding 'not actual yield'
+   does not turn a subset contribution into a whole-process bound.
 5. Close material and component balances; then energy and pressure relations
    when the needed thermodynamic data or justified bounds exist.
    Define the control volume first. For a reacting species, accumulation equals
@@ -156,6 +180,10 @@ Proceed until the first genuinely inapplicable rung and record the search scope.
    factors; do not mix their signs, dimensions or conversion conventions.
 6. Use physical bounds, monotonicity, interpolation, bracketing, scaling, and
    limiting cases to obtain a range or consistency test.
+   Before calling a result a minimum/maximum, state which quantities are fixed,
+   which may vary and over what interval; check the monotonic direction and
+   substitute both admissible endpoints. An equality conversion at a specified
+   condition is not automatically an upper or lower bound.
 7. Use an explicit engineering estimate only when its source/correlation,
    applicability, assumptions, and sensitivity are recorded as `J`.
 8. Declare `U` only when a variable is indispensable and neither derivable nor

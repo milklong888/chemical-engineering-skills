@@ -75,7 +75,9 @@ executes and supplies the single strict version-bound evidence gate.
 Preserve current method, property/kinetics, precision and product targets.
 No hidden heater pressure rise, external outlet substitution or unapproved
 SEP surrogate. Initial estimates/damping/solver method/iteration limits can
-be tested after diagnosis, but they do not authorize lowering tolerances.
+be tested after diagnosis, but default/global and pre-existing local solver
+tolerances may not be tightened or loosened. Preserve their source value and
+default/explicit card state under the central strict-acceptance rule.
 
 A user may explicitly authorize a current-case relaxation. Preserve its scope
 and failed strict checks; all results/descendants remain case-only and cannot

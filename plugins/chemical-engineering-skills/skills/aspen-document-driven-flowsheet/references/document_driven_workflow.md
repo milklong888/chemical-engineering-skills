@@ -166,13 +166,19 @@ operations.
 
 Default construction route:
 
+Complete-flow generation follows [fullflow_generation_workflow.md](fullflow_generation_workflow.md)
+for prompt completion, five independent source reviews, and the native scaffold
+run/recycle initials plus three independent export reviews. The detailed
+engineering operations below remain their implementation, not a way around
+those gates.
+
 ```text
 source route and change-offset table
 -> source/taskbook gate and property-method freeze
 -> reaction target ledger and kinetics freeze
 -> process skeleton
--> yield/SEP scaffold
--> scaffold closure gate
+-> RStoic/SEP scaffold retaining heat and pressure equipment
+-> actual scaffold run, recycle initials and three-review closure gate
 -> reactor and separation islands
 -> one-by-one full-flow replacement
 -> pressure/HX network and stream-state audit
@@ -209,9 +215,10 @@ source route and change-offset table
    as `closed`, `open_boundary`, or `blocked` before calling the skeleton a
    full-flow model.
 
-4. Yield/SEP scaffold.
-   Build a runnable full-process scaffold using non-kinetic reactors and
-   `SEP/SEP2` placeholders. Each SEP represents a separation duty or train, not
+4. RStoic/SEP scaffold.
+   Build a runnable full-process scaffold using `RStoic` and `SEP`
+   placeholders by default; another preliminary model requires an explicit
+   current-source reason and recorded scope. Each SEP represents a separation duty or train, not
    one field device. Use it to determine provisional conversions, split targets,
    recycle destinations, makeup flows, purge needs, pressure estimates, and
    product-capacity sensitivity.
@@ -393,4 +400,3 @@ Record current authority, affected consumers and the next scoped action.
 
 Private prior entries and task baselines are not distributed; their historical
 case numbers and success-only learning shortcuts are not public defaults.
-

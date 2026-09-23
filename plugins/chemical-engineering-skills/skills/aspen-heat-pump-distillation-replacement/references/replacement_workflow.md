@@ -124,8 +124,9 @@ Start from the baseline tower:
 - flash duty or vapor fraction only as an initialization experiment, then keep
   the physically stable temperature/pressure form when possible.
 
-Keep convergence tolerance at project defaults. Do not tighten tear tolerances
-until the loop has a stable root.
+Keep default and pre-existing convergence tolerances unchanged throughout,
+including after the loop reaches a stable root. Do not tighten or loosen tear
+or global tolerances to obtain a clean report.
 
 ## 6. Design Specs
 
@@ -153,12 +154,13 @@ Preferred tuning order for empty-column VRC replacements:
 2. Recover the tower split with the tower-equivalence knobs first: stage/tray
    count or feed/vapor-return stage, one `FSPLIT` reflux fraction, and the
    liquid-side `FLASH2` temperature or pressure.
-3. Use the user's practical tolerance only for local bracketing of the replaced
-   tower. For example, a 3% instruction means the replaced local tower can stop
-   coarse polishing once its own outlets are close; it does not license drift
-   across the connected tower system.
+3. Use any user-stated local percentage only as an external product-equivalence
+   comparison margin for the replaced tower. It is not an Aspen solver or
+   Design Spec tolerance and cannot be written into tolerance cards; it does
+   not license drift across the connected tower system.
 4. Once the tower outlets are recovered, check the downstream or tower-system
-   boundary at default/design-rule precision. Do not retune downstream towers to
+   boundary under the unchanged original solver precision and actual product
+   specifications. Do not retune downstream towers to
    compensate for a bad heat-pump island unless the project authority changes
    the downstream design.
    If the connected tower system still shows startup or mass-balance history
@@ -260,23 +262,23 @@ reconnect stream seed CSV/INP exported
 accepted BKP saved after the accepted run
 ```
 
-Warnings may be accepted only when they are unrelated to the required
-heat-pump blocks and are named explicitly in the handoff.
-Treat property-data warnings separately from topology/process acceptance. A
-candidate with clean process history but a missing-property-parameter warning
-may be a repaired topology candidate, but not a zero-warning delivery; clear it
-only through a property/databank gate and same-candidate rerun, not by retuning
-separation targets.
+An unrelated warning may be retained only on a clearly labelled diagnostic
+topology candidate for continued study; it is not a strictly accepted island
+or deliverable. Treat property-data warnings separately during diagnosis,
+then clear them through a property/databank gate and same-candidate rerun,
+not by retuning separation targets or solver tolerances.
 
 Use two acceptance labels:
 
-- `topology_equivalent_candidate`: exported structure is complete, final
-  required blocks are clean, no final wet compression remains, and
-  boundary/downstream streams meet the accepted tolerance. This is enough to
-  stop tuning when the user asked for a practical design topology.
+- `topology_equivalent_candidate`: diagnostic-only local comparison; exported
+  structure is complete, final required blocks are clean, no final wet
+  compression remains, and boundary/downstream streams meet the stated
+  comparison criterion. It can stop topology exploration but cannot pass
+  the strict island or final-delivery gate while any warning/error remains.
 - `zero_warning_delivery`: the exact delivered BKP/APW is reopened, rerun, and
-  its current Control Panel/history has zero terminal/severe/errors/warnings
-  under the project delivery policy. Startup/recycle history cleanup belongs
+  its complete version-verified Control Panel Summary has zero counts in every
+  Terminal Errors/Severe Errors/Errors/Warnings cell and its current raw
+  history has no actual warning/error line. Startup/recycle history cleanup belongs
   here; do not change accepted product targets merely to clean history text.
 
 If local reflux/vapor-return streams are real connected recycles but Aspen does

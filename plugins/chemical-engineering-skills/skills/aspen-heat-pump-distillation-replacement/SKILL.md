@@ -122,9 +122,9 @@ product boundary before considering any additional polishing equipment.
    pressure as the default separation knobs. These should usually be enough to
    return the tower to its standard result. Only after that, polish compressor
    pressure, HeatX cold outlet/approach, and small trim temperatures.
-   Use only the current user's explicitly authorized local bracketing tolerance;
-   it is case-local, not a shared numerical default. The connected tower system must still
-   return to default/design-rule precision before delivery.
+   Use any current-user local comparison margin only for product-equivalence
+   bracketing, never as an Aspen solver, tear, tower or Design Spec tolerance
+   card. Keep default and pre-existing solver precision unchanged throughout.
    If downstream tower-system history remains dirty after local equivalence,
    repair the convergence boundary first: tear a stable downstream section feed
    or mixer outlet plus the local heat-pump recycles before touching final

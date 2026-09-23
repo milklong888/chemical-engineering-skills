@@ -99,11 +99,15 @@ class FeedbackIntegrityTests(unittest.TestCase):
         self.assertIsNone(plan["equipment"][0]["revision"])
         self.assertTrue(plan["equipment"][0]["binding_gaps"])
 
-    def test_canonical_flow_alias_is_not_resolved_by_series(self):
+    def test_canonical_flow_alias_selects_parallel_without_claiming_resolution(self):
         self.constraint("flow_m3_h",100,50,"m3/h")
         row=f.build_plan(self.response,self.context,self.root)["equipment"][0]
+        self.assertEqual(row["revision"]["preferred_route"],"exchanger_parallel")
+        self.assertNotEqual(row["revision"]["preferred_route"],"exchanger_series")
+        self.assertEqual(row["revision"]["initial_count_bounds"][0]["count"],2)
         self.assertTrue(row["revision"]["cannot_claim_limit_resolved"])
-        self.assertIn("flow_m3_h",row["revision"]["unresolved_by_this_topology"])
+        self.assertEqual(row["revision"]["unresolved_by_this_topology"],[])
+        self.assertFalse(row["revision"]["automatic_aspen_mutation"])
 
     def test_same_revision_area_positive(self):
         self.constraint()

@@ -1,0 +1,17 @@
+{
+  "schema": "aspen-property-method-name-reference-v1",
+  "version": "Aspen Plus V14.0 local help; inspected 2026-09-19",
+  "scope": "Non-exhaustive name reference only. A listed name does not prove applicability, parameter availability, implementation or engineering acceptance. Other versions, named physical models and defined custom methods may use the source_defined route with a definition reference.",
+  "source_root": "C:/ProgramData/AspenTech/Aspen Plus V14.0/HtmlHelp/Subsystems/ref2/Content/html",
+  "groups": [
+    {"source": "idealpropertymethod.htm", "names": ["IDEAL"]},
+    {"source": "Reference_Correlations_for_Specific_Components.htm", "names": ["REFPROP", "GERG2008"]},
+    {"source": "propertymethodsforpetroleummixtures.htm", "names": ["BK10", "CHAO-SEA", "GRAYSON", "GRAYSON2", "MXBONNEL", "HYSPR", "HYSSRK", "PENG-ROB", "RK-SOAVE", "SRK", "SRK-KD", "SRK-ML"]},
+    {"source": "equation_of_statepropertymethodsforhigh_pressurehydrocarbonapplications.htm", "names": ["BWR-LS", "BWRS", "LK-PLOCK", "PR-BM", "RKS-BM"]},
+    {"source": "flexibleandpredictiveequation_of_statepropertymethods.htm", "names": ["HYSGLYCO", "PC-SAFT", "PRMHV2", "PRWS", "PSRK", "RK-ASPEN", "RKSMHV2", "RKSWS", "SR-POLAR"]},
+    {"source": "equationsofstate.htm", "names": ["NRTL", "NRTL-2", "NRTL-RK", "NRTL-HOC", "NRTL-NTH", "UNIFAC", "UNIF-LL", "UNIF-HOC", "UNIF-DMD", "UNIF-LBY", "UNIQUAC", "UNIQ-2", "UNIQ-RK", "UNIQ-HOC", "UNIQ-NTH", "VANLAAR", "VANL-2", "VANL-RK", "VANL-HOC", "VANL-NTH", "WILSON", "WILS-2", "WILS-GLR", "WILS-LR", "WILS-RK", "WILS-HOC", "WILS-NTH", "WILS-HF"]},
+    {"source": "electrolytepropertymethods.htm", "names": ["AMINES", "APISOUR", "GPSWAT", "ELECNRTL", "ENRTL-HF", "ENRTL-HG", "ENRTL-RK", "ENRTL-SR", "PITZER", "PITZ-HG", "B-PITZER", "OLI"]},
+    {"source": "solidshandlingpropertymethod.htm", "names": ["SOLIDS"]},
+    {"source": "steamtables.htm", "names": ["STEAM-TA", "STEAMNBS", "STMNBS2", "IAPWS-95", "IF97"]}
+  ]
+}

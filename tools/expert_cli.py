@@ -74,6 +74,9 @@ def execute(request, evidence_root, *, equipment_runner=None):
     if operation == "solve_route":
         from tools.aspen_tool_router import solve_route
         return solve_route(payload, evidence_root)
+    if operation == "workflow":
+        from tools.workflow_catalog import lookup
+        return lookup(payload)
     if operation == "design_stage":
         from tools.design_stage import check_stage
         def coordinated(active_runner):

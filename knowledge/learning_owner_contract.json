@@ -11,7 +11,7 @@
     },
     {
       "path": "chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md",
-      "sha256": "8bad2cc741da62f3c6778f2833b2e6f3cefdc4759013ae94af44658690d37c00"
+      "sha256": "a0732aae73c1d1b6ee43562d97e0d28758e12f69549b7843893ed222c57f6b5f"
     },
     {
       "path": "aspen-document-driven-flowsheet/scripts/learning_admission.py",
@@ -19,7 +19,7 @@
     },
     {
       "path": "aspen-plus-operations/scripts/aspen_evidence.py",
-      "sha256": "a2af20fb4444dde9dbcbd69e343f01d3aa908265bf7efe764d3422505acf7a27"
+      "sha256": "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31"
     }
   ]
 }

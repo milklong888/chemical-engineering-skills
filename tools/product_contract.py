@@ -44,8 +44,8 @@ def describe(runner):
             "skill": skill_location(), "equipment_gateway": describe_policy(),
             "original_backend_capabilities": original,
             "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
-            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "capabilities", "schema"],
-            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "solve-route"],
+            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "capabilities", "schema"],
+            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog"],
             "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
                           "query_modes": ["lexical", "hash_vector", "exact_node_id"],
                           "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
@@ -57,10 +57,13 @@ def describe(runner):
 
 
 def schema(schema_id, runner):
+    if schema_id == "fullflow-contract":
+        from tools.fullflow_gate import contract_schema
+        return contract_schema()
     if schema_id == "expert-request":
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
                 "required": ["operation", "payload"], "properties": {
-                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "capabilities", "schema"]},
+                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "capabilities", "schema"]},
                     "payload": {"type": "object"}},
                 "description": "equipment payload is an original Agent request; equipment_batch payload has requests[]. Use original schema_get IDs for detailed backend inputs."}
     if schema_id == "pressure-methods":
@@ -122,8 +125,11 @@ def schema(schema_id, runner):
             "additionalProperties": False, "required": ["stage", "question"],
             "properties": {
                 "stage": {"enum": list(STAGES)}, "question": {"type": "string", "minLength": 1},
+                "source_work": {"enum": ["expert_plan"], "description": "Source-only opt-in to the existing planning workflow and strict declaration checker; omission preserves narrow source queries."},
+                "planning_handoff": {"$ref": "#/$defs/planning_reference", "description": "Only with source_work=expert_plan and stage=source. Exact hash-bound document-flow-handoff-v1 source input to the registered existing checker; no caller checker or runner."},
                 "case_id": {"type": "string"}, "run_id": {"type": "string"},
                 "source_export": {"$ref": "#/$defs/reference"}, "authority": {"$ref": "#/$defs/reference"},
+                "fullflow_contract": {"$ref": "#/$defs/reference", "description": "Required for whole-flow generation and its continuing stages; discover fullflow-contract. Hash-bound workflow evidence is not engineering acceptance."},
                 "detail": {"type": "boolean", "description": "Source-stage detail opt-in; later stages retrieve implementation methods automatically"},
                 "equipment_requests": {"type": "array", "items": {"type": "object", "additionalProperties": False,
                     "required": ["equipment_id", "request"], "properties": {"equipment_id": {"type": "string", "minLength": 1},
@@ -135,9 +141,25 @@ def schema(schema_id, runner):
                     "properties": {"method": {"enum": list(PRESSURE_METHODS)}, "input_basis": {"type": "string", "minLength": 1}, "inputs": {"type": "object"}}}},
                 "plan": {"type": "object"}, "replay": {"type": "object"}},
             "$defs": {"reference": {"type": "object", "required": ["path", "sha256"],
-                "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}},
+                "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}},
+                "planning_reference": {"type": "object", "additionalProperties": False, "required": ["path", "sha256"],
+                    "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}},
+            "allOf": [
+                {"if": {"required": ["source_work"]}, "then": {"properties": {"stage": {"const": "source"}}}},
+                {"if": {"required": ["planning_handoff"]}, "then": {"required": ["source_work"],
+                    "properties": {"stage": {"const": "source"}, "source_work": {"const": "expert_plan"}}}},
+            ],
             "operation": "design_stage", "description": "This schema describes the payload of an expert request. Source needs no invented equipment inputs. Later stages expose local needs when current references or device requests are absent.",
             "example": {"operation": "design_stage", "payload": {"stage": "source", "question": "预热与压缩如何减少高温公用工程"}},
             "state_boundary": "Only MODULE_CHECKS_EXECUTED or ACTION_REQUIRED; engineering_accepted=false, no implicit stage advance or real inventory certification",
             "implementation": "tools/design_stage.py"}
+    if schema_id == "workflow-catalog":
+        return {"schema": schema_id, "operation": "workflow", "mcp_tool": "workflow_lookup",
+                "payload": {"action": "list|read|script", "skill_id": "registered skill ID",
+                            "resource": "native-tools|tower-method|unit-build|script-catalog",
+                            "mode": "skill|resource", "id": "script node ID",
+                            "cluster": "script node cluster", "search": "script graph keyword",
+                            "path_name": "registered canonical script path"},
+                "read_modes": ["skill", "resource"], "read_only": True,
+                "boundary": "Guidance text and template metadata only; no skill/script execution or engineering acceptance"}
     return runner(backend_request("schema_get", {"schema_id": schema_id}))

@@ -103,6 +103,12 @@ def aspen_solve_route(payload: dict, evidence_root: str) -> dict:
 
 
 @mcp.tool()
+def workflow_lookup(payload: dict) -> dict:
+    """List/read registered workflow guidance and query its script-template graph; read-only."""
+    return execute({"operation": "workflow", "payload": payload}, Path.cwd())
+
+
+@mcp.tool()
 def design_stage_check(payload: dict, evidence_root: str) -> dict:
     """Run current-stage knowledge/equipment modules; return needs, never engineering acceptance.
 

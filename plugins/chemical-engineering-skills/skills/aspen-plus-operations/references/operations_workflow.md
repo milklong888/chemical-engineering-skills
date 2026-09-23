@@ -328,19 +328,28 @@ of included content. Missing local help cannot be filled from historical values.
   the exact delivery file, run it, export after-run `.inp/.bkp`, stream and
   block-status tables, and capture the real Aspen `.his` Control Panel history.
   The final Run Status summary must be complete for its source-verified
-  version/format and all counts must be zero; the separate current raw `.his`
-  must contain no actual problem lines. Targeted scans must also be clean for zero-feed
+  version/format and every Terminal Errors, Severe Errors, Errors and Warnings
+  count must be zero. The same run's Control Panel message stream and separate
+  current raw `.his` must contain no actual error or warning lines. Targeted
+  scans must also be clean for zero-feed
   startup, RYield normalization, atom-balance, reactor mass-balance,
   negative-NPSH, and warning/error/severe blocks. If products pass but `.his` or
   the Run Status Results table is dirty, the case is not a delivery candidate.
 - Zero-warning scanners must parse terminal summary counts and message context,
   not raw warning-word frequency. Phrases that state the final run generated no
   errors or warnings are success evidence only when the same `.his` has no
-  earlier actual problem lines such as `* WARNING`, `WARNING IN THE`, `SEVERE
-  ERROR`, `ERROR IN THE`, terminal errors, or `CHECK THE RUN STATUS`; targeted
+  earlier actual problem lines such as `* WARNING`, `** ERROR`, `WARNING IN THE`,
+  `SEVERE ERROR`, `ERROR IN THE`, terminal errors, or `CHECK THE RUN STATUS`; targeted
   hard-fail phrases, nonzero terminal counts, bad block messages, and
   current-phase warnings still fail the gate. Persist the parsed counts and raw
   problem-line scan beside the raw `.his` path.
+- Precision lock: do not tighten, loosen, add or remove default or pre-existing
+  global, tear, tower, flash, balance or Design Spec solver tolerance settings
+  to obtain a clean run. Preserve both values and default-versus-explicit state.
+  Compare the pre-edit and final same-version Aspen input exports; without that
+  comparison, zero-warning evidence does not prove the precision lock. A new
+  source-defined Design Spec product-target tolerance is a separately evidenced
+  specification, not permission to change solver tolerances.
 - When a final `.his` has zero terminal/severe/error counts but nonzero
   warnings, split the operation into hard-gate repair and warning hygiene.
   Promote only no-mutation reopen evidence from the exact delivery APW/BKP.
@@ -439,4 +448,3 @@ formats. Inspect the emitted capability/verification state for the actual run.
 Private pre-refactor entries and local validation artifacts are not distributed.
 Only current same-package implementations and actual run receipts establish
 operation/acceptance state.
-

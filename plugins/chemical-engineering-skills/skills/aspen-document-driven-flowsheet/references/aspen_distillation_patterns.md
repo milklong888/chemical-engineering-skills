@@ -63,22 +63,22 @@ ledger and prove it is feasible for the current feed inventory.
    Record feed basis, phase, key light/heavy components, target purity/recovery,
    pressure constraints, heat-sensitive components, allowed solvents/entrainers,
    recycle policy, and product/waste boundaries.
-2. Follow the Sun-Lanyi tower promotion chain for any tower duty.
-   Select the separation family before modeling. Cut the duty into an isolated
-   frozen-feed island. Use `DSTWU` or another shortcut only to obtain initial
-   stages, reflux, and feed-stage guesses when the selected method permits it;
-   if the duty is absorption/stripping, low-temperature solvent wash,
-   azeotropic or extractive distillation, three-phase, reactive, electrolyte,
-   petroleum, or otherwise outside shortcut assumptions, start directly from a
-   minimal rigorous tower. Store the island under the current project in a
-   subfolder named for the equipment or duty. Name the Aspen file
-   `<project>-<equipment>`, and keep each optimization step as a separate block
-   in that one file: `DSTWU` when applicable, initial rigorous tower,
-   feed-stage-adjusted tower, and Design-Spec tower. Do not overwrite a previous
-   tower state to make the next one. After the rigorous island passes, reconnect
-   it to the full flowsheet and add live Design Specs or equivalent external
-   specs for purity and/or key-component recovery with bounded manipulated
-   variables.
+2. Follow the current
+   [tower owner method](../../aspen-tower-optimization-workflow/references/tower_optimization_workflow.md)
+   for a tower duty. Select the separation family and freeze the mother-flow
+   feed and original ports first. For ordinary shortcut-eligible distillation,
+   copy the current feed boundary to an isolated child template containing only
+   DSTWU and required connections. Use its sourced actual-stage result as an
+   initial candidate, not a unique optimum. Build the separate rigorous tower
+   island with tower-internal SPEC/VARY for product targets; at fixed initial N
+   compare feed stages, then adjust N and recheck feed location and live
+   specifications. Preserve trial states as protected cases or sidecars.
+   Return only the final rigorous tower with its internal specs to the original
+   mother-flow interfaces; the shortcut and copied streams remain diagnostic.
+   For absorption/stripping, solvent wash, azeotropic/extractive, VLL/reactive
+   or other shortcut-invalid service, record why and use the authorized
+   rigorous route instead. Neither the child-template arrangement nor the
+   fixed-N-then-N order is attributed as a quotation from the lecture.
 3. If the split is difficult, search before hard-tuning.
    Check this reference's selection table plus relevant `references/cases/`
    cards for known patterns: LLE, extractive, azeotropic/decanter,
@@ -95,13 +95,17 @@ ledger and prove it is feasible for the current feed inventory.
    `RADFRAC`, flash/decanter screen, `BATCHSEP`, solvent column, or surrogate
    column pair. Freeze the feed from the latest upstream export.
 6. Choose bounded specifications.
-   Prefer two independent column specs such as reflux ratio plus distillate rate,
-   boilup ratio plus bottoms rate, or Design Spec purity plus bounded reflux.
-   Bound flow specs by feed and key-component inventory.
+   For ordinary two-product rigorous towers, use two independent tower-internal
+   product SPEC/VARY pairs with qualified RR and D/F input variables. Old
+   fixed RR/D/F values are initialization, not simultaneous final fixed cards;
+   bound each Vary by source, balance and a verified feasible response window.
+   Special towers use their authorized owner-specific target/DOF design.
 7. Map feasibility before targeting.
-   Use Sensitivity over stage count, feed stage, reflux, pressure, product rate,
-   solvent/entrainer ratio, compressor pressure ratio, or heat-integrated split.
-   Use Design Spec only after the feasible window is visible.
+   Reuse valid same-boundary response evidence, or use bounded native
+   Sensitivity for eligible continuous variables. Stage count and feed stage
+   are discrete outer candidates, not unnamed continuous Vary variables.
+   Activate the required tower-internal specs after a feasible baseline and
+   interval exist; re-solve them for every outer candidate and after reconnect.
 8. Promote only after exported evidence.
    Check block status, stream phase, product purity/recovery, duties, pressure
    devices, and key-component routing from exported input and stream results.

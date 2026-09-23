@@ -65,7 +65,7 @@ of the current user task revision and qualified, unrelaxed lineage.
 | BUILD-04 | build | Need yield/SEP scaffold | derive from `aspen_candidate_matrix_template.py` | scaffold sidecar and run evidence | BUILD-05 |
 | BUILD-05 | build | Need split target ledger from scaffold | derive from `static_inp_audit_template.py` | split target ledger | BUILD-06 |
 | BUILD-06 | build | Need recycle/makeup Calculator link | derive from `aspen_operation_template.py` | Calculator card export | BUILD-07 |
-| BUILD-07 | build | Need Design Spec/Sensitivity setup | derive from `aspen_candidate_matrix_template.py` | bounds and solve/fit manifest | RUN-06 |
+| BUILD-07 | build | Need native Design Spec/Sensitivity setup | `aspen_operation_template.py`, version-qualified adapter required | exported native cards, bounds and same-run solve evidence | RUN-06 |
 | BUILD-08 | build | Need pressure/HX stream-state audit | derive from `delivery_gate_audit_template.py` | pressure/HX audit JSON/MD | DELIV-02 |
 | KIN-01 | kinetics | Need extract kinetic source table | derive from project document parser | source equation/value table | KIN-02 |
 | KIN-02 | kinetics | Need source-unit to Aspen-card conversion | derive from `script_generalization_manifest_template.py` shape | unit conversion ledger | KIN-03 |
@@ -73,13 +73,14 @@ of the current user task revision and qualified, unrelaxed lineage.
 | KIN-04 | kinetics | Need PowerLaw card freeze | derive from `aspen_operation_template.py` | PowerLaw freeze audit | RUN-06 |
 | KIN-05 | kinetics | Need LHHW card freeze | derive from `aspen_operation_template.py` | LHHW freeze audit | RUN-06 |
 | KIN-06 | kinetics | Kinetics blocked; need provisional reactor route | derive from `delivery_gate_audit_template.py` | blocked/provisional reactor ledger | BUILD-04 |
-| SEP-01 | separation | Need tower candidate matrix | `aspen_candidate_matrix_template.py` | tower candidate sidecars | SEP-02 |
-| SEP-02 | separation | Need run tower matrix | `aspen_candidate_matrix_template.py` | queue audit and run summaries | SEP-04 |
-| SEP-03 | separation | Need DSTWU/Rigorous tower bridge | derive from `aspen_candidate_matrix_template.py` | DSTWU-to-RadFrac sidecar | SEP-04 |
+| SEP-01 | separation | At fixed DSTWU-based initial N compare feed stages, then vary N and recheck feed stage | `aspen_candidate_matrix_template.py` | text-level outer candidate sidecars only; no native SPEC/VARY builder | SEP-02 |
+| SEP-02 | separation | For each discrete tower candidate re-solve live inner product targets | `aspen_candidate_matrix_template.py` plus qualified native implementation | queue/candidate audit; same-product run and residuals require separate verified runner | SEP-04 |
+| SEP-03 | separation | Copy current mother-flow feed into a DSTWU-only child, then hand initial N to a rigorous tower | derive sidecar from `aspen_candidate_matrix_template.py` | sub-template/rigorous handoff record; template does not create either tower or native specs | SEP-04 |
 | SEP-04 | separation | Need RadFrac Required Input probe | derive from `open_run_readiness_template.py` | required-input diff | RUN-07 |
 | SEP-05 | separation | Need tower pressure-drop audit | derive from `delivery_gate_audit_template.py` | tower pressure audit | BUILD-08 |
 | SEP-06 | separation | Need solvent/entrainer recycle audit | derive from `delivery_gate_audit_template.py` | solvent closure report | BUILD-06 |
 | SEP-07 | separation | Need flash train candidate generator | `aspen_candidate_matrix_template.py` | flash-train sidecars | RUN-09 |
+| SEP-08 | separation | Same-product native tower optimization when requested | `aspen_operation_template.py`, version-qualified adapter required | live SPEC/VARY and current objective/constraint results | SEP-05 |
 | REPAIR-01 | repair | Need one-family Control Panel repair loop | `control_panel_repair_loop_template.py` | before/after first message | REPAIR-02 |
 | REPAIR-02 | repair | Import/open failure needs bisect | derive from `aspen_candidate_matrix_template.py` | import-bisect ledger | RUN-02 |
 | REPAIR-03 | repair | Need convergence trial queue | `aspen_candidate_matrix_template.py` | trial queue audit | REPAIR-04 |
@@ -123,8 +124,21 @@ AUTH-05 -> RUN-05 -> REPAIR-01 -> REPAIR-05 -> RUN-06 -> DELIV-02
 Tower island:
 
 ```text
-SEP-01 -> SEP-02 -> SEP-04 -> SEP-05 -> RUN-07 -> DELIV-03
+AUTH-07 -> BUILD-03 -> SEP-03 -> SEP-04 -> RUN-06
+-> BUILD-07 -> SEP-01 -> SEP-02 -> SEP-05 -> RUN-07 -> DELIV-03
 ```
+
+This is a routing path, not a claim that one script executes the whole island. The child
+DSTWU contains only the copied feed boundary, shortcut block and necessary connections;
+only the final RadFrac with tower-internal SPEC/VARY returns to the mother-flow ports.
+BUILD-06 is conditional: use it only if an explicit same-run Calculator relation
+has a real producer, unique written input and downstream consumer; ordinary
+purity-controlled towers do not gain a Calculator merely from this path.
+SEP-08 is an optional version-qualified native Optimization branch when a compatible
+same-product objective is actually requested; it does not replace the fixed-N feed-stage
+then N outer-candidate sequence. Read the
+[tower script handoff](../../aspen-tower-optimization-workflow/references/tower_script_handoff.md)
+before claiming any automation or executing a runner.
 
 Delivery:
 
@@ -140,9 +154,15 @@ AUTH-01 -> LIB-02 -> LIB-03 -> LIB-04
 
 ## Red Lines
 
+- Tower method owns shortcut applicability, optional Calculator and requested
+  optimization; these path nodes do not force every tool. Formal towers retain
+  the mandatory live Design Spec/Vary. Continuous target solving follows the
+  native-tool method, never a default external candidate-matrix loop.
+- A template anchor is not a verified native builder. Adapt under the current
+  version/source and retain exported-card plus same-run evidence.
+
 - Do not promote script nodes that loosen Aspen default/global precision.
 - Do not reuse project stream IDs, component aliases, kinetics, pressures,
   split fractions, or tolerances as generic defaults.
 - Do not call a static text audit runnable evidence.
 - Do not let package/report gates override failed Aspen reopen/start-run gates.
-

@@ -45,6 +45,21 @@ Every reusable Aspen script should follow this shape:
 
 ## Scenario Notes
 
+连续调参/目标匹配先按 aspen_builtin_solve_fit_tools.md 选择原生工具。
+candidate_matrix 只适合获准的离散拓扑/台数/级数等外层候选；它不能因名称含
+sweep 就替代原生 Sensitivity/Design Spec。脚本图谱 BUILD-07、SEP-08 已回到
+operation 模板的原生建卡适配路径，仍须核当前版本字段和运行证据，不能视为
+已经写好的通用原生对象构建器。塔路径中的Calculator仅在有显式运行依赖时执行，
+优化步骤仅在任务要求寻优时执行；特殊塔按塔owner说明跳过不适用的DSTWU。
+
+普通精馏须先读塔 owner 的
+[脚本交接](../../aspen-tower-optimization-workflow/references/tower_script_handoff.md)：
+母流程进料副本建立仅含 DSTWU 的隔离子模板；严格塔用塔内 SPEC/VARY 解
+RR、D/F；固定初始级数逐进料板，再调总级数并逐点重新核进料位置及双规格；
+最终只把严格塔回装。candidate_matrix 可生成外层文本候选，不创建子模板、
+塔内规格或同案运行证据；`generate-run` 的调用方命令需单独审核，
+不因有脚本图谱或 MCP 入口便宣称整链可自动执行。
+
 `aspen_operation_template.py` is the base shape for mechanical Aspen probes.
 Copy it into the active project and fill only the adapter functions. Keep
 project values in CLI arguments or a local config file, not in the generic

@@ -118,18 +118,23 @@ class FeedbackTests(unittest.TestCase):
         (self.root / name).write_bytes(data)
         return {"path": name, "sha256": hashlib.sha256(data).hexdigest().upper()}
 
-    def constraint(self, quantity="area", value=2000, limit=1000):
+    def constraint(self, quantity="area", value=2000, limit=1000, *, relation="max", family=None):
         field = {"area": "heat_transfer_area_m2", "flow": "flow_m3_h"}.get(quantity, quantity)
-        unit = {"heat_transfer_area_m2": "m2", "flow_m3_h": "m3/h"}[field]
+        unit = {"heat_transfer_area_m2": "m2", "heat_duty_kw": "kW", "flow_m3_h": "m3/h", "head_m": "m",
+                "pressure_ratio": "1", "velocity_m_s": "m/s", "column_height_m": "m"}[field]
+        if family:
+            self.export["equipment"]["E1"]["family_id"] = family
+            self.response["result"]["match"]["family_id"] = family
         self.export["equipment"]["E1"]["values"][field] = value
+        self.export["equipment"]["E1"]["units"][field] = unit
         self.response["result"]["normalized_input"][field] = value
         actual = self.put("actual.json", self.export)
         self.context["source_export"] = actual
         maximum = self.put("limit.json", {"schema": "equipment-process-limit-v1", "quantity": field,
             "value": limit, "unit": unit, "source_id": "SYNTHETIC-NOT-A-STANDARD", "version": "TEST_ONLY", "locator": "test row",
-            "applicability": {"equipment_id": "E1", "family_id": "family_fixed_tubesheet_exchanger"}})
+            "applicability": {"equipment_id": "E1", "family_id": self.response["result"]["match"]["family_id"]}})
         row = {"equipment_id": "E1", "status": "verified_applicable", "quantity": quantity,
-               "unit": unit, "applicability": "synthetic test only", "relation": "max",
+               "unit": unit, "applicability": "synthetic test only", "relation": relation,
                "value": value, "limit": limit,
                "value_source": {**actual, "pointer": f"/equipment/E1/values/{field}"},
                "limit_source": {**maximum, "pointer": "/value"}}
@@ -150,10 +155,55 @@ class FeedbackTests(unittest.TestCase):
         self.assertIsNone(record["revision"]["unit_count"])
         self.assertEqual(record["revision"]["initial_count_bounds"][0]["count"], 2)
 
-    def test_series_does_not_fix_flow_limit(self):
+    def test_verified_exchanger_duty_limit_proposes_staged_series_review(self):
+        self.constraint(quantity="heat_duty_kw", value=2000, limit=1000)
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "exchanger_series")
+        self.assertEqual(record["revision"]["initial_count_bounds"][0]["count"], 2)
+
+    def test_flow_limit_does_not_prescribe_series(self):
         self.constraint(quantity="flow", value=100, limit=50)
         record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "exchanger_parallel")
         self.assertTrue(record["revision"]["cannot_claim_limit_resolved"])
+
+    def test_verified_exchanger_minimum_is_reviewed_not_split(self):
+        self.constraint(quantity="area", value=200, limit=1000, relation="min")
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertTrue(record["constraints"][0]["exceeded"])
+        self.assertEqual(record["revision"]["status"], "LIMIT_REVIEW_REQUIRED")
+        self.assertIsNone(record["revision"]["preferred_route"])
+
+    def test_pump_head_series_and_flow_parallel(self):
+        self.constraint(quantity="head_m", value=200, limit=100, family="family_centrifugal_pump")
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "pump_series")
+        self.assertEqual(record["revision"]["initial_count_bounds"][0]["count"], 2)
+        self.constraint(quantity="flow", value=100, limit=50)
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "pump_parallel")
+
+    def test_compressor_ratio_series_and_flow_parallel(self):
+        self.constraint(quantity="pressure_ratio", value=9, limit=3, family="family_centrifugal_compressor")
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "compressor_stages_series")
+        self.constraint(quantity="flow", value=100, limit=50)
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "compressor_parallel")
+
+    def test_tower_hydraulic_parallel_and_height_series_review(self):
+        self.constraint(quantity="velocity_m_s", value=3, limit=2, family="family_tray_tower")
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "tower_parallel")
+        self.constraint(quantity="column_height_m", value=80, limit=60)
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["preferred_route"], "tower_series_review")
+
+    def test_unmatched_verified_limit_has_no_invented_layout(self):
+        self.constraint(quantity="flow", value=100, limit=50, family="family_storage_vessel")
+        record = build_plan(self.response, self.context, self.root)["equipment"][0]
+        self.assertEqual(record["revision"]["status"], "LIMIT_REVIEW_REQUIRED")
+        self.assertIsNone(record["revision"]["preferred_route"])
 
     def test_pressure_calculation_is_connected_to_feedback(self):
         self.context["configuration_checks"] = {"E1": [{"method": "series_pressure",

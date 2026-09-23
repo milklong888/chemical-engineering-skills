@@ -7493,10 +7493,10 @@
       "sha256": "491caa95cb5522f81b913ec0ab220bb9791bca336971d385a48934626c090bf2"
     },
     {
-      "bytes": 979,
+      "bytes": 978,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "learning_owner_contract.json",
-      "sha256": "6b24898689e04a123930aa162919eb2739d9b1935ce368762895186236fac7d9"
+      "sha256": "85b1e10dc9460566f10566e30dae9cc979ecf20a95aba0645c9bb3e0561c8b65"
     },
     {
       "automatic_activation": false,

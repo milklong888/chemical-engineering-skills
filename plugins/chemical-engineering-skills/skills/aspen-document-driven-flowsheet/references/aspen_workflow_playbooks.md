@@ -14,9 +14,20 @@ which branch is the current authority.
 
 ## Default From-Zero Build Paradigm
 
+For complete-flow generation the governing entry is
+[fullflow_generation_workflow.md](fullflow_generation_workflow.md): complete the
+five-review source gate before the build, and the native-run/recycle-initials plus
+three-review scaffold gate before individual module refinement. These steps add
+evidence gates to this existing playbook, not another topology or simulator.
+
 Use this pattern when the user asks for a complete Aspen process, when only
 documents exist, or when the inherited Aspen file is too unstable to repair
 directly.
+
+For underspecified prompts, first use the weak-prompt completion section of
+`fullflow_generation_workflow.md`. The equipment and loop lists below are
+applicability checks, not mandatory additions: respect an explicit once-through
+or no-recycle requirement, and do not create a purge without a material purpose.
 
 1. Route lock.
    Extract the route, feeds, products, reactions, recycle paths, and separation
@@ -24,8 +35,9 @@ directly.
    write the initial authority note before creating Aspen inputs.
 
 2. Full-process scaffold.
-   Build the whole flowsheet first with yield or stoichiometric checkout
-   reactors and shortcut separators. Include mixers, splitters, recycle returns,
+   Build the whole flowsheet first with RStoic checkout reactors and SEP
+   separators. Other scaffold types need an explicit current-source reason;
+   they are not interchangeable defaults. Include mixers, splitters, recycle returns,
    pressure changers, heat exchangers, purge points, product outlets, and
    waste/treatment boundaries. The scaffold finds capacity basis, stream naming,
    recycle topology, pressure islands, and tear-stream estimates. It is not final
@@ -34,9 +46,11 @@ directly.
 3. Recycle initialization.
    Use the scaffold to generate initial values for recycle streams. Seed each
    recycle with realistic temperature, pressure, phase, total flow, and dominant
-   key components. Add small labeled purges when a closed loop has no documented
-   purge policy. Remove or relabel seed streams once the real recycle is
-   connected.
+   key components, citing the actual scaffold run/export. Do not invent a small
+   purge fraction: resolve the source policy or retain an evidenced provisional
+   proposal and its impact. Remove or relabel seed streams once the real recycle
+   is connected. Finish the three independent export-based reviews before
+   extracting modules; a run command alone does not prove usable initials.
 
 4. Island extraction.
    Pull each reactor and separation sequence into an island with frozen inlet
@@ -244,13 +258,15 @@ Stop condition:
 
 ## Subagent Scheduling Protocol
 
-Use subagents only when the user explicitly asks for subagents, delegation, or
-parallel agent work. The main agent owns the active goal, the authority manifest,
-and the final Aspen promotion decision.
-This restriction governs spawning fresh subagents. Reusing or messaging an
-already-listed subagent or background thread is part of the reuse-first gate,
-provided old chemistry, values, components, and separation targets remain
-quarantined until current-source ledgers re-authorize them.
+Follow the active task's delegation permissions and concurrency limits. For an
+enabled fullflow-generation workflow, its required five source reviews and
+three scaffold reviews govern; do not wait for the user to request delegation
+again or substitute solo summaries. Reuse prior agents for factual work, but
+keep required independent reviews in separate contexts with the frozen input.
+The main agent owns the active goal, authority manifest, and final promotion.
+Old chemistry, values, components, and targets remain quarantined until current
+source ledgers re-authorize them. Other narrow tasks do not inherit five/three
+reviews merely because this playbook was read.
 
 Good subagent tasks are bounded sidecars:
 

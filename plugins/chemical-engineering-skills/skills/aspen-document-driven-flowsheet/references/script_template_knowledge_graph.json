@@ -1,6 +1,6 @@
 {
-  "version": "public-schema-index-2026-09-09",
-  "node_count": 61,
+  "version": "public-schema-index-2026-09-22",
+  "node_count": 62,
   "rule": "Copy a base template into the active project, keep project values outside the generic skill, and return evidence plus next allowed action.",
   "nodes": [
     {
@@ -226,8 +226,10 @@
     {
       "id": "BUILD-07",
       "cluster": "build",
-      "name": "design spec sensitivity setup",
-      "base": "aspen_candidate_matrix_template.py",
+      "name": "native design spec sensitivity setup; version adapter required",
+      "base": "aspen_operation_template.py",
+      "method_reference": "aspen_builtin_solve_fit_tools.md",
+      "execution_boundary": "Create/read native cards through a qualified adapter; not a verified native builder",
       "next": [
         "RUN-06"
       ],
@@ -306,7 +308,8 @@
     {
       "id": "SEP-01",
       "cluster": "separation",
-      "name": "tower candidate matrix",
+      "name": "fixed-N feed-stage then N outer candidate matrix",
+      "execution_boundary": "Text-level discrete candidates only; no native SPEC/VARY builder or solve",
       "base": "aspen_candidate_matrix_template.py",
       "next": [
         "SEP-02"
@@ -316,21 +319,23 @@
     {
       "id": "SEP-02",
       "cluster": "separation",
-      "name": "tower matrix queue",
+      "name": "tower candidate sidecars; qualified native inner solve required",
       "base": "aspen_candidate_matrix_template.py",
       "next": [
         "SEP-04"
       ],
+      "execution_boundary": "Queue runner is caller-supplied; live RR and D/F tower-internal specs require separate version-qualified implementation and readback",
       "implementation_status": "template_or_pattern_not_run_evidence"
     },
     {
       "id": "SEP-03",
       "cluster": "separation",
-      "name": "DSTWU to RadFrac sidecar",
+      "name": "copied-feed DSTWU child to final RadFrac handoff sidecar",
       "base": "aspen_candidate_matrix_template.py",
       "next": [
         "SEP-04"
       ],
+      "execution_boundary": "Method route only; template does not create child model or tower-internal specs",
       "implementation_status": "template_or_pattern_not_run_evidence"
     },
     {
@@ -371,6 +376,16 @@
       "next": [
         "RUN-09"
       ],
+      "implementation_status": "template_or_pattern_not_run_evidence"
+    },
+    {
+      "id": "SEP-08",
+      "cluster": "separation",
+      "name": "same-product native tower optimization; adapter required",
+      "base": "aspen_operation_template.py",
+      "next": ["SEP-05"],
+      "method_reference": "../../aspen-tower-optimization-workflow/references/tower_optimization_workflow.md",
+      "execution_boundary": "Keep live SPEC/VARY; version-qualified native analysis, not external point-by-point replacement",
       "implementation_status": "template_or_pattern_not_run_evidence"
     },
     {
@@ -641,9 +656,14 @@
       "DELIV-02"
     ],
     "tower_island": [
+      "AUTH-07",
+      "BUILD-03",
+      "SEP-03",
+      "SEP-04",
+      "RUN-06",
+      "BUILD-07",
       "SEP-01",
       "SEP-02",
-      "SEP-04",
       "SEP-05",
       "RUN-07",
       "DELIV-03"
@@ -668,4 +688,3 @@
   "distribution_scope": "original_template_index_no_case_evidence",
   "candidate_write_boundary": "Only after explicit current user task closure and qualified lineage; no automatic canonical write."
 }
-
