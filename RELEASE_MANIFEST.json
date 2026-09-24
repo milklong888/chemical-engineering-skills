@@ -105,8 +105,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "3deecec505490c367f83a7be03344741aaccc24088a7456e5a26a64a7d7e1cf4",
-      "bytes": 13657
+      "sha256": "50f6ff4652d3e620434a18278002a6b824a8cb76a06610329302b67374806d38",
+      "bytes": 13600
     },
     {
       "path": "backends/equipment/README.md",
@@ -1055,8 +1055,8 @@
     },
     {
       "path": "docs/工作流与功能说明_0.4.10.md",
-      "sha256": "82562445e445ac228f614a49e7c667785ef523cffc88702000a759391b2dc7bc",
-      "bytes": 8281
+      "sha256": "07cfb38e63829f53854252e72d6b2eb887e30976b8a49cf8624b4f5f39b3aa06",
+      "bytes": 15833
     },
     {
       "path": "docs/文件索引.md",
@@ -1075,8 +1075,8 @@
     },
     {
       "path": "docs/模块说明.md",
-      "sha256": "ab9627b385718842b19512818518320412a4ffaae813fc37f8b26743440788ed",
-      "bytes": 45023
+      "sha256": "dbcd58b68b8088590d008e8ad2da5f8e6eda663baf2ab05eb8647daddbbd2187",
+      "bytes": 46431
     },
     {
       "path": "docs/源码与数据边界.md",
