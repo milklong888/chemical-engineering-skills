@@ -132,11 +132,18 @@ async def main():
         async with stdio_client(params,errlog=errors) as (reader,writer):
             async with ClientSession(reader,writer,read_timeout_seconds=timedelta(seconds=75)) as session:
                 await session.initialize();listed=await session.list_tools()
-                expected={'knowledge_search','equipment_calculate','equipment_batch','product_describe','pressure_calculate','process_feedback','process_replay_audit','design_stage_check','aspen_solve_route'}
+                expected={'knowledge_search','equipment_calculate','equipment_batch','product_describe','pressure_calculate','process_feedback','process_replay_audit','design_stage_check','aspen_solve_route','workflow_lookup'}
                 assert {tool.name for tool in listed.tools}==expected
                 async def call(name,arguments):
                     raw=await session.call_tool(name,arguments);result=unpack(raw)
                     calls.append({'tool':name,'result':result});return result
+                workflow=await call('workflow_lookup',{'payload':{'action':'list'}})
+                assert workflow['schema']=='chemical-engineering-workflow-catalog-v1'
+                assert workflow['action']=='list' and len(workflow['skill_ids'])==19
+                assert 'chemical-engineering-expert' in workflow['skill_ids']
+                assert 'script-catalog' in workflow['resources']
+                assert workflow['read_only'] is True and workflow['engineering_accepted'] is False
+                assert 'no skill or script execution' in workflow['boundary']
                 description=await call('product_describe',{})
                 assert description['standalone_product'] and description['skill']['available']
                 solve=await call('aspen_solve_route',{'payload':{'question':'读取当前物流的焓','intents':['read_value']},'evidence_root':str(output)})
@@ -179,7 +186,7 @@ async def main():
                 replay=await call('process_replay_audit',{'payload':{'plan':plan,'replay':{'case_id':'SYN-ENTRY','run_id':'SYN-RUN','plan_sha256':plan['plan_sha256'],'candidate':candidate,'source_export':export,'gates':{}}},'evidence_root':str(output)})
                 assert replay['engineering_accepted'] is False and replay['evidence_chain_complete'] is False
                 assert {row['gate'] for row in replay['failed_gates']}==set(plan['required_replay_gates'])
-                report={'schema':'standalone-nine-tool-test-v1','tool_names':sorted(expected),'calls':calls,'worker_pid':worker,'engineering_accepted':False}
+                report={'schema':'standalone-ten-tool-test-v1','tool_names':sorted(expected),'calls':calls,'worker_pid':worker,'engineering_accepted':False}
                 (output/'mcp_result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
 asyncio.run(asyncio.wait_for(main(),timeout=150))
 '''
@@ -203,7 +210,18 @@ class StandaloneEntrypoints(unittest.TestCase):
         else:
             for parent in SOURCE_ROOT.parents:
                 if (parent/'设备设计选型工作包').is_dir():
-                    forbidden=[str(parent/name) for name in ('设备设计选型工作包','external_sources','aspen_sun_lanyi_knowledge','skill_packages')];break
+                    forbidden=[str(parent/name) for name in ('设备设计选型工作包','external_sources','aspen_sun_lanyi_knowledge')]
+                    packages=(parent/'skill_packages').resolve()
+                    runtime=Path(sys.executable).resolve()
+                    if runtime.is_relative_to(packages):
+                        # The offline interpreter lives here; exclude only its runtime subtree.
+                        for child in packages.iterdir():
+                            if runtime.is_relative_to(child.resolve()):
+                                forbidden.extend(str(sibling) for sibling in child.iterdir()
+                                                 if not runtime.is_relative_to(sibling.resolve()))
+                            else:forbidden.append(str(child))
+                    else:forbidden.append(str(packages))
+                    break
         cls.env={**os.environ,'ENTRYPOINT_GUARD_DIR':str(cls.work),'ENTRYPOINT_FORBIDDEN_ROOTS':json.dumps(forbidden),
                  'PYTHONUTF8':'1','PYTHONDONTWRITEBYTECODE':'1','FASTMCP_CHECK_FOR_UPDATES':'off'}
         cls.sequence=0
@@ -272,15 +290,15 @@ class StandaloneEntrypoints(unittest.TestCase):
         self.assertTrue(any(row['kind']=='gateway_closed' and row['detail']=={'worker_pid':pid,'returncode':0} for row in guards))
         self.assertTrue(any(row['pid']==pid and row['kind']=='guard_ready' for row in guards))
 
-    @unittest.skipUnless(importlib.util.find_spec('mcp') and importlib.util.find_spec('fastmcp'),'Use the installed offline MCP runtime for nine-tool integration')
-    def test_05_real_stdio_mcp_all_nine_tools(self):
+    @unittest.skipUnless(importlib.util.find_spec('mcp') and importlib.util.find_spec('fastmcp'),'Use the installed offline MCP runtime for ten-tool integration')
+    def test_05_real_stdio_mcp_all_ten_tools(self):
         output=self.work/'mcp';output.mkdir()
         result=subprocess.run([sys.executable,'-B','-X','utf8',str(self.client),str(output),str(ROOT),str(self.bootstrap),str(self.guard)],
             stdin=subprocess.DEVNULL,capture_output=True,text=True,encoding='utf-8',cwd=self.work,env=self.env,timeout=180)
         (output/'client.stdout.txt').write_text(result.stdout,encoding='utf-8');(output/'client.stderr.txt').write_text(result.stderr,encoding='utf-8')
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         report=json.loads((output/'mcp_result.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(report['tool_names']),9)
+        self.assertEqual(len(report['tool_names']),10)
         self.assertEqual(set(report['tool_names']),{row['tool'] for row in report['calls']})
         pid=report['worker_pid'];guards=self.guard_records()
         self.assertTrue(any(row['pid']==pid and row['kind']=='guard_ready' for row in guards))

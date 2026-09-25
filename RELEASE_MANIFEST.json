@@ -1,7 +1,7 @@
 {
   "schema": "chemical-public-release-v2",
   "release_name": "chemical-engineering-skills",
-  "release_version": "0.4.10",
+  "release_version": "0.4.11",
   "scope": "reviewed_headless_offline_tools_and_knowledge",
   "skill_names": [
     "aspen-adaptive-generalization-loop",
@@ -104,9 +104,19 @@
       "bytes": 36067
     },
     {
+      "path": "LICENSE",
+      "sha256": "8f4bef63a4b64c590f3c18a1bab8088f6329bc22601d0df3e1ca076379e7e9d6",
+      "bytes": 1068
+    },
+    {
       "path": "README.md",
-      "sha256": "50f6ff4652d3e620434a18278002a6b824a8cb76a06610329302b67374806d38",
-      "bytes": 13600
+      "sha256": "1a15ad59458bace079d9964904e79c0299e8ee41485e1030838df5100c5b71d0",
+      "bytes": 14405
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "723dbd01ae13ab6738bfb402462b81007e8364a0dc1c8087c48ef5f3aba96f12",
+      "bytes": 2465
     },
     {
       "path": "backends/equipment/README.md",
@@ -1010,13 +1020,88 @@
     },
     {
       "path": "docs/Agent任务执行与经验整理修复_0.4.7.md",
+      "sha256": "2bca205cd05a19c796c739847c19bfe243df85b745e66c6d0cc390a1421383ba",
+      "bytes": 350
+    },
+    {
+      "path": "docs/Agent工作流更新_2026-09-12.md",
+      "sha256": "f37ec6224dad9ab3691ee80cf7ca2941ba65089c4a42ed51b765d7004909c04e",
+      "bytes": 265
+    },
+    {
+      "path": "docs/archive/README.md",
+      "sha256": "b29d419cf10ae00a019211ae149e53b8e8169c7fb39b6a1fd65819c41ea2052a",
+      "bytes": 2502
+    },
+    {
+      "path": "docs/archive/archive_manifest.json",
+      "sha256": "dc00765e5e4d575cadd1d5ad001eb7904f183b7023e8fca136e5ddb17bcf991d",
+      "bytes": 3508
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/Agent任务执行与经验整理修复_0.4.7.md",
       "sha256": "5f443fb3ec2f013c960a167768d81f34f790c38300fa2c8f119ad88911e7f4d9",
       "bytes": 11231
     },
     {
-      "path": "docs/Agent工作流更新_2026-09-12.md",
+      "path": "docs/archive/pre-0.4.11/Agent工作流更新_2026-09-12.md",
       "sha256": "8e405eb2a598a124bce121cdc8c48135246233e20c7bf88c27e4e14c073a5156",
       "bytes": 8788
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/全流程工作原理.md",
+      "sha256": "8fc10f9ea18055c85fa1e18fc6aa17693cb7b820155d3587332b7acd036cbfe5",
+      "bytes": 8855
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/知识库更新_0.4.8.md",
+      "sha256": "8e1472f5b48f2e300611c87022f4d9b4865cdc439b1d6da5a9b72941841f819e",
+      "bytes": 3984
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/知识查询修复_0.4.9.md",
+      "sha256": "5e4bcdbd8a264b4c5d379edee9e844aacc276cb67523073eac2f7c94b187be6f",
+      "bytes": 2011
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.2.0.json",
+      "sha256": "177e041ce6728c70d68beee546d7a2869fdf71c2b0ec04383015a01482a196c4",
+      "bytes": 8441
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.3.0.json",
+      "sha256": "170cb3f3708d223c2957b440689dbf701c578b42438c925a1c801fac39c973ff",
+      "bytes": 11577
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.4.0.json",
+      "sha256": "f10e53a065b62a14340847552079378d4ab65570e380eccc718b182933d4bfe0",
+      "bytes": 9127
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.4.1.json",
+      "sha256": "fd6d5ae8a7559ffc150cea04a2c1c9f8d3cd9460ab7b64d7f26a157d4ddac1d0",
+      "bytes": 8386
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.4.2.json",
+      "sha256": "78c856529b543bb4590d656a57e1b68fbc490708ec9de8286aa5d1ba00ea16c7",
+      "bytes": 8329
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.4.3.json",
+      "sha256": "6717c79b5e12ff04622e3199d7d6b0ea499f692e2d191f681cd8f5bc2b25f234",
+      "bytes": 3437
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证记录_0.4.4.json",
+      "sha256": "847e27f9388cdbfda8f47280f55ee31e9590707d00393320f98f7dadaa0ebf96",
+      "bytes": 3359
+    },
+    {
+      "path": "docs/archive/pre-0.4.11/验证说明.md",
+      "sha256": "a36eaaa1fcd5ae48ac32f899b5070df7edb3238e40534646f8c2185c5b2b1d8c",
+      "bytes": 18371
     },
     {
       "path": "docs/modeling_start_here.md",
@@ -1035,18 +1120,18 @@
     },
     {
       "path": "docs/使用手册.md",
-      "sha256": "d869ee351956425f8d164e92a503e0394de854de6c89d9d864163f2f99e97668",
-      "bytes": 28023
+      "sha256": "3dff93173f34380486b31afee64d2b480049b457f42ba6283d177effa7148ff6",
+      "bytes": 28704
     },
     {
       "path": "docs/全流程工作原理.md",
-      "sha256": "8fc10f9ea18055c85fa1e18fc6aa17693cb7b820155d3587332b7acd036cbfe5",
-      "bytes": 8855
+      "sha256": "4fb0f2d7df14562c123a2f82312009d4385c07d2211eeed8c24a453fe30180a6",
+      "bytes": 11080
     },
     {
       "path": "docs/后台运行与计算说明.md",
-      "sha256": "4d6eeef1715da1e7929b56f09f929e48df06b0c81153b696cdc4f4cbc3edfc6c",
-      "bytes": 13778
+      "sha256": "c496b538113f71a9e5f490731ade3ffb2436549f92c0fe9a873bba97a4077ff4",
+      "bytes": 14869
     },
     {
       "path": "docs/外部依赖.md",
@@ -1055,23 +1140,23 @@
     },
     {
       "path": "docs/工作流与功能说明_0.4.10.md",
-      "sha256": "07cfb38e63829f53854252e72d6b2eb887e30976b8a49cf8624b4f5f39b3aa06",
-      "bytes": 15833
+      "sha256": "3f63dc6f4b18068a46059b5a98b0b35f451ff95385c491b22ea00656ba1ca405",
+      "bytes": 16326
     },
     {
       "path": "docs/文件索引.md",
-      "sha256": "79ffb38aa9e6c850ac1157cdc7cb9fe4c2f3381bcd36b3923532f500d9be051c",
-      "bytes": 100061
+      "sha256": "f82f3fca0a829ce90c3e677192d916735db49b722ad4d9df4377c3f06d891b48",
+      "bytes": 100193
     },
     {
       "path": "docs/新增后台文件索引.md",
-      "sha256": "1a514ffdb65aebbfc0ea2b6aecd06f2a619256811033ec524afdf35199b244a5",
-      "bytes": 197303
+      "sha256": "5a5971706eb2bf7ff106a1fc51b3349149beea919e0cbda2496afe406c4276ce",
+      "bytes": 198531
     },
     {
       "path": "docs/来源与许可.md",
-      "sha256": "98db35c0aadc8ae4532baf5c47ddf0288b8b05421366e7cffb2aa088e5962c81",
-      "bytes": 2291
+      "sha256": "d551aaeb5899c8913afe9281c14c69a6d21515dc6570e399a06156d11ee04681",
+      "bytes": 2930
     },
     {
       "path": "docs/模块说明.md",
@@ -1080,38 +1165,28 @@
     },
     {
       "path": "docs/源码与数据边界.md",
-      "sha256": "971ada813ccbd3d70c72668364c08e1374e4b85b58645e2a86e17d4eb4b9630a",
-      "bytes": 4537
+      "sha256": "4114bf059ff5a9d0c4aac5fe67f0ef473791b62919aab2597a82dd826fcc8a6b",
+      "bytes": 4794
     },
     {
       "path": "docs/知识库更新_0.4.8.md",
-      "sha256": "8e1472f5b48f2e300611c87022f4d9b4865cdc439b1d6da5a9b72941841f819e",
-      "bytes": 3984
+      "sha256": "c4bc654e31421751bc0d9b2866ac8e3500a10a04b68cd8d6cb9608b2fc90c0b3",
+      "bytes": 234
     },
     {
       "path": "docs/知识查询修复_0.4.9.md",
-      "sha256": "5e4bcdbd8a264b4c5d379edee9e844aacc276cb67523073eac2f7c94b187be6f",
-      "bytes": 2011
+      "sha256": "830cf8c8abc2b1363c88f7bc01e2df43c029a335ee838aba9d9b9f68b495b992",
+      "bytes": 258
     },
     {
-      "path": "docs/验证记录_0.2.0.json",
-      "sha256": "177e041ce6728c70d68beee546d7a2869fdf71c2b0ec04383015a01482a196c4",
-      "bytes": 8441
+      "path": "docs/第三方依赖许可清单.md",
+      "sha256": "cd45efbc0d358dd6e2a5112968ab97dbb616b226f8b9f55e466dacbd462b0ec2",
+      "bytes": 79570
     },
     {
-      "path": "docs/验证记录_0.3.0.json",
-      "sha256": "170cb3f3708d223c2957b440689dbf701c578b42438c925a1c801fac39c973ff",
-      "bytes": 11577
-    },
-    {
-      "path": "docs/验证记录_0.4.0.json",
-      "sha256": "f10e53a065b62a14340847552079378d4ab65570e380eccc718b182933d4bfe0",
-      "bytes": 9127
-    },
-    {
-      "path": "docs/验证记录_0.4.1.json",
-      "sha256": "fd6d5ae8a7559ffc150cea04a2c1c9f8d3cd9460ab7b64d7f26a157d4ddac1d0",
-      "bytes": 8386
+      "path": "docs/维护记录_0.4.11.md",
+      "sha256": "04a549466aadb7c12140fc0033c406d989b479276b040689beecd6e070626033",
+      "bytes": 3805
     },
     {
       "path": "docs/验证记录_0.4.10.md",
@@ -1119,24 +1194,9 @@
       "bytes": 2034
     },
     {
-      "path": "docs/验证记录_0.4.2.json",
-      "sha256": "78c856529b543bb4590d656a57e1b68fbc490708ec9de8286aa5d1ba00ea16c7",
-      "bytes": 8329
-    },
-    {
-      "path": "docs/验证记录_0.4.3.json",
-      "sha256": "6717c79b5e12ff04622e3199d7d6b0ea499f692e2d191f681cd8f5bc2b25f234",
-      "bytes": 3437
-    },
-    {
-      "path": "docs/验证记录_0.4.4.json",
-      "sha256": "847e27f9388cdbfda8f47280f55ee31e9590707d00393320f98f7dadaa0ebf96",
-      "bytes": 3359
-    },
-    {
       "path": "docs/验证说明.md",
-      "sha256": "a36eaaa1fcd5ae48ac32f899b5070df7edb3238e40534646f8c2185c5b2b1d8c",
-      "bytes": 18371
+      "sha256": "d7be2a7bbcf01ab574c919ca4fc63a022deaf75a233829ba781d855d30e1a145",
+      "bytes": 2783
     },
     {
       "path": "examples/heat_exchanger_request.json",
@@ -2810,7 +2870,7 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/.codex-plugin/plugin.json",
-      "sha256": "20ec4d15fb60ee34140a5d2013764421316d02ebb796303711d5e1bb95e6cfdc",
+      "sha256": "c991c3176a3570a935ad28a6ef74e7b9e96be323091a2cd532b89599692bdd96",
       "bytes": 1000
     },
     {
@@ -4549,6 +4609,11 @@
       "bytes": 6161
     },
     {
+      "path": "tests/test_publication_contract.py",
+      "sha256": "cba776cfaadb4fcacc6af75e08c30c50fa93864a70938e14b405391a763cc95f",
+      "bytes": 10679
+    },
+    {
       "path": "tests/test_query_quality.py",
       "sha256": "e869f03cca7d9bd971333ce1772566f060277bbf424cec7ce9ee09d6e416360b",
       "bytes": 8019
@@ -4585,8 +4650,8 @@
     },
     {
       "path": "tests/test_standalone_entrypoints.py",
-      "sha256": "a4442dadc08d86e1a037668ef81d7094c350ad280551aed8f55b13604a0dfdfd",
-      "bytes": 23114
+      "sha256": "a38fc7fbd20f0f7d98e22c7091ab65093fabd865a8965a17aa277cb83c0e63c3",
+      "bytes": 24426
     },
     {
       "path": "tests/test_standalone_equipment.py",

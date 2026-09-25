@@ -1,0 +1,84 @@
+{
+  "schema": "documentation-archive-v1",
+  "baseline_commit": "06306b58f99faf93752b1d6cbe2c2a3688db0022",
+  "entries": [
+    {
+      "original_path": "docs/验证记录_0.2.0.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.2.0.json",
+      "sha256": "177e041ce6728c70d68beee546d7a2869fdf71c2b0ec04383015a01482a196c4",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.3.0.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.3.0.json",
+      "sha256": "170cb3f3708d223c2957b440689dbf701c578b42438c925a1c801fac39c973ff",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.4.0.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.4.0.json",
+      "sha256": "f10e53a065b62a14340847552079378d4ab65570e380eccc718b182933d4bfe0",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.4.1.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.4.1.json",
+      "sha256": "fd6d5ae8a7559ffc150cea04a2c1c9f8d3cd9460ab7b64d7f26a157d4ddac1d0",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.4.2.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.4.2.json",
+      "sha256": "78c856529b543bb4590d656a57e1b68fbc490708ec9de8286aa5d1ba00ea16c7",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.4.3.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.4.3.json",
+      "sha256": "6717c79b5e12ff04622e3199d7d6b0ea499f692e2d191f681cd8f5bc2b25f234",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证记录_0.4.4.json",
+      "archived_path": "docs/archive/pre-0.4.11/验证记录_0.4.4.json",
+      "sha256": "847e27f9388cdbfda8f47280f55ee31e9590707d00393320f98f7dadaa0ebf96",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/知识查询修复_0.4.9.md",
+      "archived_path": "docs/archive/pre-0.4.11/知识查询修复_0.4.9.md",
+      "sha256": "5e4bcdbd8a264b4c5d379edee9e844aacc276cb67523073eac2f7c94b187be6f",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/知识库更新_0.4.8.md",
+      "archived_path": "docs/archive/pre-0.4.11/知识库更新_0.4.8.md",
+      "sha256": "8e1472f5b48f2e300611c87022f4d9b4865cdc439b1d6da5a9b72941841f819e",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/Agent工作流更新_2026-09-12.md",
+      "archived_path": "docs/archive/pre-0.4.11/Agent工作流更新_2026-09-12.md",
+      "sha256": "8e405eb2a598a124bce121cdc8c48135246233e20c7bf88c27e4e14c073a5156",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/Agent任务执行与经验整理修复_0.4.7.md",
+      "archived_path": "docs/archive/pre-0.4.11/Agent任务执行与经验整理修复_0.4.7.md",
+      "sha256": "5f443fb3ec2f013c960a167768d81f34f790c38300fa2c8f119ad88911e7f4d9",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/验证说明.md",
+      "archived_path": "docs/archive/pre-0.4.11/验证说明.md",
+      "sha256": "a36eaaa1fcd5ae48ac32f899b5070df7edb3238e40534646f8c2185c5b2b1d8c",
+      "status": "historical"
+    },
+    {
+      "original_path": "docs/全流程工作原理.md",
+      "archived_path": "docs/archive/pre-0.4.11/全流程工作原理.md",
+      "sha256": "8fc10f9ea18055c85fa1e18fc6aa17693cb7b820155d3587332b7acd036cbfe5",
+      "status": "historical"
+    }
+  ]
+}

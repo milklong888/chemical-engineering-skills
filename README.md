@@ -4,6 +4,8 @@
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
+当前维护版为 **0.4.11**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+
 [下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [19 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
 
 [![从设计资料到可核验的 Aspen 全流程](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)
@@ -38,7 +40,7 @@
 
 ### 4. 软件执行与交付：核对最后交付的那份文件
 
-现有脚本、COM 和可选 MCP 负责建卡、运行、保存及导出，Aspen 原生模块和求解器负责模拟。正式交付时，精确交付路径的文件需在没有模型编辑的情况下复开运行：经核实的 Summary 全部实际列、同次 Control Panel 消息和原始 `.his` 都满足零错误、零警告要求。默认及已有求解容差保持不变，产品、衡算、设备与目标版本兼容性另行核验。
+现有脚本和 COM 负责建卡、运行、保存及导出，可选 MCP 只执行当前提供方已发现并核实的机械操作，Aspen 原生模块和求解器负责模拟。随包 MCP 并不等于已具备所有原生 Calculator、Design Spec 或 Optimization 的自动建卡接口；这些对象仍须按目标版本的方法建立、导出并核验。正式交付时，精确交付路径的文件需在没有模型编辑的情况下复开运行：经核实的 Summary 全部实际列、同次 Control Panel 消息和原始 `.his` 都满足零错误、零警告要求。默认及已有求解容差保持不变，产品、衡算、设备与目标版本兼容性另行核验。
 
 ### 5. 任务结束后的自进化：把有效经验放回合适的位置
 
@@ -84,7 +86,7 @@
 
 完整离线发行包提供知识正文与索引、设备后台、脚本和固定依赖，运行不依赖另外两个来源仓库。完整依赖包面向 Windows AMD64、CPython 3.14；解释器、合法 Aspen／EDR／SW6 安装、项目资料和必要的厂家或费用数据由使用环境提供。知识查询与常规设备计算可用本地命令行执行，MCP 为可选调用方式；模型对话是否需要联网取决于所用服务。
 
-具体模块的可执行部分、接入模板和外部依赖分别说明。SW6 模块提供映射与读回的工作方法，费用模块需要实际经济包或经审核的价格来源。程序回归、文件完整性与工程模型验收各有对应记录，见[验证说明](docs/验证说明.md)和[0.4.10 验证记录](docs/验证记录_0.4.10.md)。
+具体模块的可执行部分、接入模板和外部依赖分别说明。SW6 模块提供映射与读回的工作方法，费用模块需要实际经济包或经审核的价格来源。程序回归、文件完整性与工程模型验收各有对应记录，见[验证说明](docs/验证说明.md)和[0.4.11 维护记录](docs/维护记录_0.4.11.md)。0.4.11 整理许可、说明与历史入口，不宣称新增工程仿真能力。
 
 | 想继续了解 | 入口 |
 | --- | --- |
@@ -93,4 +95,5 @@
 | 找某个模块的方法和脚本 | [模块说明](docs/模块说明.md) · [文件索引](docs/文件索引.md) · [原脚本目录](plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/script_template_catalog.md) |
 | 构造设备、压力、知识查询请求 | [后台运行与计算说明](docs/后台运行与计算说明.md) · [外部依赖](docs/外部依赖.md) |
 | 知识来源、维护与经验整理 | [知识库](knowledge/README.md) · [知识维护](knowledge/MAINTENANCE.md) · [经验更新流程](plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/EVOLUTION_LOOP.md) |
-| 版本变化与发行文件 | [发行记录](https://github.com/milklong888/chemical-engineering-skills/releases) · [0.4.9 查询修复](docs/知识查询修复_0.4.9.md) · [0.4.8 知识更新](docs/知识库更新_0.4.8.md) |
+| 版本变化与发行文件 | [发行记录](https://github.com/milklong888/chemical-engineering-skills/releases) · [当前维护记录](docs/维护记录_0.4.11.md) · [历史文档归档](docs/archive/README.md) |
+| 开源与资料边界 | [MIT](LICENSE) · [第三方与数据范围](THIRD_PARTY_NOTICES.md) · [依赖许可清单](docs/第三方依赖许可清单.md) |
