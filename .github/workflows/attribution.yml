@@ -1,0 +1,17 @@
+# 作者：milklong
+# SPDX-License-Identifier: MIT
+name: Verify attribution
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/check_attribution.py --root .
+      - run: python -m unittest discover -s tools -p test_attribution.py -v
+      - run: python tools/verify_release.py --repository .

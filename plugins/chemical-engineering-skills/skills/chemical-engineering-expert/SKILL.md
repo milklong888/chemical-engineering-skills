@@ -207,3 +207,7 @@ auditable answer is enough.
 [研究落地记录](references/SKILL_RESEARCH_APPLICATION.md)。
 包结构、构建及锁定流程见[发行迁移](references/OFFICIAL_PLUGIN_MIGRATION.md)。
 这些是按需来源索引，不是每次工程任务的前置阅读。
+
+<!-- milklong-attribution:start -->
+作者：milklong（GitHub：milklong888）。[版权与AI辅助编辑署名规则](ATTRIBUTION.md)。
+<!-- milklong-attribution:end -->
