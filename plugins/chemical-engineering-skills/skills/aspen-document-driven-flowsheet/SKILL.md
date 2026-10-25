@@ -5,6 +5,8 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 
 # Aspen Document Driven Flowsheet
 
+参数/卡片依据不明或warning无法解释时，先按[来源升级与留账](../chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md)查询原生图谱、官方知识库及必要的网络来源，再提出有依据的修改。
+
 ## 工作过程
 
 完整流程或节点—物流的来源/骨架安排，先冻结**模块排布**，再进入单元卡片：
@@ -118,6 +120,8 @@ closure only when needed for user-requested formal promotion and not already con
 or awaiting an answer. After explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
 principles and test data-pattern hypotheses separately; keep specific values
 and operations below the prompt layer. No reusable increment means no change.
+
+ACM自定义气体膜、材料参数与流程条件混用或原生灵敏度交接时，读取[膜分离案例](references/cases/acm_membrane_modeling.md)。图形摘要、PFD布局或交付包更新按专家层[图文与文件交付](../chemical-engineering-expert/references/ENGINEERING_PRESENTATION.md)路由；只核当前任务范围，不自动启动模型或图纸生成。
 
 ## Output Standard
 

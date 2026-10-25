@@ -91,6 +91,10 @@ When convergence is difficult, adjust in this order:
 
 ## Branch Control
 
+试算前落实用户明确指定的迭代/运行预算：记录适用对象、单位、上限与停止条件，核对当前版本实际字段后设置并回读。尚未设置、待更新或不能落实的项目放在当前状态表显眼处，逐项说明缺口；只获准规划时保留为待实施。迭代次数、运行次数与时间预算分开记录，不互相代替；没有用户指定值时按当前试验合同约束，不提供通用固定次数。预算调整不授权改变冻结容差、产品目标或物理条件。来源：经验库 EXP-20261012-user-required-guards / P0-015，由本节统一维护。
+
+多设置耦合、精度平台和启动身份的诊断细节只维护在[收敛案例](../../aspen-flowsheet-error-repair/references/cases/convergence_diagnostics.md)。本节保留试验组织职责；案例不授权改既有容差，不保证加速或泛化。
+
 - Keep a runnable baseline untouched. New trials write to
   `vNN_<purpose>_<key-settings>` directories or equivalent names.
 - Keep one authority file that says `accepted`, `candidate`, `diagnostic`, or

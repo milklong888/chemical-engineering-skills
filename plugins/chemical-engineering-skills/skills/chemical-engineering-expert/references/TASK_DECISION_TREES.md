@@ -109,3 +109,17 @@ flowchart TD
 以及[SkillOpt比较循环](https://github.com/microsoft/SkillOpt/blob/79124b37e9a6371e13b753f8bcd7adb1e493ade1/docs/guide/training-loop.md)
 的有界候选和失败记录。保持本库已有工程硬门，不移植文字评分或异常默认放行。
 这是直接来源维护的组织方法，不提供新的化工参数或本机提升成绩。
+
+## 经验与案例的按需路由
+
+日常任务按具体症状进入已有专业owner，不先加载整个经验收件箱。用户明确让查经验库时再读收件导航；候选/案例和正式规则分别处理。
+
+| 当前症状/任务 | 唯一维护位置 |
+| --- | --- |
+| 参数/卡片依据不明，或warning不能解释 | [来源升级与未知warning](KNOWLEDGE_LOOKUP_ESCALATION.md) |
+| Summary不完整、局部界面不可用，需确认已知事项 | [可验证范围与局部缺口](STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口) |
+| 成组设置才失败、外层残差平台、启动依赖 | 修复Skill的[收敛诊断案例](../../aspen-flowsheet-error-repair/references/cases/convergence_diagnostics.md)；不从案例改既有容差 |
+| ACM膜模型的材料、量定义、流动组织与部署 | docflow的[膜分离案例交接](../../aspen-document-driven-flowsheet/references/cases/acm_membrane_modeling.md) |
+| 图形摘要、Aspen PFD布局、说明与ZIP同步 | [图文及文件交付](ENGINEERING_PRESENTATION.md) |
+
+错误解析器仍是操作Skill的`aspen_evidence.py`，不使用经验池的历史副本建立第二个owner。审计归档中的未核修复轨迹只用于相应项目追溯，不接入以上默认路由。

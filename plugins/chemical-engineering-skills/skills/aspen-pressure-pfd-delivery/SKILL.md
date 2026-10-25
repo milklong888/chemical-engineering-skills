@@ -142,6 +142,8 @@ Select-String -LiteralPath '.\*_after_run.inp' `
   -Pattern 'BLOCK E\d+ HEATER|PARAM .*PRES=0|BLOCK K\d+ COMPR|BLOCK P\d+ PUMP|BLOCK V\d+ VALVE'
 ```
 
+模型图文说明、图形摘要、Aspen排布或交付包更新，按[图文及文件交付](../chemical-engineering-expert/references/ENGINEERING_PRESENTATION.md)组织；Aspen PFD布局调用绘图Skill的`image_layout_only`，前段看图通过后返回，不扩展为DWG交付。
+
 ## PFD And Documentation Rules
 
 - PFD pages must reflect the current Aspen topology. Trace each fresh feed, conditioning unit, pressure device, mixer and recycle in actual order; do not reproduce a private-case block sequence.

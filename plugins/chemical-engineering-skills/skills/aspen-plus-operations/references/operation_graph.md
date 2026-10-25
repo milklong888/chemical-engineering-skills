@@ -195,10 +195,12 @@ hydraulic gates still pass.
 2. Use the canonical evidence checker and the chemical expert's
    `STRICT_ACCEPTANCE_AND_LEARNING.md`: every named row and column of the
    source-verified version/format schema must be present and all-zero.
-   Unknown/incomplete schema, any nonzero count, or any actual problem line in
-   the current raw `.his` quarantines the candidate. Product flow, purity,
-   `BLKSTAT=0`, and Required Input completeness cannot override this criterion.
-3. After the Run Status first criterion is all-zero, verify product, impurity,
+   Unknown/incomplete schema leaves count and strict-pass claims unverified;
+   observed nonzero counts or actual problem lines remain failures. Keep affected
+   results quarantined while continuing independent checks under the expert
+   [evidence-scope rule](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口).
+   Product flow, purity or `BLKSTAT=0` cannot invent missing counts or cancel errors.
+3. With valid current-run evidence, independently verify product, impurity,
    recycle, stream, and block gates on the same accepted candidate.
 4. Copy the accepted Aspen file to the user-facing delivery path, hash it,
    reopen that copied file with no edits, rerun the Run Status first criterion,

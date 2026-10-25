@@ -1,5 +1,7 @@
 # Flowsheet repair — on-demand diagnosis patterns
 
+收敛方法按[案例入口](cases/convergence_diagnostics.md)选择；先读症状、当前合同及反例，不因案例可用就自动改求解设置。局部证据缺口的处理归[可验证范围](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)，原解析器与严格通过判据保持。
+
 Current authority: chemical expert STRICT_ACCEPTANCE_AND_LEARNING.md and
 operations/aspen_evidence.py. Local removal of one blocker is not whole-flow
 acceptance. Every relaxed-origin record is excluded from learning.

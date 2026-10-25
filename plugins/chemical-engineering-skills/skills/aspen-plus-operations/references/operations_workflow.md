@@ -35,7 +35,7 @@ task before editing Aspen files.
 
 ## Operation Graph
 
-Load [references/operation_graph.md](references/operation_graph.md) for the
+Load [references/operation_graph.md](operation_graph.md) for the
 specific node:
 
 - `case-io`: create/open/import/export `.inp`, `.bkp`, `.apwz`.
@@ -54,7 +54,7 @@ specific node:
 
 MCP is optional, not a hard requirement. When the `aspenplus` MCP server is
 visible in Codex, load
-[references/aspen_mcp_invocation.md](references/aspen_mcp_invocation.md) before
+[references/aspen_mcp_invocation.md](aspen_mcp_invocation.md) before
 choosing an automation route. Prefer MCP for bounded standard open/run/get/set
 and simple supported block/stream operations. If MCP is unavailable, continue
 with the existing COM/script route and ask whether the user wants MCP installed
@@ -84,6 +84,8 @@ Named IDs below are search hints when no user graph is available, not promises
 of included content. Missing local help cannot be filled from historical values.
 
 ## Hard Gates
+
+本节严格验收门不阻止独立核查。完整Summary缺失保持计数未知，按[可验证范围](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)继续可验证项；真实问题与读取缺口分别报告。
 
 - Aspen delivery first criterion: after reopening the exact delivery
   `.bkp/.apw/.apwz` candidate and running it without further edits, the Aspen
@@ -408,8 +410,9 @@ of included content. Missing local help cannot be filled from historical values.
 
 ## Delivery Workflow Order
 
-For any Aspen `.bkp`, `.apw`, or `.apwz` handoff, use this order. Do not report
-the case as "passed", "final", or "deliverable" before step 5 succeeds.
+For a strict Aspen `.bkp`, `.apw`, or `.apwz` acceptance claim, collect all gates below.
+Evidence collection may proceed independently where its inputs are valid; report scoped assets
+and unresolved gates without calling the whole case strict-passed.
 
 1. Freeze the source route, change-offset table, allowed edits, and product
    targets before mutating Aspen files.
@@ -422,8 +425,10 @@ the case as "passed", "final", or "deliverable" before step 5 succeeds.
    in any named column of the complete verified version/format schema,
    quarantine the candidate even if product flow, purity, `BLKSTAT=0`, and
    `NextIncomplete=('', 0)` pass. Repair the Run Status cause before continuing.
-5. Only after step 4 is all-zero, run the product/capacity/impurity/recycle
-   gates on the same accepted candidate and record stream/block evidence.
+5. Check product/capacity/impurity/recycle gates on the same candidate whenever
+   their current-run inputs and upstream states are valid. Missing Summary alone
+   does not stop these checks; unresolved errors affecting results do. Keep their
+   outcomes separate until all required gates support the overall acceptance claim.
 6. Copy the accepted file to the user-facing delivery path, hash it, reopen
    that exact copied delivery file without edits, rerun the clean-delivery audit,
    and rerun or attach the product evidence from the exact delivery file.

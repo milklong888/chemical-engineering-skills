@@ -5,6 +5,8 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 # Aspen Plus Operations
 
+参数/卡片依据不明或warning无法解释时，先按[来源升级与留账](../chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md)查询原生图谱、官方知识库及必要的网络来源，再提出有依据的修改。
+
 ## 工作过程
 
 单模块文字规划也要交接完整：必须实际读取
@@ -86,13 +88,15 @@ history, uncertain engine state or unsupported format is explicit—not zero.
 
 ## Strict handoff
 
+先按[可验证范围](../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)区分当前具体结论与整体严格通过。Summary缺失仅保留计数未知和相关未完成项；继续独立的输入、连接、产品或文件核查。下述完整证据约束严格通过，不把未知当实际软件错误，不豁免已见非零或报错。
+
 Verify the same candidate's complete source-verified version/format Summary
 (Terminal Errors, Severe Errors, Errors, Warnings: all named counts zero),
 current Control Panel actual-message scan, raw history, run identity, and no
 contradictions. Compare the final export's tolerance cards with the frozen
 pre-edit baseline; missing comparison remains an open gate. Physical Property is
 one wrapped column in the observed local format; never fabricate columns or
-missing zeros. Then check current project targets, balances and equipment.
+missing zeros. Check project targets, balances and equipment independently when their own current-run evidence is valid; only combine complete gates for strict acceptance.
 
 After copying to the user-facing path, reopen and run that exact file without
 model edits and bind its hashes/evidence. A staged-copy diagnostic cannot

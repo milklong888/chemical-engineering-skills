@@ -101,6 +101,10 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/aspen_zero_warning_repair.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/cases/acm_membrane_modeling.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/cases/acm_membrane_modeling.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/competition_modern_design_gates.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/competition_modern_design_gates.md.license"
     },
@@ -413,6 +417,10 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/references/NEW_KNOWLEDGE.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/references/cases/convergence_diagnostics.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/references/cases/convergence_diagnostics.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/references/recycle_scale_control_repair.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/references/recycle_scale_control_repair.md.license"
     },
@@ -661,6 +669,10 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ENGINEERING_PRESENTATION.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ENGINEERING_PRESENTATION.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ERROR_MEMORY.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ERROR_MEMORY.md.license"
     },
@@ -691,6 +703,10 @@
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_DISTILLATION_PIPELINE.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_DISTILLATION_PIPELINE.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md.license"
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/MACRO_DESIGN_QUALITY.md",

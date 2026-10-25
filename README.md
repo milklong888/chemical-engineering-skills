@@ -6,13 +6,15 @@
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
-当前维护版为 **0.4.12**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+当前维护版为 **0.4.13**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
 
 [下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [19 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
 
 [![从设计资料到可核验的 Aspen 全流程](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)
 
 *点击图片查看原尺寸。左侧按工作顺序展开，右侧分别说明外置专著和设备后台的调用；底部是任务结束后的经验更新。*
+
+本次[经验合并记录](docs/EXPERIENCE_INTEGRATION_0.4.13.md)列出已有规则的合并位置、按症状调用的收敛与膜建模案例，以及分项证据的验收边界。
 
 ## 能完成什么
 

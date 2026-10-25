@@ -5,6 +5,8 @@ description: Review chemical-engineering tasks from design basis and macro feasi
 
 # Chemical Engineering Expert
 
+参数/卡片依据不明或warning无法解释时，先按[来源升级与留账](references/KNOWLEDGE_LOOKUP_ESCALATION.md)查询原生图谱、官方知识库及必要的网络来源，再提出有依据的修改。
+
 ## 工作过程
 
 只做到文字规划，也须完成本阶段能判断的模块链、候选方法和热压配套，不能仅复述资料并把设计都推到以后。通用来源 `X` 可以支持有适用理由的 `J/provisional` 候选，未核参数仍记 `U`；这不把候选升为项目事实或软件验证。具体完成边界由下述 docflow 第1节负责。交付前执行其专家规划交接检查，再对照来源复核方法、关键计算和结论边界；普通检索收据不替代这一步。
@@ -49,6 +51,8 @@ skills or duplicate their card-level knowledge.
 | 验收、例外、纠正、学习或晋级 | [严格验收与学习](references/STRICT_ACCEPTANCE_AND_LEARNING.md)和下方 Corrections and learning |
 | 新近知识或原图谱确有缺口 | 相关模块的 NEW_KNOWLEDGE.md；本层入口为[新知识](references/NEW_KNOWLEDGE.md)，候选状态不自动成为事实 |
 | 授权的 Skill 更新、研究或执行记录比较 | [维护工具](references/MAINTENANCE_TOOLS.md)；不要求普通流程任务做全库盘点 |
+
+经验/案例按[任务触发路由](references/TASK_DECISION_TREES.md#经验与案例的按需路由)读取。Summary或界面证据不完整时，按[可验证范围](references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)先完成可独立确定的部分；不得用未知填零，也不让无关工作中停。
 
 ## Non-negotiable workflow
 

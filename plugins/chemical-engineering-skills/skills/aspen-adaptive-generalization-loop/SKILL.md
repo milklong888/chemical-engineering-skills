@@ -21,6 +21,8 @@ solution do not establish absence of initialization bias. Without matched
 cold/warm runs and output comparisons, that effect remains unknown. If the
 user asks for a summary only, state this limit without launching new runs.
 
+比较保存解、冷启动与初值扰动时，按需读修复Skill的[收敛诊断案例](../aspen-flowsheet-error-repair/references/cases/convergence_diagnostics.md)，先核真实初始化和覆盖。案例技巧不自动成为模板规律；参数、精度和运行是否允许仍取当前合同。
+
 ## Operating Contract
 
 - In-task tuning and data capture support the current engineering objective;

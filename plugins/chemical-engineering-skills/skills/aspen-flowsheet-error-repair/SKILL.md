@@ -5,6 +5,8 @@ description: Diagnose and repair Aspen flow failures using current authority, ph
 
 # Aspen Flowsheet Error Repair
 
+参数/卡片依据不明或warning无法解释时，先按[来源升级与留账](../chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md)查询原生图谱、官方知识库及必要的网络来源，再提出有依据的修改。
+
 ## 工作过程
 
 收到错误日志或不合理结果后，先保留可回退的候选文件，读取当前项目要求和同次运行的具体报错，再沿物流还原出错单元的真实用途。区分输入、物性、相态、循环与控制、产品目标、设备能力以及文件问题后，只针对有证据的原因作一组受控修改，交操作模块重跑，并观察原问题是否消失或暴露了下一问题。
@@ -26,6 +28,8 @@ status and freeze ledgers. The triad remains:
 
 The process layer owns allowed changes. This skill diagnoses; operations
 executes and supplies the single strict version-bound evidence gate.
+
+出现成组设置才失败、内外层残差平台、保存解/冷启动差异时，按需读[收敛诊断案例](references/cases/convergence_diagnostics.md)。先核适用性与允许改动；案例不提供默认容差或初值。证据不完整则按专家层[可验证范围](../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)处理，继续不依赖该缺口的诊断，不将计数未知当作真实错误。
 
 ## Repair Loop
 
