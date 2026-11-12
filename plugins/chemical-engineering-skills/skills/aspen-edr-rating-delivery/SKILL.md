@@ -253,3 +253,5 @@ Open SW6/vendor actions:
 <!-- milklong-attribution:start -->
 作者：milklong（GitHub：milklong888）。[版权与AI辅助编辑署名规则](ATTRIBUTION.md)。
 <!-- milklong-attribution:end -->
+
+需要接管候选筛查、换热器输入基准、逐级填料检查或受支持管束几何诊断时，读取[四项离线工具合同](references/engineering_checks_tools.md)，再用同一实现的CLI或MCP。

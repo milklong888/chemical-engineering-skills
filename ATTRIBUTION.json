@@ -979,6 +979,111 @@
     {
       "path": "tools/workflow_catalog.py",
       "sidecar": "tools/workflow_catalog.py.license"
+    },
+    {
+      "path": "docs/MODULE_NORMALIZATION_0.4.14.md",
+      "sidecar": "docs/MODULE_NORMALIZATION_0.4.14.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/SKILL.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/SKILL.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/ERROR_MEMORY.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/ERROR_MEMORY.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/FIGURES.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/FIGURES.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/NEW_KNOWLEDGE.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/NEW_KNOWLEDGE.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/boundaries.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/boundaries.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/heat_services.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/heat_services.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/material_connections.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/material_connections.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/phase_and_circulation.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/phase_and_circulation.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/public_sources.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/public_sources.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_common_tank.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_common_tank.py.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_structures.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_structures.py.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/engineering_checks_tools.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/engineering_checks_tools.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_api.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_api.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_rules.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_rules.md.license",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/checks_mcp.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/checks_mcp.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/engineering_checks.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/engineering_checks.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/tests/test_engineering_checks.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/tests/test_engineering_checks.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/references/offline_module_tools.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/references/offline_module_tools.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/NORMALIZED_MODULES.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/NORMALIZED_MODULES.md.license"
+    },
+    {
+      "path": "tests/test_normalized_modules.py",
+      "sidecar": "tests/test_normalized_modules.py.license"
+    },
+    {
+      "path": "tools/module_tools.py",
+      "sidecar": "tools/module_tools.py.license"
+    },
+    {
+      "path": "tests/test_normalized_transport.py",
+      "sidecar": "tests/test_normalized_transport.py.license"
     }
   ],
   "policy_files": [

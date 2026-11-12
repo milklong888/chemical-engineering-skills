@@ -14,10 +14,10 @@ from tools.workflow_catalog import lookup
 
 
 class WorkflowCatalogTests(unittest.TestCase):
-    def test_cli_lists_exactly_nineteen_registered_skills(self):
+    def test_cli_lists_exact_registered_skill_set(self):
         result = expert_cli.execute({"operation": "workflow", "payload": {"action": "list"}}, ROOT)
         self.assertEqual(result["schema"], "chemical-engineering-workflow-catalog-v1")
-        self.assertEqual(len(result["skill_ids"]), 19)
+        self.assertEqual(len(result["skill_ids"]), 20)
         self.assertIn("chemical-engineering-expert", result["skill_ids"])
         self.assertIn("aspen-non-reactor-equipment-cost", result["skill_ids"])
         self.assertIn("aspen-flowsheet-cost-skill-builder", result["skill_ids"])

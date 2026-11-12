@@ -1,0 +1,3 @@
+# Optional MCP SDK for mcp_server.py only; offline checks use the standard library.
+# API checked against MCP Python SDK 1.28.1.
+mcp>=1.28.1,<2

@@ -1,0 +1,141 @@
+{
+  "equipment_id": "toy-X",
+  "basis_id": "toy-basis",
+  "source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  },
+  "hot": {
+    "pin_abs_pa": 200000,
+    "pout_abs_pa": 190000,
+    "calculated_dp_pa": 10000,
+    "pressure_unit": "Pa",
+    "pressure_basis": "absolute",
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    },
+    "reynolds_endpoints": {
+      "inlet": {
+        "phase": "liquid",
+        "value": 100,
+        "source": {
+          "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+          "locator": "toy-row-1",
+          "revision": "toy-v1",
+          "current_revision": "toy-v1"
+        }
+      },
+      "outlet": {
+        "phase": "liquid",
+        "value": 100,
+        "source": {
+          "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+          "locator": "toy-row-1",
+          "revision": "toy-v1",
+          "current_revision": "toy-v1"
+        }
+      }
+    }
+  },
+  "cold": {
+    "pin_abs_pa": 200000,
+    "pout_abs_pa": 190000,
+    "calculated_dp_pa": 10000,
+    "pressure_unit": "Pa",
+    "pressure_basis": "absolute",
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    },
+    "reynolds_endpoints": {
+      "inlet": {
+        "phase": "liquid",
+        "value": 100,
+        "source": {
+          "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+          "locator": "toy-row-1",
+          "revision": "toy-v1",
+          "current_revision": "toy-v1"
+        }
+      },
+      "outlet": {
+        "phase": "liquid",
+        "value": 100,
+        "source": {
+          "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+          "locator": "toy-row-1",
+          "revision": "toy-v1",
+          "current_revision": "toy-v1"
+        }
+      }
+    }
+  },
+  "area": {
+    "actual": 10,
+    "required": 8,
+    "unit": "m2",
+    "actual_basis": "effective",
+    "required_basis": "effective",
+    "actual_condition": "fouled",
+    "required_condition": "fouled",
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    }
+  },
+  "acceptance_profile": {
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    },
+    "basis_id": "toy-basis",
+    "hot": {
+      "max_dp_pa": 10000,
+      "dp_closure_tolerance_pa": 0,
+      "reynolds_endpoints": {
+        "inlet": {
+          "phase": "liquid",
+          "min": 100,
+          "max": 100
+        },
+        "outlet": {
+          "phase": "liquid",
+          "min": 100,
+          "max": 100
+        }
+      }
+    },
+    "cold": {
+      "max_dp_pa": 10000,
+      "dp_closure_tolerance_pa": 0,
+      "reynolds_endpoints": {
+        "inlet": {
+          "phase": "liquid",
+          "min": 100,
+          "max": 100
+        },
+        "outlet": {
+          "phase": "liquid",
+          "min": 100,
+          "max": 100
+        }
+      }
+    },
+    "area": {
+      "basis": "effective",
+      "condition": "fouled",
+      "min_margin_fraction": 0.25
+    }
+  }
+}

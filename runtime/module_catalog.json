@@ -1,0 +1,636 @@
+{
+  "schema": "chemical-normalized-module-catalog-v1",
+  "version": "0.4.14",
+  "modules": [
+    {
+      "id": "admission",
+      "name": "经验准入与事实核对",
+      "canonical_owner": "chemical-engineering-expert",
+      "migration_action": "external_governance",
+      "implementation_state": "reference_only",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "scripts"
+      },
+      "source_dependencies": [
+        "Python >=3.10 standard library",
+        "GitHub observation additionally requires gh CLI/network"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "chemical-engineering-expert/references/EXPERIENCE_INBOX.md"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "aspen-evidence",
+      "name": "Aspen证据解析",
+      "canonical_owner": "aspen-plus-operations",
+      "migration_action": "reuse_existing",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/aspen-evidence"
+      },
+      "source_dependencies": [
+        "No standalone native runner; Dynamics MCP history tool reuses this implementation"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "aspen-plus-operations/scripts/aspen_evidence.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "local-artifact-delivery",
+      "name": "本地文件交付",
+      "canonical_owner": "aspen-plus-operations",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/local-artifact-delivery"
+      },
+      "source_dependencies": [
+        "Standard library; explicit local HTTP service lifecycle"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "aspen-plus-operations/scripts/artifact_delivery/artifact_bridge.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "convergence-diagnostics",
+      "name": "收敛诊断",
+      "canonical_owner": "aspen-flowsheet-error-repair",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/convergence-diagnostics"
+      },
+      "source_dependencies": [
+        "Standard library; provided observations, not native solver"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "aspen-flowsheet-error-repair/scripts/convergence_diagnostics/audit_precision_trials.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "aspen-native-layout",
+      "name": "原生流程布局",
+      "canonical_owner": "aspen-plus-operations",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/aspen-native-layout"
+      },
+      "source_dependencies": [
+        "Standard library; native import/readback requires external Aspen owner"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "aspen-plus-operations/scripts/native_layout/pfs_layout.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "flowsheet-boundary-tools",
+      "name": "流程边界与受控回调",
+      "canonical_owner": "aspen-plus-operations",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/flowsheet-boundary-tools"
+      },
+      "source_dependencies": [
+        "Standard library offline; COM callbacks require authorized external native runtime"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [
+        "aspen-plus-operations/scripts/flowsheet_boundary/boundary_compare.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "smr-psa-audit",
+      "name": "导出流股审计参考",
+      "canonical_owner": null,
+      "migration_action": "excluded_archive",
+      "implementation_state": "archive_reference",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "archive/2026-10-22/smr-psa-audit-tools"
+      },
+      "source_dependencies": [
+        "Standard library; archive reference only"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [],
+      "learning_eligible": false,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": false,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "alkaline-electrolyzer",
+      "name": "碱性电解方法",
+      "canonical_owner": null,
+      "migration_action": "excluded_archive",
+      "implementation_state": "archive_reference",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "archive/2026-10-30/alkaline-electrolyzer-methods"
+      },
+      "source_dependencies": [
+        "Standard library; archive reference only"
+      ],
+      "limits": "Offline or document scope only; no engineering acceptance",
+      "owner_paths": [],
+      "learning_eligible": false,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": false,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "aspen-dynamics-tools",
+      "name": "Dynamics离线工具",
+      "canonical_owner": "aspen-plus-operations",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/aspen-dynamics-tools"
+      },
+      "source_dependencies": [
+        "Python >=3.10",
+        "MCP optional SDK: requirements-mcp.txt",
+        "History dependency: sibling aspen-evidence",
+        "Plus MCP/expert backend/native audit remain separately installed external dependencies"
+      ],
+      "limits": "5 offline MCP tools; not native Dynamics control; catalog/plan never starts external services",
+      "owner_paths": [
+        "aspen-plus-operations/scripts/dynamics_tools/offline_facade.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "edr-hydraulics-checks",
+      "name": "EDR与水力学检查",
+      "canonical_owner": "aspen-edr-rating-delivery",
+      "migration_action": "merge_code",
+      "implementation_state": "offline_implemented",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "pool/scripts/edr-hydraulics-checks"
+      },
+      "source_dependencies": [
+        "Python >=3.10 standard library for core",
+        "MCP optional SDK: requirements-mcp.txt"
+      ],
+      "limits": "4 read-only checks; operating-plot position not implemented; not EDR/native or manufacturing acceptance",
+      "owner_paths": [
+        "aspen-edr-rating-delivery/scripts/engineering_checks.py"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "double-effect-rules",
+      "name": "双效精馏结构规则",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "migration_action": "specialize",
+      "implementation_state": "source_reviewed_method",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "skill_candidates/aspen-double-effect-distillation"
+      },
+      "source_dependencies": [
+        "Markdown/SVG; optional stdlib figure generators"
+      ],
+      "limits": "Text and figure candidate; no executable flowsheet or native simulation claim",
+      "owner_paths": [
+        "aspen-double-effect-distillation/SKILL.md"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    },
+    {
+      "id": "method-proposals",
+      "name": "其它拟定规则与方法",
+      "canonical_owner": "chemical-engineering-expert",
+      "migration_action": "disposition_only",
+      "implementation_state": "mixed_proposals",
+      "experience_admitted": false,
+      "source": {
+        "repository": "milklong888/chemical-engineering-experience-inbox",
+        "commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+        "path": "proposals"
+      },
+      "source_dependencies": [
+        "Markdown; numerical examples retain their declared illustrative limits"
+      ],
+      "limits": "Contains P0, ACM/membrane, heat-pump boundaries, method persistence, verifiable acceptance and EDR six-item maintenance plan; no MCP needed for text-only rules",
+      "owner_paths": [
+        "chemical-engineering-expert/references/NORMALIZED_MODULES.md"
+      ],
+      "learning_eligible": null,
+      "success_case_eligible": false,
+      "default_retrieval_eligible": null,
+      "engineering_acceptance": "not_assessed"
+    }
+  ],
+  "proposal_dispositions": [
+    {
+      "source_id": "EXP-20261012-operating-techniques",
+      "qualified_rule_ids": [
+        "EXP-20261012-operating-techniques#EH-05",
+        "EXP-20261012-operating-techniques#T-001",
+        "EXP-20261012-operating-techniques#T-002",
+        "EXP-20261012-operating-techniques#T-003",
+        "EXP-20261012-operating-techniques#T-004"
+      ],
+      "source_path": "proposals/EXP-20261012-operating-techniques.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "7a1519560a19dfdfcd61c73dee9791474b9b5fafd9abb2d7769e9c7f28ff7bf6",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing owners retained; asset transfer branches remain explicitly scoped.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261012-user-required-guards",
+      "qualified_rule_ids": [
+        "EXP-20261012-user-required-guards#P0-001",
+        "EXP-20261012-user-required-guards#P0-002",
+        "EXP-20261012-user-required-guards#P0-003",
+        "EXP-20261012-user-required-guards#P0-004",
+        "EXP-20261012-user-required-guards#P0-005",
+        "EXP-20261012-user-required-guards#P0-006",
+        "EXP-20261012-user-required-guards#P0-007",
+        "EXP-20261012-user-required-guards#P0-008",
+        "EXP-20261012-user-required-guards#P0-009",
+        "EXP-20261012-user-required-guards#P0-010",
+        "EXP-20261012-user-required-guards#P0-011",
+        "EXP-20261012-user-required-guards#P0-012",
+        "EXP-20261012-user-required-guards#P0-013",
+        "EXP-20261012-user-required-guards#P0-014",
+        "EXP-20261012-user-required-guards#P0-015"
+      ],
+      "source_path": "proposals/EXP-20261012-user-required-guards.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "f030308d926daa6804d38b6143f5aedb6cd5edc4ef85a789b8047ddb9fd09cf6",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "merge",
+      "scope": "Use source-qualified rule IDs; current task model/effort policy supersedes fixed model wording.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261013-local-artifact-delivery",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261013-local-artifact-delivery.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "b544a8ba3d65c044c95f279c5fde8447ce2be0f4bcfad9abb33cf09fe66668d3",
+      "canonical_owner": "aspen-plus-operations",
+      "action": "merge",
+      "scope": "Optional tool installed; explicit HTTP lifecycle only.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261017-process-review-working-method",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261017-process-review-working-method.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "baa3ea950cd5c51bad727cb0c43fc4de4e78375e313118afc77107c089c7ea29",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing reasoning protocol and working-method owner retained.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261017-verifiable-acceptance-and-closure",
+      "qualified_rule_ids": [
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-010",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-013",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-014",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-016",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-017",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-018",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-019",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-020",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-021",
+        "EXP-20261017-verifiable-acceptance-and-closure#P0-022"
+      ],
+      "source_path": "proposals/EXP-20261017-verifiable-acceptance-and-closure.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "9ca857122a9ac3b3cbdaeb8890829b7e7776172129832a089f80e37baa46d6e3",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing evidence/closure owners; no inferred zeros.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261018-heat-pump-flow-boundaries",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261018-heat-pump-flow-boundaries.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "2d05c048b58892d1621443c35bcf84010f86d4cb4af87fd8d36ccead6477625f",
+      "canonical_owner": "aspen-heat-pump-distillation-replacement",
+      "action": "merge",
+      "scope": "Read-only same-boundary comparison; external native callbacks remain separately authorized.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261018-terminal-product-conditioning",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261018-terminal-product-conditioning.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "4dfd59b9f5f511ec7ddf898c5db4599a079c02d6f114000714538e08fd589f08",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing terminal purpose/physical requirement checks retained.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-aspen-material-library",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-aspen-material-library.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "122d4865030ccbe826d5940cd302c6796bff08d70b6261f0d2823702e4eb6d05",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "proposal_only",
+      "scope": "Material-library architecture is not an implemented database or default retrieval source.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-aspen-small-patterns",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-aspen-small-patterns.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "1e8e28061aad115004cc0e5ac2046821c14b7e9af49b4dee9df751f2dfe085e7",
+      "canonical_owner": "aspen-document-driven-flowsheet",
+      "action": "reference_only",
+      "scope": "Structure cards are not default building scripts.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-adversarial-10",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-adversarial-10.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "7bdd0faf61a3661b12ea6ebf6af99f5855b7d1dec139532b40eae56968038151",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "reference_only",
+      "scope": "Text review metadata is not native simulation evidence.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-connections-detail",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-connections-detail.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "6cd51fa6d1d7c7c216e9095052020665de858bd4a27be944e9956093ae86d363",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "specialize",
+      "scope": "Source-reviewed conditional connection method; no project values.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-fresh-context-test",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-fresh-context-test.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "41025fee7bd67b9439817b2cf84d7ccfee3ac4f7107db73fd034367c66ef7274",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "reference_only",
+      "scope": "Historical text tests remain at source; not installed as engineering success.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-harness",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-harness.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "95b7527dddeaf0199e57f7dba837962a88ab4313a160452d25bd87e880083de3",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "reference_only",
+      "scope": "Method checklist is not an executed native harness.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-round3",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-round3.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "b761d77e77402358e5f079294e924fb5463d17bee032f6c8b86f552f0b13f08f",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "reference_only",
+      "scope": "Historical review material remains at source.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261020-double-effect-structure",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261020-double-effect-structure.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "e1061d189740c9067631d473fda6a87c2557a8df4614a7fc1f246928770fa67b",
+      "canonical_owner": "aspen-double-effect-distillation",
+      "action": "specialize",
+      "scope": "Specialized owner method and original figures; no native execution claim.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261022-acm-membrane-product-methods",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261022-acm-membrane-product-methods.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "e771b6f85cbb1bf7b81149abb9cada6c1fccb5bb5763398a5bb1571fa15886a2",
+      "canonical_owner": "aspen-document-driven-flowsheet",
+      "action": "no_change",
+      "scope": "Existing scoped membrane method reference retained; no archived code admission.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261022-convergence-diagnostics",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261022-convergence-diagnostics.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "77ba47651d0b726fc5fcc3bc1a342ce0ba8b6aeee60663684cfa58c467c2975a",
+      "canonical_owner": "aspen-flowsheet-error-repair",
+      "action": "merge",
+      "scope": "Offline observation audits only; existing solver precision lock applies.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261022-knowledge-escalation-p0",
+      "qualified_rule_ids": [
+        "EXP-20261022-knowledge-escalation-p0#P0-016",
+        "EXP-20261022-knowledge-escalation-p0#P0-017"
+      ],
+      "source_path": "proposals/EXP-20261022-knowledge-escalation-p0.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "9255d6cfadc2e1133a290680d405184fc8a84674d54bab313c7dcc23eb6c8f6d",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing unique knowledge-escalation reference retained.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261023-aspen-native-layout",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261023-aspen-native-layout.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "905b582398b4ee47079ec8d36dc63fe8c62a81d0d958e43cd7b3f54fa3bcc149",
+      "canonical_owner": "aspen-plus-operations",
+      "action": "merge",
+      "scope": "Offline Export18/PFS helper; native readback remains required.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261023-five-stage-water-heat-pump",
+      "qualified_rule_ids": [],
+      "source_path": "proposals/EXP-20261023-five-stage-water-heat-pump.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "51aee1ad0c23a579754a006c60376b3966b1e03ec90573f6104462ec5d51cbb4",
+      "canonical_owner": "aspen-heat-pump-distillation-replacement",
+      "action": "reference_only",
+      "scope": "Structure method only; no transfer of illustrative performance values.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261029-method-persistence",
+      "qualified_rule_ids": [
+        "EXP-20261029-method-persistence#P0-010",
+        "EXP-20261029-method-persistence#P0-015"
+      ],
+      "source_path": "proposals/EXP-20261029-method-persistence.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "44c4c6190dc62005f4eb2c69057b808170e883938b0cbcc04d42b286f9c0b34e",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "proposal_only",
+      "scope": "Method lock is existing policy; 2.0 budget multiplier has no executor or demonstrated cross-case effect.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261030-terminal-processing-p0",
+      "qualified_rule_ids": [
+        "EXP-20261030-terminal-processing-p0#P0-018"
+      ],
+      "source_path": "proposals/EXP-20261030-terminal-processing-p0.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "7e53024229dbd23eece0bc878c4c9ed086b30ce1698ad0d64f79adeb8281ada9",
+      "canonical_owner": "chemical-engineering-expert",
+      "action": "no_change",
+      "scope": "Existing terminal boundary owner retained; qualify duplicate P0-018 by proposal.",
+      "experience_admitted": false,
+      "native_verified": false
+    },
+    {
+      "source_id": "EXP-20261112-edr-hydraulics-maintenance-plan",
+      "qualified_rule_ids": [
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-01",
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-02",
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-03",
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-04",
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-05",
+        "EXP-20261112-edr-hydraulics-maintenance-plan#EH-06"
+      ],
+      "source_path": "proposals/EXP-20261112-edr-hydraulics-maintenance-plan.md",
+      "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "c7a1d40943e5d7e2967474b4ade2b985204ec94cebf950649967131d753c8d95",
+      "canonical_owner": "aspen-edr-rating-delivery",
+      "action": "partial",
+      "scope": "EH01 position, EH03 receipt, EH04 consumer coverage and EH05 automated dependency branch remain proposed; existing EH02/EH06 rules retained.",
+      "experience_admitted": false,
+      "native_verified": false
+    }
+  ],
+  "states_are_independent": [
+    "package_complete",
+    "offline_implemented",
+    "native_verified",
+    "experience_admitted",
+    "engineering_accepted"
+  ],
+  "unimplemented": [
+    "operating-plot position diagnosis",
+    "native Dynamics control",
+    "automatic warning1061 diagnosis",
+    "generic native dependency resolver",
+    "method-persistence budget executor"
+  ],
+  "authority": "Directly requested mechanism maintenance; source candidates retain their documented limits."
+}

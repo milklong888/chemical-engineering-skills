@@ -1,0 +1,105 @@
+{
+  "schema": "offline-facade-source-v1",
+  "version": "1.1.0",
+  "restored_public_source": {
+    "repository": "milklong888/chemical-engineering-experience-inbox",
+    "commit": "21c33df8da1a44169770e6a69c7afe08bcfae6c6",
+    "path": "pool/scripts/aspen-dynamics-tools",
+    "restored_files": [
+      {
+        "path": ".gitattributes",
+        "sha256": "8b419d6f94c5346b99fdb8abbb041b94714a883d9b4833eeb30debea7e8b0d02",
+        "size": 100
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "54995833d0b8bbfa08bbda6e1f45749d715f6e9184b8c68c1f0e2c9d75cc593f",
+        "size": 1086
+      },
+      {
+        "path": "PUBLIC_MANIFEST.json",
+        "sha256": "959e7fead3e4bfba485864cb5ff48fc1488536310a3d3b678b365f285904bbc8",
+        "size": 1810
+      },
+      {
+        "path": "PUBLIC_SCOPE.md",
+        "sha256": "dfc43580f6518ab4a33c82fa16ce095953bc4a6802c1f8ef9631a8a0594062f1",
+        "size": 1450
+      },
+      {
+        "path": "README.md",
+        "sha256": "107f8efd5e716eb6ddcee3a29be32e67c24867c777b0ea7efa1b4842d9caba91",
+        "size": 3857
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "6ee0c769dead7c6710b6b3529828201f11c0e45ec09650961877bc4fe57f2749",
+        "size": 1457
+      },
+      {
+        "path": "local_settings.example.json",
+        "sha256": "3093a124bbb6578faa85975211e6f4e3fc8829b9c5b55bd5d3521f707e848ee3",
+        "size": 218
+      },
+      {
+        "path": "tests/test_toolpack.py",
+        "sha256": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1",
+        "size": 6411
+      },
+      {
+        "path": "tool_catalog.json",
+        "sha256": "371e92222970779e2f224f0b1fbda001a48e5dc8d6f5587704e1c36ce2c650c6",
+        "size": 1784
+      },
+      {
+        "path": "toolpack.py",
+        "sha256": "68198c6de944d17b22dc9c9a0bf9900925d8a144c233955b70d66d5799633747",
+        "size": 11507
+      }
+    ]
+  },
+  "maintenance_scope": "Public routing and offline-facade implementation; no case source, private archive or native Dynamics interface",
+  "code_license": "MIT",
+  "original_documentation_license": "CC-BY-4.0",
+  "public_parser_dependency": {
+    "relative_path": "../aspen-evidence/aspen_evidence.py",
+    "sha256_lf_normalized": "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31",
+    "source_repository": "milklong888/chemical-engineering-skills",
+    "source_commit": "fdd6a1e6d56279e6376dada934a230aea3be85ab",
+    "license": "MIT; preserve sibling LICENSE and THIRD_PARTY_NOTICES"
+  },
+  "optional_mcp_dependency": {
+    "distribution": "mcp",
+    "constraint": ">=1.28.1,<2",
+    "locally_inspected_version": "1.28.1",
+    "license": "MIT",
+    "entry_class": "mcp.server.fastmcp.FastMCP",
+    "source_scope": "Installed clean-environment distribution metadata and SDK signatures",
+    "strict_numeric_metadata": "pydantic.Field(strict=True) from the MCP SDK dependency; imported only when creating the optional server"
+  },
+  "private_archive_sources_copied": false,
+  "native_execution_performed": false,
+  "client_registration_performed": false,
+  "engineering_success_claimed": false,
+  "inbox_admission_claimed": false,
+  "maintenance_corrections": [
+    {
+      "id": "DYN-P1-strict-MCP-grid-numbers",
+      "status": "implemented_and_in_process_regression_passed; independent_stdio_followup_pending",
+      "scope": "direct code-maintenance correction; synthetic SDK input boundary, not an engineering case",
+      "reported_by": "independent root MCP transport review",
+      "finding": "SDK float coercion accepted bool/string before facade guards",
+      "allowed_change": "Strict numeric schema only in optional MCP adapter; delegate existing grid algorithm",
+      "native_or_case_result_used": false
+    },
+    {
+      "id": "DYN-P2-grid-overflow-receipt",
+      "status": "implemented_and_in_process_regression_passed; independent_stdio_followup_pending",
+      "scope": "direct code-maintenance correction; synthetic smallest-subnormal input",
+      "reported_by": "independent root offline review",
+      "finding": "Finite interval can overflow the grid horizon ratio; OverflowError escaped CLI and facade",
+      "allowed_change": "Add OverflowError to existing error receipt catch lists; no grid algorithm or threshold change",
+      "native_or_case_result_used": false
+    }
+  ]
+}

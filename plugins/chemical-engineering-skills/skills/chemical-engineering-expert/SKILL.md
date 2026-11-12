@@ -215,3 +215,5 @@ auditable answer is enough.
 <!-- milklong-attribution:start -->
 作者：milklong（GitHub：milklong888）。[版权与AI辅助编辑署名规则](ATTRIBUTION.md)。
 <!-- milklong-attribution:end -->
+
+工具封装、模块完整性或候选规范化维护时，读取[模块目录与状态](references/NORMALIZED_MODULES.md)，复用既有专业实现及当前来源处置。

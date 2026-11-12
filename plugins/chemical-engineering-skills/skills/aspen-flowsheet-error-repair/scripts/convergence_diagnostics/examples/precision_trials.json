@@ -1,0 +1,40 @@
+{
+  "schema": "precision-trials-v1",
+  "synthetic": true,
+  "trials": [
+    {
+      "id": "synthetic-loose",
+      "outer": {
+        "variable": "product.rate",
+        "definition": "caller supplied product mass rate",
+        "target": {"value": 120, "unit": "kg/h"},
+        "absolute_tolerance": {"value": 0.2, "unit": "kg/h"},
+        "observed": {"value": 119.6, "unit": "kg/h"}
+      },
+      "inner": {
+        "variable": "recycle.rate",
+        "definition": "absolute update divided by assumed nonzero rate",
+        "criterion": "relative",
+        "tolerance": 0.004,
+        "unit": "1"
+      }
+    },
+    {
+      "id": "synthetic-tight",
+      "outer": {
+        "variable": "product.rate",
+        "definition": "caller supplied product mass rate",
+        "target": {"value": 120, "unit": "kg/h"},
+        "absolute_tolerance": {"value": 0.2, "unit": "kg/h"},
+        "observed": {"value": 120.1, "unit": "kg/h"}
+      },
+      "inner": {
+        "variable": "recycle.rate",
+        "definition": "absolute update divided by assumed nonzero rate",
+        "criterion": "relative",
+        "tolerance": 0.0003,
+        "unit": "1"
+      }
+    }
+  ]
+}

@@ -23,7 +23,7 @@ def introduction(path):
 class WorkflowContract(unittest.TestCase):
     def test_all_professional_entries_explain_a_connected_workflow(self):
         entries = sorted(SKILLS.glob("*/SKILL.md"))
-        self.assertEqual(len(entries), 19)
+        self.assertEqual(len(entries), 20)
         for entry in entries:
             with self.subTest(skill=entry.parent.name):
                 body = introduction(entry)

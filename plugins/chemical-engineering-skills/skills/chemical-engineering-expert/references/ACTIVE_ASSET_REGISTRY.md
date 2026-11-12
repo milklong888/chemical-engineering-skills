@@ -1,6 +1,6 @@
 # 任务入口与活动资产
 
-本页是本发行包 19 个 Skill 的任务导航。安装根为 `{CHEM_SKILLS}`；模块名和入口保持稳定。
+本页是本发行包 20 个 Skill 的任务导航。安装根为 `{CHEM_SKILLS}`；模块名和入口保持稳定。
 先按交付目标选择一条主线，再只加载当前动作需要的专业内容。分组便于查找，不表示先后顺序、
 强制组合或新的事实权威；具体要求以各 Skill 和[规则归属表](CANONICAL_RULE_OWNERSHIP.md)为准。
 
@@ -42,6 +42,7 @@
 |---|---|---|---|
 | [aspen-tower-optimization-workflow](../../aspen-tower-optimization-workflow/SKILL.md) | 塔分离方案、严格模型与工况优化 | 来源冻结的分离义务和边界 → 同产品比较、塔岛与接回结果 | 塔径/内件交 chemical-tower-design；热泵替换转专用模块 |
 | [aspen-heat-pump-distillation-replacement](../../aspen-heat-pump-distillation-replacement/SKILL.md) | 空塔/VRC/MVR替换，或只审塔改造节能与新增电耗 | 原塔边界或改造表 → 同基准收益、设备状态缺口；获准实施时再交热泵岛与接回证据 | 先识别新增耗电设备；审查分支不要求建模，真实 EDR 调 edr-rating |
+| [aspen-double-effect-distillation](../../aspen-double-effect-distillation/SKILL.md) | 双效跨塔连接、回流返汽与热服务边界 | 当前构型和请求范围 → 条件化接口、净账和未核项 | 分离优化归塔优化，VRC/MVR归热泵，真实EDR及软件执行归原owner |
 | [aspen-adaptive-generalization-loop](../../aspen-adaptive-generalization-loop/SKILL.md) | 跨进料模板适应与规律验证 | 代表工况、同基准控制与范围 → 受检规则和批量证据 | 求解工具先走统一 solve_route；任务内试算不自动晋级共享经验 |
 | [chemical-tower-design](../../chemical-tower-design/SKILL.md) | 塔尺寸、内件与水力学设计 | 当前塔负荷、物性和结构依据 → 尺寸/水力学、图纸或机械交接 | 需改分离工况时交回流程/塔优化；SW6仅在明确请求时进入 |
 
@@ -90,3 +91,5 @@
 工程结果仍是可选本地资产；位置、来源、版本和项目范围按工作区
 LOCAL_KNOWLEDGE_GRAPH_LINKS.md登记。缺少的是具体原件或证据时，不能把包内
 已经提供的结构化知识和算法也说成未安装，更不能以其他项目数值补齐。
+
+离线模块和九项允许调用操作见[规范化模块](NORMALIZED_MODULES.md)，包括提案处置及外部依赖状态；不把归档元数据变为默认工具。

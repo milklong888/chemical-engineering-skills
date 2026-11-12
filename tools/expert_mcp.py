@@ -119,5 +119,22 @@ def design_stage_check(payload: dict, evidence_root: str) -> dict:
     return execute({"operation": "design_stage", "payload": payload}, Path(evidence_root), equipment_runner=equipment_runner)
 
 
+@mcp.tool()
+def module_catalog(module_id: str | None = None, include_archives: bool = False) -> dict:
+    """Discover normalized module owners, implementation limits and nine offline tools."""
+    from tools.module_tools import catalog
+    payload = {"include_archives": include_archives}
+    if module_id is not None:
+        payload["module_id"] = module_id
+    return catalog(payload)
+
+
+@mcp.tool()
+def module_check(tool: str, inputs: dict) -> dict:
+    """Call an allowlisted Dynamics/EDR offline diagnostic; never launch native software."""
+    from tools.module_tools import call
+    return call({"tool": tool, "inputs": inputs})
+
+
 if __name__ == "__main__":
     mcp.run(transport="stdio")

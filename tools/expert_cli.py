@@ -71,6 +71,9 @@ def execute(request, evidence_root, *, equipment_runner=None):
     runner = equipment_runner or equipment
     operation = request["operation"]
     payload = request.get("payload", {})
+    if operation in {"module_catalog", "module_check"}:
+        from tools.module_tools import catalog, call
+        return catalog(payload) if operation == "module_catalog" else call(payload)
     if operation == "solve_route":
         from tools.aspen_tool_router import solve_route
         return solve_route(payload, evidence_root)

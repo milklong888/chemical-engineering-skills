@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+<title>01  一次通过：外置釜式平衡近似</title><desc>HP总顶汽冷凝供热；LP总底抽液受热后平衡分相，汽返塔、液净采出。。结构候选，未Aspen验证，局部接口图。</desc>
+<defs><marker id="flow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#183449"/></marker><marker id="heat" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#bb671c"/></marker></defs>
+<rect width="1600" height="1040" fill="#f4f7fa"/>
+<style>text {font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#183449;font-size:21px} .small {font-size:18px} .title {font-size:32px;font-weight:700} .bold {font-weight:700} .blue {fill:#176784} .heat {fill:#bb671c}</style>
+<text x="48" y="55" class="title">01  一次通过：外置釜式平衡近似</text>
+<text x="48" y="96" class="">HP总顶汽冷凝供热；LP总底抽液受热后平衡分相，汽返塔、液净采出。</text>
+<text x="48" y="132" class="small">局部接口示意  |  结构候选 · 未Aspen验证  |  非完整塔岛 / 非设备施工图</text>
+<rect x="32" y="166" width="1536" height="580" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="202" class="bold blue">同一 HX-DE 的热、冷两侧；图中的两个蓝框不是两台设备</text>
+<rect x="55" y="258" width="205" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="157.5" y="296.0" class="bold" text-anchor="middle">HP 顶部抽出</text>
+<text x="157.5" y="326.0" class="small" text-anchor="middle">V_HP · 总顶汽 V</text>
+<rect x="370" y="258" width="220" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="480.0" y="296.0" class="bold" text-anchor="middle">HX-DE 热侧</text>
+<text x="480.0" y="326.0" class="small" text-anchor="middle">V → L · 全冷凝条件</text>
+<rect x="700" y="258" width="190" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="795.0" y="296.0" class="bold" text-anchor="middle">FSPLIT-R</text>
+<text x="795.0" y="326.0" class="small" text-anchor="middle">液体非选择性分配</text>
+<rect x="1130" y="212" width="360" height="88" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1310.0" y="248.0" class="bold" text-anchor="middle">R_HP · 液体回流 L</text>
+<text x="1310.0" y="278.0" class="small" text-anchor="middle">→ 所需供压 → HP顶部液体返回</text>
+<rect x="1130" y="340" width="360" height="80" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1310.0" y="372.0" class="bold" text-anchor="middle">D_HP · 净顶产品 L</text>
+<text x="1310.0" y="402.0" class="small" text-anchor="middle">→ 指定产品边界</text>
+<path d="M260,304 L370,304" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="305" y="288" class="small">V</text>
+<path d="M590,304 L700,304" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="635" y="288" class="small">L</text>
+<path d="M890,290 L1000,290 L1000,256 L1130,256" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1035" y="240" class="small">L</text>
+<path d="M890,324 L960,324 L960,380 L1130,380" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1035" y="364" class="small">L</text>
+<rect x="55" y="534" width="205" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="157.5" y="572.0" class="bold" text-anchor="middle">LP 底部总抽液</text>
+<text x="157.5" y="602.0" class="small" text-anchor="middle">L_LP · 液体 L</text>
+<rect x="370" y="534" width="220" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="480.0" y="572.0" class="bold" text-anchor="middle">HX-DE 冷侧</text>
+<text x="480.0" y="602.0" class="small" text-anchor="middle">L → V+L · 受热</text>
+<rect x="700" y="534" width="190" height="92" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="795.0" y="572.0" class="bold" text-anchor="middle">FLASH2-K</text>
+<text x="795.0" y="602.0" class="small" text-anchor="middle">外置釜平衡分相近似</text>
+<rect x="1130" y="490" width="360" height="88" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1310.0" y="526.0" class="bold" text-anchor="middle">V_LP · 返汽 V</text>
+<text x="1310.0" y="556.0" class="small" text-anchor="middle">→ LP下部汽相返回位置</text>
+<rect x="1130" y="630" width="360" height="80" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1310.0" y="662.0" class="bold" text-anchor="middle">B_LP · 净底产品 L</text>
+<text x="1310.0" y="692.0" class="small" text-anchor="middle">→ 指定产品边界；本例仅此一处</text>
+<path d="M260,580 L370,580" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="305" y="564" class="small">L</text>
+<path d="M590,580 L700,580" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="620" y="564" class="small">V+L</text>
+<path d="M890,563 L1000,563 L1000,534 L1130,534" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1035" y="518" class="small">V</text>
+<path d="M890,598 L960,598 L960,670 L1130,670" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1035" y="654" class="small">L</text>
+<path d="M480,350 L480,534" stroke="#bb671c" stroke-width="3" fill="none" marker-end="url(#heat)" stroke-dasharray="7 6"/>
+<text x="505" y="440" class="small heat">仅传热 Q回收</text>
+<text x="505" y="471" class="small heat">不跨壁交换物料</text>
+<rect x="32" y="775" width="1536" height="207" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="811" class="bold blue">边界与未核事项</text>
+<text x="52" y="847" class="small">剩余服务：HP再沸器 ← 外部供热；HP净底 → 指定产品/跨塔边界。</text>
+<text x="52" y="879" class="small">剩余服务：LP顶冷凝器 → 外部冷却；内部回流回LP，LP净顶产品 → 指定边界；原料入口另列。</text>
+<text x="52" y="911" class="small">选完整外置替换时核HP冷凝、LP再沸的实际配置和级数映射；不重复保留同一相变负荷。</text>
+<text x="52" y="943" class="small">核物性、全段温差、压降与返回压头；FLASH2只分相时不另加未记账热量；未核面积/持液/控制。</text>
+<text x="48" y="1012" class="small">原创图：milklong888 · CC BY 4.0  |  原理来源：Aspen官方学习指南 p11（热曲线 / Reboiler Wizard）</text>
+</svg>

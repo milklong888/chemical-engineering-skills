@@ -1,0 +1,117 @@
+{
+  "schema": "owner-tool-file-manifest-v1",
+  "scope": "listed_file_bytes_only",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "size": 118,
+      "sha256": "c632f3b4f87c1788e212eef00cd665ec790ab2f055c8188bd6069d05f07f6ebe"
+    },
+    {
+      "path": "DEPENDENCIES.md",
+      "size": 3870,
+      "sha256": "d9357d991b958326f0bbc1dc4530fdd3bc5fa7045a83317a89b275e744c57311"
+    },
+    {
+      "path": "examples/demo_offline.py",
+      "size": 2270,
+      "sha256": "ff58bc3e0ce3baecbda10e1b42e58c1fc4bd74652b3ee3ad5d73e4a6bcdaefd1"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1086,
+      "sha256": "54995833d0b8bbfa08bbda6e1f45749d715f6e9184b8c68c1f0e2c9d75cc593f"
+    },
+    {
+      "path": "local_settings.example.json",
+      "size": 218,
+      "sha256": "3093a124bbb6578faa85975211e6f4e3fc8829b9c5b55bd5d3521f707e848ee3"
+    },
+    {
+      "path": "mcp_server.py",
+      "size": 1962,
+      "sha256": "3b4e11c58e88e9840c6d7c5d8a212731c87117d5c7b4eb9fb45de08332674e8f"
+    },
+    {
+      "path": "METHOD_REFERENCE.md",
+      "size": 1685,
+      "sha256": "d6b4f63064672a4339b60eb135dc48d02ab5f9dda165f645de355fabd0b623b8"
+    },
+    {
+      "path": "offline_facade.py",
+      "size": 4345,
+      "sha256": "680ce64dc56585b320b9eb5e4096e104ea50923386a478e1fe6bfedbad822e55"
+    },
+    {
+      "path": "PACKAGE_STATUS.json",
+      "size": 5030,
+      "sha256": "0244bdd0044c63b5f854a2c05aa7f01e4ef14ae17de3cfead85240091215751a"
+    },
+    {
+      "path": "PUBLIC_SCOPE.md",
+      "size": 1475,
+      "sha256": "b1203fa8dcfa901ad0c65f0f5614ab702eb852b29afad3a4812f70c9b31a3055"
+    },
+    {
+      "path": "README.md",
+      "size": 6081,
+      "sha256": "c1edf0b96cc68d5451847a22c7440bee6ac782e92549dd18e584db5021a1a94b"
+    },
+    {
+      "path": "RELOCATION.json",
+      "size": 11387,
+      "sha256": "ca3839d6d119cc9f4f858ade5dff5ee92d792b33a5a913af359a58ba97346c0d"
+    },
+    {
+      "path": "requirements-mcp.txt",
+      "size": 144,
+      "sha256": "abbace83adf2b14eb9d0831b74274a36fa897ec03877dc5e2b281f5f4469a498"
+    },
+    {
+      "path": "RULES.md",
+      "size": 1442,
+      "sha256": "d5880c74b682b2886e4afa608cac3d1790f8a2f19e6916dc86c32a6fb500cc14"
+    },
+    {
+      "path": "SOURCE_METADATA.json",
+      "size": 4319,
+      "sha256": "cb7beb4d9985c3aadc8f90929e256ba85fe690f8b38c8dcb3c668b374aa5390b"
+    },
+    {
+      "path": "tests/test_dynamic_mcp_transport.py",
+      "size": 5822,
+      "sha256": "4ac561ef74f8c6a1a44ea5b79d7c146b33152bf8543b55531bf5f2d1dbb66923"
+    },
+    {
+      "path": "tests/test_mcp_boundary.py",
+      "size": 2212,
+      "sha256": "596852e51879f3316a9ffa6540286b45259754672a70cb0014b3f377d0d9b3d1"
+    },
+    {
+      "path": "tests/test_namespace_imports.py",
+      "size": 1165,
+      "sha256": "b5c2c893f4a71a10dec39ad3a2bf4c98c3fb63b6d176855dc1e076177b9f3e26"
+    },
+    {
+      "path": "tests/test_offline_facade.py",
+      "size": 8523,
+      "sha256": "941e5daa2d541f21df5785c1cb351ac20184f7ddf08134329c3d3f68d959f631"
+    },
+    {
+      "path": "tests/test_toolpack.py",
+      "size": 6411,
+      "sha256": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1"
+    },
+    {
+      "path": "tool_catalog.json",
+      "size": 3357,
+      "sha256": "55ace06a041cbe0d6dfe57b4574df9bf0d0c97265ebd88b69ed2073579268fda"
+    },
+    {
+      "path": "toolpack.py",
+      "size": 14050,
+      "sha256": "291d7decd928c10f5e3a77f8d643a658b8d9f830e9d59f39abd55cfc96d3282e"
+    }
+  ]
+}

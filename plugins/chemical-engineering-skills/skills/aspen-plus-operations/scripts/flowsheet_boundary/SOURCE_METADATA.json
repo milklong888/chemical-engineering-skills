@@ -1,0 +1,60 @@
+{
+  "schema": "ordinary-pool-source-v1",
+  "item_id": "EXP-20261018-flowsheet-boundary-tools",
+  "priority": "normal",
+  "admission_state": "proposal",
+  "public_source_repository": "milklong888/chemical-engineering-experience-inbox",
+  "public_source_reference": "this proposal head commit; do not substitute a prior prototype commit",
+  "source_kind": "original_parameterized_callbacks_and_readonly_tools",
+  "code_license": "MIT",
+  "documentation_license": "CC-BY-4.0",
+  "python": "3.10+",
+  "dependencies": {
+    "offline": "Python standard library",
+    "native_callback": "caller-owned licensed Aspen Plus V14-compatible COM session; existing operations supervisor/runtime"
+  },
+  "files": {
+    "boundary_compare.py": {
+      "sha256": "2e9cbe12e614f6f0b0e7af236febe3d1733c87db977fc82526e1836869d324ab",
+      "bytes": 5205
+    },
+    "com_operations.py": {
+      "sha256": "b807405a542d388c293af05472cfd76e4a78fb1cd00b2c2153027094ec8bd287",
+      "bytes": 9115
+    },
+    "native_results.py": {
+      "sha256": "69f05ff147d438ed9cb075e81edd80eb5689b522625c0b909c7405013df272d3",
+      "bytes": 7966
+    },
+    "tests/test_boundary_compare.py": {
+      "sha256": "bb678a1ef0009adb25249cb1a4cfa6cf66662cdef65190a7ee1c6424a1440132",
+      "bytes": 3644
+    },
+    "tests/test_com_operations.py": {
+      "sha256": "14f431a58048360b5cd00ba3840bac71f5136c9af6aef8dcaae9a93278761d6d",
+      "bytes": 6632
+    },
+    "tests/test_native_results.py": {
+      "sha256": "3c6d6c92f85c977984bbd32e87f5bff00b775b635c59b4172f3cf588e9bc2e42",
+      "bytes": 5941
+    }
+  },
+  "synthetic_tests": 38,
+  "verification_scope": [
+    "synthetic callback/leaf/unit/boundary contracts",
+    "current remove_terminal_heaters and heater_or_flash HCurve callback privately exercised on protected V14 source",
+    "current native readers privately compared against existing case snapshots"
+  ],
+  "not_native_replayed_in_generic_version": [
+    "condenser HCurve callback",
+    "reboiler HCurve callback"
+  ],
+  "public_native_reproducibility": "not provided: no model or raw private logs are distributed",
+  "aspen_simulation_clean_claim": false,
+  "engineering_acceptance_claim": false,
+  "strict_passed": false,
+  "default_canonical": false,
+  "default_retrieval_eligible": false,
+  "test_fixture_status": "synthetic; no case parameter transfer",
+  "upstream_operations_owner": "https://github.com/milklong888/chemical-engineering-skills/tree/98a2ea53a127cad7e2fecd0df447a89f5ca014a0/plugins/chemical-engineering-skills/skills/aspen-plus-operations"
+}

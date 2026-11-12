@@ -119,3 +119,5 @@ A local relaxation is `case_accepted_with_relaxation`, never `strict_passed`.
 <!-- milklong-attribution:start -->
 作者：milklong（GitHub：milklong888）。[版权与AI辅助编辑署名规则](ATTRIBUTION.md)。
 <!-- milklong-attribution:end -->
+
+需要Dynamics导出数据、PFS布局、边界对比或文件交付辅助时，读取[离线工具合同](references/offline_module_tools.md)，选择相应CLI/MCP；原生会话与验收仍按本专业流程。

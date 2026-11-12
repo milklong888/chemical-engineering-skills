@@ -1,0 +1,131 @@
+{
+  "schema": "startup-trials-v1",
+  "synthetic": true,
+  "target": {
+    "value": 120,
+    "absolute_tolerance": 0.2,
+    "unit": "kg/h"
+  },
+  "cases": [
+    {
+      "id": "synthetic-cold",
+      "initialization_kind": "cold",
+      "observed": {
+        "value": 120.1,
+        "unit": "kg/h"
+      },
+      "manipulated": {
+        "variable": "synthetic.feed_rate",
+        "initial": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "final": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "minimum_movement": {
+          "value": 0.01,
+          "unit": "mol/s"
+        }
+      },
+      "artifacts": [
+        {
+          "role": "synthetic_fixture",
+          "path": "synthetic_receipt.json",
+          "sha256": "75dc5a3874f79244034bc8ffac80e9ef4a541164b79953e77dc19fe578dd4739"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-warm",
+      "initialization_kind": "warm",
+      "observed": {
+        "value": 120.1,
+        "unit": "kg/h"
+      },
+      "manipulated": {
+        "variable": "synthetic.feed_rate",
+        "initial": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "final": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "minimum_movement": {
+          "value": 0.01,
+          "unit": "mol/s"
+        }
+      },
+      "artifacts": [
+        {
+          "role": "synthetic_fixture",
+          "path": "synthetic_receipt.json",
+          "sha256": "75dc5a3874f79244034bc8ffac80e9ef4a541164b79953e77dc19fe578dd4739"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-perturbation",
+      "initialization_kind": "bounded_perturbation",
+      "observed": {
+        "value": 120.1,
+        "unit": "kg/h"
+      },
+      "manipulated": {
+        "variable": "synthetic.feed_rate",
+        "initial": {
+          "value": 3.8,
+          "unit": "mol/s"
+        },
+        "final": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "minimum_movement": {
+          "value": 0.01,
+          "unit": "mol/s"
+        }
+      },
+      "artifacts": [
+        {
+          "role": "synthetic_fixture",
+          "path": "synthetic_receipt.json",
+          "sha256": "75dc5a3874f79244034bc8ffac80e9ef4a541164b79953e77dc19fe578dd4739"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-reopen",
+      "initialization_kind": "exact_reopen",
+      "observed": {
+        "value": 120.1,
+        "unit": "kg/h"
+      },
+      "manipulated": {
+        "variable": "synthetic.feed_rate",
+        "initial": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "final": {
+          "value": 4,
+          "unit": "mol/s"
+        },
+        "minimum_movement": {
+          "value": 0.01,
+          "unit": "mol/s"
+        }
+      },
+      "artifacts": [
+        {
+          "role": "synthetic_fixture",
+          "path": "synthetic_receipt.json",
+          "sha256": "75dc5a3874f79244034bc8ffac80e9ef4a541164b79953e77dc19fe578dd4739"
+        }
+      ]
+    }
+  ]
+}

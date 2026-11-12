@@ -1,0 +1,224 @@
+{
+  "schema": "normalized-module-source-identities-v1",
+  "inbox_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "main_baseline": "4b0cdbcddffc2b5c2fe11e913ca120f0748a138b",
+  "files": [
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/scripts/engineering_checks.py",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "686ea4c7a3883bc5eb10eafce0837b978633f7099c1aae0e66881073ec2d737a",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/engineering_checks.py",
+      "target_sha256": "686ea4c7a3883bc5eb10eafce0837b978633f7099c1aae0e66881073ec2d737a",
+      "transformation": "LF normalization only",
+      "license": "MIT"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/scripts/checks_mcp.py",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "8495fae4acbde044b4321986a941ee4a5b671b41b9d5d5b14dd03c3289e5be8e",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/scripts/checks_mcp.py",
+      "target_sha256": "8495fae4acbde044b4321986a941ee4a5b671b41b9d5d5b14dd03c3289e5be8e",
+      "transformation": "LF normalization only",
+      "license": "MIT"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/tests/test_engineering_checks.py",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "d85bc3ad673f1bda0e57c5661bc52df05aa7b467f87703359ef1419ddc9a2c04",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/tests/test_engineering_checks.py",
+      "target_sha256": "d85bc3ad673f1bda0e57c5661bc52df05aa7b467f87703359ef1419ddc9a2c04",
+      "transformation": "LF normalization only",
+      "license": "MIT"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/docs/RULES.md",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "507c76611026285a3dc91376550de750e7fc491ba73f705b17774bd05d460811",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_rules.md",
+      "target_sha256": "507c76611026285a3dc91376550de750e7fc491ba73f705b17774bd05d460811",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/docs/API.md",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "01af6d2c2169922a38f8ff44a5ec4c42ae50915b87b62e898310c527003b4e9a",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/references/offline_checks_api.md",
+      "target_sha256": "01af6d2c2169922a38f8ff44a5ec4c42ae50915b87b62e898310c527003b4e9a",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/examples/pipe.json",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "f1e71a5123c7015b80164cc97c03833a201de6a133c605e3b690216f278f6af8",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/examples/offline_checks/pipe.json",
+      "target_sha256": "f1e71a5123c7015b80164cc97c03833a201de6a133c605e3b690216f278f6af8",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/examples/exchanger.json",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "5c5520086c8bb3c7eeccb7967cc99ec7aa5d1d5a992df59ec35e0b6dfeebe544",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/examples/offline_checks/exchanger.json",
+      "target_sha256": "5c5520086c8bb3c7eeccb7967cc99ec7aa5d1d5a992df59ec35e0b6dfeebe544",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/examples/packed.json",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "33b87d211d03b4329c47592c9ca1e9dccab55af3a9d98eda142a73efcffb3968",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/examples/offline_checks/packed.json",
+      "target_sha256": "33b87d211d03b4329c47592c9ca1e9dccab55af3a9d98eda142a73efcffb3968",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "pool/scripts/edr-hydraulics-checks/examples/geometry.json",
+      "source_revision": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+      "source_sha256": "7ec9573c9fc7d9c5cf740b2ddd5c3d73d1620647eb8f66bc303b3c2d8c287462",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/examples/offline_checks/geometry.json",
+      "target_sha256": "7ec9573c9fc7d9c5cf740b2ddd5c3d73d1620647eb8f66bc303b3c2d8c287462",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/SKILL.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "b11675daa1eddcde62e327c1f67b26156ef0a347007aa8b0a29b34bb6eae4cfc",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/SKILL.md",
+      "target_sha256": "f23800adafca9e18cfa697b8ee5b12f3a6aad066a8cfe25d544c69518ce63cb9",
+      "transformation": "LF normalization and workflow section heading only; method body unchanged",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/boundaries.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "6830ce00e8a35edaad80ffe07e6426ff7ce0cfd8cfd9c82dd1346a55c5dd65b8",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/boundaries.md",
+      "target_sha256": "cb0ffad17e8daa97579687301dfaab76f5218ae45810cdd8b85c34b6d755dbea",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/ERROR_MEMORY.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "b3abb238b474481e0a73d4484b592a4f17f506ebaf2c44d69ecbc2c7e7791f88",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/ERROR_MEMORY.md",
+      "target_sha256": "b3abb238b474481e0a73d4484b592a4f17f506ebaf2c44d69ecbc2c7e7791f88",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/FIGURES.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "18c52df52400b1ecdf58b875ce334c34997b10155765e2b4617ec8ec09393632",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/FIGURES.md",
+      "target_sha256": "4f11e30190b7c538eb563796ac92276e1535d12cd7cb426b51b88f52e2b24206",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/heat_services.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "3ca3ce8b62ec0c54ec7290cb8ce4ade7aa39380ba61209b11b2bcff6bef7fce6",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/heat_services.md",
+      "target_sha256": "493e60053fc6fdd0eb63d63ff2c418f697736f1c197cf65c86efb8967ca0c4ad",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/material_connections.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "0fe82baaa82b2a3ae3f643b315ef34f96f4eae289353a2d1887c03f43942bc7b",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/material_connections.md",
+      "target_sha256": "349d8677e2092600d6bd78356ae7515d13c0b221c301bac5f61718a65ea671f0",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/NEW_KNOWLEDGE.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "dadf53250467d1bb320da1c439da6a2520056abd97d325747f0007f98c426d98",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/NEW_KNOWLEDGE.md",
+      "target_sha256": "dadf53250467d1bb320da1c439da6a2520056abd97d325747f0007f98c426d98",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/phase_and_circulation.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "e630d6144bce2d448a95f371ed4320d23f4020f9ae3770012a484c2dcba604dc",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/phase_and_circulation.md",
+      "target_sha256": "8cc9371914022cf9bc688e81d5489bd65daa3726f5125b7f8a7e43a3e2f902e1",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/references/public_sources.md",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "74c154187fb04f7fa3262322f3930f7bc2fe0d98e50d1fd9e7c5506e907e8375",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/references/public_sources.md",
+      "target_sha256": "74c154187fb04f7fa3262322f3930f7bc2fe0d98e50d1fd9e7c5506e907e8375",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/scripts/generate_common_tank.py",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "aea44044ad82ba7657099be98471b67ee3459107f2da498953a0e1f8724d9d7b",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_common_tank.py",
+      "target_sha256": "802c0d4fb56c0696d191e679b1b0f2eaaf79bcba9b028ebd607e0c52efb27cd1",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/scripts/generate_structures.py",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "7b3bc745c4bf8bd66e7a216d54cfb26ce06ded59c885b47195e37b667887a31e",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/scripts/generate_structures.py",
+      "target_sha256": "c9d8aa3de6ae5a9a8448ff76fda1796f5f97abd9b9c42c1d47af3537ae46118e",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/assets/01-once-through-kettle-local.svg",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "533e6c2bcc1ad4b81cf06e6d64254d1a71536a7a8525c4cbc08c68a16ddb7a17",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/assets/01-once-through-kettle-local.svg",
+      "target_sha256": "dfb0ab0efc588838ee8b334429da6a501e4b8785b88a8e78d05dd6ada49b4baa",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/assets/02-partial-heat-recovery-local.svg",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "14abbcacad5c5fe546e3cf3864a2270ba443f5617f29b21a3fcc9ef588adbcc8",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/assets/02-partial-heat-recovery-local.svg",
+      "target_sha256": "4d7911ba2c8955b23473c7d663aeb1633440d4d1de8e19d61f7d86cefa137e00",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/assets/03-thermosiphon-vs-forced-circulation-local.svg",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "c889a64ac42c615b3485385133d468b53723ec28525b8d45c09658aaa2dc3f35",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/assets/03-thermosiphon-vs-forced-circulation-local.svg",
+      "target_sha256": "5678c5072286fe21663ffb647f854225fa3874dee6a8c87e4b7a531e92c529f2",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "source_path": "source-reviewed-double-effect-owner/assets/04-common-tank-boundary-local.svg",
+      "source_revision": "maintained-method-file-identities; not a Git case result",
+      "source_sha256": "0102e7722bce822d5bff3ae131aba88d5b49cd972dcaaef3355d7dbc84f88f13",
+      "target_path": "plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/assets/04-common-tank-boundary-local.svg",
+      "target_sha256": "163019d95c4e8cc999a0d2dbce9ea65e206eb898e9caf892de38cfbf3c26ef6a",
+      "transformation": "LF normalization only",
+      "license": "CC-BY-4.0"
+    }
+  ],
+  "scope": "Source-reviewed generic mechanisms and explicit maintenance; no case/model/log or relaxed-lineage import."
+}

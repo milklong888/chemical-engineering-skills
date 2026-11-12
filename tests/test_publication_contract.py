@@ -24,7 +24,7 @@ EXPECTED_TOOLS = {
     "knowledge_search", "equipment_calculate", "equipment_batch",
     "product_describe", "pressure_calculate", "process_feedback",
     "process_replay_audit", "aspen_solve_route", "workflow_lookup",
-    "design_stage_check",
+    "design_stage_check", "module_catalog", "module_check",
 }
 
 
@@ -153,7 +153,7 @@ class PublicationContractTests(unittest.TestCase):
                             .read_text(encoding="utf-8"))
         self.assertEqual(plugin["skills"], "./skills/")
         entries = list(SKILLS.rglob("SKILL.md"))
-        self.assertEqual(len(entries), 19)
+        self.assertEqual(len(entries), 20)
         for path in entries:
             self.assertEqual(len(path.relative_to(SKILLS).parts), 2,
                              "Nested backup/archived Skill entry can be rediscovered")
@@ -168,7 +168,7 @@ class PublicationContractTests(unittest.TestCase):
                     parts = {part.casefold() for part in PurePosixPath(value.replace("\\", "/")).parts}
                     self.assertFalse(parts & {"archive", "archives"}, (row.get("node_id"), value))
 
-    def test_expert_mcp_retains_ten_tools_and_workflow_lookup(self):
+    def test_expert_mcp_retains_existing_tools_and_adds_normalized_calls(self):
         tree = ast.parse((ROOT / "tools/expert_mcp.py").read_text(encoding="utf-8"))
         tools = {}
         for node in tree.body:

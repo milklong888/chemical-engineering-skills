@@ -17,7 +17,7 @@ RESOURCE_REGISTRY = {
     "script-catalog": "aspen-document-driven-flowsheet/references/script_template_catalog.md",
 }
 OFFICIAL_SKILL_IDS = frozenset({
-    "aspen-adaptive-generalization-loop", "aspen-document-driven-flowsheet",
+    "aspen-adaptive-generalization-loop", "aspen-document-driven-flowsheet", "aspen-double-effect-distillation",
     "aspen-edr-rating-delivery", "aspen-flowsheet-cost-skill-builder",
     "aspen-flowsheet-error-repair", "aspen-heat-pump-distillation-replacement",
     "aspen-kinetics-documentation", "aspen-non-reactor-equipment-cost",
@@ -158,8 +158,8 @@ def lookup(payload: dict[str, Any]) -> dict[str, Any]:
         raise ValueError("Unknown workflow action")
     root = _skills_root()
     ids = _skill_ids(root)
-    if len(ids) != 19:
-        raise ValueError(f"Expected 19 registered skills, found {len(ids)}")
+    if len(ids) != len(OFFICIAL_SKILL_IDS):
+        raise ValueError(f"Expected {len(OFFICIAL_SKILL_IDS)} registered skills, found {len(ids)}")
     if action == "list":
         if set(payload) != {"action"}:
             raise ValueError("list action accepts only action")

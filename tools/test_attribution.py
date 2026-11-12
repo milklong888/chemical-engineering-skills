@@ -41,6 +41,17 @@ SOFTWARE.
 
 
 class AttributionTests(unittest.TestCase):
+    def test_explicit_imported_cc_by_license_is_preserved(self):
+        entry = self.manifest["entries"][0]
+        entry["license"] = "CC-BY-4.0"
+        path = self.root / entry["sidecar"]
+        path.write_text(path.read_text(encoding="utf-8").replace(checker.MIT_ID,"SPDX-License-Identifier: CC-BY-4.0"),encoding="utf-8")
+        self.save()
+        self.assertTrue(checker.check(self.root)["pass"])
+        entry["license"] = "unknown"
+        self.save()
+        self.failed("unsupported_license")
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="attribution-synthetic-")
         self.addCleanup(self.temp.cleanup)

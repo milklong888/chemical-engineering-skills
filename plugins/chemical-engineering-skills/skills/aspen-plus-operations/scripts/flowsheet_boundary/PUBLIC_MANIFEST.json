@@ -1,0 +1,57 @@
+{
+  "schema": "owner-tool-file-manifest-v1",
+  "scope": "listed_file_bytes_only",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "files": [
+    {
+      "path": "boundary_compare.py",
+      "size": 5274,
+      "sha256": "4ba06512f632a8f3284f29d6cba7580807f0bb296a0eb78aa0dfdbb25bde5769"
+    },
+    {
+      "path": "com_operations.py",
+      "size": 9115,
+      "sha256": "b807405a542d388c293af05472cfd76e4a78fb1cd00b2c2153027094ec8bd287"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1148,
+      "sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215"
+    },
+    {
+      "path": "native_results.py",
+      "size": 7966,
+      "sha256": "69f05ff147d438ed9cb075e81edd80eb5689b522625c0b909c7405013df272d3"
+    },
+    {
+      "path": "README.md",
+      "size": 7451,
+      "sha256": "b672612e662be8ff339409585707b65cccc4cba63649e0fbc02a9057ba25452c"
+    },
+    {
+      "path": "RELOCATION.json",
+      "size": 5688,
+      "sha256": "4f8e6aed367ba5680f8222f2e98fc961ac90bc2e24b90c13204078cee897127d"
+    },
+    {
+      "path": "SOURCE_METADATA.json",
+      "size": 2539,
+      "sha256": "199202e57baa5c83de5e684fea7d2407c4d905cdc88758a4b5fd5361efba6adb"
+    },
+    {
+      "path": "tests/test_boundary_compare.py",
+      "size": 3663,
+      "sha256": "a9c35ed9c30bced5c1040cdbb2911f1c436ae268b55fc567afb0dca8f66f7e3d"
+    },
+    {
+      "path": "tests/test_com_operations.py",
+      "size": 6651,
+      "sha256": "0368dd35ffa1e0b2595a632f1ae4d5187f5f2c14f40abda8948512ededd9c05a"
+    },
+    {
+      "path": "tests/test_native_results.py",
+      "size": 5960,
+      "sha256": "746d751fc1ef8587290d58abf926427ebb28afc9fbbc30ed30ffb44a6836b379"
+    }
+  ]
+}

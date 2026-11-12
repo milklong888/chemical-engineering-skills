@@ -1,0 +1,80 @@
+{
+  "schema": "portable-convergence-diagnostics-source-v1",
+  "public_contributor": "milklong888",
+  "code_license": "MIT",
+  "method_text_license": "CC-BY-4.0",
+  "record_kind": "method_and_code_reference",
+  "source_kind": "portable implementation prepared under explicit user sharing request",
+  "files": [
+    {
+      "path": "audit_cold_starts.py",
+      "bytes": 6186,
+      "sha256": "a49d958ce50fc7a76d3682162612845c647b348b9e7266408b9f207d4375e84c"
+    },
+    {
+      "path": "audit_precision_trials.py",
+      "bytes": 10186,
+      "sha256": "9384e340cbbb15c96b733c3190c91d71bbb24c78e3ead2a190b1de560b8d0bef"
+    },
+    {
+      "path": "examples/isolation_plan.json",
+      "bytes": 553,
+      "sha256": "f034a1c8e02370ce40267798b47d9160069ea8a44c0aeb43550b9c7021bf649d"
+    },
+    {
+      "path": "examples/literal_source.txt",
+      "bytes": 11,
+      "sha256": "87de0dca21b2429312a4b9a9150097c67d3eb2dc2167e862e1055a531b52d248"
+    },
+    {
+      "path": "examples/precision_trials.json",
+      "bytes": 1168,
+      "sha256": "50bae26fe722272446ebd7fb9405a5c00b255be79896cb1b861da46a7f034934"
+    },
+    {
+      "path": "examples/startup_trials.json",
+      "bytes": 2993,
+      "sha256": "106c6d8a1f50b5c8b4dcd0eb6f045f564ff1c68a9bee4bd4462864ab2b6da9ca"
+    },
+    {
+      "path": "examples/synthetic_receipt.json",
+      "bytes": 166,
+      "sha256": "75dc5a3874f79244034bc8ffac80e9ef4a541164b79953e77dc19fe578dd4739"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1148,
+      "sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215"
+    },
+    {
+      "path": "make_isolation_variants.py",
+      "bytes": 8882,
+      "sha256": "a964c27e26291c4dce82530b5973a6259f6790c422e5b7fc56e44d2e3176efe2"
+    },
+    {
+      "path": "tests/test_trial_audits.py",
+      "bytes": 14375,
+      "sha256": "3eff0669e1007a3db704f04ced25597d133c8f14e5ab02452b907820411309ed"
+    },
+    {
+      "path": "tests/test_variants.py",
+      "bytes": 11500,
+      "sha256": "333c997acea56a4b2373b59f5ece70fd43a1f1b49cb7f4cee4592fddacd9a8e4"
+    }
+  ],
+  "verification": {
+    "kind": "offline_synthetic_unittest",
+    "test_count": 32,
+    "all_passed": true,
+    "native_Aspen_execution_claimed": false,
+    "engineering_acceptance_claimed": false
+  },
+  "source_case_acceptance_not_promoted": true,
+  "private_project_payload_included": false,
+  "default_tolerance": null,
+  "default_canonical": false,
+  "formal_inbox_admission_claimed": false,
+  "owner_repository": "milklong888/chemical-engineering-skills",
+  "owner_reference_commit": "98a2ea53a127cad7e2fecd0df447a89f5ca014a0",
+  "owner_boundary": "Existing Aspen operations owns actual execution, resources, native evidence and delivery gates; this package only handles declared offline inputs."
+}

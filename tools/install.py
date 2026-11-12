@@ -33,7 +33,7 @@ def discovery_tree(path: Path) -> bool:
     return any(parts[i] in {".agents", ".codex"} and parts[i + 1] == "skills" for i in range(len(parts) - 1))
 
 
-def install(repository: Path, workspace_root: Path, skills_root: Path, *, replace: bool = False, backup_root: Path | None = None, dry_run: bool = False) -> dict:
+def install(repository: Path, workspace_root: Path, skills_root: Path, *, replace: bool = False, backup_root: Path | None = None, dry_run: bool = False, only_paths: list[str] | None = None) -> dict:
     repository, workspace_root, skills_root = [p.expanduser().absolute() for p in (repository, workspace_root, skills_root)]
     for root in (repository, workspace_root, skills_root):
         reject_links(root)
@@ -46,10 +46,22 @@ def install(repository: Path, workspace_root: Path, skills_root: Path, *, replac
         if root.exists() and not root.is_dir():
             raise ReleaseError("Target root is not a directory")
     verified = verify(repository)
+    selected = None
+    if only_paths is not None:
+        if (not isinstance(only_paths, list) or not only_paths
+                or any(not isinstance(path, str) or not path for path in only_paths)
+                or len(set(only_paths)) != len(only_paths)):
+            raise ReleaseError("Selected install paths must be a nonempty unique string list")
+        selected = set(only_paths)
+        known = {entry["path"] for entry in verified["manifest"]["files"]}
+        if not selected <= known:
+            raise ReleaseError("Selected install path is outside the verified manifest")
     planned, collisions, seen = [], [], set()
     tokens = {"{CHEM_WORKSPACE}": workspace_root.as_posix(), "{CHEM_SKILLS}": skills_root.as_posix()}
     entries = []
     for entry in verified["manifest"]["files"]:
+        if selected is not None and entry["path"] not in selected:
+            continue
         entries.append(entry)
         if entry["path"].startswith("workspace/scripts/"):
             # The knowledge adapter verifies its original algorithm/routing
@@ -72,6 +84,8 @@ def install(repository: Path, workspace_root: Path, skills_root: Path, *, replac
         elif source_rel.startswith(("backends/", "knowledge/", "vendor/", "runtime/", "tools/", "examples/")):
             kind, root, rel = "runtime", workspace_root, "chemical-engineering-runtime/" + source_rel
         else:
+            if selected is not None:
+                raise ReleaseError("Selected path has no installable destination: " + source_rel)
             continue
         target = safe_target(root, rel)
         for parent in target.parents:
@@ -101,10 +115,14 @@ def install(repository: Path, workspace_root: Path, skills_root: Path, *, replac
     if collisions and not replace:
         raise ReleaseError("Existing files differ; preflight made no changes. Use --replace to back up exact conflicts: " + ", ".join(x["kind"] + "/" + x["relative"] for x in collisions))
     changes = [x for x in planned if x["old"] != x["data"]]
+    if selected is not None and not planned:
+        raise ReleaseError("Selected paths have no installable destination")
     result = {"status": "dry_run" if dry_run else "installed", "managed_file_count": len(planned), "changed_file_count": len(changes),
               "unchanged_file_count": len(planned) - len(changes), "conflict_count": len(collisions),
               "workspace_root": workspace_root.as_posix(), "skills_root": skills_root.as_posix(),
               "commercial_software_verified": False, "external_dependencies": verified["external_dependencies"]}
+    if selected is not None:
+        result["selected_source_paths"] = sorted(selected)
     backup = None
     if collisions:
         backup_base = backup_root.expanduser().absolute() if backup_root else workspace_root.parent / ".chemical-engineering-skills-backups"
@@ -160,9 +178,10 @@ def main() -> int:
     parser.add_argument("--replace", action="store_true")
     parser.add_argument("--backup-root", type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--only", action="append", dest="only_paths", help="Install only an exact manifest source path; repeat for an explicit update set")
     args = parser.parse_args()
     try:
-        print(json.dumps(install(args.repository, args.workspace_root, args.skills_root, replace=args.replace, backup_root=args.backup_root, dry_run=args.dry_run), ensure_ascii=False, indent=2))
+        print(json.dumps(install(args.repository, args.workspace_root, args.skills_root, replace=args.replace, backup_root=args.backup_root, dry_run=args.dry_run, only_paths=args.only_paths), ensure_ascii=False, indent=2))
         return 0
     except (ReleaseError, OSError, ValueError, KeyError, TypeError) as exc:
         print(json.dumps({"status": "refused", "error": str(exc)}, ensure_ascii=False))

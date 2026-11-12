@@ -1,0 +1,29 @@
+{
+  "xml_text": "<application><objects><object name=\"SyntheticLayout\"><Exchanger><TubeBundle>\n    <tubePitchInLine value=\"0.04\"/><tubeLineOrient value=\"Horizontal\"/><tubeOD value=\"0.02\"/>\n    <PassRegion><xMin value=\"0\"/><xMax value=\"0.08\"/><yMin value=\"0\"/><yMax value=\"0\"/>\n    <TubeLine><tubeType value=\"tlNormal\"/>\n    <CentrePosition><x value=\"0\"/><y value=\"0\"/></CentrePosition>\n    <CentrePosition><x value=\"0.08\"/><y value=\"0\"/></CentrePosition>\n    </TubeLine></PassRegion>\n    <TieRod><CentrePosition><x value=\"1\"/><y value=\"1\"/></CentrePosition><diameter value=\"0.01\"/></TieRod>\n    </TubeBundle></Exchanger></object></objects></application>",
+  "mapping": {
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    },
+    "coordinate_unit": "m",
+    "bundle_path": "./objects/object[@name='SyntheticLayout']/Exchanger/TubeBundle",
+    "endpoint_path": "CentrePosition"
+  },
+  "target_tube_count": 3,
+  "effective_tube_count": 3,
+  "count_source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  },
+  "coordinate_tolerance_m": 1e-12,
+  "coordinate_tolerance_source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  }
+}

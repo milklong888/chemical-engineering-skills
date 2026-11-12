@@ -2,19 +2,19 @@
 
 作者：milklong（GitHub：milklong888） · [版权、来源与AI辅助编辑声明](ATTRIBUTION.md)
 
-从任务书、文献条件或已有 Aspen 模型出发，完成流程规划、简化骨架、单模块细化、设备计算反馈和全流程复核。这套工作库把 **19 个 Skill、分层知识检索、17 类设备计算后台及可复用脚本**接在同一条工作线上，适合完整流程生成，也支持单塔优化、模型排错、设备审查、费用整理和技术说明等独立任务。
+从任务书、文献条件或已有 Aspen 模型出发，完成流程规划、简化骨架、单模块细化、设备计算反馈和全流程复核。这套工作库把 **20 个 Skill、分层知识检索、17 类设备计算后台及可复用脚本**接在同一条工作线上，适合完整流程生成，也支持单塔优化、模型排错、设备审查、费用整理和技术说明等独立任务。
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
-当前维护版为 **0.4.13**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+当前维护版为 **0.4.14**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
 
-[下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [19 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
+[下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [20 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
 
 [![从设计资料到可核验的 Aspen 全流程](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)
 
 *点击图片查看原尺寸。左侧按工作顺序展开，右侧分别说明外置专著和设备后台的调用；底部是任务结束后的经验更新。*
 
-本次[经验合并记录](docs/EXPERIENCE_INTEGRATION_0.4.13.md)列出已有规则的合并位置、按症状调用的收敛与膜建模案例，以及分项证据的验收边界。
+本次[模块规范化记录](docs/MODULE_NORMALIZATION_0.4.14.md)列出12个维护单元、23份提案的处置、九项统一离线调用，以及主库和本机部署边界。
 
 ## 能完成什么
 
@@ -60,7 +60,7 @@
 
 这些能力通过资料整理、方法编排、脚本封装和回归检查形成。知识维护保留原始来源、抽象层次、适用条件和计算链，任务经验按上述流程逐步积累；本项目不包含重新训练的基础模型权重。
 
-## 19 个 Skill：按任务进入
+## 20 个 Skill：按任务进入
 
 下表中的模块名称直接链接到 `SKILL.md`；“详细说明”介绍其输入、工作过程、产物和相关文件。日常使用无需记住所有名称，助手按任务和阶段选择。
 

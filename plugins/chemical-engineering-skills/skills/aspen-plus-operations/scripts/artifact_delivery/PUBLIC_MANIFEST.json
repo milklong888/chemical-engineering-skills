@@ -1,0 +1,42 @@
+{
+  "schema": "owner-tool-file-manifest-v1",
+  "scope": "listed_file_bytes_only",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 28,
+      "sha256": "1d09e6a96ea7d4d362ed70a227d7c4d08c870e93b65df6ddfffe9e14b57508aa"
+    },
+    {
+      "path": "artifact_bridge.py",
+      "size": 10471,
+      "sha256": "fc2289b65dd3e0261c85aff36972866f603a8b02a3d629f9dc1a8ad5a14e3036"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1148,
+      "sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215"
+    },
+    {
+      "path": "README.md",
+      "size": 3856,
+      "sha256": "1b0565eef961a9b90cbc183eb5f95c51f6551e4c8530ccb85efa805eb3f39d3b"
+    },
+    {
+      "path": "RELOCATION.json",
+      "size": 4200,
+      "sha256": "223c3f9678fa9490bc1f832f9c7bdc2e47d31b7c7929d9dfd4db636798e86f3f"
+    },
+    {
+      "path": "SOURCE_METADATA.json",
+      "size": 921,
+      "sha256": "1848f82432fdd9e8f509dcc55dff933b968bbca44310c44047f7c73199e84a97"
+    },
+    {
+      "path": "tests/test_artifact_bridge.py",
+      "size": 7794,
+      "sha256": "39c84406bd4d8a96cb2ea4382d42a79516a707ca1241c2e9820dfb74245a6e1d"
+    }
+  ]
+}

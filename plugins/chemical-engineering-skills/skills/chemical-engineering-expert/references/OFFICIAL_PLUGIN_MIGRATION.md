@@ -69,7 +69,7 @@ connector that is not present.
    the repository; it does not upload.
 4. Check a sealed checkout or extracted release with
    `python -B -X utf8 tools/verify_release.py --repository <repo>` (or
-   `--root <repo>`). It verifies the manifest, hashes, plugin structure, 19
+   `--root <repo>`). It verifies the manifest, hashes, plugin structure, 20
    Skills, and required release tools.
 5. Install only from that verified release using
    `python -B -X utf8 tools/install.py --repository <release-root> --workspace-root <workspace> --skills-root <skills-root> --dry-run`,

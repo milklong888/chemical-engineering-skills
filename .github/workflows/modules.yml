@@ -1,0 +1,37 @@
+name: Verify normalized offline modules
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  module-contracts:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.14'
+      - name: Verify exact release identity
+        run: python -B -X utf8 tools/verify_release.py --repository .
+      - name: Install the bundled hash-bound runtime
+        run: python -B -X utf8 tools/install_offline_runtime.py --wheelhouse runtime/wheelhouse --lock vendor/aspen-mcp-toolkit/offline-runtime.lock.json --target "$env:RUNNER_TEMP/module-runtime"
+      - name: Verify normalized calls, actual stdio and source owner contracts
+        shell: pwsh
+        run: |
+          $taskPython = "$env:RUNNER_TEMP/module-runtime/Scripts/python.exe"
+          & $taskPython -B -X utf8 -m unittest tests.test_normalized_modules tests.test_normalized_transport tests.test_workflow_catalog -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $testRoots = @(
+            'plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/dynamics_tools/tests',
+            'plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/native_layout/tests',
+            'plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/flowsheet_boundary/tests',
+            'plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/artifact_delivery/tests',
+            'plugins/chemical-engineering-skills/skills/aspen-flowsheet-error-repair/scripts/convergence_diagnostics/tests',
+            'plugins/chemical-engineering-skills/skills/aspen-edr-rating-delivery/tests'
+          )
+          foreach ($testRoot in $testRoots) {
+            & $taskPython -B -X utf8 -m unittest discover -s $testRoot -v
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+      - name: Verify scoped installation and attribution regressions
+        run: python -B -X utf8 -m unittest discover -s tools -p 'test_*.py' -v

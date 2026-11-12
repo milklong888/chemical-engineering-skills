@@ -1,0 +1,115 @@
+{
+  "schema": "offline-facade-validation-v1",
+  "version": "1.1.0",
+  "date": "2026-11-12",
+  "offline_tests": {
+    "command": "python -B -X utf8 -m unittest discover -s tests -v",
+    "interpreter_version": "3.14.3",
+    "executed": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "scope": "26 original file tests + 9 facade/public-parser/overflow receipt tests + 2 real SDK in-process strict numeric boundary tests; no stdio/native service",
+    "environment": "clean MCP SDK 1.28.1 environment"
+  },
+  "export_coverage": {
+    "verify_package_manifest": {
+      "success_case_tested": true,
+      "invalid_input_tested": true
+    },
+    "check_csv_grid": {
+      "success_case_tested": true,
+      "invalid_input_tested": true
+    },
+    "inspect_history": {
+      "success_case_tested": true,
+      "invalid_input_tested": true
+    },
+    "list_external_tools": {
+      "success_case_tested": true,
+      "invalid_input_tested": true
+    },
+    "plan_external_invocation": {
+      "success_case_tested": true,
+      "invalid_input_tested": true
+    }
+  },
+  "synthetic_example": {
+    "path": "examples/demo_offline.py",
+    "executed_in_process": true,
+    "all_five_facade_calls_status_ok": true,
+    "manifest_grid_history_matches": true,
+    "external_plan_executed": false
+  },
+  "mcp_registration": {
+    "sdk": "mcp 1.28.1",
+    "in_process_create_server_and_list_tools": "passed",
+    "observed_tool_count": 5,
+    "stdio_transport_tested_by_module_worker": false,
+    "independent_transport_review": "pending root integration"
+  },
+  "tested_source_sha256": {
+    "toolpack.py": "beb400950b9eb01725294f2d2c1aa8709f9654926a12ed469e8f29cb062e2fbf",
+    "offline_facade.py": "ec147fb4e66070ff91fb86d10515673355cafc9825916ee760ae6d27da8b120c",
+    "mcp_server.py": "d25a3fe14498ea50ed7e7c2e25fdecc2319e0b8c36c55a11d892e50221d44cf1",
+    "tests/test_toolpack.py": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1",
+    "tests/test_offline_facade.py": "3ca3ffcd3a3d70a9bcb1322d0b701963b96639d819aa2311c80369c0f6b25472",
+    "tests/test_mcp_boundary.py": "b97d8efb0b3a7f40fcffd5b334ea435ef8b707505552ba7d3acf7b9213310ec3",
+    "examples/demo_offline.py": "c5f9c232bcc620bee1d962b75df968c1018e2dddb93fffbc641c0435038afcc4"
+  },
+  "remaining_external_dependencies": [
+    "Aspen Plus MCP complete licensed source/runtime (not Dynamics)",
+    "Complete chemical-expert backend, rules, data, equipment gateway and dedicated Python",
+    "Authorized native operations audit/runtime with separate license and native environment"
+  ],
+  "native_aspen_edr_com_execution": false,
+  "external_mcp_service_started": false,
+  "client_registration_performed": false,
+  "engineering_acceptance": "not_assessed",
+  "inbox_admission_claimed": false,
+  "independent_stdio_verification": {
+    "status": "passed",
+    "sdk": "mcp 1.28.1",
+    "python": "3.14.3",
+    "test": "tests.test_dynamic_mcp_transport",
+    "tools_listed": 5,
+    "calls": 10,
+    "scope": "synthetic file checks and print-only external invocation plans; no external/native service started",
+    "applies_to_revision": "pre DYN-P1 strict numeric adapter and DYN-P2 overflow receipts",
+    "tested_source_sha256_at_that_revision": {
+      "toolpack.py": "76a1190b800bcaddd45f11bf4299e5d2db9af19defe89ebc8a78415bd39f5299",
+      "offline_facade.py": "38a06bd15def6beaa62f13a02d219e849be06868cb6cb9dcaa7db57c6bc22df5",
+      "mcp_server.py": "0b89f47842a62f5b548e52a9b1a40a11fbbf3267ec8a444fc0d4bcddc23f5ce8",
+      "tests/test_toolpack.py": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1",
+      "tests/test_offline_facade.py": "a0ad7923020cde6ce5b3f2dbd9223bcd6bc55c597d5d7d757bf740ce380c49d6",
+      "examples/demo_offline.py": "c5f9c232bcc620bee1d962b75df968c1018e2dddb93fffbc641c0435038afcc4"
+    },
+    "current_revision_reuse": false,
+    "followup_status": "pending_root_real_stdio_coercion_and_subnormal_counterexamples"
+  },
+  "numeric_boundary_regressions": {
+    "sdk": "mcp 1.28.1",
+    "in_process_validation": "passed",
+    "all_four_numeric_parameters_reject": [
+      "bool",
+      "string",
+      "dict",
+      "list",
+      "null"
+    ],
+    "valid_integer_and_float_number_requests": "passed",
+    "subnormal_interval_overflow_facade_and_cli_receipts": "passed",
+    "independent_real_stdio_followup": "pending_root"
+  },
+  "independent_stdio_verification_current": {
+    "status": "passed",
+    "sdk": "mcp 1.28.1",
+    "python": "3.14.3",
+    "test": "tests.test_dynamic_mcp_transport",
+    "tool_inventory": 5,
+    "call_requests": 19,
+    "scope": "successful synthetic checks plus checksum mismatch,missing dependencies,bool/string parameter rejection and finite-input derived overflow; no native/external program started",
+    "current_revision_reuse": true
+  },
+  "historical_snapshot_notice": "Upstream validation at the pinned inbox source commit; tested source hashes above describe that source snapshot. Relocated execution is reported separately in RELOCATION.json/current task audit."
+}

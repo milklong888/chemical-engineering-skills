@@ -1,0 +1,69 @@
+{
+  "schema": "aspen-dynamics-local-tool-catalog-v1",
+  "version": "1.1.0",
+  "scope": "External dependency catalog only; the offline facade never starts these tools",
+  "tools": [
+    {
+      "id": "aspenplus-mcp",
+      "category": "mcp-local-service",
+      "root_environment_variable": "ASPEN_PLUS_MCP_ROOT",
+      "entry": "src/aspenplus_mcp/server.py",
+      "python": ".venv/Scripts/python.exe",
+      "module": "aspenplus_mcp.server",
+      "transport": "stdio",
+      "purpose": "Existing Plus MCP; do not assume it controls Dynamics",
+      "availability": "external_dependency",
+      "source_included": false,
+      "verification_state": "not_verified_by_this_package",
+      "required_source": "Separately licensed complete Aspen Plus MCP implementation; archive snapshots lack a verified redistribution license chain; not a Dynamics interface"
+    },
+    {
+      "id": "chemical-expert-mcp",
+      "category": "mcp-local-service",
+      "root_environment_variable": "CHEMICAL_EXPERT_RUNTIME",
+      "entry": "tools/expert_mcp.py",
+      "requires_configured_python": true,
+      "transport": "stdio",
+      "purpose": "Existing engineering knowledge and stage checks; not native acceptance",
+      "availability": "external_dependency",
+      "source_included": false,
+      "verification_state": "not_verified_by_this_package",
+      "required_source": "Complete separately installed implementation at the declared entry, its dependencies, rules, license and version evidence"
+    },
+    {
+      "id": "chemical-expert-cli",
+      "category": "local-cli",
+      "root_environment_variable": "CHEMICAL_EXPERT_RUNTIME",
+      "entry": "tools/expert_cli.py",
+      "requires_configured_python": true,
+      "purpose": "Same backend without MCP; discover payload using its schema command",
+      "availability": "external_dependency",
+      "source_included": false,
+      "verification_state": "not_verified_by_this_package",
+      "required_source": "Complete separately installed implementation at the declared entry, its dependencies, rules, license and version evidence"
+    },
+    {
+      "id": "operations-evidence",
+      "category": "local-python-library",
+      "root_environment_variable": "ASPEN_OPERATIONS_ROOT",
+      "entry": "scripts/aspen_evidence.py",
+      "purpose": "Existing Summary/history parser; use toolpack history bridge, not a second parser",
+      "availability": "external_dependency",
+      "source_included": false,
+      "verification_state": "not_verified_by_this_package",
+      "required_source": "Canonical operations owner ../aspen_evidence.py (unchanged pinned identity in toolpack.py); explicit installed-owner fallback requires expected raw SHA256",
+      "preferred_public_dependency": "../aspen_evidence.py"
+    },
+    {
+      "id": "plus-clean-audit",
+      "category": "native-cli",
+      "root_environment_variable": "ASPEN_OPERATIONS_ROOT",
+      "entry": "scripts/aspen_clean_delivery_audit.py",
+      "purpose": "Existing no-edit native audit; may run Aspen only when a future task authorizes it",
+      "availability": "external_dependency",
+      "source_included": false,
+      "verification_state": "not_verified_by_this_package",
+      "required_source": "Complete separately installed implementation at the declared entry, its dependencies, rules, license and version evidence"
+    }
+  ]
+}

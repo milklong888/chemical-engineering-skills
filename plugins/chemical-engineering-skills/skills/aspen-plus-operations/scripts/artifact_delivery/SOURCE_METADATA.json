@@ -1,0 +1,21 @@
+{
+  "schema": "ordinary-pool-source-v1",
+  "item_id": "EXP-20261013-local-artifact-delivery",
+  "priority": "normal",
+  "public_source_repository": "milklong888/chemical-engineering-experience-inbox",
+  "source_path": "pool/scripts/local-artifact-delivery/artifact_bridge.py",
+  "source_kind": "original_standard_library_tool",
+  "code_license": "MIT",
+  "documentation_license": "CC-BY-4.0",
+  "python": "3.10+",
+  "dependencies": "Python standard library only",
+  "tested_scope": "synthetic_http_bytes_and_resource_lifecycle_only",
+  "local_regression_tests": 21,
+  "native_ui_click_verified": false,
+  "desktop_application_patched": false,
+  "engineering_acceptance_claim": false,
+  "admission_state": "proposal",
+  "default_canonical": false,
+  "source_sha256": "FC2289B65DD3E0261C85AFF36972866F603A8B02A3D629F9DC1A8AD5A14E3036",
+  "tests_sha256": "1F26E591AC7BAAB76AD7D542303E8DE43696D19BF50AAC2047C22E5150B91111"
+}

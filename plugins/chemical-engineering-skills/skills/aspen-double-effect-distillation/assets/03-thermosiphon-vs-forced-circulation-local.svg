@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+<title>03  LP冷侧循环：自然循环与强制循环</title><desc>两种替代方案，按所选结构分别审查；不表示在同一回路中同时安装。。结构候选，未Aspen验证，局部接口图。</desc>
+<defs><marker id="flow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#183449"/></marker><marker id="heat" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#bb671c"/></marker></defs>
+<rect width="1600" height="1040" fill="#f4f7fa"/>
+<style>text {font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#183449;font-size:21px} .small {font-size:18px} .title {font-size:32px;font-weight:700} .bold {font-weight:700} .blue {fill:#176784} .heat {fill:#bb671c}</style>
+<text x="48" y="55" class="title">03  LP冷侧循环：自然循环与强制循环</text>
+<text x="48" y="96" class="">两种替代方案，按所选结构分别审查；不表示在同一回路中同时安装。</text>
+<text x="48" y="132" class="small">局部接口示意  |  结构候选 · 未Aspen验证  |  非完整塔岛 / 非设备施工图</text>
+<rect x="32" y="170" width="1536" height="275" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="206" class="bold blue">A  自然循环热虹吸：无外部循环泵</text>
+<rect x="50" y="283" width="240" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="170.0" y="317.0" class="bold" text-anchor="middle">LP底部集液区</text>
+<text x="170.0" y="347.0" class="small" text-anchor="middle">总抽液 L</text>
+<rect x="390" y="283" width="190" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="485.0" y="317.0" class="bold" text-anchor="middle">FSPLIT-B</text>
+<text x="485.0" y="347.0" class="small" text-anchor="middle">液体分流</text>
+<rect x="975" y="283" width="195" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1072.5" y="317.0" class="bold" text-anchor="middle">HX-DE 冷侧</text>
+<text x="1072.5" y="347.0" class="small" text-anchor="middle">L → V+L</text>
+<path d="M580,325 L975,325" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="625" y="305" class="small">CIRC-L · 液体循环支路（无泵）</text>
+<rect x="1280" y="283" width="260" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1410.0" y="317.0" class="bold" text-anchor="middle">V+L 两相返回</text>
+<text x="1410.0" y="347.0" class="small" text-anchor="middle">→ LP下部接收/集液区</text>
+<path d="M290,325 L390,325" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="334" y="305" class="small">L</text>
+<path d="M1170,325 L1280,325" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1192" y="305" class="small">V+L</text>
+<path d="M485,367 L485,402 L820,402" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="835" y="409" class="small">B_LP · L → 指定净底产品边界</text>
+<text x="975" y="253" class="small heat">热侧来源：HP总顶汽；仅跨壁传热</text>
+<rect x="32" y="467" width="1536" height="275" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="503" class="bold blue">B  强制循环：液体泵位于受热之前</text>
+<rect x="50" y="580" width="240" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="170.0" y="614.0" class="bold" text-anchor="middle">LP底部集液区</text>
+<text x="170.0" y="644.0" class="small" text-anchor="middle">总抽液 L</text>
+<rect x="390" y="580" width="190" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="485.0" y="614.0" class="bold" text-anchor="middle">FSPLIT-B</text>
+<text x="485.0" y="644.0" class="small" text-anchor="middle">液体分流</text>
+<rect x="690" y="580" width="185" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="782.5" y="614.0" class="bold" text-anchor="middle">PUMP-C</text>
+<text x="782.5" y="644.0" class="small" text-anchor="middle">液体循环泵 L</text>
+<rect x="975" y="580" width="195" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1072.5" y="614.0" class="bold" text-anchor="middle">HX-DE 冷侧</text>
+<text x="1072.5" y="644.0" class="small" text-anchor="middle">L → V+L</text>
+<path d="M580,622 L690,622" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="597" y="602" class="small">CIRC-L</text>
+<path d="M875,622 L975,622" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="915" y="602" class="small">L</text>
+<rect x="1280" y="580" width="260" height="84" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1410.0" y="614.0" class="bold" text-anchor="middle">V+L 两相返回</text>
+<text x="1410.0" y="644.0" class="small" text-anchor="middle">→ LP下部接收/集液区</text>
+<path d="M290,622 L390,622" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="334" y="602" class="small">L</text>
+<path d="M1170,622 L1280,622" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="1192" y="602" class="small">V+L</text>
+<path d="M485,664 L485,699 L820,699" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="835" y="706" class="small">B_LP · L → 指定净底产品边界</text>
+<text x="975" y="550" class="small heat">热侧来源：HP总顶汽；仅跨壁传热</text>
+<rect x="32" y="775" width="1536" height="207" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="811" class="bold blue">边界与未核事项</text>
+<text x="52" y="847" class="small">两图均：净底采出在循环受热前分配；HX两相出口回LP，不把全部两相物流称作净底产品。</text>
+<text x="52" y="879" class="small">自然循环：须核液位、密度差、位差与全回路压降；画低位置或指定流量都不证明热虹吸成立。</text>
+<text x="52" y="911" class="small">强制循环：须核入口液态/NPSH、泵压头与轴功；泵不代替HX热量；不得无据把泵移到两相出口后。</text>
+<text x="52" y="943" class="small">范围外服务：HP冷凝回流/净顶分配、HP再沸供热/净底，LP顶冷凝/回流/净顶、原料与跨塔边界。</text>
+<text x="48" y="1012" class="small">原创图：milklong888 · CC BY 4.0  |  原理来源：HTRI Demystifying Thermosiphon Operation；连接细化卡 §4–5</text>
+</svg>

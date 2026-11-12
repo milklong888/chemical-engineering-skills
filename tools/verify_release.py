@@ -14,6 +14,7 @@ import re
 import stat
 import sys
 import zipfile
+import xml.etree.ElementTree as ET
 
 MANIFEST = "RELEASE_MANIFEST.json"
 CHECKSUMS = "SHA256SUMS.txt"
@@ -21,7 +22,7 @@ BINARY_LEDGER = "BINARY_ASSETS.json"
 PLUGIN = "plugins/chemical-engineering-skills"
 SKILLS_PREFIX = PLUGIN + "/skills/"
 IGNORED_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
-TEXT_SUFFIXES = {".md", ".py", ".ps1", ".cmd", ".bat", ".json", ".jsonl", ".yaml", ".yml", ".toml", ".txt", ".csv", ".tsv", ".html", ".css", ".js", ".mjs", ".xml", ".ini", ".cfg", ".rst", ".sql", ".license"}
+TEXT_SUFFIXES = {".md", ".py", ".ps1", ".cmd", ".bat", ".json", ".jsonl", ".yaml", ".yml", ".toml", ".txt", ".csv", ".tsv", ".html", ".css", ".js", ".mjs", ".xml", ".ini", ".cfg", ".rst", ".sql", ".license", ".svg"}
 TEXT_NAMES = {"LICENSE", "NOTICE", ".gitignore", ".gitattributes"}
 FORBIDDEN_PARTS = {"source_pages", "rendered_pages", "raw_l0", "rawl0", "prior_state", "source_snapshot", "node_modules", ".venv", ".env", "credentials", "error_memory_events"}
 SECRET_PATTERNS = [
@@ -32,7 +33,7 @@ SECRET_PATTERNS = [
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(r"(?i)(?:api_key|access_token|password)\s*[:=]\s*[\"'][A-Za-z0-9_+/=-]{24,}[\"']"),
 ]
-PRIVATE_PATH = re.compile(r"(?i)(?:[A-Z]:[/\\]+Users[/\\]+[^/\\\s\"'<>]+|/(?:home|Users)/[^/\s\"'<>]+)")
+PRIVATE_PATH = re.compile(r"(?i)(?:[A-Z]:[/\\]+Users[/\\]+[^/\\\s\"'<>]+|(?:file://|(?<![A-Za-z0-9/]))/(?:home|Users)/[^/\s\"'<>]+)")
 
 
 class ReleaseError(ValueError):
@@ -121,6 +122,22 @@ def public_text(relative: str, data: bytes, synthetic_templates: dict[str, str] 
         raise ReleaseError(f"Possible credential rejected: {relative}")
     if PRIVATE_PATH.search(text):
         raise ReleaseError(f"Unresolved private home path rejected: {relative}")
+    if p.suffix.lower() == ".svg":
+        if re.search(r"<!\s*(?:DOCTYPE|ENTITY)", text, re.I):
+            raise ReleaseError("SVG declarations/entities are not supported")
+        try:
+            diagram = ET.fromstring(text)
+        except ET.ParseError as exc:
+            raise ReleaseError("Invalid SVG diagram") from exc
+        if diagram.tag != "{http://www.w3.org/2000/svg}svg":
+            raise ReleaseError("Expected a namespaced SVG diagram")
+        for node in diagram.iter():
+            if node.tag.rsplit("}", 1)[-1].lower() in {"script", "foreignobject"}:
+                raise ReleaseError("Active SVG content is not supported")
+            for name, value in node.attrib.items():
+                local = name.rsplit("}", 1)[-1].lower()
+                if local.startswith("on") or local == "href" and value and not value.startswith("#"):
+                    raise ReleaseError("Active/external SVG references are not supported")
     return text
 
 

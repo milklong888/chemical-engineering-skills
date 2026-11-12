@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+<title>02  部分热回收：串联补冷 / 补热</title><desc>共享HX出口可以未完成相变；按实际焓路径分配回收与剩余公用工程负荷。。结构候选，未Aspen验证，局部接口图。</desc>
+<defs><marker id="flow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#183449"/></marker><marker id="heat" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#bb671c"/></marker></defs>
+<rect width="1600" height="1040" fill="#f4f7fa"/>
+<style>text {font-family:'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#183449;font-size:21px} .small {font-size:18px} .title {font-size:32px;font-weight:700} .bold {font-weight:700} .blue {fill:#176784} .heat {fill:#bb671c}</style>
+<text x="48" y="55" class="title">02  部分热回收：串联补冷 / 补热</text>
+<text x="48" y="96" class="">共享HX出口可以未完成相变；按实际焓路径分配回收与剩余公用工程负荷。</text>
+<text x="48" y="132" class="small">局部接口示意  |  结构候选 · 未Aspen验证  |  非完整塔岛 / 非设备施工图</text>
+<rect x="32" y="166" width="1536" height="580" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="202" class="bold blue">同一 HX-DE 两侧只热耦合；trim按真实剩余负荷设置，不为凑图增加</text>
+<rect x="50" y="260" width="205" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="152.5" y="297.0" class="bold" text-anchor="middle">HP 总顶汽</text>
+<text x="152.5" y="327.0" class="small" text-anchor="middle">V_HP · V</text>
+<rect x="340" y="260" width="205" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="442.5" y="297.0" class="bold" text-anchor="middle">HX-DE 热侧</text>
+<text x="442.5" y="327.0" class="small" text-anchor="middle">出口可为 V+L</text>
+<rect x="655" y="260" width="215" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="762.5" y="297.0" class="bold" text-anchor="middle">COOL-TRIM</text>
+<text x="762.5" y="327.0" class="small" text-anchor="middle">必要补冷 → 液体 L</text>
+<rect x="970" y="260" width="190" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1065.0" y="297.0" class="bold" text-anchor="middle">FSPLIT-R</text>
+<text x="1065.0" y="327.0" class="small" text-anchor="middle">仅液体分配</text>
+<rect x="1260" y="210" width="275" height="85" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1397.5" y="244.5" class="bold" text-anchor="middle">R_HP · L</text>
+<text x="1397.5" y="274.5" class="small" text-anchor="middle">→ 供压 → HP顶部</text>
+<rect x="1260" y="355" width="275" height="80" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1397.5" y="387.0" class="bold" text-anchor="middle">D_HP · L</text>
+<text x="1397.5" y="417.0" class="small" text-anchor="middle">→ 净产品边界</text>
+<path d="M255,305 L340,305" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="288" y="288" class="small">V</text>
+<path d="M545,305 L655,305" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="558" y="245" class="small">V+L / L</text>
+<path d="M870,305 L970,305" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="905" y="288" class="small">L</text>
+<path d="M1160,286 L1210,286 L1210,253 L1260,253" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<path d="M1160,327 L1210,327 L1210,395 L1260,395" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="660" y="395" class="small">若补冷后仍含气：先FLASH2-H分相，液体再分配。</text>
+<text x="660" y="427" class="small">气相 → 指定回收/尾气系统；FSPLIT不分相。</text>
+<text x="660" y="459" class="small">共享HX已全凝时，不重复计“剩余冷凝”。</text>
+<rect x="50" y="555" width="205" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="152.5" y="592.0" class="bold" text-anchor="middle">LP 总底抽液</text>
+<text x="152.5" y="622.0" class="small" text-anchor="middle">L_LP · L</text>
+<rect x="340" y="555" width="205" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="442.5" y="592.0" class="bold" text-anchor="middle">HX-DE 冷侧</text>
+<text x="442.5" y="622.0" class="small" text-anchor="middle">受热出口 L / V+L</text>
+<rect x="655" y="555" width="215" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="762.5" y="592.0" class="bold" text-anchor="middle">HEAT-TRIM</text>
+<text x="762.5" y="622.0" class="small" text-anchor="middle">必要补热 → V+L</text>
+<rect x="970" y="555" width="190" height="90" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1065.0" y="592.0" class="bold" text-anchor="middle">FLASH2-K</text>
+<text x="1065.0" y="622.0" class="small" text-anchor="middle">平衡分相近似</text>
+<rect x="1260" y="500" width="275" height="85" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1397.5" y="534.5" class="bold" text-anchor="middle">V_LP · V</text>
+<text x="1397.5" y="564.5" class="small" text-anchor="middle">→ LP下部汽相返回</text>
+<rect x="1260" y="665" width="275" height="65" rx="12" fill="#ffffff" stroke="#9bafbf" stroke-width="2"/>
+<text x="1397.5" y="704.5" class="bold" text-anchor="middle">B_LP · L → 净底边界</text>
+<path d="M255,600 L340,600" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="288" y="584" class="small">L</text>
+<path d="M545,600 L655,600" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<path d="M870,600 L970,600" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<text x="888" y="584" class="small">V+L</text>
+<path d="M1160,578 L1210,578 L1210,542 L1260,542" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<path d="M1160,622 L1210,622 L1210,697 L1260,697" stroke="#183449" stroke-width="3" fill="none" marker-end="url(#flow)"/>
+<path d="M442,350 L442,555" stroke="#bb671c" stroke-width="3" fill="none" marker-end="url(#heat)" stroke-dasharray="7 6"/>
+<text x="275" y="470" class="small heat">仅传热 Q回收</text>
+<rect x="32" y="775" width="1536" height="207" rx="16" fill="#edf2f6" stroke="#d3dfe7"/>
+<text x="50" y="811" class="bold blue">边界与未核事项</text>
+<text x="52" y="847" class="small">热账：HP冷凝总量 = 回收热 + 外部补冷；LP再沸总量 = 回收热 + 外部补热（以正的热量大小记）。</text>
+<text x="52" y="879" class="small">剩余服务：HP再沸外部供热；LP顶冷凝外部冷却及内部回流；LP净顶、HP净底及原料边界另列。</text>
+<text x="52" y="911" class="small">这是完整外置替换下的局部trim候选；不据此断言内外端器混合方案已成立。</text>
+<text x="52" y="943" class="small">未核同案物性、温差、压头、负荷匹配、面积与产品指标；启动/备用职责另审。</text>
+<text x="48" y="1012" class="small">原创图：milklong888 · CC BY 4.0  |  原理来源：Aspen官方学习指南 p11；连接细化卡 §8</text>
+</svg>

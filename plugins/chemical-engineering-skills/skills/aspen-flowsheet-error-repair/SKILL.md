@@ -111,3 +111,5 @@ are present in the delivered answer or its linked artifact before closing.
 <!-- milklong-attribution:start -->
 作者：milklong（GitHub：milklong888）。[版权与AI辅助编辑署名规则](ATTRIBUTION.md)。
 <!-- milklong-attribution:end -->
+
+需要对显式冷启动/精度观测或隔离变体作离线检查时，使用`scripts/convergence_diagnostics/`，并按现有收敛案例核适用域；工具不授权更改求解容差。

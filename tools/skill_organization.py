@@ -436,8 +436,8 @@ def inventory(root: str | Path) -> dict:
             "unresolved_edges": [edge for edge in edges if edge["status"] != "resolved"],
             "issues": scanner.issues, "blind_spots": BLIND_SPOTS,
             "coverage": {"enumerated_files": len(files), "fingerprinted_text_files": len(nodes),
-                         "parsed_text_bytes": total, "expected_product_skill_count": 19,
-                         "skill_count_matches_product": len(skills) == 19},
+                         "parsed_text_bytes": total, "expected_product_skill_count": 20,
+                         "skill_count_matches_product": len(skills) == 20},
             "canonical_rule_owner_map": SKILLS_PREFIX + "chemical-engineering-expert/references/CANONICAL_RULE_OWNERSHIP.md"}
 
 

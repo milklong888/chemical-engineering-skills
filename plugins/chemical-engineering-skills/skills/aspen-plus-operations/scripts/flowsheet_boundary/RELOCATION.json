@@ -1,0 +1,125 @@
+{
+  "schema": "owner-tool-relocation-v1",
+  "source_repository": "https://github.com/milklong888/chemical-engineering-experience-inbox",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "source_package": "pool/scripts/flowsheet-boundary-tools",
+  "destination": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/flowsheet_boundary",
+  "parent_owner": "aspen-plus-operations",
+  "scope": "direct mechanism maintenance; no engineering case or native execution",
+  "code_license": "MIT",
+  "original_documentation_license": "CC-BY-4.0",
+  "historical_source_metadata": "SOURCE_METADATA.json is preserved as source snapshot, not a manifest of relocated bytes",
+  "transformations": [
+    "Relocated complete public package; preserved source/license notices and historical source metadata",
+    "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
+    "Updated executable test/example paths and documentation links",
+    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing"
+  ],
+  "files": [
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/README.md",
+      "source_sha256": "48d50b462ebe5d02c3385e9c9c67dc2740121e19bb2a41a57eea985a652ecf5d",
+      "source_size": 6876,
+      "destination_path": "README.md",
+      "disposition": "relocated",
+      "destination_sha256": "b672612e662be8ff339409585707b65cccc4cba63649e0fbc02a9057ba25452c",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/SOURCE_METADATA.json",
+      "source_sha256": "199202e57baa5c83de5e684fea7d2407c4d905cdc88758a4b5fd5361efba6adb",
+      "source_size": 2539,
+      "destination_path": "SOURCE_METADATA.json",
+      "disposition": "relocated",
+      "destination_sha256": "199202e57baa5c83de5e684fea7d2407c4d905cdc88758a4b5fd5361efba6adb",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/boundary_compare.py",
+      "source_sha256": "2e9cbe12e614f6f0b0e7af236febe3d1733c87db977fc82526e1836869d324ab",
+      "source_size": 5205,
+      "destination_path": "boundary_compare.py",
+      "disposition": "relocated",
+      "destination_sha256": "4ba06512f632a8f3284f29d6cba7580807f0bb296a0eb78aa0dfdbb25bde5769",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/com_operations.py",
+      "source_sha256": "b807405a542d388c293af05472cfd76e4a78fb1cd00b2c2153027094ec8bd287",
+      "source_size": 9115,
+      "destination_path": "com_operations.py",
+      "disposition": "relocated",
+      "destination_sha256": "b807405a542d388c293af05472cfd76e4a78fb1cd00b2c2153027094ec8bd287",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/native_results.py",
+      "source_sha256": "69f05ff147d438ed9cb075e81edd80eb5689b522625c0b909c7405013df272d3",
+      "source_size": 7966,
+      "destination_path": "native_results.py",
+      "disposition": "relocated",
+      "destination_sha256": "69f05ff147d438ed9cb075e81edd80eb5689b522625c0b909c7405013df272d3",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/tests/test_boundary_compare.py",
+      "source_sha256": "bb678a1ef0009adb25249cb1a4cfa6cf66662cdef65190a7ee1c6424a1440132",
+      "source_size": 3644,
+      "destination_path": "tests/test_boundary_compare.py",
+      "disposition": "relocated",
+      "destination_sha256": "a9c35ed9c30bced5c1040cdbb2911f1c436ae268b55fc567afb0dca8f66f7e3d",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/tests/test_com_operations.py",
+      "source_sha256": "14f431a58048360b5cd00ba3840bac71f5136c9af6aef8dcaae9a93278761d6d",
+      "source_size": 6632,
+      "destination_path": "tests/test_com_operations.py",
+      "disposition": "relocated",
+      "destination_sha256": "0368dd35ffa1e0b2595a632f1ae4d5187f5f2c14f40abda8948512ededd9c05a",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/flowsheet-boundary-tools/tests/test_native_results.py",
+      "source_sha256": "3c6d6c92f85c977984bbd32e87f5bff00b775b635c59b4172f3cf588e9bc2e42",
+      "source_size": 5941,
+      "destination_path": "tests/test_native_results.py",
+      "disposition": "relocated",
+      "destination_sha256": "746d751fc1ef8587290d58abf926427ebb28afc9fbbc30ed30ffb44a6836b379",
+      "transformed": true
+    },
+    {
+      "source_path": "LICENSE",
+      "source_sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215",
+      "source_size": 1148,
+      "destination_path": "LICENSE",
+      "disposition": "relocated",
+      "destination_sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215",
+      "transformed": false
+    }
+  ],
+  "algorithm_identity": [
+    {
+      "path": "boundary_compare.py",
+      "top_level_function_and_class_AST_unchanged": true
+    },
+    {
+      "path": "com_operations.py",
+      "top_level_function_and_class_AST_unchanged": true
+    },
+    {
+      "path": "native_results.py",
+      "top_level_function_and_class_AST_unchanged": true
+    }
+  ],
+  "validation": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "python -B -X utf8 -m unittest discover -s plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/flowsheet_boundary/tests -v",
+    "scope": "synthetic/offline package tests only; no native or engineering acceptance",
+    "python": "3.14.3",
+    "mcp_sdk": "not_required"
+  }
+}

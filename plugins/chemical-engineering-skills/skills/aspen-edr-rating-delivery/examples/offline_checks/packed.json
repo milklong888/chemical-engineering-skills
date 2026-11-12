@@ -1,0 +1,142 @@
+{
+  "expected_stage_ids": [
+    "s1",
+    "s2",
+    "s3"
+  ],
+  "stage_source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  },
+  "diameter_m": 1,
+  "diameter_unit": "m",
+  "diameter_source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  },
+  "stages": [
+    {
+      "stage_id": "s1",
+      "fc": 0.5,
+      "fc_unit": "dimensionless",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    },
+    {
+      "stage_id": "s2",
+      "fc": 0.5,
+      "fc_unit": "dimensionless",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    },
+    {
+      "stage_id": "s3",
+      "fc": 0.5,
+      "fc_unit": "dimensionless",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    }
+  ],
+  "beds": [
+    {
+      "id": "b1",
+      "stage_ids": [
+        "s1"
+      ],
+      "height_m": 1,
+      "height_unit": "m",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      },
+      "hetp_m": 1,
+      "hetp_unit": "m/stage",
+      "hetp_source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    },
+    {
+      "id": "b2",
+      "stage_ids": [
+        "s2",
+        "s3"
+      ],
+      "height_m": 2,
+      "height_unit": "m",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      },
+      "hetp_m": 1,
+      "hetp_unit": "m/stage",
+      "hetp_source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    }
+  ],
+  "total_packed_height_m": 3,
+  "total_height_unit": "m",
+  "total_height_source": {
+    "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+    "locator": "toy-row-1",
+    "revision": "toy-v1",
+    "current_revision": "toy-v1"
+  },
+  "acceptance_profile": {
+    "source": {
+      "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+      "locator": "toy-row-1",
+      "revision": "toy-v1",
+      "current_revision": "toy-v1"
+    },
+    "fc_min": 0.4,
+    "fc_max": 0.6,
+    "fc_unit": "dimensionless",
+    "height_closure_tolerance_m": 0,
+    "height_rules": [
+      {
+        "diameter_max_inclusive_m": 1,
+        "max_height_m": 2
+      },
+      {
+        "diameter_min_exclusive_m": 1,
+        "max_height_m": 1
+      }
+    ],
+    "grading_rule": {
+      "criterion": "nondecreasing_stage_counts",
+      "source": {
+        "id": "SYNTHETIC-NOT-ENGINEERING-EVIDENCE",
+        "locator": "toy-row-1",
+        "revision": "toy-v1",
+        "current_revision": "toy-v1"
+      }
+    }
+  }
+}

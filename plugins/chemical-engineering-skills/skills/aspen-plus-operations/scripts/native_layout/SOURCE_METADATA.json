@@ -1,0 +1,73 @@
+{
+  "schema": "aspen-native-layout-reference-v1",
+  "item_id": "EXP-20261023-aspen-native-layout",
+  "priority": "normal",
+  "state": "method_and_code_reference_not_engineering_success",
+  "licenses": {
+    "original_code": "MIT",
+    "method_text": "CC-BY-4.0"
+  },
+  "implementation_origin": "New standalone portable implementation of an explicitly requested native graphical-file operation; synthetic fixtures authored for this package. No commercial manual code or model payload copied.",
+  "method_sources": [
+    {
+      "source": "Legally installed Aspen Plus V14 official help",
+      "topics": [
+        "Initialization Methods",
+        "Input Files (.inp)",
+        "Rotating Icons",
+        "Moving Stream Connection Locations",
+        "Saving an Aspen Plus Document",
+        "Saving a Backup File",
+        "Compound Document Files (.apwz)"
+      ],
+      "scope": "File entrypoints, graphical transformation concepts and display attachment semantics; commercial pages not distributed."
+    },
+    {
+      "source": "Independent deterministic extraction from installed official V14 example coordinates",
+      "scope": "Eight Modifier matrices with Scale and terminal displacement accounted for; example files and raw coordinates not distributed."
+    },
+    {
+      "source": "Existing aspen-plus-operations runtime/supervisor ownership contract",
+      "scope": "Native session lifecycle reused rather than duplicated; this package contains no COM executor or acceptance parser."
+    }
+  ],
+  "artifact_sha256": {
+    "pfs_layout.py": "af812aaae2e9b68b8b24d387dde1d9bb51b4cd5188d51205cf342f0fcb7d2ce4",
+    "private_integration.py": "59619e7e728077326440a65da521b707ebb7fc33777e32209d6255a880de75eb",
+    "tests/test_pfs_layout.py": "7ac6003aa651a011a84bd03bde160b0a3b3c689d62e9ca0825b91aeb0caf9190",
+    "SKILL.md": "c7afdf763e66d32ec3efe0c5897cda83198fe213bb9677dd56afff04643403c7",
+    "agents/openai.yaml": "f37949b32909af76d3afa303516ecc5b00a3f9186e12d85591530914651f67a6",
+    "references/tools-interface.md": "11d302e7f9fa2f23fb68502e34524764c4cb91537bd54551615b381be9d5825e"
+  },
+  "validation": {
+    "offline_core_tests": 36,
+    "all_repository_test_groups": 6,
+    "all_repository_offline_tests": 195,
+    "observed_result": "passed",
+    "synthetic_fixtures_only_in_public_package": true,
+    "independent_negative_and_forward_review": "All eight modifiers, arbitrary positions/scales, preexisting D recovery, unknown schemas, altered frame, exact numeric values and opaque quoted strings checked independently.",
+    "private_native_scope": {
+      "actual_import_save_steps": 2,
+      "actual_apw_reopen_steps": 2,
+      "complete_import_readback_comparisons_passed": 2,
+      "complete_reopen_config_comparisons_passed": 0,
+      "reopen_state": "unresolved_native_config_change",
+      "observed_difference": "tpsaupgrade changed from0 to1 on APW reopening. The verifier rejects the mismatch; no exception or normalization is added.",
+      "independent_read_only_comparison": "Physical cards, blocks, stream roots and labels, route points/directions/D/C, SIZE and supported LEGEND frame matched across four new native exports. Complete config persistence is not claimed.",
+      "simulation_engine_run_for_new_generic_code": false,
+      "raw_native_evidence": "Private; not published or independently replayable from this public package."
+    }
+  },
+  "boundaries": {
+    "engineering_success_claimed": false,
+    "formal_inbox_admission_claimed": false,
+    "full_native_roundtrip_success_claimed": false,
+    "active_skill_installed": false,
+    "default_canonical": false,
+    "default_retrieval_eligible": false,
+    "model_parameters_are_defaults": false,
+    "solver_tolerances_may_change": false,
+    "unsupported_graphics": "Rejected without rewriting original evidence",
+    "native_version_scope": "Observed V14 format only; other versions require same-version readback validation"
+  }
+}

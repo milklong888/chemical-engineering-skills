@@ -24,6 +24,51 @@ def write(path: Path, data: str | bytes) -> None:
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_selected_install_preserves_unselected_managed_and_private_files(self):
+        write(self.workspace / "config.json", "local adaptation")
+        write(self.skills / "private-skill/SKILL.md", "private extension")
+        result = installer.install(self.repo,self.workspace,self.skills,only_paths=[self.skill_rel])
+        self.assertEqual(result["managed_file_count"],1)
+        self.assertEqual((self.workspace/"config.json").read_text(),"local adaptation")
+        self.assertEqual((self.skills/"private-skill/SKILL.md").read_text(),"private extension")
+        self.assertTrue((self.skills/"example-skill/SKILL.md").is_file())
+
+    def test_selected_install_still_checks_entire_release(self):
+        write(self.repo/"workspace/config.json", "unsealed mutation")
+        with self.assertRaises(verifier.ReleaseError):
+            installer.install(self.repo,self.workspace,self.skills,only_paths=[self.skill_rel])
+        self.assertFalse(self.skills.exists())
+
+    def test_selected_install_rejects_unknown_duplicate_empty_or_uninstallable_paths(self):
+        for selection in ([], [self.skill_rel,self.skill_rel], ["../escape"], [None], "tools/install.py",
+                          [verifier.PLUGIN+"/.codex-plugin/plugin.json"],
+                          [self.skill_rel,verifier.PLUGIN+"/.codex-plugin/plugin.json"]):
+            with self.subTest(selection=selection), self.assertRaises(verifier.ReleaseError):
+                installer.install(self.repo,self.workspace,self.skills,only_paths=selection)
+
+    def test_selected_cli_repeated_paths(self):
+        process=self.cli("install.py","--repository",self.repo,"--workspace-root",self.workspace,
+                         "--skills-root",self.skills,"--only",self.skill_rel,"--only","workspace/config.json")
+        self.assertEqual(process.returncode,0,process.stdout+process.stderr)
+        self.assertEqual(json.loads(process.stdout)["managed_file_count"],2)
+
+    def test_public_urls_are_not_private_home_directories(self):
+        official="https://www.aspentech.com/en/-/media/aspentech/home/cst-certification/guide"
+        self.assertEqual(verifier.public_text("reference.md",official.encode()),official)
+        for private in ("/"+"home/alice/file",'"/'+"Users/alice/file"+'"',"file:///"+"home/alice/file","C:/"+"Users/alice/file"):
+            with self.subTest(private=private),self.assertRaises(verifier.ReleaseError):
+                verifier.public_text("reference.md",private.encode())
+
+    def test_static_svg_accepts_local_markers_and_rejects_active_content(self):
+        safe='<svg xmlns="http://www.w3.org/2000/svg"><defs><marker id="a"/></defs><path marker-end="url(#a)"/></svg>'
+        self.assertEqual(verifier.public_text("diagram.svg",safe.encode()),safe)
+        for unsafe in ('<svg xmlns="http://www.w3.org/2000/svg"><script/></svg>',
+                       '<svg xmlns="http://www.w3.org/2000/svg" onload="x"/>',
+                       '<svg xmlns="http://www.w3.org/2000/svg"><image href="https://invalid.example/x"/></svg>',
+                       '<!DOCTYPE svg><svg xmlns="http://www.w3.org/2000/svg"/>'):
+            with self.subTest(unsafe=unsafe),self.assertRaises(verifier.ReleaseError):
+                verifier.public_text("diagram.svg",unsafe.encode())
+
     def setUp(self):
         # Prefer the checkout parent; never test against real discovered skill roots.
         self.temporary = tempfile.TemporaryDirectory(prefix=".publication-test-", dir=TOOLS.parents[1])

@@ -274,7 +274,7 @@ class OrganizationTests(unittest.TestCase):
 
     def test_actual_product_inventory_covers_existing_nineteen_entries(self):
         result = organization.inventory(SOURCE_ROOT)
-        self.assertEqual(result["skill_count"], 19)
+        self.assertEqual(result["skill_count"], 20)
         ids = {skill["skill_id"] for skill in result["skills"]}
         self.assertIn("subagent-dispatch", ids)
         self.assertNotIn("nylon-thigh-high-photo-edit", ids)

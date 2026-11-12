@@ -1,0 +1,5 @@
+{
+  "schema": "synthetic-opaque-receipt-v1",
+  "synthetic": true,
+  "scope": "Offline byte-binding example only; not a native solver result or acceptance receipt."
+}

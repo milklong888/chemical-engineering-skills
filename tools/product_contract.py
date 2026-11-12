@@ -44,8 +44,8 @@ def describe(runner):
             "skill": skill_location(), "equipment_gateway": describe_policy(),
             "original_backend_capabilities": original,
             "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
-            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "capabilities", "schema"],
-            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog"],
+            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema"],
+            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog", "module-tools"],
             "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
                           "query_modes": ["lexical", "hash_vector", "exact_node_id"],
                           "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
@@ -57,13 +57,16 @@ def describe(runner):
 
 
 def schema(schema_id, runner):
+    if schema_id == "module-tools":
+        from tools.module_tools import schema as module_schema
+        return module_schema()
     if schema_id == "fullflow-contract":
         from tools.fullflow_gate import contract_schema
         return contract_schema()
     if schema_id == "expert-request":
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
                 "required": ["operation", "payload"], "properties": {
-                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "capabilities", "schema"]},
+                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema"]},
                     "payload": {"type": "object"}},
                 "description": "equipment payload is an original Agent request; equipment_batch payload has requests[]. Use original schema_get IDs for detailed backend inputs."}
     if schema_id == "pressure-methods":

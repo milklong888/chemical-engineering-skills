@@ -32,3 +32,5 @@ does not create a second authority.
 When a duplicate rule conflicts with this map, do not immediately delete it.
 Mark it `historical`, `case_scoped`, `diagnostic_only`, or `quarantined`, link to
 the owner, and preserve evidence needed for a later controlled rewrite.
+
+规范化离线模块的目录与状态归`NORMALIZED_MODULES.md`及`runtime/module_catalog.json`；目录只发现，不执行任意路径。Dynamics/布局/边界/文件辅助实现归operations，四项EDR诊断归EDR，收敛观测归error-repair，双效连接归双效专业入口。临时准入仍归经验库；两组隔离归档只保留来源元数据。

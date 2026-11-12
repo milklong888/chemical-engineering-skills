@@ -1,0 +1,19 @@
+{
+  "description": "Synthetic literal groups; supply a matching source and explicit occurrence counts.",
+  "variants": [
+    {
+      "name": "alpha_group",
+      "group_definition": "Change only the caller-selected alpha token.",
+      "edits": [
+        {"find": "alpha", "replace": "omega", "expected_count": 1}
+      ]
+    },
+    {
+      "name": "beta_group",
+      "group_definition": "Change only the caller-selected beta token independently.",
+      "edits": [
+        {"find": "beta", "replace": "theta", "expected_count": 1}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+{
+  "schema": "owner-tool-relocation-v1",
+  "source_repository": "https://github.com/milklong888/chemical-engineering-experience-inbox",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "source_package": "pool/scripts/aspen-dynamics-tools",
+  "destination": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/dynamics_tools",
+  "parent_owner": "aspen-plus-operations",
+  "scope": "direct mechanism maintenance; no engineering case or native execution",
+  "code_license": "MIT",
+  "original_documentation_license": "CC-BY-4.0",
+  "historical_source_metadata": "SOURCE_METADATA.json is preserved as source snapshot, not a manifest of relocated bytes",
+  "transformations": [
+    "Relocated complete public package; preserved source/license notices and historical source metadata",
+    "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
+    "Updated executable test/example paths and documentation links",
+    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing",
+    "Rebound default parser and active catalog to canonical ../aspen_evidence.py with unchanged pinned source identity"
+  ],
+  "files": [
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/.gitattributes",
+      "source_sha256": "c632f3b4f87c1788e212eef00cd665ec790ab2f055c8188bd6069d05f07f6ebe",
+      "source_size": 118,
+      "destination_path": ".gitattributes",
+      "disposition": "relocated",
+      "destination_sha256": "c632f3b4f87c1788e212eef00cd665ec790ab2f055c8188bd6069d05f07f6ebe",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/DEPENDENCIES.md",
+      "source_sha256": "f08c052d48c2b711dd59dedfbf547e3a115c9619da750e6ce946005d8d8e8e78",
+      "source_size": 3885,
+      "destination_path": "DEPENDENCIES.md",
+      "disposition": "relocated",
+      "destination_sha256": "d9357d991b958326f0bbc1dc4530fdd3bc5fa7045a83317a89b275e744c57311",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/LICENSE",
+      "source_sha256": "54995833d0b8bbfa08bbda6e1f45749d715f6e9184b8c68c1f0e2c9d75cc593f",
+      "source_size": 1086,
+      "destination_path": "LICENSE",
+      "disposition": "relocated",
+      "destination_sha256": "54995833d0b8bbfa08bbda6e1f45749d715f6e9184b8c68c1f0e2c9d75cc593f",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/PACKAGE_STATUS.json",
+      "source_sha256": "69ce2ca3ed8ec34cc6aa59bea812226f7bb07bcde57680da39dc49abe11d7edb",
+      "source_size": 4800,
+      "destination_path": "PACKAGE_STATUS.json",
+      "disposition": "relocated",
+      "destination_sha256": "0244bdd0044c63b5f854a2c05aa7f01e4ef14ae17de3cfead85240091215751a",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/PUBLIC_MANIFEST.json",
+      "source_sha256": "b938b9e9dc3c3518369bced22c5570f7f274a33a8b37d2932d5256cc1673055a",
+      "source_size": 3448,
+      "destination_path": "PUBLIC_MANIFEST.json",
+      "disposition": "regenerated_after_relocation; source_identity_preserved_here",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/PUBLIC_SCOPE.md",
+      "source_sha256": "48cff21e80ffeb7c2928b49f0827d3f7e0e745304fc3a77f8d2b4a5ff038d388",
+      "source_size": 1468,
+      "destination_path": "PUBLIC_SCOPE.md",
+      "disposition": "relocated",
+      "destination_sha256": "b1203fa8dcfa901ad0c65f0f5614ab702eb852b29afad3a4812f70c9b31a3055",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/README.md",
+      "source_sha256": "10cceb950fb49b0490f2d139d187d2cde15a33a751f8b3ce716a72e3268d3fa7",
+      "source_size": 5775,
+      "destination_path": "README.md",
+      "disposition": "relocated",
+      "destination_sha256": "c1edf0b96cc68d5451847a22c7440bee6ac782e92549dd18e584db5021a1a94b",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/RULES.md",
+      "source_sha256": "d5880c74b682b2886e4afa608cac3d1790f8a2f19e6916dc86c32a6fb500cc14",
+      "source_size": 1442,
+      "destination_path": "RULES.md",
+      "disposition": "relocated",
+      "destination_sha256": "d5880c74b682b2886e4afa608cac3d1790f8a2f19e6916dc86c32a6fb500cc14",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/SKILL.md",
+      "source_sha256": "e1c0af87cdddca177843fe44a3a282a84aa6c5b05c2625da74beae54e635364f",
+      "source_size": 1763,
+      "destination_path": "METHOD_REFERENCE.md",
+      "disposition": "relocated",
+      "destination_sha256": "d6b4f63064672a4339b60eb135dc48d02ab5f9dda165f645de355fabd0b623b8",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/SOURCE_METADATA.json",
+      "source_sha256": "cb7beb4d9985c3aadc8f90929e256ba85fe690f8b38c8dcb3c668b374aa5390b",
+      "source_size": 4319,
+      "destination_path": "SOURCE_METADATA.json",
+      "disposition": "relocated",
+      "destination_sha256": "cb7beb4d9985c3aadc8f90929e256ba85fe690f8b38c8dcb3c668b374aa5390b",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/examples/demo_offline.py",
+      "source_sha256": "c5f9c232bcc620bee1d962b75df968c1018e2dddb93fffbc641c0435038afcc4",
+      "source_size": 2255,
+      "destination_path": "examples/demo_offline.py",
+      "disposition": "relocated",
+      "destination_sha256": "ff58bc3e0ce3baecbda10e1b42e58c1fc4bd74652b3ee3ad5d73e4a6bcdaefd1",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/local_settings.example.json",
+      "source_sha256": "3093a124bbb6578faa85975211e6f4e3fc8829b9c5b55bd5d3521f707e848ee3",
+      "source_size": 218,
+      "destination_path": "local_settings.example.json",
+      "disposition": "relocated",
+      "destination_sha256": "3093a124bbb6578faa85975211e6f4e3fc8829b9c5b55bd5d3521f707e848ee3",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/mcp_server.py",
+      "source_sha256": "d25a3fe14498ea50ed7e7c2e25fdecc2319e0b8c36c55a11d892e50221d44cf1",
+      "source_size": 1863,
+      "destination_path": "mcp_server.py",
+      "disposition": "relocated",
+      "destination_sha256": "3b4e11c58e88e9840c6d7c5d8a212731c87117d5c7b4eb9fb45de08332674e8f",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/offline_facade.py",
+      "source_sha256": "ec147fb4e66070ff91fb86d10515673355cafc9825916ee760ae6d27da8b120c",
+      "source_size": 4292,
+      "destination_path": "offline_facade.py",
+      "disposition": "relocated",
+      "destination_sha256": "680ce64dc56585b320b9eb5e4096e104ea50923386a478e1fe6bfedbad822e55",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/requirements-mcp.txt",
+      "source_sha256": "abbace83adf2b14eb9d0831b74274a36fa897ec03877dc5e2b281f5f4469a498",
+      "source_size": 144,
+      "destination_path": "requirements-mcp.txt",
+      "disposition": "relocated",
+      "destination_sha256": "abbace83adf2b14eb9d0831b74274a36fa897ec03877dc5e2b281f5f4469a498",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/tests/test_mcp_boundary.py",
+      "source_sha256": "b97d8efb0b3a7f40fcffd5b334ea435ef8b707505552ba7d3acf7b9213310ec3",
+      "source_size": 2197,
+      "destination_path": "tests/test_mcp_boundary.py",
+      "disposition": "relocated",
+      "destination_sha256": "596852e51879f3316a9ffa6540286b45259754672a70cb0014b3f377d0d9b3d1",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/tests/test_offline_facade.py",
+      "source_sha256": "3ca3ffcd3a3d70a9bcb1322d0b701963b96639d819aa2311c80369c0f6b25472",
+      "source_size": 8502,
+      "destination_path": "tests/test_offline_facade.py",
+      "disposition": "relocated",
+      "destination_sha256": "941e5daa2d541f21df5785c1cb351ac20184f7ddf08134329c3d3f68d959f631",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/tests/test_toolpack.py",
+      "source_sha256": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1",
+      "source_size": 6411,
+      "destination_path": "tests/test_toolpack.py",
+      "disposition": "relocated",
+      "destination_sha256": "417d0ad335b8bb258a95822069f29baa14743378837287cb16bd2b21b414eaa1",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/tool_catalog.json",
+      "source_sha256": "e9a3ba7c1957d3aec2eae43bd22cad798b3a56700e4873ea15b941b783beb833",
+      "source_size": 3358,
+      "destination_path": "tool_catalog.json",
+      "disposition": "relocated",
+      "destination_sha256": "55ace06a041cbe0d6dfe57b4574df9bf0d0c97265ebd88b69ed2073579268fda",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-dynamics-tools/toolpack.py",
+      "source_sha256": "beb400950b9eb01725294f2d2c1aa8709f9654926a12ed469e8f29cb062e2fbf",
+      "source_size": 14069,
+      "destination_path": "toolpack.py",
+      "disposition": "relocated",
+      "destination_sha256": "291d7decd928c10f5e3a77f8d643a658b8d9f830e9d59f39abd55cfc96d3282e",
+      "transformed": true
+    },
+    {
+      "source_path": "tests/test_dynamic_mcp_transport.py",
+      "source_sha256": "25272836fea8161f740c22079458ada4674fc2328fda89fd9dc16f65d9d0261d",
+      "source_size": 5856,
+      "destination_path": "tests/test_dynamic_mcp_transport.py",
+      "disposition": "relocated_existing_transport_regression",
+      "destination_sha256": "4ac561ef74f8c6a1a44ea5b79d7c146b33152bf8543b55531bf5f2d1dbb66923",
+      "transformed": true
+    }
+  ],
+  "canonical_parser": {
+    "relative_path": "../aspen_evidence.py",
+    "sha256_lf_normalized": "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31",
+    "same_pinned_source_verified_before_relocation": true,
+    "second_parser_copied": false
+  },
+  "algorithm_identity": [
+    {
+      "path": "mcp_server.py",
+      "top_level_function_and_class_AST_unchanged": true
+    },
+    {
+      "path": "offline_facade.py",
+      "top_level_function_and_class_AST_unchanged": true
+    },
+    {
+      "path": "toolpack.py",
+      "top_level_function_and_class_AST_unchanged": true
+    }
+  ],
+  "validation": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "python -B -X utf8 -m unittest discover -s plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/dynamics_tools/tests -v",
+    "scope": "synthetic/offline package tests only; no native or engineering acceptance",
+    "python": "3.14.3",
+    "mcp_sdk": "1.28.1",
+    "actual_stdio": {
+      "tools": 5,
+      "call_requests": 19,
+      "all_tools_exercised": true,
+      "strict_numeric_rejection": true,
+      "finite_input_overflow_receipt": true,
+      "external_catalog_plan_executed": false
+    }
+  },
+  "maintainer_generated_files": [
+    {
+      "path": "tests/test_namespace_imports.py",
+      "purpose": "Regression for package-relative imports with poisoned unrelated top-level names",
+      "code_license": "MIT"
+    }
+  ]
+}

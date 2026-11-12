@@ -195,7 +195,10 @@ def check(root):
             text = read(sidecar)
             if text is not None:
                 lines = text.splitlines()
-                required = [AUTHOR, COPYRIGHT, MIT_ID]
+                license_id = entry.get("license", "MIT")
+                if license_id not in {"MIT", "CC-BY-4.0"}:
+                    error("unsupported_license", label, "Expected MIT or explicitly retained CC-BY-4.0")
+                required = [AUTHOR, COPYRIGHT, "SPDX-License-Identifier: " + str(license_id)]
                 if url is not None:
                     required.append("Source: " + url)
                 for line in required:

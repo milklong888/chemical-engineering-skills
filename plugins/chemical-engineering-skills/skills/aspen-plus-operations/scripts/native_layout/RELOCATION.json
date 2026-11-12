@@ -1,0 +1,118 @@
+{
+  "schema": "owner-tool-relocation-v1",
+  "source_repository": "https://github.com/milklong888/chemical-engineering-experience-inbox",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "source_package": "pool/scripts/aspen-native-layout",
+  "destination": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/native_layout",
+  "parent_owner": "aspen-plus-operations",
+  "scope": "direct mechanism maintenance; no engineering case or native execution",
+  "code_license": "MIT",
+  "original_documentation_license": "CC-BY-4.0",
+  "historical_source_metadata": "SOURCE_METADATA.json is preserved as source snapshot, not a manifest of relocated bytes",
+  "transformations": [
+    "Relocated complete public package; preserved source/license notices and historical source metadata",
+    "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
+    "Updated executable test/example paths and documentation links",
+    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing"
+  ],
+  "files": [
+    {
+      "source_path": "pool/scripts/aspen-native-layout/LICENSE",
+      "source_sha256": "8f4bef63a4b64c590f3c18a1bab8088f6329bc22601d0df3e1ca076379e7e9d6",
+      "source_size": 1068,
+      "destination_path": "LICENSE",
+      "disposition": "relocated",
+      "destination_sha256": "8f4bef63a4b64c590f3c18a1bab8088f6329bc22601d0df3e1ca076379e7e9d6",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/README.md",
+      "source_sha256": "4faf7b55841f4ca463ee41ae831f8648dd4149873f8204e860aa02ce770cfba9",
+      "source_size": 5449,
+      "destination_path": "README.md",
+      "disposition": "relocated",
+      "destination_sha256": "1f155f737a9628fc06fd4041d0de16977be03e2ac8c934c2f8a07930bc94b506",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/SKILL.md",
+      "source_sha256": "c7afdf763e66d32ec3efe0c5897cda83198fe213bb9677dd56afff04643403c7",
+      "source_size": 2720,
+      "destination_path": "METHOD_REFERENCE.md",
+      "disposition": "relocated",
+      "destination_sha256": "1bdfd1754dbda75db77ffca35fc50f2bd072ad8079e52ef0c3d37bcc03e91911",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/SOURCE_METADATA.json",
+      "source_sha256": "bb83cc17b9bd2f3d127e2628f344f8419c1e88958c9936ce0ef0506e4c7bc4ca",
+      "source_size": 3934,
+      "destination_path": "SOURCE_METADATA.json",
+      "disposition": "relocated",
+      "destination_sha256": "bb83cc17b9bd2f3d127e2628f344f8419c1e88958c9936ce0ef0506e4c7bc4ca",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/agents/openai.yaml",
+      "source_sha256": "f37949b32909af76d3afa303516ecc5b00a3f9186e12d85591530914651f67a6",
+      "source_size": 324,
+      "disposition": "omitted_nested_skill_discovery_metadata; parent_owner_routes_capability"
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/pfs_layout.py",
+      "source_sha256": "af812aaae2e9b68b8b24d387dde1d9bb51b4cd5188d51205cf342f0fcb7d2ce4",
+      "source_size": 32125,
+      "destination_path": "pfs_layout.py",
+      "disposition": "relocated",
+      "destination_sha256": "af812aaae2e9b68b8b24d387dde1d9bb51b4cd5188d51205cf342f0fcb7d2ce4",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/private_integration.py",
+      "source_sha256": "59619e7e728077326440a65da521b707ebb7fc33777e32209d6255a880de75eb",
+      "source_size": 2325,
+      "destination_path": "private_integration.py",
+      "disposition": "relocated",
+      "destination_sha256": "4c9f9d686127089cba12572fafa40575b1cdbf5716e904af9c68cb8e8e3ed472",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/references/tools-interface.md",
+      "source_sha256": "11d302e7f9fa2f23fb68502e34524764c4cb91537bd54551615b381be9d5825e",
+      "source_size": 7106,
+      "destination_path": "references/tools-interface.md",
+      "disposition": "relocated",
+      "destination_sha256": "68bfa77794df6126984011016701d85c2f74697f9e59509dc2c8b23b2232f52d",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/aspen-native-layout/tests/test_pfs_layout.py",
+      "source_sha256": "7ac6003aa651a011a84bd03bde160b0a3b3c689d62e9ca0825b91aeb0caf9190",
+      "source_size": 14280,
+      "destination_path": "tests/test_pfs_layout.py",
+      "disposition": "relocated",
+      "destination_sha256": "46173c568da054e27d1481f4ee1baab10202a3967683323721c59b2041b08d8d",
+      "transformed": true
+    }
+  ],
+  "algorithm_identity": [
+    {
+      "path": "pfs_layout.py",
+      "top_level_function_and_class_AST_unchanged": true
+    },
+    {
+      "path": "private_integration.py",
+      "top_level_function_and_class_AST_unchanged": true
+    }
+  ],
+  "validation": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "python -B -X utf8 -m unittest discover -s plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/native_layout/tests -v",
+    "scope": "synthetic/offline package tests only; no native or engineering acceptance",
+    "python": "3.14.3",
+    "mcp_sdk": "not_required"
+  }
+}

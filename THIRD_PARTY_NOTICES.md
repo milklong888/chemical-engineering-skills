@@ -40,3 +40,7 @@ MIT 授权使用、修改和分发合法取得的副本，不授予任何人此 
 这是一份项目的授权范围说明，不是对所有第三方资料的法律合规认证。
 更多来源身份及运行限制见[来源与许可](docs/来源与许可.md)和
 [源码与数据边界](docs/源码与数据边界.md)。
+
+## 0.4.14 normalized maintenance modules
+
+Generic helper code from chemical-engineering-experience-inbox retains each package LICENSE, fixed source commit and RELOCATION record. Imported method documentation, the source-reviewed double-effect method and original SVG sources retain CC BY 4.0; their scope is recorded in sidecars/runtime source identities, not relicensed by the root MIT file. The archived SMR/PSA and alkaline code are not copied. No native Dynamics backend, commercial software, case data or standard PDF is bundled.

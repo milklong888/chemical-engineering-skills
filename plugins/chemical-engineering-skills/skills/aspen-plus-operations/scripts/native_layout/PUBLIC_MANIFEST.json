@@ -1,0 +1,52 @@
+{
+  "schema": "owner-tool-file-manifest-v1",
+  "scope": "listed_file_bytes_only",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "files": [
+    {
+      "path": "LICENSE",
+      "size": 1068,
+      "sha256": "8f4bef63a4b64c590f3c18a1bab8088f6329bc22601d0df3e1ca076379e7e9d6"
+    },
+    {
+      "path": "METHOD_REFERENCE.md",
+      "size": 2615,
+      "sha256": "1bdfd1754dbda75db77ffca35fc50f2bd072ad8079e52ef0c3d37bcc03e91911"
+    },
+    {
+      "path": "pfs_layout.py",
+      "size": 32125,
+      "sha256": "af812aaae2e9b68b8b24d387dde1d9bb51b4cd5188d51205cf342f0fcb7d2ce4"
+    },
+    {
+      "path": "private_integration.py",
+      "size": 2444,
+      "sha256": "4c9f9d686127089cba12572fafa40575b1cdbf5716e904af9c68cb8e8e3ed472"
+    },
+    {
+      "path": "README.md",
+      "size": 5796,
+      "sha256": "1f155f737a9628fc06fd4041d0de16977be03e2ac8c934c2f8a07930bc94b506"
+    },
+    {
+      "path": "references/tools-interface.md",
+      "size": 7171,
+      "sha256": "68bfa77794df6126984011016701d85c2f74697f9e59509dc2c8b23b2232f52d"
+    },
+    {
+      "path": "RELOCATION.json",
+      "size": 5412,
+      "sha256": "fc8068d9a31cbaf02266cc0f0d472f315fcff2b7bf1c8adee0b6c0c178108a3d"
+    },
+    {
+      "path": "SOURCE_METADATA.json",
+      "size": 3934,
+      "sha256": "bb83cc17b9bd2f3d127e2628f344f8419c1e88958c9936ce0ef0506e4c7bc4ca"
+    },
+    {
+      "path": "tests/test_pfs_layout.py",
+      "size": 14293,
+      "sha256": "46173c568da054e27d1481f4ee1baab10202a3967683323721c59b2041b08d8d"
+    }
+  ]
+}

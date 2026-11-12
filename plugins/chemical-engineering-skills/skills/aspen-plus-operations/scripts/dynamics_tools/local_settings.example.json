@@ -1,0 +1,5 @@
+{
+  "paths": {},
+  "interpreters": {},
+  "instructions": "Configure tool roots by tool_catalog.json id. The expert MCP and CLI require their own explicit interpreter. Keep machine paths in local_settings.json only."
+}

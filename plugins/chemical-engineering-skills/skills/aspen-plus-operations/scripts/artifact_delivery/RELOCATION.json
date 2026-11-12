@@ -1,0 +1,90 @@
+{
+  "schema": "owner-tool-relocation-v1",
+  "source_repository": "https://github.com/milklong888/chemical-engineering-experience-inbox",
+  "source_commit": "1e0a6c7a50b2233de02fb214f258444b1e0d33ab",
+  "source_package": "pool/scripts/local-artifact-delivery",
+  "destination": "plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/artifact_delivery",
+  "parent_owner": "aspen-plus-operations",
+  "scope": "direct mechanism maintenance; no engineering case or native execution",
+  "code_license": "MIT",
+  "original_documentation_license": "CC-BY-4.0",
+  "historical_source_metadata": "SOURCE_METADATA.json is preserved as source snapshot, not a manifest of relocated bytes",
+  "transformations": [
+    "Relocated complete public package; preserved source/license notices and historical source metadata",
+    "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
+    "Updated executable test/example paths and documentation links",
+    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing"
+  ],
+  "files": [
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/.gitignore",
+      "source_sha256": "1d09e6a96ea7d4d362ed70a227d7c4d08c870e93b65df6ddfffe9e14b57508aa",
+      "source_size": 28,
+      "destination_path": ".gitignore",
+      "disposition": "relocated",
+      "destination_sha256": "1d09e6a96ea7d4d362ed70a227d7c4d08c870e93b65df6ddfffe9e14b57508aa",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/LICENSE",
+      "source_sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215",
+      "source_size": 1148,
+      "destination_path": "LICENSE",
+      "disposition": "relocated",
+      "destination_sha256": "7b28b76dc489b1850f4774cd78f83d6008a0f1255756768b6fbac0752560c215",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/README.md",
+      "source_sha256": "350ab1f2ffce1a63da220e6e78cb8bf613589e0851e3b5fa3db00f29ace8511d",
+      "source_size": 3494,
+      "destination_path": "README.md",
+      "disposition": "relocated",
+      "destination_sha256": "1b0565eef961a9b90cbc183eb5f95c51f6551e4c8530ccb85efa805eb3f39d3b",
+      "transformed": true
+    },
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/SOURCE_METADATA.json",
+      "source_sha256": "1848f82432fdd9e8f509dcc55dff933b968bbca44310c44047f7c73199e84a97",
+      "source_size": 921,
+      "destination_path": "SOURCE_METADATA.json",
+      "disposition": "relocated",
+      "destination_sha256": "1848f82432fdd9e8f509dcc55dff933b968bbca44310c44047f7c73199e84a97",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/artifact_bridge.py",
+      "source_sha256": "fc2289b65dd3e0261c85aff36972866f603a8b02a3d629f9dc1a8ad5a14e3036",
+      "source_size": 10471,
+      "destination_path": "artifact_bridge.py",
+      "disposition": "relocated",
+      "destination_sha256": "fc2289b65dd3e0261c85aff36972866f603a8b02a3d629f9dc1a8ad5a14e3036",
+      "transformed": false
+    },
+    {
+      "source_path": "pool/scripts/local-artifact-delivery/tests/test_artifact_bridge.py",
+      "source_sha256": "1f26e591ac7baab76ad7d542303e8de43696d19bf50aac2047c22e5150b91111",
+      "source_size": 7776,
+      "destination_path": "tests/test_artifact_bridge.py",
+      "disposition": "relocated",
+      "destination_sha256": "39c84406bd4d8a96cb2ea4382d42a79516a707ca1241c2e9820dfb74245a6e1d",
+      "transformed": true
+    }
+  ],
+  "algorithm_identity": [
+    {
+      "path": "artifact_bridge.py",
+      "top_level_function_and_class_AST_unchanged": true
+    }
+  ],
+  "validation": {
+    "tests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "python -B -X utf8 -m unittest discover -s plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/artifact_delivery/tests -v",
+    "scope": "synthetic/offline package tests only; no native or engineering acceptance",
+    "python": "3.14.3",
+    "mcp_sdk": "not_required"
+  }
+}
