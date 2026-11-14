@@ -1,5 +1,15 @@
 # 本地查询方法
 
+GitHub 用户可直接打开[公开资料索引](PUBLIC_CATALOG.md)。使用插件可由 `public` 命令返回匹配条目和官方链接。公开索引随 Skill 提供，可在无本地图谱的环境运行。
+
+```powershell
+python scripts/query_graph.py public 'GB/T 150.2-2024 表C.2'
+python scripts/query_graph.py public 'NPSH' --kind method
+python scripts/query_graph.py public '反应器' --kind book
+```
+
+`--kind` 也可选择 `standard`，默认搜索所有类别。标准的收录位置用于导航，项目依据从相应版次的官方文本或用户提供的原件确认。
+
 从活动工作区或另一目录中解出的快照运行。先找到包含 `知识图谱/` 的根目录。命令使用本 Skill 同级 `scripts/query_graph.py`，可从任意当前目录执行。需要 Python 3.12 或提供 SQLite JSON 和 FTS5 的等效本机环境。查询直接读取该处的两份图谱数据库和原有查询脚本。
 
 ```powershell

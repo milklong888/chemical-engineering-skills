@@ -6,7 +6,17 @@
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
-当前维护版为 **0.4.15**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+当前维护版为 **0.4.16**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+
+可直接浏览[化工设备知识图谱公开资料索引](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/PUBLIC_CATALOG.md)。按标准号、表号、教材书名或设计主题查找官方入口和参考资料，也可调用插件的 `public` 查询。
+
+在 Codex 安装或更新公开资料索引所属插件的命令如下。注册及安装各执行一次，之后执行最后一条拉取更新。
+
+```powershell
+codex plugin marketplace add milklong888/chemical-engineering-skills --ref equipment-knowledge-graph
+codex plugin add chemical-engineering-skills@chemical-engineering-workbench
+codex plugin marketplace upgrade chemical-engineering-workbench
+```
 
 [下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [21 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
 
@@ -92,7 +102,7 @@
 
 完整离线发行包提供知识正文与索引、设备后台、脚本和固定依赖，运行不依赖另外两个来源仓库。完整依赖包面向 Windows AMD64、CPython 3.14；解释器、合法 Aspen／EDR／SW6 安装、项目资料和必要的厂家或费用数据由使用环境提供。知识查询与常规设备计算可用本地命令行执行，MCP 为可选调用方式；模型对话是否需要联网取决于所用服务。
 
-GitHub marketplace 分发插件。化工设备知识图谱模块的图谱快照和教材、设备设计原件由使用者单独提供。按[配套资料库说明](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md)恢复固定目录结构后，通过 `--root` 或 `CHEMICAL_KG_ROOT` 指定本机资料根目录。公开仓库收录该模块的 Skill、查询脚本及使用说明。
+GitHub marketplace 分发插件及公开索引。查询本地图谱全文时，按[配套资料库说明](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md)恢复使用者持有的图谱与原件，再使用 `--root` 或 `CHEMICAL_KG_ROOT` 指定本机资料根目录。
 
 具体模块的可执行部分、接入模板和外部依赖分别说明。SW6 模块提供映射与读回的工作方法，费用模块需要实际经济包或经审核的价格来源。程序回归、文件完整性与工程模型验收各有对应记录，见[验证说明](docs/验证说明.md)和[0.4.11 维护记录](docs/维护记录_0.4.11.md)。0.4.11 整理许可、说明与历史入口，不宣称新增工程仿真能力。
 

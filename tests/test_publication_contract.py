@@ -9,8 +9,12 @@ import ast
 from email.parser import BytesParser
 import hashlib
 import json
+import os
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
+import sys
+import tempfile
 import unittest
 import zipfile
 
@@ -173,6 +177,24 @@ class PublicationContractTests(unittest.TestCase):
                 if isinstance(value, str):
                     parts = {part.casefold() for part in PurePosixPath(value.replace("\\", "/")).parts}
                     self.assertFalse(parts & {"archive", "archives"}, (row.get("node_id"), value))
+
+    def test_equipment_public_catalog_works_without_local_graph(self):
+        skill = SKILLS / "chemical-equipment-knowledge-graph"
+        query_script = skill / "scripts/query_graph.py"
+        with tempfile.TemporaryDirectory() as folder:
+            env = dict(os.environ, CHEMICAL_KG_ROOT=folder)
+
+            def run(*args):
+                return subprocess.check_output([sys.executable, "-B", str(query_script), "public", *args],
+                                               cwd=folder, env=env, encoding="utf-8")
+
+            standards = json.loads(run("GB／T 150.2－2024 表C．2", "--kind", "standard"))["hits"]
+            self.assertEqual([row["id"] for row in standards], ["GB/T 150.2-2024"])
+            self.assertIn("表C.2", [row["anchor"] for row in standards[0]["locations"]])
+            self.assertIn("doe-pump-npsh", [row["id"] for row in json.loads(run("NPSH", "--kind", "method"))["hits"]])
+            books = json.loads(run("反应器", "--kind", "book"))["hits"]
+            self.assertIn("luyben-chemical-reactor-design-and-control", [row["id"] for row in books])
+            self.assertEqual(run("--markdown"), (skill / "references/PUBLIC_CATALOG.md").read_text(encoding="utf-8"))
 
     def test_expert_mcp_retains_existing_tools_and_adds_normalized_calls(self):
         tree = ast.parse((ROOT / "tools/expert_mcp.py").read_text(encoding="utf-8"))

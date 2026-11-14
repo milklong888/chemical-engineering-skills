@@ -1,12 +1,13 @@
 ---
 name: chemical-equipment-knowledge-graph
-description: 查询化工设备知识图谱及配套原件库，按来源角色定位国标原条文、表格、公式及教材方法，保留证据锚点、版次和候选状态。适用于设备设计依据查询、从迁移后的资料库查阅原件，以及接续本地入图。
+description: 检索公开标准题录、表号导航、教材书目和方法资料，也可查询本地化工设备知识图谱及配套原件。适用于设备设计依据查找、从本地图谱定位国标原条文及教材方法，以及接续本地入图。
 ---
 
 # 化工设备知识图谱
 
 ## 选择资料入口
 
+- 公开资料使用 [公开资料索引](references/PUBLIC_CATALOG.md) 或 `python scripts/query_graph.py public '<标准号、表号或主题>'`。公开入口提供标准版次、部分收录位置、官方查阅页、书目和可引用的过程参考资料。使用 GitHub 安装的技能即可查询。
 - 使用用户指定的活动工作区或 [配套资料库](references/archive.md) 恢复到本机的目录。查找同时含有 `知识图谱`、`教材手册` 和 `设备设计` 的根目录。可以在该目录运行或通过 `--root` 和 `CHEMICAL_KG_ROOT` 指定本机位置。原件单独放置时使用 `--source-root`。
 - 执行 [查询方法](references/query.md) 中的命令。归档中的路径、条文和证据锚点原样保留。查询结果的 `path_resolution` 提供已找到的本机路径，`source` 也可按来源 ID 或精确相对路径定位原件。
 - 接续整理时，读取活动工作区根目录的 `AGENTS.md`、`LOCAL_KNOWLEDGE_GRAPH_LINKS.md`，再看 `知识图谱/工作节点与续跑说明.txt`、`工作节点快照.json`、`integration_status.json` 和 `design_role_review/source_transcription_receipt.json`。活动工作区中的 `换对话续跑` 可作为起点，以实际数据库和对应回执确定收录范围及下一页。

@@ -825,6 +825,26 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_books.json",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_books.json.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/PUBLIC_CATALOG.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/PUBLIC_CATALOG.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_methods.json",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_methods.json.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_standards.json",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/public_standards.json.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_public.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_public.py.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/query.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/query.md.license"
     },

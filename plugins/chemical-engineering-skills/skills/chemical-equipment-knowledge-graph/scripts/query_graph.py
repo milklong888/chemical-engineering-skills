@@ -8,6 +8,8 @@ import sqlite3
 import subprocess
 import sys
 
+import query_public
+
 
 ORIGINAL_ROOT = PureWindowsPath('E:/设备设计')
 QUERIES = {
@@ -75,9 +77,11 @@ def main():
     parser = argparse.ArgumentParser(description='查询化工设备活动图谱或解包后的成果快照')
     parser.add_argument('--root', type=Path, help='包含知识图谱的根目录。也可设置 CHEMICAL_KG_ROOT 或从库内运行')
     parser.add_argument('--source-root', type=Path, help='另行迁移的教材手册及设备设计原件所在根路径')
-    parser.add_argument('query_type', choices=[*QUERIES, 'source'])
+    parser.add_argument('query_type', choices=[*QUERIES, 'source', 'public'])
     parser.add_argument('query_args', nargs=argparse.REMAINDER)
     args = parser.parse_args()
+    if args.query_type == 'public':
+        return query_public.main(args.query_args)
     configured_root = args.root or os.environ.get('CHEMICAL_KG_ROOT')
     root = Path(configured_root).resolve() if configured_root else next(
         (directory for directory in (Path.cwd(), *Path.cwd().parents)

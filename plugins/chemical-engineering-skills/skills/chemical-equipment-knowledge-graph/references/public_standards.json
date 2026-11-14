@@ -1,0 +1,154 @@
+[
+  {
+    "id": "GB/T 1047-2019",
+    "title": "管道元件　公称尺寸的定义和选用",
+    "topics": ["管道元件", "管道设计", "公称尺寸", "DN", "pipework", "nominal size"],
+    "coverage": "本地图谱收录公称尺寸定义与选用的局部依据。",
+    "locations": [
+      {"anchor": "第1章、2.1注2、3.1–3.2", "note": "本地原PDF物理第3页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=8531C702DB336551E05397BE0A0ACD16"}
+    ]
+  },
+  {
+    "id": "GB/T 1048-2019",
+    "title": "管道元件　公称压力的定义和选用",
+    "topics": ["管道元件", "管道设计", "公称压力", "PN", "Class", "pipework", "nominal pressure"],
+    "coverage": "本地图谱有三项阅读条目引用公称压力定义和系列。该国标采用国际标准，国家标准全文公开系统仅提供题录。",
+    "locations": [
+      {"anchor": "公称压力定义及注", "note": "本地原PDF物理第3页。"},
+      {"anchor": "表1及续表", "note": "本地原PDF物理第3–4页。"}
+    ],
+    "links": [
+      {"label": "国家标准全文公开系统题录", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=3F9B24843482F90C56CE6847A55B3D61"}
+    ]
+  },
+  {
+    "id": "GB/T 150.1-2024",
+    "title": "压力容器 第1部分：通用要求",
+    "topics": ["压力容器", "通用要求", "超压泄放装置", "安全阀", "焊接接头", "pressure vessel", "pressure relief"],
+    "coverage": "本地图谱收录前置页、主文第1–5章和附录A–F。原PDF物理第1–51页均有来源锚点，其中第2、4、50、51页为布局记录。",
+    "locations": [
+      {"anchor": "第1章", "note": "正文自本地原PDF物理第7页、印刷第1页开始。"},
+      {"anchor": "表B.9", "note": "本地原PDF物理第33–36页，印刷第27–30页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=1E5A13A77F4FBC8DE06397BE0A0A87E8"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=4D1FD002A12678A75A4B7C42C1DE87EE"}
+    ]
+  },
+  {
+    "id": "GB/T 150.2-2024",
+    "title": "压力容器 第2部分：材料",
+    "topics": ["压力容器", "钢材", "材料", "许用应力", "钢板", "钢管", "钢锻件", "pressure vessel materials", "allowable stress"],
+    "coverage": "本地图谱收录物理第1–39页及第57页，包括主文第1–9章、附录A和B、表C.1、表C.2和表D.1。表C.3为后续收录起点。",
+    "locations": [
+      {"anchor": "表C.2", "note": "本地原PDF物理第36–39页，印刷第30–33页。物理第36页的表C.2位于表C.1之后。"},
+      {"anchor": "表C.3", "note": "待收录。本地原PDF自物理第40页、印刷第34页起。"},
+      {"anchor": "表D.1", "note": "本地原PDF物理第57页，印刷第51页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=P3f4r%2B6yw4k%3D&mode=p"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=1D1BA04382E72AF5E728D9ED3C279E33"}
+    ]
+  },
+  {
+    "id": "GB/T 151-2014",
+    "title": "热交换器",
+    "topics": ["热交换器", "换热器", "历史版次", "被代替", "heat exchangers"],
+    "coverage": "本地图谱保留历史版次识别及替代关系。全国标准信息公共服务平台登记其于2026年8月1日废止，由GB/T 151-2026全部代替。",
+    "locations": [],
+    "links": [
+      {"label": "全国标准信息公共服务平台历史题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=71F772D7ECCAD3A7E05397BE0A0AB82A"}
+    ]
+  },
+  {
+    "id": "GB/T 151-2026",
+    "title": "热交换器",
+    "topics": ["热交换器", "换热器", "替代版次", "heat exchangers"],
+    "coverage": "本地图谱登记官方题录和对GB/T 151-2014的替代关系，正文待收录。",
+    "locations": [],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=49FD1852CB2EC31FE06397BE0A0A1304"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=969C9D975E0CC9D965FDED8AB4DC4BB0"}
+    ]
+  },
+  {
+    "id": "GB/T 25198-2023",
+    "title": "压力容器封头",
+    "topics": ["压力容器", "封头", "椭圆形封头", "碟形封头", "半球形封头", "pressure vessel heads", "ellipsoidal heads"],
+    "coverage": "本地图谱为该版原PDF物理第1–83页建立来源锚点，收录前置页、主文及附录。",
+    "locations": [
+      {"anchor": "第6章", "note": "自本地原PDF物理第9页、印刷第5页起。"},
+      {"anchor": "表I.1", "note": "本地原PDF物理第75–77页，印刷第71–73页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=027A6096AEE8643EE06397BE0A0A0867"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F2E72A3E36889D326DD413CFA86E33BB"}
+    ]
+  },
+  {
+    "id": "GB/T 28712.1-2023",
+    "title": "热交换器型式与基本参数 第1部分：浮头式热交换器",
+    "topics": ["换热器", "浮头式", "内导流", "外导流", "冷凝器", "floating head exchangers", "condenser"],
+    "coverage": "本地图谱收录表1–12和部分配套条文及图示，涉及型式、基本参数、工艺参数与组装尺寸。",
+    "locations": [
+      {"anchor": "表1", "note": "本地原PDF物理第9–10页，印刷第5–6页。"},
+      {"anchor": "表8", "note": "本地原PDF物理第15–17页，印刷第11–13页。"},
+      {"anchor": "表12", "note": "本地原PDF物理第25–26页，印刷第21–22页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=053404E3F00D8F91E06397BE0A0A9209"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=07F327648C2EBDD32801C9C2E0A68394"}
+    ]
+  },
+  {
+    "id": "GB/T 28712.2-2023",
+    "title": "热交换器型式与基本参数 第2部分：固定管板式热交换器",
+    "topics": ["换热器", "固定管板式", "换热管", "管束", "折流板", "fixed tube sheet heat exchangers"],
+    "coverage": "本地图谱收录表1–8和部分配套条文，涉及结构、基本参数及工艺参数。",
+    "locations": [
+      {"anchor": "表4", "note": "本地原PDF物理第9页，印刷第5页。"},
+      {"anchor": "表5", "note": "本地原PDF物理第10–14页，印刷第6–10页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=053404E3EE048F91E06397BE0A0A9209"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=BC58EC74F763237BD256182993A44204"}
+    ]
+  },
+  {
+    "id": "GB/T 28712.3-2023",
+    "title": "热交换器型式与基本参数 第3部分：U形管式热交换器",
+    "topics": ["换热器", "U形管式", "U型管式", "管程", "壳程", "U-tube heat exchangers"],
+    "coverage": "本地图谱收录表1–5和部分配套条文及图示，涉及基本参数、结构、工艺参数和组装尺寸。",
+    "locations": [
+      {"anchor": "表1", "note": "本地原PDF物理第7–9页，印刷第3–5页。"},
+      {"anchor": "表5", "note": "本地原PDF物理第14–16页，印刷第10–12页。"}
+    ],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=053404E3F00E8F91E06397BE0A0A9209"},
+      {"label": "国家标准全文公开系统入口", "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=63743707A5F215F90BEE23801C01DFEA"}
+    ]
+  },
+  {
+    "id": "NB/T 47041-2014",
+    "title": "塔式容器",
+    "topics": ["塔设备", "塔式容器", "非标塔", "tower vessels", "column vessels"],
+    "coverage": "本地图谱登记官方题录并关联塔设备设计资料入口，正文待收录。",
+    "locations": [],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/hb/search/stdHBDetailed?id=8B1827F227B1BB19E05397BE0A0AB44A"}
+    ]
+  },
+  {
+    "id": "NB/T 47065.1-2018",
+    "title": "容器支座 第1部分：鞍式支座",
+    "topics": ["容器支座", "鞍式支座", "卧式容器", "saddle supports", "vessel supports"],
+    "coverage": "本地图谱登记官方题录及对JB/T 4712.1-2007的替代关系。所登记的本地合订来源为历史资料，现行分册正文待收录。",
+    "locations": [],
+    "links": [
+      {"label": "全国标准信息公共服务平台题录", "url": "https://std.samr.gov.cn/hb/search/stdHBDetailed?id=8B1827F24D25BB19E05397BE0A0AB44A"}
+    ]
+  }
+]

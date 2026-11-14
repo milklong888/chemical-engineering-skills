@@ -1,4 +1,4 @@
 interface:
   display_name: "化工设备知识图谱"
-  short_description: "查询本地化工设备资料、国标原表和教材方法，接续知识图谱整理"
-  default_prompt: "使用 $chemical-equipment-knowledge-graph 查询本地设备依据，或从最新工作节点继续整理。"
+  short_description: "检索公开化工设备资料及本地图谱，定位标准、教材书目与工艺参考"
+  default_prompt: "使用 $chemical-equipment-knowledge-graph 查找化工设备的公开资料或本地设计依据。"
