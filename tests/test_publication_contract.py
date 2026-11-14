@@ -153,7 +153,13 @@ class PublicationContractTests(unittest.TestCase):
                             .read_text(encoding="utf-8"))
         self.assertEqual(plugin["skills"], "./skills/")
         entries = list(SKILLS.rglob("SKILL.md"))
-        self.assertEqual(len(entries), 20)
+        self.assertEqual(len(entries), 21)
+        graph_skill = SKILLS / "chemical-equipment-knowledge-graph"
+        self.assertIn(graph_skill / "SKILL.md", entries)
+        self.assertTrue((graph_skill / "scripts/query_graph.py").is_file())
+        data_suffixes = {".zip", ".sqlite", ".pdf", ".doc", ".docx"}
+        self.assertFalse(any(path.suffix.casefold() in data_suffixes for path in graph_skill.rglob("*")
+                             if path.is_file()), "Graph and original materials are provided independently")
         for path in entries:
             self.assertEqual(len(path.relative_to(SKILLS).parts), 2,
                              "Nested backup/archived Skill entry can be rediscovered")

@@ -17,8 +17,9 @@ class WorkflowCatalogTests(unittest.TestCase):
     def test_cli_lists_exact_registered_skill_set(self):
         result = expert_cli.execute({"operation": "workflow", "payload": {"action": "list"}}, ROOT)
         self.assertEqual(result["schema"], "chemical-engineering-workflow-catalog-v1")
-        self.assertEqual(len(result["skill_ids"]), 20)
+        self.assertEqual(len(result["skill_ids"]), 21)
         self.assertIn("chemical-engineering-expert", result["skill_ids"])
+        self.assertIn("chemical-equipment-knowledge-graph", result["skill_ids"])
         self.assertIn("aspen-non-reactor-equipment-cost", result["skill_ids"])
         self.assertIn("aspen-flowsheet-cost-skill-builder", result["skill_ids"])
         self.assertNotIn("aspen-project-equipment-cost-batch", result["skill_ids"])
@@ -33,6 +34,15 @@ class WorkflowCatalogTests(unittest.TestCase):
         self.assertEqual(asset["sha256"], hashlib.sha256(data).hexdigest())
         self.assertEqual(asset["text"], data.decode("utf-8-sig"))
         self.assertIn("SKILL", asset["text"])
+
+    def test_local_knowledge_graph_read_exposes_only_bundled_guidance(self):
+        result = lookup({"action": "read", "mode": "skill", "skill_id": "chemical-equipment-knowledge-graph"})
+        asset = result["result"]
+        self.assertTrue(asset["available"])
+        self.assertTrue(result["read_only"])
+        self.assertFalse(result["engineering_accepted"])
+        self.assertIn("CHEMICAL_KG_ROOT", asset["text"])
+        self.assertIn("references/archive.md", asset["text"])
 
     def test_registered_resource_read_and_script_graph_preserve_base_next(self):
         resource = lookup({"action": "read", "mode": "resource", "resource": "script-catalog"})

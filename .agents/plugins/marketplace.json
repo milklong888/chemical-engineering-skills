@@ -1,0 +1,20 @@
+{
+  "name": "chemical-engineering-workbench",
+  "interface": {
+    "displayName": "化工设计专家工作库"
+  },
+  "plugins": [
+    {
+      "name": "chemical-engineering-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chemical-engineering-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

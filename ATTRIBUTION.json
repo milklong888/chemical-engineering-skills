@@ -817,6 +817,34 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-selection-audit/REFERENCE.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/agents/openai.yaml",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/agents/openai.yaml.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/query.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/query.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/workflow.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/workflow.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/package_snapshot.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/package_snapshot.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_graph.py",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_graph.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/SKILL.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/SKILL.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-selection-audit/SKILL.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-equipment-selection-audit/SKILL.md.license"
     },

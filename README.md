@@ -2,19 +2,19 @@
 
 作者：milklong（GitHub：milklong888） · [版权、来源与AI辅助编辑声明](ATTRIBUTION.md)
 
-从任务书、文献条件或已有 Aspen 模型出发，完成流程规划、简化骨架、单模块细化、设备计算反馈和全流程复核。这套工作库把 **20 个 Skill、分层知识检索、17 类设备计算后台及可复用脚本**接在同一条工作线上，适合完整流程生成，也支持单塔优化、模型排错、设备审查、费用整理和技术说明等独立任务。
+从任务书、文献条件或已有 Aspen 模型出发，完成流程规划、简化骨架、单模块细化、设备计算反馈和全流程复核。这套工作库把 **21 个 Skill、分层知识检索、17 类设备计算后台及可复用脚本**接在同一条工作线上，适合完整流程生成，也支持单塔优化、模型排错、设备审查、费用整理和技术说明等独立任务。
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
-当前维护版为 **0.4.14**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+当前维护版为 **0.4.15**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
 
-[下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [20 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
+[下载完整发行包](https://github.com/milklong888/chemical-engineering-skills/releases/latest) · [安装与使用](docs/使用手册.md) · [按图理解工作流](docs/工作流与功能说明_0.4.10.md) · [21 个模块的详细说明](docs/模块说明.md) · [脚本与文件索引](docs/文件索引.md)
 
 [![从设计资料到可核验的 Aspen 全流程](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)](https://github.com/milklong888/chemical-engineering-skills/releases/download/v0.4.10/aspen-workflow-overview.png)
 
 *点击图片查看原尺寸。左侧按工作顺序展开，右侧分别说明外置专著和设备后台的调用；底部是任务结束后的经验更新。*
 
-本次[模块规范化记录](docs/MODULE_NORMALIZATION_0.4.14.md)列出12个维护单元、23份提案的处置、九项统一离线调用，以及主库和本机部署边界。
+0.4.14 的[模块规范化记录](docs/MODULE_NORMALIZATION_0.4.14.md)列出12个维护单元、23份提案的处置、九项统一离线调用，以及主库和本机部署边界。
 
 ## 能完成什么
 
@@ -60,7 +60,7 @@
 
 这些能力通过资料整理、方法编排、脚本封装和回归检查形成。知识维护保留原始来源、抽象层次、适用条件和计算链，任务经验按上述流程逐步积累；本项目不包含重新训练的基础模型权重。
 
-## 20 个 Skill：按任务进入
+## 21 个 Skill：按任务进入
 
 下表中的模块名称直接链接到 `SKILL.md`；“详细说明”介绍其输入、工作过程、产物和相关文件。日常使用无需记住所有名称，助手按任务和阶段选择。
 
@@ -85,10 +85,14 @@
 | [动力学技术说明](plugins/chemical-engineering-skills/skills/aspen-kinetics-documentation/SKILL.md) | 文献速率式、单位换算、Aspen/USER 参数与导出对应 | [详细说明](docs/模块说明.md#module-17) |
 | [多工况自适应模板](plugins/chemical-engineering-skills/skills/aspen-adaptive-generalization-loop/SKILL.md) | 代表样本调试、控制关系形成及多进料复验 | [详细说明](docs/模块说明.md#module-18) |
 | [子代理协作](plugins/chemical-engineering-skills/skills/subagent-dispatch/SKILL.md) | 独立读取、检索、执行和复核的分工与主代理整合 | [详细说明](docs/模块说明.md#module-19) |
+| [双效精馏连接](plugins/chemical-engineering-skills/skills/aspen-double-effect-distillation/SKILL.md) | 跨塔热服务、液体回流、返汽及净边界 | [详细说明](docs/模块说明.md#module-20) |
+| [化工设备知识图谱](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/SKILL.md) | 按来源查教材方法、国标原文和证据锚点，接续资料整理 | [详细说明](docs/模块说明.md#module-21) |
 
 ## 安装、验证和继续阅读
 
 完整离线发行包提供知识正文与索引、设备后台、脚本和固定依赖，运行不依赖另外两个来源仓库。完整依赖包面向 Windows AMD64、CPython 3.14；解释器、合法 Aspen／EDR／SW6 安装、项目资料和必要的厂家或费用数据由使用环境提供。知识查询与常规设备计算可用本地命令行执行，MCP 为可选调用方式；模型对话是否需要联网取决于所用服务。
+
+GitHub marketplace 分发插件。化工设备知识图谱模块的图谱快照和教材、设备设计原件由使用者单独提供。按[配套资料库说明](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/archive.md)恢复固定目录结构后，通过 `--root` 或 `CHEMICAL_KG_ROOT` 指定本机资料根目录。公开仓库收录该模块的 Skill、查询脚本及使用说明。
 
 具体模块的可执行部分、接入模板和外部依赖分别说明。SW6 模块提供映射与读回的工作方法，费用模块需要实际经济包或经审核的价格来源。程序回归、文件完整性与工程模型验收各有对应记录，见[验证说明](docs/验证说明.md)和[0.4.11 维护记录](docs/维护记录_0.4.11.md)。0.4.11 整理许可、说明与历史入口，不宣称新增工程仿真能力。
 

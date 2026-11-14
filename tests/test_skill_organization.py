@@ -272,10 +272,13 @@ class OrganizationTests(unittest.TestCase):
         self.assertEqual(failed.returncode, 2)
         self.assertTrue(json.loads(failed.stdout)["read_only"])
 
-    def test_actual_product_inventory_covers_existing_nineteen_entries(self):
+    def test_actual_product_inventory_covers_twenty_one_skills(self):
         result = organization.inventory(SOURCE_ROOT)
-        self.assertEqual(result["skill_count"], 20)
+        self.assertEqual(result["skill_count"], 21)
+        self.assertEqual(result["coverage"]["expected_product_skill_count"], 21)
+        self.assertTrue(result["coverage"]["skill_count_matches_product"])
         ids = {skill["skill_id"] for skill in result["skills"]}
+        self.assertIn("chemical-equipment-knowledge-graph", ids)
         self.assertIn("subagent-dispatch", ids)
         self.assertNotIn("nylon-thigh-high-photo-edit", ids)
         self.assertFalse(any(issue["code"] == "skill_name_missing_or_mismatched" for issue in result["issues"]))

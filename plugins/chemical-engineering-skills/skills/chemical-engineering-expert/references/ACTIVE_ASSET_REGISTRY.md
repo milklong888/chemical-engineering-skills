@@ -1,6 +1,6 @@
 # 任务入口与活动资产
 
-本页是本发行包 20 个 Skill 的任务导航。安装根为 `{CHEM_SKILLS}`；模块名和入口保持稳定。
+本页是本发行包 21 个 Skill 的任务导航。安装根为 `{CHEM_SKILLS}`；模块名和入口保持稳定。
 先按交付目标选择一条主线，再只加载当前动作需要的专业内容。分组便于查找，不表示先后顺序、
 强制组合或新的事实权威；具体要求以各 Skill 和[规则归属表](CANONICAL_RULE_OWNERSHIP.md)为准。
 
@@ -50,6 +50,7 @@
 
 | 主导入口 | 何时进入 | 接收 → 交回 | 按需协作与边界 |
 |---|---|---|---|
+| [chemical-equipment-knowledge-graph](../../chemical-equipment-knowledge-graph/SKILL.md) | 查询设备设计依据或接续本地资料整理 | 使用者提供的资料库及查询条件 → 国标原文、教材方法和来源锚点 | 使用配套资料库路径，保留候选状态；需要设备计算时按任务进入设备模块 |
 | [chemical-equipment-selection-audit](../../chemical-equipment-selection-audit/SKILL.md) | 审查设备报告、公式链和参数来源 | 报告/参数与标准证据 → 设备账本、公式审计和缺口 | 需要确定性计算时调用 equipment-design-app；不把审核等同于运行软件 |
 | [equipment-design-app](../../equipment-design-app/SKILL.md) | 调用随包设备计算和选型后台 | 同候选工况、来源/范围 → 计算轨迹、能力约束或数据缺口 | 真实能力限制交回工艺 owner；目录无覆盖不直接推出并联/分级 |
 | [aspen-edr-rating-delivery](../../aspen-edr-rating-delivery/SKILL.md) | 真实 EDR 换热器校核与交付 | 换热服务、同版模型与 EDR 依赖 → EDR身份、结果及工程门证据 | HeatX Detailed/Shortcut 不等于 EDR；文件操作由 operations 支持 |

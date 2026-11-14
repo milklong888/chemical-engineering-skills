@@ -1,0 +1,16 @@
+# 配套资料库
+
+本 Skill 的运行数据存放在用户的独立资料库。获取 `化工设计专家工作库-跨电脑` 文件夹中的 `资料库` 和 `工具` 后，按随附的 `跨电脑使用.md` 恢复到本机。资料库中有以下文件。
+
+- `knowledge-graph-snapshot.zip` 包含图谱数据库、证据、报告、查询脚本和回执。
+- `教材手册.zip` 和 `设备设计.zip` 按图谱来源保留原件目录和原始字节。原始压缩档作为完整文件保存。
+- `原件索引.json` 将来源 ID 对应到原件压缩包、包内路径、大小和 SHA-256。`library_manifest.json` 绑定全部归档和原件索引。
+
+在跨电脑文件夹根目录运行。需要 Python 3.12 或带 SQLite JSON 和 FTS5 的等效本机环境。
+
+```powershell
+py -3 .\工具\restore_library.py --library .\资料库 --verify-only
+py -3 .\工具\restore_library.py --library .\资料库 --root 'D:\化工设备资料'
+```
+
+第二条命令在空目录或尚未创建的目录中恢复资料。恢复后用 `--root`、`CHEMICAL_KG_ROOT` 或从恢复目录运行查询。原件和快照按各自清单检查；查看国标、教材和候选仍使用原证据状态。原件按本地工作资料使用。

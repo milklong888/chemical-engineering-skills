@@ -6,6 +6,7 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "plugins/chemical-engineering-skills/skills"
+LOCAL_GRAPH_ENTRY = SKILLS / "chemical-equipment-knowledge-graph/SKILL.md"
 STAGE_SKILLS = {
     "chemical-engineering-expert", "aspen-document-driven-flowsheet",
     "aspen-adaptive-generalization-loop", "aspen-edr-rating-delivery",
@@ -22,9 +23,10 @@ def introduction(path):
 
 class WorkflowContract(unittest.TestCase):
     def test_all_professional_entries_explain_a_connected_workflow(self):
-        entries = sorted(SKILLS.glob("*/SKILL.md"))
-        self.assertEqual(len(entries), 20)
-        for entry in entries:
+        entries = set(SKILLS.glob("*/SKILL.md"))
+        self.assertEqual(len(entries), 21)
+        self.assertIn(LOCAL_GRAPH_ENTRY, entries)
+        for entry in sorted(entries - {LOCAL_GRAPH_ENTRY}):
             with self.subTest(skill=entry.parent.name):
                 body = introduction(entry)
                 paragraphs = [p for p in body.split("\n\n") if p.strip()]
@@ -46,7 +48,8 @@ class WorkflowContract(unittest.TestCase):
         for entry in SKILLS.glob("*/SKILL.md"):
             documents.append(entry)
         for document in documents:
-            body = introduction(document) if document.name == "SKILL.md" else document.read_text(encoding="utf-8")
+            body = (introduction(document) if document.name == "SKILL.md" and document != LOCAL_GRAPH_ENTRY
+                    else document.read_text(encoding="utf-8"))
             body = re.sub(r"```.*?```", "", body, flags=re.S)
             for link in re.findall(r"\]\(([^)\n]+)\)", body):
                 if link.startswith(("https://", "http://", "#")):
@@ -54,6 +57,13 @@ class WorkflowContract(unittest.TestCase):
                 target = unquote(link.strip("<>").split("#", 1)[0])
                 with self.subTest(document=document.relative_to(ROOT), link=link):
                     self.assertTrue((document.parent / target).exists())
+
+    def test_local_knowledge_graph_routes_to_user_supplied_materials(self):
+        body = LOCAL_GRAPH_ENTRY.read_text(encoding="utf-8")
+        for marker in ("--root", "CHEMICAL_KG_ROOT", "教材手册", "设备设计", "来源"):
+            self.assertIn(marker, body)
+        registry = SKILLS / "chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md"
+        self.assertIn("../../chemical-equipment-knowledge-graph/SKILL.md", registry.read_text(encoding="utf-8"))
 
     def test_stage_table_keeps_six_events_and_separate_engineering_gate(self):
         body = (SKILLS / "chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md").read_text(encoding="utf-8")

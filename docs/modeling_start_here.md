@@ -108,7 +108,7 @@ Calculator 和 Design Spec 不能同时写同一操纵量。
 
 ## MCP与本地程序的边界
 
-新增 workflow_lookup 让助手按注册ID读取20个Skill和完整方法，或查询原脚本图谱；
+workflow_lookup 让助手按注册 ID 读取 21 个 Skill 和相应指引，或查询原脚本图谱；
 它只提供指引与定位。实际设备/压力计算仍由原来的已注册工具执行；
 Aspen模型操作仍需合法软件与原COM/脚本路径。
 当前会话未列出某MCP工具时，使用同一实现的CLI，不谎称工具已连接。

@@ -166,7 +166,7 @@ def stage(sources_path: Path, repository: Path, log_dir: Path) -> dict:
     return {"staged_file_count": len(planned), "new_file_count": len(written), "mapping_log": str(log_path), "source_files_modified": False, "uploaded": False}
 
 
-def seal(repository: Path, output_dir: Path, release_name: str, release_version: str, *, expected_skill_count: int = 20, external_dependencies: list | None = None, synthetic_templates: list | None = None) -> dict:
+def seal(repository: Path, output_dir: Path, release_name: str, release_version: str, *, expected_skill_count: int = 21, external_dependencies: list | None = None, synthetic_templates: list | None = None) -> dict:
     repository, output_dir = repository.absolute(), output_dir.absolute()
     v.reject_links(repository)
     v.reject_links(output_dir)
@@ -227,7 +227,7 @@ def main() -> int:
     sealing.add_argument("--output-dir", type=Path, required=True)
     sealing.add_argument("--release-name", required=True)
     sealing.add_argument("--release-version", required=True)
-    sealing.add_argument("--expected-skill-count", type=int, default=20)
+    sealing.add_argument("--expected-skill-count", type=int, default=21)
     sealing.add_argument("--sources", type=Path, help="Explicit reviewed source manifest; otherwise reuse hash-bound scope from the existing release manifest")
     args = parser.parse_args()
     try:

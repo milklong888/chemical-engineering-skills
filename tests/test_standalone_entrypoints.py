@@ -144,8 +144,9 @@ async def main():
                 assert diagnostic['result']['diagnostic_status']=='unverified'
                 workflow=await call('workflow_lookup',{'payload':{'action':'list'}})
                 assert workflow['schema']=='chemical-engineering-workflow-catalog-v1'
-                assert workflow['action']=='list' and len(workflow['skill_ids'])==20
+                assert workflow['action']=='list' and len(workflow['skill_ids'])==21
                 assert 'chemical-engineering-expert' in workflow['skill_ids']
+                assert 'chemical-equipment-knowledge-graph' in workflow['skill_ids']
                 assert 'script-catalog' in workflow['resources']
                 assert workflow['read_only'] is True and workflow['engineering_accepted'] is False
                 assert 'no skill or script execution' in workflow['boundary']

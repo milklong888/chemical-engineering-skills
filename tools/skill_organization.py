@@ -28,6 +28,7 @@ EXCLUDED = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"
 MAX_FILES = 20000
 MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_TOTAL_BYTES = 64 * 1024 * 1024
+EXPECTED_PRODUCT_SKILL_COUNT = 21
 FILE_END = re.compile(r"\.(?:md|py|json|jsonl|ya?ml|toml|csv|txt|schema|bkp|inp|apwz?|edr|fx3|cn2)$", re.I)
 BLIND_SPOTS = [
     "Static references are review candidates, not proof of reading, execution or engineering impact.",
@@ -436,8 +437,8 @@ def inventory(root: str | Path) -> dict:
             "unresolved_edges": [edge for edge in edges if edge["status"] != "resolved"],
             "issues": scanner.issues, "blind_spots": BLIND_SPOTS,
             "coverage": {"enumerated_files": len(files), "fingerprinted_text_files": len(nodes),
-                         "parsed_text_bytes": total, "expected_product_skill_count": 20,
-                         "skill_count_matches_product": len(skills) == 20},
+                         "parsed_text_bytes": total, "expected_product_skill_count": EXPECTED_PRODUCT_SKILL_COUNT,
+                         "skill_count_matches_product": len(skills) == EXPECTED_PRODUCT_SKILL_COUNT},
             "canonical_rule_owner_map": SKILLS_PREFIX + "chemical-engineering-expert/references/CANONICAL_RULE_OWNERSHIP.md"}
 
 

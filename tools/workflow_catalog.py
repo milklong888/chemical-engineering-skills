@@ -23,7 +23,7 @@ OFFICIAL_SKILL_IDS = frozenset({
     "aspen-kinetics-documentation", "aspen-non-reactor-equipment-cost",
     "aspen-plus-operations", "aspen-plus-template", "aspen-pressure-pfd-delivery",
     "aspen-tower-optimization-workflow", "aspen-two-section-flowsheet",
-    "chemical-engineering-expert", "chemical-equipment-selection-audit",
+    "chemical-engineering-expert", "chemical-equipment-knowledge-graph", "chemical-equipment-selection-audit",
     "chemical-tower-design", "equipment-design-app", "subagent-dispatch",
     "sw6-scripted-equipment-design",
 })
