@@ -42,6 +42,8 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
    history generation or long Windows paths, also read
    `references/archive_io_workflow.md`.
 
+在已有流程中落实 HCH 或配对表时，先从[增量接入工作流](../aspen-document-driven-flowsheet/references/hen_incremental_integration.md)取得服务映射和保留清单，再写卡片或改连接。
+
 ## Existing execution paths
 
 查当前值先复用同案导出或 `aspen_runtime.py` 的只读节点接口；不要改 Output
@@ -62,6 +64,10 @@ SetValue/Run 不是原生 Sensitivity；卡片、结果表、残差和依赖顺�
 Keep old CLI entrypoints usable. Do not create another COM/lock/parser in a
 project when these cover the operation. A missing target version, partial
 history, uncertain engine state or unsupported format is explicit—not zero.
+
+## 会话清理
+
+启动前登记会话归属。运行结束、项目完成、暂停、取消或异常时，按[自动化收尾](references/operations_workflow.md#aspen-automation-closeout)保存检查点、关闭本轮自有会话、核验残留并记录锁状态。
 
 ## Non-skippable boundaries
 

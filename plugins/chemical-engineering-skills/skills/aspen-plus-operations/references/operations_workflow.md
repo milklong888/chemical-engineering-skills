@@ -313,8 +313,9 @@ of included content. Missing local help cannot be filled from historical values.
   Do not rely on an in-function timeout around `Dispatch`, `DispatchEx`,
   `EnsureDispatch`, or event attachment. These calls can block the Python thread
   before timeout checks run. Wrap Aspen startup in an outer watchdog process
-  whenever repeatable evidence matters; the watchdog may kill only its own child
-  tree, release only its own lock, and must record the last startup stage.
+  whenever repeatable evidence matters. Record the last startup stage and follow
+  [Aspen automation closeout](#aspen-automation-closeout) for ownership,
+  termination and lock recovery.
 - If the shared Aspen lock is held by another case, do not spin in a long wait.
   Use the interval for static operations: parse exported cards/history, build
   the next COM script, update status/ledger files, and poll the lock only with
@@ -407,6 +408,44 @@ of included content. Missing local help cannot be filled from historical values.
 - Every operation must leave evidence: changed input card, after-run export,
   block status, stream results, and any solver/residual tables needed by the
   caller's hard gates.
+
+## Aspen automation closeout
+
+Use the shared `DEFAULT_LOCK_PATH` in `scripts/aspen_runtime.py` and the
+existing supervisor for competing operations against the same Aspen resources.
+Route cooperating entrypoints to one resolved lock path. Before starting,
+record the run ID, lock owner, worker PID and creation identity, model path,
+and working directory. Record a server or engine identity when it can be
+verified. A newly seen PID, name, window title or parent PID alone is
+insufficient to authorize termination of a COM server.
+
+On run end, completion, pause, cancellation, error or timeout:
+
+1. Stop new dispatch and retries for the current task. On pause, preserve the
+   pause marker and request a cooperative stop of the owned worker. Save a
+   checkpoint and current evidence within the permitted time. If saving blocks,
+   retain the last usable checkpoint and record the incomplete save.
+2. On the creating thread, close the owned document and release its COM
+   references in the cleanup path. Bound the wait using the supervisor. On
+   timeout, the supervisor may terminate the worker using its exact process
+   handle. A separate server or engine can be terminated only with independent
+   proof that it is exclusively owned by the run and a matching process handle
+   or PID and creation identity. Preserve manual, foreign and unknown sessions.
+3. Verify exit of known owned resources and record unresolved processes or
+   file locks. A COM close return alone does not prove server exit. The current
+   supervisor can retain the lease when COM close is unproven, but it relies on
+   the worker's lifecycle report and does not establish OS-level server exit.
+   If unresolved resources remain, stop further dispatch even if the lease
+   was already released. Keep the owned recovery lock when available. A dead
+   owner or old lock timestamp alone does not authorize deleting a lock.
+4. Remove only explicitly tracked, expendable files under the verified run
+   directory, once access has been released. Preserve models, checkpoints,
+   results and diagnostic history. Record the stop reason, checkpoint, close
+   outcome, verified exits, remaining resources, and resulting lock state in
+   the run or project closeout record.
+
+This procedure is executed by the task and its workers. It adds no resident
+process monitor or orphan terminator.
 
 ## Delivery Workflow Order
 

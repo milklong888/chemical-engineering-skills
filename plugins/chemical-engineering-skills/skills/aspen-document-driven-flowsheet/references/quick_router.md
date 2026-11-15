@@ -10,6 +10,7 @@ when the task crosses several skills or the route is unclear.
 
 | 当前需要 | 读取入口 | 返回的依据 |
 |---|---|---|
+| HCH 或换热配对表接入既有流程 | [增量接入](hen_incremental_integration.md) | 换热服务映射、保留回路及改造范围 |
 | 只给目标/原料，循环、分离、排放或配套未说明 | `fullflow_generation_workflow.md` 第1节弱提示词补全 | 按需读原方法，补全方案和依据，再进同一源门；不强加不适用设备 |
 | 自然语言生成完整流程、要求逐模块细化后回装 | [全流程生成门](fullflow_generation_workflow.md) | 补全与5份源门、骨架运行与3份复核、逐模块回装和全设备覆盖 |
 | 提取任务书或冻结/改变物性方法 | [来源协议](source_taskbook_and_gate_protocol.md) | 两遍来源核查、物性冻结及允许修改 |
