@@ -7,6 +7,8 @@ description: Diagnose and repair Aspen flow failures using current authority, ph
 
 参数/卡片依据不明或warning无法解释时，先按[来源升级与留账](../chemical-engineering-expert/references/KNOWLEDGE_LOOKUP_ESCALATION.md)查询原生图谱、官方知识库及必要的网络来源，再提出有依据的修改。
 
+涉及 SM/EO 分阶段错误计数、上游失败在下游形成旁路，或修复过程中出现未经授权的拓扑变更时，参考[项目方法复盘](../chemical-engineering-expert/references/ASPEN_CASE_REVIEW.md)，用本次日志定位当前因果链。
+
 ## 工作过程
 
 收到错误日志或不合理结果后，先保留可回退的候选文件，读取当前项目要求和同次运行的具体报错，再沿物流还原出错单元的真实用途。区分输入、物性、相态、循环与控制、产品目标、设备能力以及文件问题后，只针对有证据的原因作一组受控修改，交操作模块重跑，并观察原问题是否消失或暴露了下一问题。

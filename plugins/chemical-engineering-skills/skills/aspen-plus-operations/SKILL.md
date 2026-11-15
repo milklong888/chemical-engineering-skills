@@ -44,6 +44,8 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 在已有流程中落实 HCH 或配对表时，先从[增量接入工作流](../aspen-document-driven-flowsheet/references/hen_incremental_integration.md)取得服务映射和保留清单，再写卡片或改连接。
 
+文件身份、动态工程依赖、目标版本验证或原生分析交付发生类似问题时，参照[项目方法复盘](../chemical-engineering-expert/references/ASPEN_CASE_REVIEW.md)的相应记录。实际接口与验收依当前使用的软件版本。
+
 ## Existing execution paths
 
 查当前值先复用同案导出或 `aspen_runtime.py` 的只读节点接口；不要改 Output

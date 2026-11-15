@@ -657,6 +657,14 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ASPEN_CASE_REVIEW.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ASPEN_CASE_REVIEW.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/CONTENT_DRAFTING.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/CONTENT_DRAFTING.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/ACTIVE_ASSET_REGISTRY.md.license"
     },

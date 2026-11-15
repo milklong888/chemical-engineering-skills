@@ -54,6 +54,10 @@ skills or duplicate their card-level knowledge.
 
 经验/案例按[任务触发路由](references/TASK_DECISION_TREES.md#经验与案例的按需路由)读取。Summary或界面证据不完整时，按[可验证范围](references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)先完成可独立确定的部分；不得用未知填零，也不让无关工作中停。
 
+用户要求复盘 Aspen 项目或查询类似故障时，可按症状查[项目方法复盘](references/ASPEN_CASE_REVIEW.md)。用当前模型与证据验证适用性，正式验收仍走原专业入口。
+
+用户委托化工模拟的商品介绍、案例图文、短教程、主页简介或连续选题时，走[化工模拟图文草稿](references/CONTENT_DRAFTING.md)。以有权使用的当前账号背景、案例和素材为输入。
+
 ## Non-negotiable workflow
 
 1. Freeze the task contract: objective, system boundary, design basis,
@@ -177,6 +181,8 @@ same-product optimization. Keep details in that owner, not a second solver here.
 ### Word 标题
 
 工程报告以 Word（.docx）交付且任务或模板没有另定字体时，主标题和各级章节标题使用宋体（SimSun）。把要求随文档任务交接给负责排版的工具或技能。设置实际使用的 Title、Heading 及自定义标题样式，并检查直接格式。生成 OOXML 时，显式设置标题的 `w:rFonts` 东亚字体 `w:eastAsia` 为 `SimSun`。如有优先采用的主题字体或直接格式，修正实际标题的覆盖。保存后检查标题字体，并用可用的 Word 或文档渲染环境核对显示。
+
+工程 Word 交付在复核后检查分页及标题是否裁切。按需在编辑时显示段落和分页标记，最终视图隐藏编辑标记。先逐项审核拼写、语法提示并修正确认的问题，再按用户要求用 Word 的文档校对显示选项隐藏剩余红、蓝提示。参数代号、单位、专业术语保留正确表达。用户要求原生软件截图时，使用实际版本及结果页画面，重绘仅按其真实来源标注。
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations
 or calculations, assumptions, uncertainty/status, and decisive macro checks.
