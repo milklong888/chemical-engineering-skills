@@ -1132,6 +1132,26 @@
     {
       "path": "tests/test_normalized_transport.py",
       "sidecar": "tests/test_normalized_transport.py.license"
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_books.json",
+      "sidecar": "knowledge/equipment/public_reference/public_books.json.license"
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_methods.json",
+      "sidecar": "knowledge/equipment/public_reference/public_methods.json.license"
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_standards.json",
+      "sidecar": "knowledge/equipment/public_reference/public_standards.json.license"
+    },
+    {
+      "path": "knowledge/equipment/public_reference/query_public.py",
+      "sidecar": "knowledge/equipment/public_reference/query_public.py.license"
+    },
+    {
+      "path": "knowledge/equipment/public_reference/README.md",
+      "sidecar": "knowledge/equipment/public_reference/README.md.license"
     }
   ],
   "policy_files": [

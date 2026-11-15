@@ -11,9 +11,14 @@
 
 V10 中 6392 条细节正文可用；23 条较长、含公式/OCR/示例表达的记录逐项待核，保留原 ID、位置与正文哈希，不返回未核正文。571 个整页兜底正文和化工原理的 687 页 OCR 库不在公开包。它们未被删除，原工作区仍保留；本发行也不会暗中访问原电脑。
 
+## 化工设备资料
+
+[设备公开资料](equipment/public_reference/README.md)随主知识库提供。它有 12 个标准版次、4 条教材书目、8 条公开设计方法参考。标准题录记录版次、收录位置及官方入口，教材和方法供设计过程参考。日常检索在 `source_references` 字段返回相关资料；用 `--corpus equipment_reference` 专查该库。这些来源记录有独立的检索结果，现有工程知识记录与向量库按其原范围使用。
+
 ```text
 python knowledge/scripts/verify_knowledge.py
 python knowledge/scripts/query_knowledge.py --query "高温公用工程 预热 压缩" --json
+python tools/expert_cli.py --query "GB/T 150.2-2024 表C.2" --corpus equipment_reference
 python knowledge/scripts/query_knowledge.py --query Wegstein --corpus aspen_v10 --detail --json
 python knowledge/scripts/query_knowledge.py --node-id UG10-CH17-D091 --full-text --json
 python knowledge/scripts/query_knowledge.py --query "预热 压缩" --vector --json

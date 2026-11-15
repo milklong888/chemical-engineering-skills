@@ -1,7 +1,7 @@
 {
   "schema": "chemical-public-release-v2",
   "release_name": "chemical-engineering-skills-upstream",
-  "release_version": "0.4.16",
+  "release_version": "0.4.17",
   "scope": "reviewed_headless_offline_tools_and_knowledge",
   "skill_names": [
     "aspen-adaptive-generalization-loop",
@@ -117,8 +117,8 @@
     },
     {
       "path": "ATTRIBUTION.json",
-      "sha256": "ac2ccf392f915e5ae68b4dd71e9c62699ce5d232a46e71ccd51b42831418466f",
-      "bytes": 76277
+      "sha256": "76c3ff4808b60833c85123904d2f86f2d4890ca233d90b44b9197b18c5db8f79",
+      "bytes": 77104
     },
     {
       "path": "ATTRIBUTION.md",
@@ -137,8 +137,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "5f516e7fc8404720038e4ddcce8a92a614cb25114a4a843e65000dfe5e497488",
-      "bytes": 16182
+      "sha256": "2b8a7ab7b565216cc2855a002b188c0f4caa4ba20c23c890d3fe5bfb1acc68f5",
+      "bytes": 16308
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -1287,8 +1287,8 @@
     },
     {
       "path": "knowledge/README.md",
-      "sha256": "73adc2dab74f07e521d06a8c44a81d95d3ff5a64040d64caf183fe97607f0c4d",
-      "bytes": 5377
+      "sha256": "a9fe3153dbd75434f3617208fa9a7bb07af850734b5e6467332ae3c1600203cb",
+      "bytes": 5967
     },
     {
       "path": "knowledge/aspen_v10/README.md",
@@ -2301,6 +2301,56 @@
       "bytes": 601
     },
     {
+      "path": "knowledge/equipment/public_reference/README.md",
+      "sha256": "5fb82834671271fedbc394ff09f4ab51f4faa4e9480324d6b2365382fab9bb66",
+      "bytes": 18230
+    },
+    {
+      "path": "knowledge/equipment/public_reference/README.md.license",
+      "sha256": "f6144118a5049d04550344c4005c83d2cb4c1542aab33eab9cd492b042e52f51",
+      "bytes": 510
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_books.json",
+      "sha256": "5c06ada866910b904a5781cde95aa4530d50435053db0409d37f429453c2b7af",
+      "bytes": 4865
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_books.json.license",
+      "sha256": "f6144118a5049d04550344c4005c83d2cb4c1542aab33eab9cd492b042e52f51",
+      "bytes": 510
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_methods.json",
+      "sha256": "086ae1a5811e67de0d5ef512bfab7544497395084aeee63ac08c2ef9e10db23c",
+      "bytes": 8742
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_methods.json.license",
+      "sha256": "f6144118a5049d04550344c4005c83d2cb4c1542aab33eab9cd492b042e52f51",
+      "bytes": 510
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_standards.json",
+      "sha256": "1cf7e99369942304e2f933e172d17a5cb35497c6fa73e103345f01339e611ada",
+      "bytes": 9194
+    },
+    {
+      "path": "knowledge/equipment/public_reference/public_standards.json.license",
+      "sha256": "f6144118a5049d04550344c4005c83d2cb4c1542aab33eab9cd492b042e52f51",
+      "bytes": 510
+    },
+    {
+      "path": "knowledge/equipment/public_reference/query_public.py",
+      "sha256": "ff60270005be92fd88c20b275fc2e6fc2de6bf9aacb63c8901627564a15bdb5c",
+      "bytes": 4117
+    },
+    {
+      "path": "knowledge/equipment/public_reference/query_public.py.license",
+      "sha256": "f6144118a5049d04550344c4005c83d2cb4c1542aab33eab9cd492b042e52f51",
+      "bytes": 510
+    },
+    {
       "path": "knowledge/intake/README.md",
       "sha256": "491caa95cb5522f81b913ec0ab220bb9791bca336971d385a48934626c090bf2",
       "bytes": 5260
@@ -2772,8 +2822,8 @@
     },
     {
       "path": "knowledge/manifest.json",
-      "sha256": "f43f21d232f0bca7a66027452069776cc0aa73010ca614c4bce10ec88f1fdeae",
-      "bytes": 434522
+      "sha256": "3c6fe954ab1c1f0364f07affaf4b5dd8bfdddce76f51e8045e6647129f7e9027",
+      "bytes": 446049
     },
     {
       "path": "knowledge/records.jsonl",
@@ -2802,8 +2852,8 @@
     },
     {
       "path": "knowledge/scripts/query_knowledge.py",
-      "sha256": "8f96595de8b76a35d810b908dcb88ad295d04b4b32309b2c14982afc28467d11",
-      "bytes": 12197
+      "sha256": "ff4d1612054b30897334f6a4567234197618cc4fad36b8f9f38a8682723d55eb",
+      "bytes": 14791
     },
     {
       "path": "knowledge/scripts/resolve_knowledge_owner.py",
@@ -2912,7 +2962,7 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/.codex-plugin/plugin.json",
-      "sha256": "079f10752d2bbebc13e7ae5dcf05f998d1eda9179000fb55b5a6107704724a19",
+      "sha256": "ce79cb303452650288f10f9ddeb97ec69e374acd6b245eb6e80c2fa618f2908e",
       "bytes": 1083
     },
     {
@@ -5932,8 +5982,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_public.py",
-      "sha256": "c33df914b5399682592ff995888832760ae1a755e03cab528b32fe7c25b69005",
-      "bytes": 3912
+      "sha256": "ff60270005be92fd88c20b275fc2e6fc2de6bf9aacb63c8901627564a15bdb5c",
+      "bytes": 4117
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/scripts/query_public.py.license",
@@ -6722,8 +6772,8 @@
     },
     {
       "path": "tests/test_publication_contract.py",
-      "sha256": "af002eaf9ef74a5a2937e129f31310f07c5e70971399476799edbd5a7707d133",
-      "bytes": 12478
+      "sha256": "2c0b6edd04fd080497056a83b8d0f6cf3893da7e76f08d0415bd22d9fc5b3381",
+      "bytes": 13974
     },
     {
       "path": "tests/test_query_quality.py",
@@ -6862,8 +6912,8 @@
     },
     {
       "path": "tools/expert_cli.py",
-      "sha256": "9b8c5376dbe65cf6c5343837a086335d50cf9a56331bd0e3af9cf29290f840d9",
-      "bytes": 11174
+      "sha256": "a5ebdf7f03eb5f10db551011e041ee9eef153a4bd127a66684d42ea554d4c02d",
+      "bytes": 11206
     },
     {
       "path": "tools/expert_cli.py.license",
@@ -6932,8 +6982,8 @@
     },
     {
       "path": "tools/product_contract.py",
-      "sha256": "3e2c71ffa26844519d24478e56278cb824f1949259f06056ba704f5989f3aab2",
-      "bytes": 15283
+      "sha256": "629ab9839a96b687354d58f28675a1d0cf815cacfc4936c559cd28fb7d0cba46",
+      "bytes": 15306
     },
     {
       "path": "tools/product_contract.py.license",

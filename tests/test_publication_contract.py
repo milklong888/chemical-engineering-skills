@@ -196,6 +196,28 @@ class PublicationContractTests(unittest.TestCase):
             self.assertIn("luyben-chemical-reactor-design-and-control", [row["id"] for row in books])
             self.assertEqual(run("--markdown"), (skill / "references/PUBLIC_CATALOG.md").read_text(encoding="utf-8"))
 
+    def test_equipment_references_integrate_with_workbench_search(self):
+        bundled = ROOT / "knowledge/equipment/public_reference"
+        skill = SKILLS / "chemical-equipment-knowledge-graph"
+        for name in ("public_standards.json", "public_books.json", "public_methods.json"):
+            self.assertEqual((bundled / name).read_bytes(), (skill / "references" / name).read_bytes())
+        self.assertEqual((bundled / "query_public.py").read_bytes(), (skill / "scripts/query_public.py").read_bytes())
+        with tempfile.TemporaryDirectory() as folder:
+            env = dict(os.environ, CHEMICAL_KG_ROOT=folder)
+
+            def run(script, *args):
+                output = subprocess.check_output([sys.executable, "-B", "-X", "utf8", str(ROOT / script), *args],
+                                                 cwd=folder, env=env, encoding="utf-8")
+                return json.loads(output)
+
+            all_sources = run("knowledge/scripts/query_knowledge.py", "--query", "NPSH", "--json")
+            self.assertEqual(all_sources["source_references"]["hits"][0]["id"], "doe-pump-npsh")
+            resolved = run("tools/expert_cli.py", "--corpus", "equipment_reference", "--node-id", "GB/T 150.2-2024")
+            self.assertIsNone(resolved["equipment"])
+            references = resolved["knowledge"]["source_references"]
+            self.assertEqual(references["total"], 1)
+            self.assertIn("表C.2", [row["anchor"] for row in references["hits"][0]["locations"]])
+
     def test_expert_mcp_retains_existing_tools_and_adds_normalized_calls(self):
         tree = ast.parse((ROOT / "tools/expert_mcp.py").read_text(encoding="utf-8"))
         tools = {}

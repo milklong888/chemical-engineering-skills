@@ -1,0 +1,224 @@
+[
+  {
+    "id": "doe-pump-npsh",
+    "title": "离心泵 NPSH 与汽蚀余量",
+    "topics": [
+      "泵",
+      "离心泵",
+      "NPSH",
+      "NPSHa",
+      "NPSHr",
+      "汽蚀",
+      "气蚀",
+      "吸入管路",
+      "适用范围"
+    ],
+    "coverage": "用吸入侧绝对压力水头和液位高差，扣除吸入管损及实际液温下的饱和蒸气压水头，估算可用汽蚀余量 NPSHa。按实际流量、转速和叶轮配置查泵曲线上的 NPSHr，以一致的液柱高度单位比较并按项目要求留出裕量。",
+    "locations": [
+      {
+        "anchor": "DOE-HDBK-1018/1-93，ME-03，印刷第12–14页，Centrifugal Pump Operation",
+        "note": "由吸入容器液面起算时，绝对压力与液位应使用与该计算工况一致的输入。 DOE 扉页标注 Distribution Statement A，允许公开发布和分发。"
+      }
+    ],
+    "links": [
+      {
+        "label": "美国能源部公开手册，定位至原页",
+        "url": "https://www.energy.gov/sites/default/files/2026-04/DOE-HDBK-1018-93_VOL1.pdf#page=106"
+      }
+    ]
+  },
+  {
+    "id": "doe-darcy-pipe-loss",
+    "title": "直管沿程压降与 Darcy 摩擦因子",
+    "topics": [
+      "压降",
+      "管路",
+      "水头损失",
+      "沿程阻力",
+      "Darcy",
+      "达西",
+      "雷诺数",
+      "粗糙度",
+      "适用范围"
+    ],
+    "coverage": "圆管内密度近似恒定的稳态单相流可用 Darcy 摩擦因子、管长与内径之比及速度水头估算沿程损失。按雷诺数和相对粗糙度选择因子，速度用截面平均值。以同一工况的密度乘重力加速度和水头损失，可换算压力损失。",
+    "locations": [
+      {
+        "anchor": "DOE-HDBK-1012/3-92，HT-03，印刷第31–33页，式（3-14）",
+        "note": "该式使用 Darcy 因子。存在显著密度变化或两相流时，应另定计算模型。 DOE 扉页标注 Distribution Statement A，允许公开发布和分发。"
+      }
+    ],
+    "links": [
+      {
+        "label": "美国能源部公开手册，定位至原页",
+        "url": "https://www.energy.gov/sites/default/files/2026-04/DOE-HDBK-1012-92_VOL3.pdf#page=54"
+      }
+    ]
+  },
+  {
+    "id": "doe-fittings-loss",
+    "title": "阀门与管件局部压降",
+    "topics": [
+      "压降",
+      "局部阻力",
+      "局部损失",
+      "阀门",
+      "管件",
+      "阻力系数",
+      "等效长度",
+      "适用范围"
+    ],
+    "coverage": "管件局部损失可由阻力系数 K 与其基准截面速度水头相乘得到，也可视资料条件采用等效长度。选数时核对管件形状、阀门开度和截面速度基准，汇总沿程与局部损失时逐件计入一次。",
+    "locations": [
+      {
+        "anchor": "DOE-HDBK-1012/3-92，HT-03，印刷第34–35页，式（3-15）至（3-17）",
+        "note": "水头损失换算压降时使用相应工况的流体密度。 DOE 扉页标注 Distribution Statement A，允许公开发布和分发。"
+      }
+    ],
+    "links": [
+      {
+        "label": "美国能源部公开手册，定位至原页",
+        "url": "https://www.energy.gov/sites/default/files/2026-04/DOE-HDBK-1012-92_VOL3.pdf#page=56"
+      }
+    ]
+  },
+  {
+    "id": "doe-heat-exchanger-lmtd",
+    "title": "换热器端温差与对数平均温差 LMTD",
+    "topics": [
+      "换热",
+      "换热器",
+      "传热面积",
+      "端温差",
+      "对数平均温差",
+      "LMTD",
+      "总传热系数",
+      "逆流",
+      "并流",
+      "适用范围"
+    ],
+    "coverage": "先从热量衡算确定热负荷，再按实际流向配对两端的冷热侧温度。对温差方向一致、总传热系数可用有效值表征的并流或逆流换热，可用对数平均温差连接热负荷、总传热系数和面积。多管程、分区相变或系数明显变化时，按实际布置选用修正或分段计算。",
+    "locations": [
+      {
+        "anchor": "DOE-HDBK-1012/2-92，HT-02，印刷第30–39页，Heat Exchangers。LMTD 见第36页",
+        "note": "同一总传热系数应和对应的传热面积基准配套使用。 DOE 扉页标注 Distribution Statement A，允许公开发布和分发。"
+      }
+    ],
+    "links": [
+      {
+        "label": "美国能源部公开手册，定位至原页",
+        "url": "https://www.energy.gov/sites/default/files/2026-04/DOE-HDBK-1012-92_VOL2.pdf#page=58"
+      }
+    ]
+  },
+  {
+    "id": "TH03-A6",
+    "title": "稳流设备的能量衡算与简化条件",
+    "topics": [
+      "泵",
+      "压缩机",
+      "阀门",
+      "管路",
+      "压降",
+      "换热",
+      "稳流",
+      "能量衡算",
+      "适用范围"
+    ],
+    "coverage": "以控制体能量平衡为起点，统一质量或摩尔基准与热、功符号。泵可按不可压液体近似估算可逆比功，节流近似等焓需符合传热、轴功和动位能条件。速度、高差、热损失或设备轴功显著时，保留相关项。",
+    "locations": [
+      {
+        "anchor": "TH03-A6",
+        "note": "源记录标明 PDF 物理第85–110页，重点为第85–98、102、108–109页。 仓库条目逐条标注通用释义可再分发，原书页码为来源记录。"
+      }
+    ],
+    "links": [
+      {
+        "label": "GitHub 公开方法条目及逐条许可",
+        "url": "https://github.com/milklong888/chemical-engineering-skills/blob/6850a082c190caf2b121c3bd066a289b486ff908/knowledge/chemical_principles/knowledge_graph/source_records/TH03/TH03-A6.json"
+      }
+    ]
+  },
+  {
+    "id": "EN04-A2",
+    "title": "换热网络流股、有效温度与分段",
+    "topics": [
+      "换热",
+      "换热网络",
+      "HEN",
+      "夹点",
+      "热负荷",
+      "相变",
+      "有效换热温度",
+      "适用范围"
+    ],
+    "coverage": "从当前物料与热量衡算提取可用流股。混合、急冷、产汽、汽化与冷凝按实际机制确定温位与热负荷，对明显非线性的温焓曲线分段，保持接口能量闭合，并核对安全与产品约束。",
+    "locations": [
+      {
+        "anchor": "EN04-A2",
+        "note": "源记录标明 PDF 物理第26–29页，重点为第28页。 仓库条目逐条标注通用释义可再分发，原书页码为来源记录。"
+      }
+    ],
+    "links": [
+      {
+        "label": "GitHub 公开方法条目及逐条许可",
+        "url": "https://github.com/milklong888/chemical-engineering-skills/blob/6850a082c190caf2b121c3bd066a289b486ff908/knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A2.json"
+      }
+    ]
+  },
+  {
+    "id": "EN04-A3",
+    "title": "换热网络面积目标与设备级计算",
+    "topics": [
+      "换热",
+      "换热面积",
+      "换热网络",
+      "HEN",
+      "夹点",
+      "最小温差",
+      "压降",
+      "污垢",
+      "适用范围"
+    ],
+    "coverage": "换热网络筛选可按各温区的热负荷、传热系数与有效温差估计面积目标，并结合最小温差比较年化运行和设备费用。实际设备选型另用相应结构、污垢与水力条件计算面积及压降。",
+    "locations": [
+      {
+        "anchor": "EN04-A3",
+        "note": "源记录标明 PDF 物理第30–37页。 仓库条目逐条标注通用释义可再分发，原书页码为来源记录。"
+      }
+    ],
+    "links": [
+      {
+        "label": "GitHub 公开方法条目及逐条许可",
+        "url": "https://github.com/milklong888/chemical-engineering-skills/blob/6850a082c190caf2b121c3bd066a289b486ff908/knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-A3.json"
+      }
+    ]
+  },
+  {
+    "id": "EN04-B4",
+    "title": "变负荷公用工程设备性能曲线的适用范围",
+    "topics": [
+      "公用工程",
+      "锅炉",
+      "汽轮机",
+      "燃气轮机",
+      "变负荷",
+      "设备性能",
+      "查表",
+      "适用范围"
+    ],
+    "coverage": "变负荷计算按设备使用有依据的性能曲线，保存变量单位、表点与有效工况范围。锅炉效率、汽轮机功率、燃机排气量或排气温度等应各自使用合适的曲线变量，表点以外的使用依项目确认的外推条件。",
+    "locations": [
+      {
+        "anchor": "EN04-B4",
+        "note": "源记录标明 PDF 物理第343–344页。 仓库条目逐条标注通用释义可再分发，原书页码为来源记录。"
+      }
+    ],
+    "links": [
+      {
+        "label": "GitHub 公开方法条目及逐条许可",
+        "url": "https://github.com/milklong888/chemical-engineering-skills/blob/6850a082c190caf2b121c3bd066a289b486ff908/knowledge/chemical_principles/knowledge_graph/source_records/EN04/EN04-B4.json"
+      }
+    ]
+  }
+]

@@ -24,6 +24,10 @@ from retrieval_quality import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPORA = ("chemical_principles", "sun_lanyi", "aspen_v10")
+EQUIPMENT_REFERENCE = "equipment_reference"
+REFERENCE_PATH = "equipment/public_reference"
+REFERENCE_SEARCH = f"{REFERENCE_PATH}/query_public.py"
+REFERENCE_INPUTS = (REFERENCE_SEARCH, *(f"{REFERENCE_PATH}/public_{name}.json" for name in ("standards", "books", "methods")))
 ALIASES = {
     "公用工程": ["热量", "utility"], "预热": ["换热", "heat"],
     "压缩": ["压缩机", "压力", "compressor"], "换热器": ["换热", "heatx"],
@@ -42,6 +46,27 @@ def checked_path(root: Path, relative: str) -> Path:
     if Path(relative).is_absolute() or ".." in Path(relative).parts or not path.is_relative_to(root.resolve()):
         raise ValueError("Knowledge path escapes package: " + relative)
     return path
+
+
+def search_equipment_references(query, *, limit=5, root=ROOT, node_id=None):
+    root = root.resolve()
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("schema") != "chemical-offline-knowledge-manifest-v1":
+        raise ValueError("Unsupported knowledge manifest schema")
+    entries = {row["path"]: row for row in manifest["files"]}
+    for relative in REFERENCE_INPUTS:
+        data = checked_path(root, relative).read_bytes()
+        expected = entries.get(relative, {})
+        if len(data) != expected.get("bytes") or sha256(data) != expected.get("sha256"):
+            raise ValueError("Equipment reference identity mismatch: " + relative)
+    located = checked_path(root, REFERENCE_SEARCH)
+    spec = importlib.util.spec_from_file_location("bundled_equipment_reference_query", located)
+    reader = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(reader)
+    result = reader.lookup(query, limit=limit, references=located.parent, record_id=node_id)
+    result["corpus"] = EQUIPMENT_REFERENCE
+    result["scope_notice"] = "标准题录和定位用于查找设计结果依据。书目和公开方法用于设计过程参考。以对应官方文件或出版来源确认适用范围。"
+    return result
 
 
 def load_records(root: Path = ROOT) -> tuple[dict, list[dict]]:
@@ -188,7 +213,7 @@ def search(query: str = "", *, corpus: str = "all", node_id: str | None = None,
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--query", default="")
-    parser.add_argument("--corpus", choices=("all", *CORPORA), default="all")
+    parser.add_argument("--corpus", choices=("all", *CORPORA, EQUIPMENT_REFERENCE), default="all")
     parser.add_argument("--node-id")
     parser.add_argument("--limit", type=int, default=5)
     parser.add_argument("--detail", action="store_true")
@@ -199,11 +224,19 @@ def main(argv=None) -> int:
     if not args.query.strip() and not args.node_id:
         parser.error("--query or --node-id is required")
     try:
-        if args.vector and not args.node_id:
+        if args.corpus == EQUIPMENT_REFERENCE:
+            references = search_equipment_references(args.query, limit=args.limit, node_id=args.node_id)
+            result = {"schema": "equipment-reference-query-v1", "query": args.query, "corpus": args.corpus,
+                      "retrieval_method": "equipment_reference_catalog", "results": [], "source_references": references,
+                      "scope_notice": references["scope_notice"], "current_project_authority": False,
+                      "project_value_transfer_allowed": False, "learning_event": False}
+        elif args.vector and not args.node_id:
             from vector_adapter import query as vector_query
             result = vector_query(args.query, corpus=args.corpus, limit=args.limit, detail=args.detail, full_text=args.full_text)
         else:
             result = search(args.query, corpus=args.corpus, node_id=args.node_id, limit=args.limit, detail=args.detail, full_text=args.full_text)
+        if args.corpus == "all" and not args.node_id:
+            result["source_references"] = search_equipment_references(args.query, limit=args.limit)
     except (ValueError, OSError, KeyError, ImportError) as exc:
         print(json.dumps({"status": "knowledge_unavailable", "reason": str(exc)}, ensure_ascii=False))
         return 2
@@ -217,7 +250,11 @@ def main(argv=None) -> int:
                 ids = ", ".join(str(row.get("node_id")) for row in item.get("same_text_group", []))
                 print(f"  same exact text shown once ({item['same_text_count']} records): {ids}")
             print(item["text"] if item["content_available"] else "Body held for item-specific source-expression review; see identity and source hash.")
-    return 0 if result["results"] else 1
+        for item in result.get("source_references", {}).get("hits", []):
+            print(f"{item['id']} | {item['title']} | {item['coverage']}")
+            for link in item["links"]:
+                print(f"  {link['label']} {link['url']}")
+    return 0 if result["results"] or result.get("source_references", {}).get("hits") else 1
 
 
 if __name__ == "__main__":

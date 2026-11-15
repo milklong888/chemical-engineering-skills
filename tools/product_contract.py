@@ -46,7 +46,7 @@ def describe(runner):
             "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
             "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema"],
             "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog", "module-tools"],
-            "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
+            "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards", "equipment_reference"],
                           "query_modes": ["lexical", "hash_vector", "exact_node_id"],
                           "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
             "examples": ["examples/heat_exchanger_request.json", "examples/parallel_pressure_request.json", "examples/prepare_feedback_case.py"],

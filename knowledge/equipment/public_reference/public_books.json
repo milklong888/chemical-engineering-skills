@@ -1,0 +1,57 @@
+[
+  {
+    "id": "towler-sinnott-chemical-engineering-design-2e",
+    "title": "Chemical Engineering Design: Principles, Practice and Economics of Plant and Process Design",
+    "topics": ["化工设计", "换热器", "分离设备", "塔板", "泵", "设计经济"],
+    "coverage": "Gavin Towler、Ray Sinnott著，第2版，Butterworth-Heinemann／Elsevier，ISBN 9780080966595。出版社题录出版年为2012；本地图谱副本版权页的提取文字记为©2013，两项日期分别保留。本地图谱以此书关联换热、分离、塔板、泵和P&ID阅读方向。本条只提供书目及导航，不包含专著正文，也不声明全文开放许可。",
+    "locations": [
+      {"anchor": "page:1", "note": "本地图谱所登记PDF的物理第1页，题名、作者与Second Edition标识。"},
+      {"anchor": "page:2", "note": "本地PDF物理第2页，版权与ISBN书目信息；物理页不等同于正文印刷页。"}
+    ],
+    "links": [
+      {"label": "Elsevier ScienceDirect官方题录", "url": "https://www.sciencedirect.com/book/monograph/9780080966595/chemical-engineering-design"},
+      {"label": "Elsevier第2版出版信息", "url": "https://shop.elsevier.com/books/chemical-engineering-design/towler/978-0-08-096659-5"}
+    ]
+  },
+  {
+    "id": "smith-chemical-process-design-and-integration-2e",
+    "title": "Chemical Process Design and Integration",
+    "topics": ["过程设计", "过程集成", "换热网络", "压缩机", "能量利用"],
+    "coverage": "Robin Smith著，第2版，Wiley，2016。本地版权页列印本ISBN 9781119990147及9781119990130、电子版ISBN 9781118699089及9781118699096；链接所示电子版ISBN为9781118699089。本地图谱以此书关联过程设计、集成与压缩机阅读方向。本条只提供书目及导航，不包含专著正文，也不声明全文开放许可。",
+    "locations": [
+      {"anchor": "page:5", "note": "本地图谱所登记PDF的物理第5页，题名、Robin Smith与Second Edition标识。"},
+      {"anchor": "page:6", "note": "本地PDF物理第6页，2016版次、版权与各载体ISBN；物理页不等同于正文印刷页。"}
+    ],
+    "links": [
+      {"label": "Wiley第2版官方题录", "url": "https://www.wiley.com/en-nl/Chemical%2BProcess%2BDesign%2Band%2BIntegration%2C%2B2nd%2BEdition-p-9781118699089"}
+    ]
+  },
+  {
+    "id": "luyben-chemical-reactor-design-and-control",
+    "title": "Chemical Reactor Design and Control",
+    "topics": ["反应器设计", "反应器控制", "动态模型", "移热", "设备放大"],
+    "coverage": "William L. Luyben著，Wiley，版权年2007，印本ISBN 9780470097700，在线ISBN 9780470134917，DOI 10.1002/9780470134917。Wiley在线题录另列首次发表日期2006年11月2日，不能与版权年合并为同一日期。本地图谱以此书关联反应器模型、移热、放大与控制阅读方向。本条只提供书目及导航，不包含专著正文，也不声明全文开放许可。",
+    "locations": [
+      {"anchor": "page:3", "note": "本地图谱所登记PDF的物理第3页，题名与William L. Luyben作者信息。"},
+      {"anchor": "page:4", "note": "本地PDF物理第4页，2007版权年和印本ISBN；物理页不等同于正文印刷页。"}
+    ],
+    "links": [
+      {"label": "Wiley Online Library官方题录", "url": "https://onlinelibrary.wiley.com/doi/book/10.1002/9780470134917"},
+      {"label": "Wiley各载体出版信息", "url": "https://www.wiley.com/en-us/chemical-reactor-design-and-control-p-9780470134917"}
+    ]
+  },
+  {
+    "id": "luyben-distillation-design-and-control-aspen-2e",
+    "title": "Distillation Design and Control Using Aspen Simulation",
+    "topics": ["精馏设计", "精馏控制", "Aspen模拟", "稳态设计", "动态控制"],
+    "coverage": "William L. Luyben著，第2版，Wiley，2013，印本ISBN 9781118411438，在线ISBN 9781118510193，DOI 10.1002/9781118510193。本地图谱已登记该教材，主题对应流程模拟与精馏设计控制；书目存在不表示各章均已整理为阅读卡。本条只提供书目及导航，不包含专著正文，也不声明全文开放许可。",
+    "locations": [
+      {"anchor": "page:4", "note": "本地图谱所登记PDF的物理第4页，题名、作者与Second Edition标识。"},
+      {"anchor": "page:5", "note": "本地PDF物理第5页，2013版权年和印本ISBN；物理页不等同于正文印刷页。"}
+    ],
+    "links": [
+      {"label": "Wiley Online Library官方题录", "url": "https://onlinelibrary.wiley.com/book/10.1002/9781118510193"},
+      {"label": "Wiley-VCH第2版出版信息", "url": "https://www.wiley-vch.de/en/areas-interest/engineering/chemical-biochemical-engineering-10cg/general-introductory-chemical-engineering-10cg0/distillation-design-and-control-using-aspen-simulation-978-1-118-41143-8"}
+    ]
+  }
+]

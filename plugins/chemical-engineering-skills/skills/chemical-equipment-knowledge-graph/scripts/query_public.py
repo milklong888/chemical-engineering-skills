@@ -17,11 +17,11 @@ CATALOGS = {
 OVERVIEW = 'PUBLIC_CATALOG.md'
 
 
-def catalog(kind):
+def catalog(kind, references=REFERENCES):
     kinds = CATALOGS if kind == 'all' else (kind,)
     for category in kinds:
         _, filename = CATALOGS[category]
-        for entry in json.loads((REFERENCES / filename).read_text(encoding='utf-8')):
+        for entry in json.loads((references / filename).read_text(encoding='utf-8')):
             yield {'kind': category, **entry}
 
 
@@ -41,6 +41,12 @@ def matches(entry, query):
         return True
     return (any(search_key(query) in key for key in keys)
             or all(any(word in key for key in keys) for word in words))
+
+
+def lookup(query, kind='all', limit=30, references=REFERENCES, record_id=None):
+    hits = [entry for entry in catalog(kind, references)
+            if (search_key(entry['id']) == search_key(record_id) if record_id else matches(entry, query))]
+    return {'query': query, 'kind': kind, 'total': len(hits), 'hits': hits[:limit]}
 
 
 def render_catalog():
@@ -81,9 +87,7 @@ def main(argv=None):
     if args.markdown:
         print(render_catalog(), end='')
         return 0
-    hits = [entry for entry in catalog(args.kind) if matches(entry, args.query)]
-    print(json.dumps({'query': args.query, 'kind': args.kind, 'total': len(hits), 'hits': hits[:args.limit]},
-                     ensure_ascii=False, indent=2))
+    print(json.dumps(lookup(args.query, args.kind, args.limit), ensure_ascii=False, indent=2))
     return 0
 
 

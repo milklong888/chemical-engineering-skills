@@ -17,17 +17,19 @@ from backends.process import pressure
 from tools.equipment_gateway import (EquipmentSession, equipment, equipment_batch,
                                      local_environment, describe_policy)
 
+KNOWLEDGE_CORPORA = {"all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment_reference"}
+
 def search(query="", corpus="all", limit=5, vector=False, package_ids=None,
            node_id=None, detail=False, full_text=False, *, equipment_runner=None):
     if (not isinstance(query, str) or type(limit) is not int or not 1 <= limit <= 50
             or bool(query.strip()) == bool(node_id)):
         raise ValueError("Provide exactly one nonempty query or node_id and limit 1..50")
     if node_id is not None and (not isinstance(node_id, str) or not node_id.strip()
-            or corpus not in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}):
-        raise ValueError("node_id applies to the bundled concept/method/detail knowledge corpora")
+            or corpus not in KNOWLEDGE_CORPORA):
+        raise ValueError("node_id applies to the bundled knowledge or explicit equipment_reference corpus")
     runner = equipment_runner or equipment
     result = {"query": query, "node_id": node_id, "knowledge": None, "equipment": None}
-    if corpus in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}:
+    if corpus in KNOWLEDGE_CORPORA:
         script = ROOT / "knowledge/scripts/query_knowledge.py"
         arguments = ["--node-id", node_id] if node_id else ["--query", query]
         arguments += (["--detail"] if detail else []) + (["--full-text"] if full_text else [])
