@@ -3291,8 +3291,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md",
-      "sha256": "8bd72043c79092dec7d761daa572619bb7b6711f46985306452bc9844e327a4d",
-      "bytes": 43216
+      "sha256": "f3e77635f6dbcd6598268ea21b9609688c9d6452d62999c6459fd8cbc2a1593a",
+      "bytes": 43302
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md.license",
@@ -5406,8 +5406,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md",
-      "sha256": "b8284cfb4447447dc7a00dd3ed4b606e4ee032387160b864623cbf702a69f7ea",
-      "bytes": 20473
+      "sha256": "0b21735e2a278d55c321b3cf1d33441091605bc5d6a603612fd042f328587f79",
+      "bytes": 21357
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/SKILL.md.license",
@@ -6101,8 +6101,8 @@
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/subagent-dispatch/SKILL.md",
-      "sha256": "426b33c8623ba7ed11dbedcfc52a4267205a3e50e5cbc35560fed9a7fa112724",
-      "bytes": 6443
+      "sha256": "769121ef5f839951418cc4ad9c31dfb77a2368e37a8803551e95cc713560f9ed",
+      "bytes": 6941
     },
     {
       "path": "plugins/chemical-engineering-skills/skills/subagent-dispatch/SKILL.md.license",

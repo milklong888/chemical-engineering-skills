@@ -178,11 +178,17 @@ same-product optimization. Keep details in that owner, not a second solver here.
 
 ## Output contract
 
-### Word 标题
+### Word 字体、标题与表格
 
-工程报告以 Word（.docx）交付且任务或模板没有另定字体时，主标题和各级章节标题使用宋体（SimSun）。把要求随文档任务交接给负责排版的工具或技能。设置实际使用的 Title、Heading 及自定义标题样式，并检查直接格式。生成 OOXML 时，显式设置标题的 `w:rFonts` 东亚字体 `w:eastAsia` 为 `SimSun`。如有优先采用的主题字体或直接格式，修正实际标题的覆盖。保存后检查标题字体，并用可用的 Word 或文档渲染环境核对显示。
+用户或交付模板未另有指定时，Word 主标题和各级标题统一用黑色文字。全文汉字使用宋体（SimSun），所有字母和数字使用 Times New Roman。此要求适用于正文、各级标题、表格、图表题注、页眉页脚等可编辑内容。Word 排版统一使用黑色，不用蓝色主题强调色。将要求随文档任务交接给负责排版的技能或工具。
+
+设置实际使用的正文、Title、Heading、表格和自定义样式，并检查直接格式。生成 OOXML 时，显式指定 `w:rFonts` 的 `w:eastAsia` 为 `SimSun`，`w:ascii` 和 `w:hAnsi` 为 `Times New Roman`，处理覆盖这些设置的主题字体和字色。Word 表格默认使用常规黑色单线边框，含外框和内部横竖线。按内容调整列宽、行高、单元格边距及对齐，让表格留白均衡，避免拥挤和裁切。保存后复核字体、字色、边框、行列间距及分页，并检查实际渲染效果。
 
 工程 Word 交付在复核后检查分页及标题是否裁切。按需在编辑时显示段落和分页标记，最终视图隐藏编辑标记。先逐项审核拼写、语法提示并修正确认的问题，再按用户要求用 Word 的文档校对显示选项隐藏剩余红、蓝提示。参数代号、单位、专业术语保留正确表达。用户要求原生软件截图时，使用实际版本及结果页画面，重绘仅按其真实来源标注。
+
+### 截图模型
+
+用户未指定截图模型时，默认使用当前宿主提供且具备截图能力的最新 Terra 型号。若需委派，截图子任务使用 Terra，其余子任务按[子代理模型默认规则](../subagent-dispatch/SKILL.md#子代理模型默认规则)执行。以本次可用模型和工具能力为准，无法使用 Terra 时说明实际执行方式及证据范围。截图所呈现的原生界面按实际所见保留。
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations
 or calculations, assumptions, uncertainty/status, and decisive macro checks.

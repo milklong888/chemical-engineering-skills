@@ -77,6 +77,10 @@ You are not alone in the codebase. Do not revert others' changes.
 Your write scope is limited to <paths>. List changed files in your final reply.
 ```
 
+## 子代理模型默认规则
+
+用户未指定子代理型号时，委派普通子任务默认使用当前宿主可用且支持委派的最新 Luna 型号。按实际模型列表解析具体型号，避免将某个历史版本当成固定默认值。截图子任务按[截图模型规则](../chemical-engineering-expert/SKILL.md#截图模型)使用 Terra。当次用户指定的模型优先。宿主缺少所需型号或工具无法选择型号时，如实记录实际执行的模型或方式。
+
 ## Tool Use Pattern
 
 When multi-agent tools are available:
