@@ -141,6 +141,10 @@
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/process_design_practice_patterns.md.license"
     },
     {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/hen_incremental_integration.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/hen_incremental_integration.md.license"
+    },
+    {
       "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/quick_router.md",
       "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/quick_router.md.license"
     },

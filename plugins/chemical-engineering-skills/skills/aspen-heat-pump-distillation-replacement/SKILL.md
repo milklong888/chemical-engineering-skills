@@ -11,6 +11,10 @@ description: Build equivalent Aspen distillation heat-pump retrofits or review d
 
 塔的分离计算交塔优化模块，卡片和运行交操作模块；压缩与换热条件形成后，按[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)实际查适用方法并校核设备。温差、排气状态、压降或能力不满足时先修岛内方案，经过边界核验后再接回全流程复算。结果同时说明等效替换、节能收益、设备证据和整体验收各自达到的程度。
 
+## 核验既有热泵
+
+只在已有节能流程上新增换热时，按[增量接入规则](../aspen-document-driven-flowsheet/references/hen_incremental_integration.md)核对驱动设备、放热与受热对象、返回连接、规格及实际回收功能。节能变化沿用下方审查合同。替换或重建以当前项目授权范围为准。
+
 ## Trigger Contract
 
 Select one of two modes: review a distillation retrofit claim, or implement an

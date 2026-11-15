@@ -35,14 +35,15 @@ reason to sit idle.
    age, CPU, and visible window.
 2. If the lock is foreign and live, do static work: parse exported files, update
    ledgers, prepare no-run scripts, and define the next short probe.
-3. If the lock is stale or no live Aspen engine exists, record why and continue
-   with the next bounded step.
+3. Before recovering a stale lock, verify the owner and unresolved resources
+   under [Aspen automation closeout](../../aspen-plus-operations/references/operations_workflow.md#aspen-automation-closeout).
+   Resume after recovery is verified.
 4. If logs stop at `Dispatch`, `DispatchEx`, `EnsureDispatch`,
    `DispatchWithEvents`, event-sink attach, or `InitFromArchive2`, classify the
    issue as COM startup/opening, not model convergence.
 5. Put fragile COM startup in a child process controlled by an outer watchdog.
-   The watchdog may kill only its own process tree and release only its own
-   lock.
+   Use the supervisor's exact worker handle for bounded termination. Verify
+   ownership of any separate Aspen server or engine before acting on it.
 6. Use a clean ASCII working directory and explicit Windows environment values
    when non-ASCII paths or Aspen desktop startup exceptions appear.
 

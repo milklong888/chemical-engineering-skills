@@ -168,7 +168,15 @@ same-product optimization. Keep details in that owner, not a second solver here.
 计算缺口，不阻止只有 `stage` 与 `question` 的本地知识准备。纯工具名称比较、
 原理解释、既有结果读值和一次换算不因此扩成当前岛设计。
 
+## 自有 Aspen 会话收尾
+
+项目完成、暂停或取消时，由主助手汇总各模块的[自动化收尾记录](../aspen-plus-operations/references/operations_workflow.md#aspen-automation-closeout)，确认检查点和清理结果。暂停后的下一次派发依当前项目恢复决定。
+
 ## Output contract
+
+### Word 标题
+
+工程报告以 Word（.docx）交付且任务或模板没有另定字体时，主标题和各级章节标题使用宋体（SimSun）。把要求随文档任务交接给负责排版的工具或技能。设置实际使用的 Title、Heading 及自定义标题样式，并检查直接格式。生成 OOXML 时，显式设置标题的 `w:rFonts` 东亚字体 `w:eastAsia` 为 `SimSun`。如有优先采用的主题字体或直接格式，修正实际标题的覆盖。保存后检查标题字体，并用可用的 Word 或文档渲染环境核对显示。
 
 Lead with the engineering conclusion. Expose the evidence tags, key equations
 or calculations, assumptions, uncertainty/status, and decisive macro checks.

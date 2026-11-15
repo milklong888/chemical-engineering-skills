@@ -249,8 +249,8 @@ hydraulic gates still pass.
   resource/automation blocker, not evidence that the model needs more MAXIT.
 - Guard COM creation with an outer process watchdog for fragile runs. A timeout
   inside the same Python process may never execute if `Dispatch`, `DispatchEx`,
-  `EnsureDispatch`, or event binding blocks. The watchdog must kill only its own
-  child process tree and release only its own lock.
+  `EnsureDispatch`, or event binding blocks. For owned-worker termination and
+  unresolved resources, follow [Aspen automation closeout](operations_workflow.md#aspen-automation-closeout).
 - If another run holds the global Aspen lock, continue static evidence work and
   script preparation, then poll briefly. Long passive waiting is not an
   operation. After one or two short polls, leave a queued-run note with the
