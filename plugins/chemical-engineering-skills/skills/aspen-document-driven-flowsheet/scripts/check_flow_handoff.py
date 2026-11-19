@@ -37,8 +37,9 @@ NAMED_METHOD_SCOPE = (
 )
 PLAN_ACTION_SCOPE = (
     "Plan-action declaration checking covers fields, registered stream IDs, pressure-group "
-    "coverage and caller-declared recycle dependencies only. Stream endpoints are projected "
-    "from the declared graph, not source-verified; unknown endpoints remain unresolved. "
+    "coverage, locality of named equipment actions, and caller-declared recycle dependencies. "
+    "Stream endpoints are projected from the declared graph, not source-verified; "
+    "unknown endpoints remain unresolved. "
     "It does not verify formulas, units/dimensions, equipment applicability, source truth, "
     "computed seeds, initialization success, engineering acceptance, or execution."
 )
@@ -886,12 +887,23 @@ def _check_expert_plan(data, nodes, streams, result, require_named_methods=False
         "coverage": result["declared_topology"]["coverage"],
         "source_cycles_verified": False,
         "scope": "Declared process edges only; unknown endpoints and omitted source edges are not proven absent."}
-    _check_plan_actions(plan, streams, projection, require_plan_actions)
+    _check_plan_actions(plan, streams, process_ids, projection, result["errors"], require_plan_actions)
     result["plan_action_declarations_checked"] = (
         (require_plan_actions or _has_plan_actions(data)) and not result["errors"])
 
 
-def _check_plan_actions(plan, streams, projection, required=False):
+def _off_interface_equipment(equipment_action, stream, process_ids):
+    """Find literal declared process tags outside a fully specified edge."""
+    endpoints = {stream["from"], stream["to"]}
+    if None in endpoints:
+        return []
+    # ASCII tag boundaries also recognize names next to Chinese prose.
+    tags = set(re.findall(r"(?<![A-Za-z0-9_-])[A-Z][A-Z0-9_-]+(?![A-Za-z0-9_-])", equipment_action))
+    tags.update(re.findall(r"`([^`\r\n]+)`", equipment_action))
+    return sorted((tags & process_ids) - endpoints)
+
+
+def _check_plan_actions(plan, streams, process_ids, projection, errors, required=False):
     """Check optional declarations only; do not compute pressures or recycle seeds."""
     projected_pressure = {row["id"]: row for row in projection["pressure_paths"]}
     for row in plan["pressure_paths"]:
@@ -923,8 +935,15 @@ def _check_plan_actions(plan, streams, projection, required=False):
             unexpected = sorted(set(action_ids) - set(row["stream_ids"]))
             raise ValueError(f"{where}: must exactly cover group stream_ids; "
                              f"missing {missing}; unexpected {unexpected}")
-        for action in actions:
-            stream = streams[action["stream_id"]]
+        for index, action in enumerate(actions):
+            stream_id = action["stream_id"]
+            stream = streams[stream_id]
+            unrelated = _off_interface_equipment(action["equipment_action"], stream, process_ids)
+            if unrelated:
+                errors.append(f"{where}[{index}].equipment_action: stream {stream_id} "
+                              f"({stream['from']} -> {stream['to']}) names process equipment "
+                              f"{unrelated} outside this interface; give its local action and put "
+                              "wider pressure-path dependencies in equation_or_reason")
             action_projection.append({**action, "from": stream["from"], "to": stream["to"]})
         projected_pressure[row["id"]]["interface_actions"] = action_projection
 

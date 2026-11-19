@@ -3,7 +3,7 @@
   "files": [
     {
       "path": "chemical-engineering-expert/scripts/evaluate_learning_eligibility.py",
-      "sha256": "c4e6378026217f12a0ba52e6f1e7606932f14d91ef51c05a7364cdf36c7c700d"
+      "sha256": "271a780ef7fe03dd7abe482fc2588c8e0b3bbcc0056fdc7764eb1ca10531a2e6"
     },
     {
       "path": "chemical-engineering-expert/scripts/assess_evolution_candidate.py",
@@ -11,7 +11,7 @@
     },
     {
       "path": "chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md",
-      "sha256": "f8dd8d4a1746497b5696b7c301dd02c0a4015b128462fcb6560bd40af9453838"
+      "sha256": "c772813fbfc45e1385f810facdfc1802318045260063c8aeb469e28ae7260106"
     },
     {
       "path": "aspen-document-driven-flowsheet/scripts/learning_admission.py",
@@ -19,7 +19,7 @@
     },
     {
       "path": "aspen-plus-operations/scripts/aspen_evidence.py",
-      "sha256": "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31"
+      "sha256": "d6eae9e915618c8307254ab767b088ee7d59f189a4b5ae057ba2b7c231f4bfd4"
     }
   ]
 }

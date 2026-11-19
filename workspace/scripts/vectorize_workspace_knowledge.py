@@ -696,7 +696,8 @@ def write_jsonl(path: Path, docs: list[dict]) -> None:
     with path.open("w", encoding="utf-8", newline="\n") as fh:
         for doc in docs:
             compact = dict(doc)
-            if len(str(compact.get("text", ""))) > 1800:
+            # Preserve file chunk text: section-anchored routes read the indexed source body.
+            if compact.get("scope") != "file-chunk" and len(str(compact.get("text", ""))) > 1800:
                 compact["text"] = str(compact["text"])[:1797] + "..."
             fh.write(json.dumps(compact, ensure_ascii=False, separators=(",", ":")) + "\n")
 

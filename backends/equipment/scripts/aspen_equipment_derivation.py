@@ -3147,8 +3147,10 @@ def parse_raw_history_counts(history_text: str) -> dict[str, int | None]:
         history_text,
         flags=re.S | re.I,
     ))
-    if chunks:
-        chunk = chunks[-1].group(1)
+    if len(chunks) == 1:
+        chunk = chunks[0].group(1)
+        if not re.search(r"(?im)^\s*PHYSICAL[ \t]*\r?\n[ \t]*PROPERTY[ \t]+SYSTEM[ \t]+SIMULATION[ \t]*$", chunk):
+            return {name: None for name in names}
         labels = {
             "terminal_errors": "TERMINAL ERRORS",
             "severe_errors": "SEVERE ERRORS",
@@ -3157,13 +3159,11 @@ def parse_raw_history_counts(history_text: str) -> dict[str, int | None]:
         }
         parsed: dict[str, int | None] = {}
         for name, label in labels.items():
-            match = re.search(rf"(?im)^\s*{label}\s+((?:\d+\s+)+\d+)\s*$", chunk)
-            parsed[name] = sum(int(value) for value in re.findall(r"\d+", match.group(1))) if match else None
+            rows = re.findall(rf"(?im)^[ \t]*{label}[ \t]+(\d+)[ \t]+(\d+)[ \t]+(\d+)[ \t]*$", chunk)
+            parsed[name] = sum(map(int, rows[0])) if len(rows) == 1 else None
         if all(value is not None for value in parsed.values()):
             return parsed
 
-    if re.search(r"NO ERRORS OR WARNINGS (?:GENERATED|WERE ISSUED)", history_text, flags=re.I):
-        return {name: 0 for name in names}
     return {name: None for name in names}
 
 
@@ -3649,18 +3649,88 @@ def parse_raw_history_block_issues(
     return result
 
 
-def run_gate(case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Path) -> dict[str, Any]:
+def read_audit_receipt(
+    evidence: dict[str, Any], evidence_path: Path, case: dict[str, Any],
+    source_file: Path, blocks: list[dict[str, Any]],
+) -> tuple[str, dict[str, Any]]:
+    source_path = case.get("source_case_path")
+    source_hash = str(case.get("source_case_sha256", "")).strip().upper()
+    if not isinstance(source_path, str) or not source_path or not re.fullmatch(r"[0-9A-F]{64}", source_hash):
+        return "AUDIT_CANDIDATE_IDENTITY_REQUIRED", {}
+    candidate_path = Path(source_path).expanduser()
+    if not candidate_path.is_absolute():
+        candidate_path = source_file.parent / candidate_path
+    candidate_path = candidate_path.resolve()
+    receipt_source = evidence.get("source")
+    run = evidence.get("run")
+    if not receipt_source or not isinstance(receipt_source, str) or not isinstance(run, dict):
+        return "AUDIT_RUN_IDENTITY_REQUIRED", {}
+    receipt_source_path = Path(receipt_source)
+    if not receipt_source_path.is_absolute():
+        receipt_source_path = evidence_path.parent / receipt_source_path
+    if (
+        candidate_path != receipt_source_path.resolve()
+        or not candidate_path.is_file()
+        or sha256_file(candidate_path) != source_hash
+        or str(evidence.get("source_sha256", "")).upper() != source_hash
+        or str(run.get("case_sha256", "")).upper() != source_hash
+        or evidence.get("source_unchanged") is not True
+    ):
+        return "AUDIT_CANDIDATE_MISMATCH", {}
+    run_id = run.get("run_id")
+    if not isinstance(run_id, str) or not run_id or evidence.get("run_id") != run_id:
+        return "AUDIT_RUN_IDENTITY_REQUIRED", {}
+    if case.get("source_run_id") is not None and case["source_run_id"] != run_id:
+        return "AUDIT_RUN_IDENTITY_MISMATCH", {}
+    runtime_root = str(SCRIPT_PATH.parents[3])
+    if runtime_root not in sys.path:
+        sys.path.insert(0, runtime_root)
+    try:
+        from backends.process.feedback import load_aspen_evidence_parser
+
+        parser = load_aspen_evidence_parser()
+        gate = parser.replay_audit_evidence(evidence, root=evidence_path.parent)
+    except (ImportError, OSError, RuntimeError, ValueError, KeyError, TypeError, AttributeError):
+        return "AUDIT_REPLAY_UNVERIFIED", {}
+    if not isinstance(gate, dict):
+        return "AUDIT_REPLAY_UNVERIFIED", {}
+    if gate.get("simulation_assessment") == "FAIL":
+        return "AUDIT_ACTUAL_DIAGNOSTICS", gate
+    if gate.get("simulation_clean") is not True:
+        return "AUDIT_REPLAY_UNVERIFIED", gate
+    audited_blocks = {name.casefold() for name in evidence.get("expected_blocks", [])}
+    if any(str(block["block_id"]).casefold() not in audited_blocks for block in blocks):
+        return "AUDIT_BLOCK_INVENTORY_MISMATCH", gate
+    if case.get("run_status_mode", "run") == "strict" and gate.get("strict_solver_passed") is not True:
+        return "AUDIT_NATIVE_COUNTS_UNVERIFIED", gate
+    return "VERIFIED", gate
+
+
+def run_gate(
+    case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Path,
+    *, audit_receipt: Path | None = None,
+) -> dict[str, Any]:
     raw = case.get("run_status")
     names = ("terminal_errors", "severe_errors", "errors", "warnings")
-    if not isinstance(raw, dict) or any(nonnegative_integer(raw.get(name)) is None for name in names):
-        status = "UNVERIFIED_RUN_STATUS"
-        counts = {name: None for name in names}
+    counts = {name: nonnegative_integer(raw.get(name)) if isinstance(raw, dict) else None for name in names}
+    if any(value not in (None, 0) for value in counts.values()):
+        status = "DIRTY_RUN"
+    elif all(value == 0 for value in counts.values()):
+        status = "CLEAN_RUN"
     else:
-        counts = {name: nonnegative_integer(raw[name]) for name in names}
-        status = "CLEAN_RUN" if all(value == 0 for value in counts.values()) else "DIRTY_RUN"
+        status = "UNVERIFIED_RUN_STATUS"
     evidence_status = "MISSING"
     evidence_path_value = case.get("run_status_evidence_path")
     evidence_hash_value = str(case.get("run_status_evidence_sha256", "")).strip().upper()
+    native_gate: dict[str, Any] = {}
+    native_receipt_used = False
+    counts_proof = "unknown"
+    mode = case.get("run_status_mode", "run")
+    if audit_receipt is not None:
+        evidence_path_value = str(audit_receipt.resolve())
+        evidence_hash_value = sha256_file(audit_receipt) if audit_receipt.is_file() else ""
+        if not evidence_hash_value:
+            evidence_status = "FILE_NOT_FOUND"
     evidence_path: Path | None = None
     history_text: str | None = None
     raw_history_path: Path | None = None
@@ -3680,8 +3750,23 @@ def run_gate(case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Pa
                 evidence_status = "INVALID_JSON"
             else:
                 evidence_counts = evidence.get("run_status") if isinstance(evidence, dict) else None
-                if not isinstance(evidence, dict) or evidence.get("schema") != "aspen-run-status-evidence-v1" or not isinstance(evidence_counts, dict):
+                if isinstance(evidence, dict) and evidence.get("schema_version") == "aspen_clean_delivery_audit/3":
+                    native_receipt_used = True
+                    evidence_status, native_gate = read_audit_receipt(evidence, evidence_path, case, source_file, blocks)
+                    counts_proof = native_gate.get("summary_counts_status", "unknown")
+                    if status == "DIRTY_RUN" and evidence_status == "VERIFIED":
+                        evidence_status = "AUDIT_EXPORT_DIAGNOSTIC_CONFLICT"
+                    # Preserve an independent nonzero declaration and never infer native zeros.
+                    if status != "DIRTY_RUN":
+                        counts = {name: 0 if counts_proof == "all_zero" else None for name in names}
+                        status = {
+                            "VERIFIED": "CLEAN_RUN",
+                            "AUDIT_ACTUAL_DIAGNOSTICS": "DIRTY_RUN",
+                        }.get(evidence_status, "UNVERIFIED_RUN_STATUS_EVIDENCE")
+                elif not isinstance(evidence, dict) or evidence.get("schema") != "aspen-run-status-evidence-v1" or not isinstance(evidence_counts, dict) or audit_receipt is not None:
                     evidence_status = "INVALID_SCHEMA"
+                elif mode == "strict":
+                    evidence_status = "NATIVE_COUNT_PROOF_REQUIRES_AUDIT_RECEIPT"
                 elif any(nonnegative_integer(evidence_counts.get(name)) is None for name in names):
                     evidence_status = "MISSING_COUNTS"
                 elif {name: nonnegative_integer(evidence_counts[name]) for name in names} != counts:
@@ -3722,6 +3807,9 @@ def run_gate(case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Pa
                             evidence_status = "RAW_HISTORY_PROBLEM_LINES"
                         else:
                             evidence_status = "VERIFIED"
+                            counts_proof = "legacy_reported"
+    if mode not in ("run", "strict"):
+        evidence_status = "INVALID_RUN_STATUS_MODE"
     if status == "CLEAN_RUN" and evidence_status != "VERIFIED":
         status = "UNVERIFIED_RUN_STATUS_EVIDENCE"
     raw_history_attribution = (
@@ -3729,7 +3817,11 @@ def run_gate(case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Pa
         if history_text is not None
         else {
             "schema": "aspen-raw-history-block-attribution-v1",
-            "status": "RAW_HISTORY_NOT_AVAILABLE_OR_NOT_HASH_VERIFIED",
+            "status": (
+                "NATIVE_RECEIPT_HISTORY_RECHECKED"
+                if native_receipt_used and evidence_status in ("VERIFIED", "AUDIT_NATIVE_COUNTS_UNVERIFIED")
+                else "RAW_HISTORY_NOT_AVAILABLE_OR_NOT_HASH_VERIFIED"
+            ),
             "event_count": 0,
             "attributed_counts": {
                 name: 0 for name in names
@@ -3813,6 +3905,10 @@ def run_gate(case: dict[str, Any], blocks: list[dict[str, Any]], source_file: Pa
             "path": str(evidence_path.resolve()) if evidence_path and evidence_path.is_file() else str(evidence_path_value or ""),
             "sha256": evidence_hash_value or None,
             "raw_history_required": True,
+            "mode": mode,
+            "native_audit_receipt_used": native_receipt_used,
+            "summary_counts_status": counts_proof,
+            "native_simulation_assessment": native_gate.get("simulation_assessment"),
         },
         "raw_history_attribution": raw_history_attribution,
     }
@@ -10704,7 +10800,9 @@ def refresh_final_parameter_lineage_snapshots(
     return summary
 
 
-def derive_bundle(bundle: dict[str, Any], source_file: Path) -> dict[str, Any]:
+def derive_bundle(
+    bundle: dict[str, Any], source_file: Path, *, audit_receipt: Path | None = None,
+) -> dict[str, Any]:
     source_file = source_file.resolve()
     try:
         source_bytes = source_file.read_bytes()
@@ -10871,7 +10969,7 @@ def derive_bundle(bundle: dict[str, Any], source_file: Path) -> dict[str, Any]:
             "source_export_sha256": source_sha256,
             "errors": [{"code": "EQUIPMENT_MAP_BLOCK_NOT_FOUND", "block_ids": unknown_mappings}],
         }
-    gate = run_gate(case_data, blocks, source_file)
+    gate = run_gate(case_data, blocks, source_file, audit_receipt=audit_receipt)
     pump_power_history_enrichment = (
         enrich_pump_power_from_verified_run_history(blocks, gate)
     )
@@ -11368,6 +11466,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--input", required=True, type=Path, help="JSON file following aspen-equipment-export-v1")
     parser.add_argument("--output", type=Path, help="Output JSON path; stdout when omitted")
     parser.add_argument("--require-clean", action="store_true", help="Return exit code 4 unless the clean-run formal process-basis gate passes")
+    parser.add_argument("--audit-receipt", type=Path, help="Reuse an existing public Aspen audit/3 receipt for the source candidate")
     return parser
 
 
@@ -11381,7 +11480,7 @@ def main() -> int:
     if not isinstance(bundle, dict):
         print(json.dumps({"status": "BLOCKED_INPUT_SHAPE", "error": "top-level JSON must be an object"}, ensure_ascii=False, indent=2), file=sys.stderr)
         return 2
-    result = derive_bundle(bundle, args.input)
+    result = derive_bundle(bundle, args.input, audit_receipt=args.audit_receipt)
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

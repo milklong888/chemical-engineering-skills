@@ -23,7 +23,7 @@ the standard-library offline regression suite.
 metadata, MIT license, notices and tests. Do not copy a second parser here.
 
 Pinned public code identity, after explicitly reported CRLF-to-LF normalization:
-`7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31`.
+`d6eae9e915618c8307254ab767b088ee7d59f189a4b5ae057ba2b7c231f4bfd4`.
 The actual raw-byte hash and resolved path are always returned. An optional
 expected raw hash is an additional assertion, checked before import. A changed
 public parser is rejected until its dependency identity is reviewed. This does

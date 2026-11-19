@@ -14,10 +14,13 @@
         "pressure_basis": {"enum": ["absolute", "gauge"]},
         "atmospheric_pressure_mpa": {"type": "number", "exclusiveMinimum": 0},
         "source_case_path": {"type": "string"},
+        "source_case_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
+        "source_run_id": {"type": "string", "minLength": 1},
+        "run_status_mode": {"enum": ["run", "strict"]},
         "run_status_evidence_path": {"type": "string"},
         "run_status_evidence_sha256": {"type": "string", "pattern": "^[0-9A-Fa-f]{64}$"},
         "run_status": {
-          "type": "object",
+          "type": ["object", "null"],
           "required": ["terminal_errors", "severe_errors", "errors", "warnings"],
           "properties": {
             "terminal_errors": {"type": "integer", "minimum": 0},

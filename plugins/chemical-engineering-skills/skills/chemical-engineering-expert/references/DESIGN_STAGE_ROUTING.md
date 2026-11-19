@@ -1,17 +1,33 @@
 # 设计阶段的实际调用
 
+设备图谱检索采用当前项目证据根的设置，新项目默认关闭。用户明确开启或关闭时执行 `python tools/expert_cli.py --equipment-graph on|off --evidence-root <项目目录>`；`status` 读取当前设置。后续阶段、补证查询及 MCP 通用检索沿用同一项目根。直接点名查设备或标准可按单次查询处理。
+
 本规则负责把既有专业工作流接到真实查询和计算入口，不另立物性、设备算法或
 验收标准。先读当前项目决定和错误记忆；从当前阶段继续，不无故重建已接受模型。
 
 ## 何时调用
 
-完整流程的专家层文字规划进入 `stage=source, source_work=expert_plan`，实际完成
-本节知识路由、方法检索及docflow第1节工作过程。若尚无当前结构化authority，
-按现有schema先使用
-`{"operation":"design_stage","payload":{"stage":"source","source_work":"expert_plan","question":"本次实际规划问题"}}`。
-题书仍为原文依据，不把Markdown路径塞为要求JSON的authority；已有合法authority
-则照常绑定。初次没有交接记录时返回`EXPERT_PLAN_HANDOFF_REQUIRED`，表示继续
-完成当前规划，不表示必须先取得最终设备数据或停止设计。
+文字规划进入 `stage=source`，完成本节知识路由、方法检索及 docflow 第1节。
+先按用户要求和当前项目范围选 `source_work`。路线讨论、草稿、方案图或独立单元的
+窄规划用 `expert_plan`。新建完整流程项目或交付能据以复建首版的完整规划用
+`buildable_plan`，完整建模合同登记 `planning_scope=buildable_flowsheet`。
+即使用户只要文章或暂不运行 Aspen，也执行适用的源门。已有塔岛的优化用
+`stage=island`，沿用本案冻结的合同及模块范围。
+
+没有结构化 authority 时，按 `--schema design-stage` 显式提交当前阶段和规划范围。
+关键词提示用于补充识别，主工作流须按真实工程意图选模式，不能靠省略字段决定交付范围。
+
+```json
+{"operation":"design_stage","payload":{"stage":"source","source_work":"expert_plan","question":"先画题书的全流程方案图，不用定各单元参数"}}
+```
+
+```json
+{"operation":"design_stage","payload":{"stage":"source","source_work":"buildable_plan","question":"按题书把各单元参数和连接写到能复建首版，只交文字，暂不运行 Aspen"}}
+```
+
+分别提交对应范围的请求。题书继续作为原文依据，`authority` 只绑定当前合法的结构化文件。
+首次没有交接记录时，按 `EXPERT_PLAN_HANDOFF_REQUIRED` 继续整理并提交；完整规划
+同时逐项补齐 `fullflow_contract` 的源门。设备最终尺寸在相应阶段取得。
 
 在原`source_scaffold_handoff.source_review`登记本次来源文本与精确哈希，先运行
 原checker的`--source-inventory --source-root <当前项目证据根>`，按真实段落逐个
@@ -31,17 +47,18 @@
 不是数学通过。来源、摩尔质量、适用性、其他方程和工程判断仍须原文核验。
 接口确实不可用时才按原降级规则直接运行
 `check_flow_handoff.py --require-source-review --source-root <当前项目证据根>`，
-注明手动降级，不能伪造统一入口回执。五份源审查等正式后续门不变。
+记录手动降级及实际输出。完整建模规划适用的三份源审仍须真实执行。
 
-仅查定义/方法的小任务省略这两个规划字段，保持原source查询；已有岛、变更和
-修复按实际阶段调用，不为躲开缺口降成source。进入建模/申请正式源门通过时，
-仍携带原`fullflow_contract`并完成五份审查等要求；规划模式不会清掉这些门，
-也不把尚未执行的五份源审查、骨架运行或三份复核说成已完成。
+只查定义或方法时保留普通 source 查询并省略规划字段。已有岛、变更和修复按实际阶段调用。
+`buildable_plan` 沿用 `fullflow_contract` 的 `source_gate`，绑定同版工艺正文和三位同模型、同推理档子代理的独立全链审查。主代理读回实际回执，完成差异处置并独立复核受影响的内容。只交文字时以闭合 source 阶段为限，后续真实骨架运行及三份导出复核在进入相应阶段时执行。
 
 完整流程生成另携带 `fullflow_contract`（路径与SHA256），并在项目authority
 登记 `workflow_profile=fullflow_generation`。现有入口附加检查
 [全流程证据门](../../aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md)，
-不会执行或冒充5次/3次独立审查。字段用 `--schema fullflow-contract` 发现。
+检查所需证据。主代理安排两阶段各自的实际独立审查。字段用 `--schema fullflow-contract` 发现。
+完整建模规划先用当前 `--evidence-root` 取得源阶段的 `fullflow_gate.planning_review_dispatch.text`，
+把该文本逐字发给三个隔离审查者。委派配置、答卷、每条发现的处置及重审按
+[完整流程源审步骤](../../aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md#源门的三份独立全链审查)绑定同版证据。
 缺前序审查、实际运行/循环初值、逐模块物性依据或当前模块回装记录，保留为
 `ACTION_REQUIRED`。局部模块与完整流程范围分开，不因一次岛内计算强制全厂重算。
 
@@ -166,6 +183,8 @@ Calculator 在依赖它的单元计算前建立，纯统计则在结果形成后
 读取受影响物流、循环、控制、产品、热量、压降、设备和费用；未复算项保留失效
 状态。压降使用各自适用方法，串联逐段累计，并联满足共同边界压差，不把支路
 压降相加。设备算法不能计算的正式评级送EDR、塔水力学或相应厂家证据路线。
+
+完整流程正式交付时使用[工程问题与终审核验](DELIVERY_FINDINGS.md)。实际阶段入口保留独立审核的原发现，收到后即以原编号追踪；终审按本版原始导出比对设计规定，旧版遗留自动带入。文件清单检查通过仅表示其列出的检查已执行。
 
 ## 怎样判断已经完成这一阶段
 

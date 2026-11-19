@@ -1793,7 +1793,11 @@ def _execute(operation: str, payload: dict[str, Any], api: EquipmentDesignApi) -
             raise AgentRequestError("INPUT_NOT_OBJECT", "Aspen 导出文件顶层必须是 JSON 对象。")
         import aspen_equipment_derivation
 
-        derived = aspen_equipment_derivation.derive_bundle(bundle, source_path)
+        audit_receipt_value = str(payload.get("audit_receipt_path") or "").strip()
+        audit_receipt = Path(audit_receipt_value).expanduser() if audit_receipt_value else None
+        derived = aspen_equipment_derivation.derive_bundle(
+            bundle, source_path, audit_receipt=audit_receipt,
+        )
         output_value = str(payload.get("output_path", "")).strip()
         artifacts: list[str] = []
         if output_value:

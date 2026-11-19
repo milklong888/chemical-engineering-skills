@@ -1,9 +1,11 @@
 """External per-phase watchdog. Never kills a process by its executable name."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -13,7 +15,7 @@ import uuid
 from aspen_runtime import DEFAULT_LOCK_PATH, acquire_lock, atomic_json, process_identity, now
 
 DEFAULT_PHASE_TIMEOUTS = {"worker_boot": 30.0, "creating_com": 60.0, "opening": 60.0,
-    "running": 1800.0, "exporting": 60.0, "saving": 60.0, "closing": 30.0, "finished": 10.0}
+    "running": 1800.0, "exporting": 60.0, "saving": 60.0, "closing": 30.0, "assessing": 60.0, "finished": 10.0}
 _STAGE_READ_RETRY_WINERRORS = {5, 32, 33}
 
 
@@ -77,22 +79,63 @@ def prepare_owned_command(command: list[str], environment: dict[str, str]):
 
 
 def stage_belongs_to_worker(candidate, identity, run_id, owner_token):
+    if not isinstance(candidate, dict):
+        return False
     child = candidate.get("process_identity", {})
-    return (candidate.get("run_id") == run_id and candidate.get("owner_token") == owner_token
+    return (isinstance(child, dict) and candidate.get("run_id") == run_id and candidate.get("owner_token") == owner_token
             and candidate.get("pid") == identity.get("pid") and identity.get("verified") is True
             and child.get("verified") is True and child.get("pid") == identity.get("pid")
             and bool(identity.get("start_identity"))
             and child.get("start_identity") == identity["start_identity"])
 
 
+def _verified_audit_outcome(stage: dict[str, Any], summary_path: Path, run_id: str,
+                            exit_code: int) -> str | None:
+    """Check the owned final stage against the expected report before interpreting its exit code."""
+    outcome = {0: "audit_accepted", 1: "audit_rejected"}.get(exit_code)
+    if (outcome is None or stage.get("schema") != "aspen-worker-stage-v1"
+            or stage.get("phase") != "finished" or stage.get("lifecycle_clean") is not True
+            or stage.get("worker_outcome") != outcome):
+        return None
+    receipt = stage.get("closeout")
+    if not isinstance(receipt, dict):
+        return None
+    mode, source_hash = receipt.get("mode"), receipt.get("source_sha256")
+    path, summary_hash = receipt.get("summary_path"), receipt.get("summary_sha256")
+    passed = exit_code == 0
+    if (receipt.get("run_id") != run_id or receipt.get("passed") is not passed
+            or mode not in ("run", "strict") or not isinstance(source_hash, str)
+            or not re.fullmatch(r"[0-9a-fA-F]{64}", source_hash)
+            or not isinstance(path, str) or Path(path) != summary_path or not isinstance(summary_hash, str)):
+        return None
+    try:
+        raw = summary_path.read_bytes()
+        if hashlib.sha256(raw).hexdigest().upper() != summary_hash.upper():
+            return None
+        summary = json.loads(raw)
+    except (OSError, ValueError):
+        return None
+    if not isinstance(summary, dict):
+        return None
+    lifecycle = summary.get("lifecycle")
+    if (summary.get("run_id") == run_id and summary.get("source_sha256") == source_hash
+            and summary.get("mode") == mode and summary.get("passed") is passed
+            and summary.get("operation_completed") is True and not summary.get("error") and not summary.get("traceback")
+            and isinstance(lifecycle, dict) and lifecycle.get("closed_cleanly") is True):
+        return outcome
+    return None
+
+
 def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, float] | None = None,
                overall_timeout_s: float | None = None, lock_path: Path = DEFAULT_LOCK_PATH,
                lock_wait_s: float = 0, environment: dict[str, str] | None = None,
-               worker_can_create_com: bool = True) -> dict[str, Any]:
+               worker_can_create_com: bool = True, audit_summary_path: Path | None = None) -> dict[str, Any]:
     """Run one owned worker. Unknown COM ownership retains a blocking owner lease.
 
     worker_can_create_com=False is for offline worker tests only. It never changes
     any simulation evidence gate or enables a COM command in the production CLI.
+    audit_summary_path opts in to interpreting exit 0 or 1 through a run-bound
+    clean-close receipt. A verified rejection is a completed audit.
     """
     run_dir = run_dir.resolve()
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -108,6 +151,9 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
     result: dict[str, Any] = {"schema": "aspen-supervisor-result-v1", "run_id": run_id, "started_utc": now(),
         "command": command, "run_dir": str(run_dir), "stage_timeouts_s": budgets, "status": "initializing",
         "forced_termination": False, "terminated_processes": [], "simulation_clean": None, "delivery_passed": False}
+    if audit_summary_path is not None:
+        audit_summary_path = audit_summary_path.resolve()
+        result["audit_closeout_verified"] = False
     try:
         lease = acquire_lock(lock_path, owner="aspen-run-supervisor", run_id=run_id, wait_timeout_s=lock_wait_s)
     except TimeoutError as exc:
@@ -140,7 +186,7 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
                         phase_file, retry_evidence=stage_read_retry_evidence
                     )
                     if (stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"])
-                            and candidate.get("sequence", 0) > sequence):
+                            and type(candidate.get("sequence")) is int and candidate["sequence"] > sequence):
                         new_phase = candidate.get("phase")
                         if new_phase not in budgets:
                             raise ValueError(f"Unknown worker phase: {new_phase}")
@@ -164,16 +210,23 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
                     result.update({"status": "timeout", "timed_out_phase": phase})
                     break
                 time.sleep(.05)
+            result["worker_exit_code"] = worker.returncode
             # A very fast worker may exit between polls: consume its final state.
             if phase_file.is_file():
                 candidate = _read_stage_json_with_retry(
                     phase_file, retry_evidence=stage_read_retry_evidence
                 )
-                if stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"]):
+                if (stage_belongs_to_worker(candidate, owned_identity, run_id, lease.record["owner_token"])
+                        and type(candidate.get("sequence")) is int and candidate["sequence"] > sequence):
                     last_stage = candidate
-            result["worker_exit_code"] = worker.returncode
         if result["status"] != "timeout":
-            result["status"] = "completed" if worker.returncode == 0 else "worker_failed"
+            if audit_summary_path is None:
+                result["status"] = "completed" if worker.returncode == 0 else "worker_failed"
+            else:
+                outcome = _verified_audit_outcome(last_stage, audit_summary_path, run_id, worker.returncode)
+                result["status"] = "completed" if outcome else "worker_failed"
+                if outcome:
+                    result.update(worker_outcome=outcome, audit_closeout_verified=True)
         lifecycle = last_stage.get("phase") == "finished" and last_stage.get("lifecycle_clean") is True
         result.update({"last_stage": last_stage, "lifecycle_clean": lifecycle and not result["forced_termination"]})
         if worker_can_create_com and not lifecycle:
@@ -185,6 +238,8 @@ def run_worker(command: list[str], *, run_dir: Path, stage_timeouts: dict[str, f
             worker.terminate()
             worker.wait(timeout=5)
             result["forced_termination"] = True
+        if worker is not None:
+            result["worker_exit_code"] = worker.returncode
         if worker is not None and worker_can_create_com:
             retained = True
             lease.mark_resource_blocked("SUPERVISOR_ERROR_WITH_UNRESOLVED_COM_OWNERSHIP", {"error": str(exc)})

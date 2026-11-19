@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 APP_DIR = Path(__file__).resolve().parents[1]
@@ -19,6 +21,74 @@ import customer_delivery
 
 
 class AspenEquipmentDerivationUnitTests(unittest.TestCase):
+    def test_replays_existing_audit_for_same_candidate_without_inferred_zero_counts(self) -> None:
+        import backends.process.feedback as feedback
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            candidate = root / "case.bkp"
+            candidate.write_bytes(b"exact candidate test fixture")
+            source = root / "equipment_export.json"
+            receipt = root / "normal_summary.json"
+            candidate_hash = derivation.sha256_file(candidate)
+            case = {"source_case_path": str(candidate), "source_case_sha256": candidate_hash,
+                    "run_status": None}
+            native = {"schema_version": "aspen_clean_delivery_audit/3",
+                      "source": str(candidate), "source_sha256": candidate_hash,
+                      "source_unchanged": True, "run_id": "RUN-1",
+                      "run": {"run_id": "RUN-1", "case_sha256": candidate_hash},
+                      "expected_blocks": ["P-1"]}
+            receipt.write_text(json.dumps(native), encoding="utf-8")
+            blocks = [{"block_id": "P-1", "block_status": 0}]
+
+            with patch.object(feedback, "load_aspen_evidence_parser") as load_parser:
+                replay = load_parser.return_value.replay_audit_evidence
+                replay.return_value = {
+                    "simulation_assessment": "PASS", "simulation_clean": True,
+                    "summary_counts_status": "unknown", "strict_solver_passed": False,
+                }
+                result = derivation.run_gate(case, blocks, source, audit_receipt=receipt)
+                self.assertEqual(result["status"], "CLEAN_RUN")
+                self.assertTrue(all(value is None for value in result["counts"].values()))
+                replay.assert_called_once_with(native, root=root)
+                self.assertEqual(result["run_status_evidence"]["sha256"], derivation.sha256_file(receipt))
+
+                strict = derivation.run_gate({**case, "run_status_mode": "strict"}, blocks, source, audit_receipt=receipt)
+                self.assertEqual(strict["status"], "UNVERIFIED_RUN_STATUS_EVIDENCE")
+                self.assertEqual(strict["run_status_evidence"]["status"], "AUDIT_NATIVE_COUNTS_UNVERIFIED")
+
+                replay.return_value["summary_counts_status"] = "all_zero"
+                replay.return_value["strict_solver_passed"] = True
+                strict = derivation.run_gate({**case, "run_status_mode": "strict"}, blocks, source, audit_receipt=receipt)
+                self.assertEqual(strict["status"], "CLEAN_RUN")
+                self.assertTrue(all(value == 0 for value in strict["counts"].values()))
+
+                replay.return_value.update(simulation_clean=False, simulation_assessment="FAIL",
+                                           summary_counts_status="nonzero", strict_solver_passed=False)
+                dirty = derivation.run_gate(case, blocks, source, audit_receipt=receipt)
+                self.assertEqual(dirty["status"], "DIRTY_RUN")
+                self.assertEqual(dirty["run_status_evidence"]["summary_counts_status"], "nonzero")
+
+                bad_hash = derivation.run_gate(
+                    {**case, "run_status_evidence_path": str(receipt), "run_status_evidence_sha256": "F" * 64},
+                    blocks, source,
+                )
+                self.assertEqual(bad_hash["run_status_evidence"]["status"], "HASH_MISMATCH")
+                replay.reset_mock()
+                candidate.write_bytes(b"wrong candidate")
+                wrong = derivation.run_gate(case, blocks, source, audit_receipt=receipt)
+                self.assertEqual(wrong["run_status_evidence"]["status"], "AUDIT_CANDIDATE_MISMATCH")
+                replay.assert_not_called()
+
+    def test_legacy_clean_phrase_does_not_invent_counts(self) -> None:
+        counts = derivation.parse_raw_history_counts("NO ERRORS OR WARNINGS GENERATED")
+        self.assertTrue(all(value is None for value in counts.values()))
+        incomplete = derivation.parse_raw_history_counts(
+            "SUMMARY OF ERRORS\nPHYSICAL\nPROPERTY SYSTEM SIMULATION\n"
+            "TERMINAL ERRORS 0 0\nSEVERE ERRORS 0 0\nERRORS 0 0\nWARNINGS 0 0\n"
+        )
+        self.assertTrue(all(value is None for value in incomplete.values()))
+
     def _derive_test_pipe_stream(
         self,
         *,

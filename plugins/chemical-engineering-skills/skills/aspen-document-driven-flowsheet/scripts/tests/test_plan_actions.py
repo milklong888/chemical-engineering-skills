@@ -222,6 +222,38 @@ class PlanActionTests(unittest.TestCase):
         pressure(data)["interface_actions"].append(action("unknown"))
         self.invalid(data, "unregistered identifiers")
 
+    def test_registered_equipment_must_belong_to_the_stream_interface(self):
+        data = json.loads(json.dumps(fixture()).replace('"C"', '"LPSEP"'))
+        actions = pressure(data)["interface_actions"]
+        action_text = "核对LPSEP与下游油塔的压差，保留必要减压。"
+        actions[2]["equipment_action"] = action_text  # B → LPSEP
+        self.valid(data)
+
+        actions[0]["equipment_action"] = action_text  # IN → A
+        result = self.invalid(data, "stream feed")
+        self.assertIn("LPSEP", result["errors"][0])
+        actions[1]["equipment_action"] = action_text  # A → B
+        result = self.invalid(data, "stream ab", strict=False)
+        self.assertEqual(len(result["errors"]), 2)
+
+    def test_shared_local_pressure_rule_and_whole_token_matching(self):
+        data = json.loads(json.dumps(fixture()).replace('"C"', '"LPSEP"'))
+        for item in pressure(data)["interface_actions"]:
+            item["equipment_action"] = "Apply the same connector rule: receiving pressure equals supply less line loss."
+        self.valid(data)
+        pressure(data)["interface_actions"][0]["equipment_action"] = "Reserve the source-listed candidate LPSEP-ALT."
+        self.valid(data)
+
+    def test_explicit_short_tag_and_unknown_endpoint_remain_distinct(self):
+        data = fixture()
+        pressure(data)["interface_actions"][0]["equipment_action"] = "Use `C` for the local pressure adjustment."
+        self.invalid(data, "stream feed")
+        data["streams"][0].update({"from": None, "state": "unresolved", "evidence": None,
+                                    "gap": "The pressure source endpoint is unknown"})
+        data["control_volumes"][0]["inflows"] = []
+        result = self.valid(data)
+        self.assertEqual(result["declared_topology"]["coverage"], "DECLARED_PARTIAL")
+
     def test_empty_pressure_descriptions_rejected(self):
         for field in ("receiver_requirement", "budget_relation", "equipment_action", "condition_or_basis"):
             for blank in (None, "", " \n "):

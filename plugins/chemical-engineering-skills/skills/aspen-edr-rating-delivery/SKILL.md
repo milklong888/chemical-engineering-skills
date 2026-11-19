@@ -25,7 +25,8 @@ delivery. Keep three authorities separate:
 - EDR authority: same-equipment `.EDR`, `TascMsg`, geometry, duty, area, U,
   pressure drop, velocity/RhoV2, vibration, and property-range results;
 - delivery authority: exact copied BKP/APW reopened without edits, Required
-  Input complete, all-zero Run Status/history, and preserved process targets.
+  Input complete, verified completion and clean same-run messages/history, and
+  preserved process targets.
 
 Do not use a clean Aspen run to hide an EDR engineering failure. Do not use a
 clean EDR report to bypass the exact Aspen delivery gate.
@@ -175,11 +176,12 @@ On the exact candidate, then on the exact copied user-facing file:
 1. Reopen without edits.
 2. Check `Data.NextIncomplete()==('', 0)` after open, ProcessInput, and run.
 3. Run and capture the real `.his`, `.sum`, and `.rep` evidence.
-4. Apply the chemical expert's `STRICT_ACCEPTANCE_AND_LEARNING.md` and the
-   canonical operations evidence checker: require every named row and column
-   in the source-verified version/format schema to be present and all-zero.
-   Unknown/incomplete schemas fail; never split a wrapped header or pad zeros.
-5. Scan raw history for actual warning/error/severe lines.
+4. Apply the chemical expert's `STRICT_ACCEPTANCE_AND_LEARNING.md` and use the
+   canonical operations checker to verify completion and complete same-run
+   Control Panel messages and raw `.his`.
+5. Check both sources for actual errors or warnings and preserve any observed
+   nonzero count. Consult the native Summary for anomalies and require its full
+   all-zero counts only when expressly requested.
 6. Confirm every eligible HeatX still reports EDR.
 7. Verify process duty, phases, recycle convergence, capacity, and product gates.
 8. Hash the exact delivered file and preserve superseded branches as quarantined.

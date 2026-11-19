@@ -357,36 +357,66 @@ def write_input_node(session: AspenSession, path: str, value: Any, *, expected_u
             "before": before, "requested_value": value, "requested_unit": expected_unit, "conversion": "NONE", "after": after}
 
 
-def wait_engine_idle(session: AspenSession, timeout_s: float, *, poll_s: float = .1) -> dict[str, Any]:
+def wait_engine_idle(session: AspenSession, timeout_s: float, *, poll_s: float = .1,
+                     completion_observed: Callable[[], bool] | None = None) -> dict[str, Any]:
     session.assert_owner()
     started = time.time()
     deadline = time.monotonic() + timeout_s
+    completion = {}
+    if completion_observed is not None:
+        completion = {"completion_event_observed": False, "engine_running_observed": False,
+                      "terminal_engine_idle": False}
     while True:
         try:
-            session.pythoncom.PumpWaitingMessages()
+            if session.pythoncom.PumpWaitingMessages() and completion_observed is not None:
+                raise RuntimeError("COM event pump received WM_QUIT")
             running = session.app.Engine.IsRunning
             if running not in (True, False, 0, 1):
-                return {"status": "state_unknown", "state_value": repr(running), "started_epoch": started, "finished_epoch": time.time()}
+                state = {"status": "state_unknown", "state_value": repr(running)}
+                break
+            if completion_observed is not None:
+                observed = completion_observed()
+                if type(observed) is not bool:
+                    raise TypeError("The calculation completion marker must return a bool")
+                completion["completion_event_observed"] |= observed
+                completion["engine_running_observed"] |= bool(running)
         except Exception as exc:
-            return {"status": "state_unknown", "error": str(exc), "started_epoch": started, "finished_epoch": time.time()}
-        if not bool(running):
-            return {"status": "completed", "started_epoch": started, "finished_epoch": time.time()}
+            state = {"status": "state_unknown", "error": str(exc)}
+            break
+        # Run2(True) may return before IsRunning turns true. Require this run's
+        # completion event even when the busy interval is too short to observe.
+        if not bool(running) and (completion_observed is None or completion["completion_event_observed"]):
+            if completion:
+                completion["terminal_engine_idle"] = True
+            state = {"status": "completed"}
+            break
         if time.monotonic() >= deadline:
-            return {"status": "timeout", "started_epoch": started, "finished_epoch": time.time(), "timeout_s": timeout_s}
+            state = {"status": "timeout", "timeout_s": timeout_s}
+            break
         time.sleep(min(poll_s, max(0, deadline - time.monotonic())))
+    return {**state, **completion, "started_epoch": started, "finished_epoch": time.time()}
 
 
-def run_case(session: AspenSession, *, timeout_s: float, run_id: str, case_sha256: str | None = None) -> dict[str, Any]:
+def run_case(session: AspenSession, *, timeout_s: float, run_id: str, case_sha256: str | None = None,
+             completion_observed: Callable[[], bool] | None = None) -> dict[str, Any]:
+    """Use Run2(True) only with a fresh marker for this session's completion event."""
     session.assert_owner()
     started = time.time()
+    metadata = {"run_id": run_id, "case_sha256": case_sha256, "started_epoch": started,
+                "simulation_clean": None}
+    if completion_observed is not None:
+        metadata.update(run_mode="asynchronous", completion_event_observed=False, terminal_engine_idle=False)
+        try:
+            if completion_observed() is not False:
+                raise ValueError("The calculation completion marker must be false before Run2")
+        except Exception as exc:
+            return {**metadata, "status": "state_unknown", "finished_epoch": time.time(), "error": str(exc)}
     try:
-        returned = session.app.Engine.Run2(False)
+        returned = session.app.Engine.Run2(completion_observed is not None)
     except Exception as exc:
-        return {"status": "com_error", "run_id": run_id, "case_sha256": case_sha256, "started_epoch": started,
-                "finished_epoch": time.time(), "error": str(exc), "simulation_clean": None}
-    result = wait_engine_idle(session, timeout_s)
-    return {**result, "run_id": run_id, "case_sha256": case_sha256, "started_epoch": started,
-            "Run2_return": repr(returned), "simulation_clean": None, "delivery_passed": False}
+        return {**metadata, "status": "com_error", "finished_epoch": time.time(), "error": str(exc)}
+    result = wait_engine_idle(session, timeout_s, completion_observed=completion_observed)
+    return {**metadata, **result, "started_epoch": started, "Run2_return": repr(returned), "delivery_passed": False}
 
 
 def export_case(session: AspenSession, export_type: int, path: Path) -> dict[str, Any]:

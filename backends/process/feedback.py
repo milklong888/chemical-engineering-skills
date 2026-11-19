@@ -11,10 +11,12 @@ from .selector_analysis import canonical_sha, equipment_records, feedback_record
 from . import pressure
 from .pressure import number
 
+ASPEN_RUN_GATE = "aspen_run_status"
+ASPEN_STRICT_GATE = "strict_run_status"
 REPLAY_GATES = ["native_model_topology", "material_component_balance", "energy_balance",
                 "pressure_network", "phase_and_temperature_approach", "product_targets",
                 "equipment_reselection", "operability_control", "safety_and_materials",
-                "strict_run_status", "exact_delivery_reopen"]
+                ASPEN_RUN_GATE, "exact_delivery_reopen"]
 
 # Explicit canonical projection, not an arbitrary Aspen export parser.
 FIELD_UNITS = {"heat_transfer_area_m2": "m2", "flow_m3_h": "m3/h", "mass_flow_kg_h": "kg/h",
@@ -280,6 +282,11 @@ def build_plan(selector_response, context, root):
     authority = read_reference(root, context["authority"])
     if not authority.get("required_method") or not authority.get("acceptance_criteria"):
         raise ValueError("Freeze method and acceptance before creating feedback")
+    aspen_mode = authority.get("aspen_run_status_mode", "run")
+    if aspen_mode not in ("run", "strict"):
+        raise ValueError("aspen_run_status_mode must be run or strict")
+    replay_gates = [ASPEN_STRICT_GATE if aspen_mode == "strict" and gate == ASPEN_RUN_GATE else gate
+                    for gate in REPLAY_GATES]
     records = []
     for pointer, wrapper, core in equipment_records(selector_response.get("result", {})):
         old = feedback_record(pointer, wrapper, core, context)
@@ -350,7 +357,7 @@ def build_plan(selector_response, context, root):
               "run_id": context.get("run_id"),
               "source_export": context["source_export"], "source_export_content_sha256": canonical_sha(export),
               "authority": context["authority"], "selector_response_sha256": canonical_sha(selector_response),
-              "equipment": records, "required_replay_gates": REPLAY_GATES,
+              "equipment": records, "required_replay_gates": replay_gates,
               "flowsheet_modified": False, "engineering_accepted": False,
               "next_action": "Review candidate, update project authority, implement via domain skill, export exact new model and reselect"}
     result["plan_sha256"] = canonical_sha(result)
@@ -368,14 +375,20 @@ def _read_artifact_bytes(root, ref):
 
 def _recheck_aspen_summary(native, receipt, root, candidate, implementation):
     """Reuse the frozen pure native parser against raw text, never launch COM."""
-    spec = importlib.util.spec_from_file_location("feedback_verified_aspen_evidence", implementation)
-    parser = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(parser)
-    if (native.get("schema_version") != "aspen_clean_delivery_audit/2" or native.get("passed") is not True
-            or native.get("simulation_clean") is not True or native.get("source_unchanged") is not True
+    run = native.get("run")
+    if (native.get("passed") is not True or native.get("simulation_clean") is not True or native.get("source_unchanged") is not True
             or str(native.get("source_sha256", "")).upper() != candidate["sha256"].upper()
-            or native.get("run", {}).get("run_id") != receipt.get("run_id")
-            or str(native.get("run", {}).get("case_sha256", "")).upper() != candidate["sha256"].upper()):
+            or not isinstance(run, dict) or run.get("run_id") != receipt.get("run_id")
+            or str(run.get("case_sha256", "")).upper() != candidate["sha256"].upper()):
+        return False
+    parser = load_aspen_evidence_parser(implementation)
+    if native["schema_version"] == "aspen_clean_delivery_audit/3":
+        if native.get("operation_completed") is not True or native.get("mode") not in ("run", "strict"):
+            return False
+        gate = parser.replay_audit_evidence(native, root=Path(root))
+        return (gate.get("passed") is True and gate.get("simulation_clean") is True
+                and (receipt["gate"] != ASPEN_STRICT_GATE or gate.get("strict_solver_passed") is True))
+    if native.get("mode", "strict") != "strict":
         return False
     control = native.get("control_panel", {})
     text = _read_artifact_bytes(root, control).decode("utf-8-sig", errors="strict")
@@ -398,13 +411,49 @@ def _recheck_aspen_summary(native, receipt, root, candidate, implementation):
 # This is a code-owned registry, not supplied by replay/CLI. The exact pure
 # implementation may reside in the installed skill or the source package;
 # content identity is fixed and checked before importing, regardless of path.
+_LEGACY_ASPEN_EVIDENCE_SHA256 = "7465D04FC8D1114D65A9F64C94ABDA32FA885B7A6C8E493AEC4B90034E9A3F31"
+_ASPEN_EVIDENCE_SHA256 = "D6EAE9E915618C8307254AB767B088EE7D59F189A4B5AE057BA2B7C231F4BFD4"
+_ASPEN_EVIDENCE_PATHS = ("plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/aspen_evidence.py",
+                         "validators/aspen_evidence.py")
+
+
+def _runtime_validator_paths(paths):
+    runtime_root = Path(__file__).resolve().parents[2]
+    return [(runtime_root / path).resolve() for path in paths]
+
+
+def load_aspen_evidence_parser(implementation: Path | None = None):
+    """Load the pinned parser from the source tree or the installed runtime."""
+    allowed = _runtime_validator_paths(_ASPEN_EVIDENCE_PATHS)
+    if implementation is None:
+        implementation = next((path for path in allowed if path.is_file()), allowed[0])
+    else:
+        implementation = implementation.resolve()
+    if implementation not in allowed:
+        raise ValueError("Aspen evidence parser is outside the fixed runtime dependency")
+    data = implementation.read_bytes()
+    if hashlib.sha256(data).hexdigest().upper() != _ASPEN_EVIDENCE_SHA256:
+        raise ValueError("Aspen evidence parser hash has changed")
+    spec = importlib.util.spec_from_file_location("verified_aspen_evidence", implementation)
+    parser = importlib.util.module_from_spec(spec)
+    exec(compile(data, str(implementation), "exec"), vars(parser))
+    return parser
+
+
 TRUSTED_REPLAY_VALIDATORS = {
     "aspen_summary_history_v2": {
-        "implementation_sha256": "7465D04FC8D1114D65A9F64C94ABDA32FA885B7A6C8E493AEC4B90034E9A3F31",
-        "implementation_paths": ("plugins/chemical-engineering-skills/skills/aspen-plus-operations/scripts/aspen_evidence.py", "validators/aspen_evidence.py"),
+        "implementation_sha256": _ASPEN_EVIDENCE_SHA256,
+        "receipt_implementation_sha256s": frozenset({_LEGACY_ASPEN_EVIDENCE_SHA256, _ASPEN_EVIDENCE_SHA256}),
+        "implementation_paths": _ASPEN_EVIDENCE_PATHS,
         "native_schema": "aspen_clean_delivery_audit/2", "native_schema_field": "schema_version",
-        "gates": frozenset({"strict_run_status"}), "recheck": _recheck_aspen_summary,
-    }
+        "gates": frozenset({ASPEN_STRICT_GATE}), "recheck": _recheck_aspen_summary,
+    },
+    "aspen_run_evidence_v3": {
+        "implementation_sha256": _ASPEN_EVIDENCE_SHA256,
+        "implementation_paths": _ASPEN_EVIDENCE_PATHS,
+        "native_schema": "aspen_clean_delivery_audit/3", "native_schema_field": "schema_version",
+        "gates": frozenset({ASPEN_RUN_GATE, ASPEN_STRICT_GATE}), "recheck": _recheck_aspen_summary,
+    },
 }
 
 
@@ -422,11 +471,10 @@ def validate_domain_receipt(receipt, gate, root, candidate):
     registered = TRUSTED_REPLAY_VALIDATORS.get(validator.get("id"))
     if not registered or gate not in registered["gates"]:
         return False, "VALIDATOR_NOT_REGISTERED_FOR_GATE"
-    if str(validator.get("sha256", "")).upper() != registered["implementation_sha256"]:
+    receipt_hashes = registered.get("receipt_implementation_sha256s", (registered["implementation_sha256"],))
+    if str(validator.get("sha256", "")).upper() not in receipt_hashes:
         return False, "VALIDATOR_IMPLEMENTATION_NOT_TRUSTED"
-    runtime_root = Path(__file__).resolve().parents[2]
-    allowed = [(Path(value) if Path(value).is_absolute() else runtime_root / value).resolve()
-               for value in registered["implementation_paths"]]
+    allowed = _runtime_validator_paths(registered["implementation_paths"])
     if validator.get("path"):
         implementation = Path(validator["path"])
         implementation = (implementation if implementation.is_absolute() else Path(root) / implementation).resolve()
@@ -471,8 +519,12 @@ def audit_replay(plan, replay, root):
            and (row.get("binding_gaps") or row.get("current_input_binding", {}).get("status") != "BOUND_CURRENT_INPUTS")
            for row in plan["equipment"]):
         failed.append({"gate": "current_plan_input_binding", "reason": "PLAN_HAS_UNRESOLVED_INPUT_BINDING"})
+    references = replay.get("gates", {})
     for gate in plan["required_replay_gates"]:
-        reference = replay.get("gates", {}).get(gate)
+        # A historical strict receipt can fill this same evidence slot. It
+        # retains its original gate, hash checks and strict raw recheck.
+        receipt_gate = ASPEN_STRICT_GATE if gate == ASPEN_RUN_GATE and ASPEN_RUN_GATE not in references else gate
+        reference = references.get(receipt_gate)
         if not reference:
             failed.append({"gate": gate, "reason": "missing_receipt"})
             continue
@@ -499,10 +551,11 @@ def audit_replay(plan, replay, root):
         try:
             for item in evidence:
                 _read_artifact_bytes(root, item)
-            domain_ok, reason = validate_domain_receipt(receipt, gate, root, candidate)
+            domain_ok, reason = validate_domain_receipt(receipt, receipt_gate, root, candidate)
         except (ValueError, OSError, KeyError, TypeError) as exc:
             domain_ok, reason = False, "DOMAIN_RECHECK_ERROR: " + str(exc)
-        valid = identity_ok and evidence_ok and not duplicate and receipt.get("status") == "strict_passed" and domain_ok
+        accepted_statuses = ("strict_passed", "run_passed") if receipt_gate == ASPEN_RUN_GATE else ("strict_passed",)
+        valid = identity_ok and evidence_ok and not duplicate and receipt.get("status") in accepted_statuses and domain_ok
         if not valid:
             failed.append({"gate": gate, "reason": "DUPLICATE_RECEIPT_REUSED_FOR_DIFFERENT_GATE" if duplicate else reason})
         receipts.append({"gate": gate, "valid": valid, "reference": reference})

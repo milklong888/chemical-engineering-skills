@@ -396,7 +396,7 @@
       "engineering_acceptance_authority": false,
       "current_runtime_owner": "backends/equipment",
       "same_role_backend_path": "backends/equipment/scripts/aspen_equipment_derivation.py",
-      "same_role_backend_sha256": "24a03b05779c4c903fabbddbc1653be3420584ded509c357315e0b09d472259c",
+      "same_role_backend_sha256": "1d6d39aa5791861c54cbe8ba54e058922f88a99fb4e30d7be2cc01339cb3ee3f",
       "source_build_only": true,
       "requires": "Original source assets and explicit maintenance sandbox; imports alone are not a verified runtime dependency closure.",
       "legacy_defaults_not_current_authority": true,

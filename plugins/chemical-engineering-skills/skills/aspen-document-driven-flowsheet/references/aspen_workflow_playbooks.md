@@ -14,11 +14,12 @@ which branch is the current authority.
 
 ## Default From-Zero Build Paradigm
 
-For complete-flow generation the governing entry is
-[fullflow_generation_workflow.md](fullflow_generation_workflow.md): complete the
-five-review source gate before the build, and the native-run/recycle-initials plus
-three-review scaffold gate before individual module refinement. These steps add
-evidence gates to this existing playbook, not another topology or simulator.
+Use the [full-flow workflow](fullflow_generation_workflow.md) for new complete
+flowsheets and articles that define a build-ready first model. Complete the
+three independent whole-plan source reviews before article delivery or model
+construction. For modeling work, run the native scaffold, capture recycle
+initials and complete three independent export reviews before individual module
+refinement.
 
 Use this pattern when the user asks for a complete Aspen process, when only
 documents exist, or when the inherited Aspen file is too unstable to repair
@@ -258,15 +259,14 @@ Stop condition:
 
 ## Subagent Scheduling Protocol
 
-Follow the active task's delegation permissions and concurrency limits. For an
-enabled fullflow-generation workflow, its required five source reviews and
-three scaffold reviews govern; do not wait for the user to request delegation
-again or substitute solo summaries. Reuse prior agents for factual work, but
-keep required independent reviews in separate contexts with the frozen input.
-The main agent owns the active goal, authority manifest, and final promotion.
-Old chemistry, values, components, and targets remain quarantined until current
-source ledgers re-authorize them. Other narrow tasks do not inherit five/three
-reviews merely because this playbook was read.
+Follow the active task's delegation permissions and concurrency limits. At the
+source gate, dispatch three subagents with the same actual model and reasoning
+effort. Give each a separate context and the same frozen article and references
+to reconstruct the whole plan. Arrange three separate export reviews once the
+scaffold has run. The main agent reconciles the raw reviews with current authority
+and owns acceptance. Reuse prior agents for factual work. Old chemistry, values,
+components and targets require current source authority. Use the assigned scope
+for narrow tasks, discussion drafts and explicitly route-only requests.
 
 Good subagent tasks are bounded sidecars:
 

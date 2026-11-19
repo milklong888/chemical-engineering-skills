@@ -32,11 +32,20 @@ Aspen, equipment or engineering-report work:
    At source/scaffold/island/reconnect/change/delivery events, follow the expert's
    `references/DESIGN_STAGE_ROUTING.md` and actually execute `design_stage`
    through the bundled CLI or MCP. Preserve its real query/calculation receipt.
-   It is not an engineering pass. Narrow lookup, template and formatting tasks
-   use only their relevant workflow; do not manufacture a full-flow scope.
+   Use the receipt as execution evidence for the stage checks performed. For a
+   new full-flow project or a build-ready first-model article, follow the docflow
+   `references/fullflow_generation_workflow.md`. Complete the three independent
+   whole-plan source reviews with the same model and reasoning effort before
+   article delivery or modeling. If work continues to the native scaffold, run
+   it and complete the separate three actual-export reviews. Narrow lookup,
+   template, formatting and explicitly route-only tasks keep their own scope.
 8. Keep readout, preliminary calculation, software execution, clean convergence,
    product compliance and formal delivery as separate states. Apply the version-
-   bound evidence checks in the expert and operation skills.
+   bound evidence checks in the expert and operation skills. An Aspen run with
+   verified completion, complete same-run logs, no actual errors or warnings
+   and valid applicable engineering checks can pass normal acceptance without
+   a native Summary. Use the table for anomalies and when the user or contract
+   explicitly requires all-zero count proof.
 9. Keep project inputs and results outside the skill directory. Use controlled
    working copies, record file identities and preserve original sources.
 10. 收尾按上面的经验入口读取对应分支，由主助手展示当前候选和

@@ -12,9 +12,7 @@ formal promotion path; inbox admission does not satisfy or bypass them.
 
 During the task, record material decisions/trials once in the project audit;
 reuse existing run/status evidence rather than writing duplicate logs.
-At delivery report completed scope and remaining work. Under the central
-`EVOLUTION_LOOP.md`, request closure only when user-requested formal promotion
-needs an unresolved current-revision confirmation; do not repeat a confirmed or pending request.
+At real delivery report completed scope and remaining work, and ask once whether this revision is finished or needs improvement. Follow the actual user reply with the central `EVOLUTION_LOOP.md` and the local `task_closeout` workflow. Explicit completion triggers the local retrospective and upload proposal in that turn. Approval of the identified batch rows is a separate action.
 Do not begin canonical task-derived promotion until the user requests
 consolidation and explicitly closes the current task revision. Reopening or
 further tuning invalidates the old closure.

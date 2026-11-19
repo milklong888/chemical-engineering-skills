@@ -6,6 +6,7 @@ import ctypes
 import hashlib
 import json
 import locale
+import math
 import os
 import platform
 import re
@@ -20,19 +21,65 @@ import sys
 import uuid
 
 from aspen_evidence import (HARD_PATTERNS, decode_history_bytes, evaluate_clean_gate,
-                            find_hard_messages, hard_pattern_counts, inspect_history_text, parse_summary_counts)
+                            find_hard_messages, hard_pattern_counts, inspect_control_events, inspect_control_terminal,
+                            inspect_history_text, parse_summary_counts)
 import aspen_runtime
 
 
-MESSAGES: list[str] = []
 _SESSIONS: dict[int, aspen_runtime.AspenSession] = {}
 
 
 class AspenEvents:
-    def OnControlPanelMessage(self, *args: Any) -> None:
-        for arg in args:
-            if isinstance(arg, str) and arg.strip():
-                MESSAGES.append(arg.rstrip())
+    """Retain all event payloads even if Aspen asks to clear the displayed panel."""
+
+    def OnControlPanelMessage(self, clear: Any, message: Any) -> None:
+        self.audit_events.append({'event': 'OnControlPanelMessage', 'epoch': time.time(),
+                                  'clear': clear, 'message': message})
+
+    def OnCalculationCompleted(self) -> None:
+        self.audit_events.append({'event': 'OnCalculationCompleted', 'epoch': time.time()})
+
+
+def drain_events(session: aspen_runtime.AspenSession, events: list[dict[str, Any]], *,
+                 quiet_s: float, timeout_s: float) -> dict[str, Any]:
+    started = last_change = time.monotonic()
+    initial_count = observed_count = len(events)
+    try:
+        while True:
+            if session.pythoncom.PumpWaitingMessages():
+                raise RuntimeError('COM event pump received WM_QUIT')
+            now_monotonic = time.monotonic()
+            if len(events) != observed_count:
+                last_change, observed_count = now_monotonic, len(events)
+            quiet = now_monotonic - last_change >= quiet_s
+            if quiet or now_monotonic - started >= timeout_s:
+                return {'completed': quiet, 'quiet_s': quiet_s, 'elapsed_s': now_monotonic - started,
+                        'event_count': len(events), 'events_added': len(events) - initial_count}
+            time.sleep(.05)
+    except Exception as exc:
+        return {'completed': False, 'error': str(exc), 'event_count': len(events)}
+
+
+def capture_control_panel(out: Path, label: str, events: list[dict[str, Any]], *,
+                          run: dict[str, Any], final_drain: dict[str, Any]) -> dict[str, Any]:
+    raw_path = out / f'{label}_control_panel_events.json'
+    aspen_runtime.atomic_json(raw_path, {'run_id': run.get('run_id'), 'case_sha256': run.get('case_sha256'),
+                                        'events': events})
+    control_path = out / f'{label}_control_panel.txt'
+    capture = inspect_control_events(events, run, final_drain)
+    text = capture.pop('text')
+    with control_path.open('x', encoding='utf-8', newline='') as handle:
+        handle.write(text)
+    counts = parse_summary_counts(text)
+    terminal = inspect_control_terminal(text, counts)
+    control_artifact = artifact(control_path)
+    return {**control_artifact, 'raw_events': artifact(raw_path), **capture,
+            'summary_counts': counts, 'hard_pattern_counts': hard_pattern_counts(text),
+            'actual_messages': find_hard_messages(text, source=str(control_path), source_sha256=control_artifact['sha256']),
+            'terminal': terminal, 'final_drain': final_drain,
+            'association': {'verified': run.get('events_cleared_before_run') is True,
+                            'run_id': run.get('run_id'), 'case_sha256': run.get('case_sha256'),
+                            'capture_complete': capture['capture_complete'], 'terminal_verified': terminal['verified']}}
 
 
 def now() -> str:
@@ -156,34 +203,33 @@ def export_file(app: Any, export_type: int, path: Path) -> dict[str, Any]:
     return aspen_runtime.export_case(_SESSIONS[id(app)], export_type, path)
 
 
-def run_async(app: Any, timeout_s: int, *, run_id: str | None = None, case_sha256: str | None = None) -> dict[str, Any]:
-    MESSAGES.clear()
+def run_async(app: Any, timeout_s: int, *, run_id: str, case_sha256: str,
+              events: list[dict[str, Any]]) -> dict[str, Any]:
     session = _SESSIONS[id(app)]
-    result = aspen_runtime.run_case(session, timeout_s=timeout_s, run_id=run_id or uuid.uuid4().hex, case_sha256=case_sha256)
-    if result['status'] == 'completed':
-        pump_until = time.monotonic() + 2.0
-        try:
-            while time.monotonic() < pump_until:
-                session.pythoncom.PumpWaitingMessages()
-                time.sleep(.05)
-            result['status'] = 'returned'  # legacy status with stricter evidence
-        except Exception as exc:
-            result.update(status='state_unknown', event_drain_error=str(exc))
-    result['events_cleared_before_run'] = True
-    result['finished_epoch'] = time.time()
-    return result
+    pre_run_drain = drain_events(session, events, quiet_s=.2, timeout_s=3)
+    if not pre_run_drain['completed']:
+        return {'status': 'event_capture_error', 'run_id': run_id, 'case_sha256': case_sha256,
+                'pre_run_event_drain': pre_run_drain, 'events_cleared_before_run': False}
+    events.clear()
+    result = aspen_runtime.run_case(
+        session, timeout_s=timeout_s, run_id=run_id, case_sha256=case_sha256,
+        completion_observed=lambda: any(event['event'] == 'OnCalculationCompleted' for event in events))
+    return {**result, 'events_cleared_before_run': True, 'pre_run_event_drain': pre_run_drain}
 
 
-def parse_block_ids(inp: Path) -> list[str]:
-    if not inp.exists():
-        return []
-    text = inp.read_text(encoding="utf-8", errors="replace")
-    ids: list[str] = []
-    for match in re.finditer(r"(?im)^\s*BLOCK\s+([A-Za-z0-9_+\-]+)(?=\s)", text):
-        block = match.group(1)
-        if block not in ids:
-            ids.append(block)
-    return ids
+def capture_expected_blocks(app: Any) -> dict[str, Any]:
+    """Take the physical block inventory from the opened model before dispatch."""
+    path = r'\Data\Blocks'
+    try:
+        node = app.Tree.FindNode(path)
+        if node is None:
+            return {'path': path, 'verified': False, 'blocks': [], 'reason': 'NATIVE_BLOCK_ROOT_MISSING'}
+        names = [child.Name for child in node.Elements]
+        valid = all(isinstance(name, str) and name.strip() and name == name.strip() for name in names)
+        verified = bool(names) and valid and len({name.casefold() for name in names}) == len(names)
+        return {'path': path, 'verified': verified, 'blocks': names if valid else []}
+    except Exception as exc:
+        return {'path': path, 'verified': False, 'blocks': [], 'error': str(exc)}
 
 
 def node_value(app: Any, path: str) -> Any:
@@ -203,9 +249,11 @@ def block_statuses(app: Any, blocks: list[str]) -> tuple[list[dict[str, Any]], l
         row = {"block": block, "blkstat": status, "blkmsg": message}
         rows.append(row)
         try:
-            is_bad = status is not None and float(status) != 0.0
-        except (TypeError, ValueError):
-            is_bad = bool(status)
+            is_bad = isinstance(status, bool) or not math.isfinite(float(status)) or float(status) != 0.0
+        except (TypeError, ValueError, OverflowError):
+            is_bad = True
+        if isinstance(status, float) and not math.isfinite(status):
+            row['blkstat'] = repr(status)
         if is_bad:
             bad.append(row)
     return rows, bad
@@ -355,6 +403,11 @@ def close_aspen(app: Any | None) -> dict[str, Any]:
     return aspen_runtime.close_session(session)
 
 
+def run_completed(run: dict[str, Any]) -> bool:
+    return (run.get('status') == 'completed' and not run.get('forced_termination')
+            and run.get('completion_event_observed') is True and run.get('terminal_engine_idle') is True)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", required=True)
@@ -362,7 +415,10 @@ def main() -> int:
     parser.add_argument("--label", default="AUDIT01")
     parser.add_argument("--timeout", type=int, default=900)
     parser.add_argument('--progid', default='Apwn.Document.40.0', help='Exact requested Aspen COM ProgID; no silent version fallback.')
+    parser.add_argument('--mode', choices=('run', 'strict'), default='run',
+                        help='Assess the completed simulation, or also require proof of every native summary count.')
     parser.add_argument('--_worker', action='store_true', help=argparse.SUPPRESS)
+    parser.add_argument('--_worker-summary', type=Path, help=argparse.SUPPRESS)
     parser.add_argument(
         "--sidecar",
         action="append",
@@ -385,44 +441,71 @@ def main() -> int:
     out = Path(args.out_dir).resolve()
     out.mkdir(parents=True, exist_ok=True)
     summary_path = out / f'{args.label}_summary.json'
+    if args._worker_summary is not None and not args._worker:
+        raise SystemExit('The worker summary path is internal.')
     planned_outputs = [summary_path, out / f'{args.label}_control_panel.txt',
                        out / f'{args.label}_after_run.inp', out / f'{args.label}_after_run.bkp',
-                       out / f'{args.label}_run_status_tree.json']
+                       out / f'{args.label}_run_status_tree.json', out / f'{args.label}_control_panel_events.json']
+    if args._worker_summary is not None:
+        planned_outputs.append(args._worker_summary)
     conflicts = [str(path) for path in planned_outputs if path.exists() or path.resolve() == source]
     if conflicts:
         print(json.dumps({'passed': False, 'summary': str(summary_path), 'error': 'Existing input/output evidence is immutable; choose another label or output directory.', 'conflicts': conflicts}))
         return 1
     if not args._worker:
         from aspen_run_supervisor import run_worker
+        requested_source_sha256 = sha256(source)
+        run_dir = out / f'{args.label}_supervision_{uuid.uuid4().hex}'
+        worker_summary_path = run_dir / 'worker_summary.json'
         command = [sys.executable, '-B', '-X', 'utf8', str(Path(__file__).resolve()), '--_worker',
                    '--source', str(source), '--out-dir', str(out), '--label', args.label,
-                   '--timeout', str(args.timeout), '--progid', args.progid]
+                   '--timeout', str(args.timeout), '--progid', args.progid, '--mode', args.mode,
+                   '--_worker-summary', str(worker_summary_path)]
         for item in args.sidecar:
             command.extend(['--sidecar', str(Path(item).resolve())])
         if args.open_source_direct:
             command.append('--open-source-direct')
-        supervisor = run_worker(command, run_dir=out / f'{args.label}_supervision_{uuid.uuid4().hex}',
-                                stage_timeouts={'running': args.timeout + 5.0},
-                                overall_timeout_s=args.timeout + 300.0)
-        summary = json.loads(summary_path.read_text(encoding='utf-8')) if summary_path.is_file() else {
-            'schema_version': 'aspen_clean_delivery_audit/2', 'source': str(source), 'passed': False,
-            'rejection_reasons': [{'code': 'WORKER_DID_NOT_PRODUCE_AUDIT'}]}
+        supervisor = run_worker(command, run_dir=run_dir, stage_timeouts={'running': args.timeout + 5.0, 'assessing': 90.0},
+                                overall_timeout_s=args.timeout + 300.0, audit_summary_path=worker_summary_path)
+        worker_summary = artifact(worker_summary_path)
+        try:
+            summary = json.loads(worker_summary_path.read_text(encoding='utf-8'))
+            if not isinstance(summary, dict):
+                raise ValueError('Worker summary is not a JSON object')
+        except (OSError, ValueError) as exc:
+            summary = {'schema_version': 'aspen_clean_delivery_audit/3', 'source': str(source), 'mode': args.mode,
+                       'rejection_reasons': [{'code': 'WORKER_DID_NOT_PRODUCE_READABLE_AUDIT', 'details': str(exc)}]}
+        receipt = (supervisor.get('last_stage') or {}).get('closeout') or {}
+        operation_completed = bool(
+            summary.get('operation_completed') is True and supervisor.get('status') == 'completed'
+            and supervisor.get('audit_closeout_verified') is True and supervisor.get('lifecycle_clean') is True
+            and not supervisor.get('forced_termination') and summary.get('mode') == args.mode
+            and summary.get('run_id') == receipt.get('run_id') and worker_summary['sha256'] == receipt.get('summary_sha256')
+            and requested_source_sha256 and summary.get('source_sha256') == requested_source_sha256)
+        summary['worker_summary'] = worker_summary
         summary['supervisor'] = supervisor
-        summary['passed'] = bool(summary.get('passed') and supervisor.get('status') == 'completed'
-                                 and supervisor.get('lifecycle_clean') is True and not supervisor.get('forced_termination'))
+        summary['operation_completed'] = operation_completed
+        summary['passed'] = bool(summary.get('passed') and operation_completed)
+        if not operation_completed:
+            summary.update(simulation_clean=False, simulation_assessment='UNKNOWN',
+                           summary_counts_status='unknown', strict_solver_passed=False)
+            summary.setdefault('rejection_reasons', []).append({'code': 'SUPERVISED_AUDIT_COMPLETION_UNVERIFIED'})
         summary['delivery_verified'] = False
+        summary['precision_lock_verified'] = False
         aspen_runtime.atomic_json(summary_path, summary)
         print(json.dumps({'passed': summary['passed'], 'summary': str(summary_path)}, ensure_ascii=False))
         return 0 if summary['passed'] else 1
     if not os.environ.get('ASPEN_RUNTIME_OWNER_TOKEN'):
         raise SystemExit('Internal worker requires the supervisor ownership token.')
+    if args._worker_summary is not None:
+        summary_path = args._worker_summary.resolve()
     stages = aspen_runtime.StageRecorder()
-    started = time.time()
     work = Path(tempfile.mkdtemp(prefix=f"AspenAudit_{args.label}_"))
     staged = source if args.open_source_direct else work / f"SOURCE{source.suffix.lower()}"
     summary: dict[str, Any] = {
-        'schema_version': 'aspen_clean_delivery_audit/2',
+        'schema_version': 'aspen_clean_delivery_audit/3',
         'run_id': stages.run_id,
+        'mode': args.mode,
         "started": now(),
         "source": str(source),
         "source_sha256": sha256(source),
@@ -430,11 +513,19 @@ def main() -> int:
         "label": args.label,
         "open_source_direct": args.open_source_direct,
         'delivery_verified': False,
-        'verification_scope': 'EXACT_INPUT_COPY_SOLVER_GATE_NOT_PROJECT_DELIVERY',
+        'precision_lock_verified': False,
+        'simulation_clean': False,
+        'simulation_assessment': 'UNKNOWN',
+        'summary_counts_status': 'unknown',
+        'strict_solver_passed': False,
+        'verification_scope': 'EXACT_CANDIDATE_SOLVER_EVIDENCE',
         'parser': artifact(Path(__file__).with_name('aspen_evidence.py')),
     }
     app = None
     event_handler = None
+    events: list[dict[str, Any]] = []
+    final_drain: dict[str, Any] = {}
+    lifecycle = None
     creation_attempted = False
     original_cwd = Path.cwd()
     old_environment = {key: os.environ.get(key) for key in ('TEMP', 'TMP')}
@@ -469,9 +560,10 @@ def main() -> int:
                 }
             )
         summary["staged_sidecars"] = staged_sidecars
-        os.chdir(staged.parent)
-        os.environ["TEMP"] = str(staged.parent)
-        os.environ["TMP"] = str(staged.parent)
+        working_dir = work if args.open_source_direct else staged.parent
+        os.chdir(working_dir)
+        os.environ["TEMP"] = str(working_dir)
+        os.environ["TMP"] = str(working_dir)
 
         import win32com.client as win32
         stages.update('creating_com')
@@ -480,30 +572,31 @@ def main() -> int:
         summary["progid"] = progid
         summary['session'] = _SESSIONS[id(app)].metadata
         summary['opened_candidate_before'] = artifact(staged)
-        stages.update('opening', source=str(staged), case_sha256=sha256(staged))
+        case_hash = summary['opened_candidate_before']['sha256']
+        expected_case_hash = summary.get('embedded_model_sha256', summary['source_sha256'])
+        if not case_hash or case_hash != expected_case_hash:
+            raise RuntimeError('Staged candidate hash differs from source identity')
+        stages.update('opening', source=str(staged), case_sha256=case_hash)
         method, open_errors = open_case(app, staged)
         summary["open_method"] = method
         summary["open_errors"] = open_errors
         event_handler = win32.WithEvents(app, AspenEvents)
+        event_handler.audit_events = events
         summary["control_panel_event_attach"] = True
+        block_inventory = capture_expected_blocks(app)
+        summary['expected_block_inventory'] = block_inventory
+        summary['expected_blocks'] = block_inventory['blocks'] if block_inventory['verified'] else []
         before_history = snapshot_sidecars(work)
         summary['pre_run_sidecar_snapshot'] = before_history
-        case_hash = summary['opened_candidate_before']['sha256']
+        if sha256(staged) != case_hash:
+            raise RuntimeError('Opened candidate bytes changed before simulation')
         summary['encoding_evidence'] = capture_history_encoding_evidence(
             run_id=stages.run_id, case_sha256=case_hash, progid=progid)
         summary['encoding_evidence']['session_version_readback'] = summary['session'].get('version_readback', {})
         stages.update('running', case_sha256=case_hash)
-        summary["run"] = run_async(app, args.timeout, run_id=stages.run_id, case_sha256=case_hash)
-        control_association = {'verified': summary['run'].get('events_cleared_before_run') is True,
-                               'run_id': stages.run_id, 'case_sha256': case_hash,
-                               'reason': 'CURRENT_SESSION_EVENT_SINK_CLEARED_IMMEDIATELY_BEFORE_RUN2'}
-
-        control_text = "\n".join(MESSAGES) + ("\n" if MESSAGES else "")
-        control_path = out / f"{args.label}_control_panel.txt"
-        control_path.write_text(control_text, encoding="utf-8")
-        control_counts = parse_summary_counts(control_text)
-        control_hard = hard_pattern_counts(control_text)
-        control_messages = find_hard_messages(control_text, source=str(control_path), source_sha256=sha256(control_path))
+        summary['run'] = run_async(app, args.timeout, run_id=stages.run_id, case_sha256=case_hash, events=events)
+        if not run_completed(summary['run']):
+            raise RuntimeError(f"Aspen run completion was unproven: {summary['run'].get('status')}")
 
         stages.update('exporting')
         tree_snapshot = capture_run_status_tree(app)
@@ -521,8 +614,14 @@ def main() -> int:
             shutil.copy2(work_inp, out_inp)
         if work_bkp.exists():
             shutil.copy2(work_bkp, out_bkp)
-        summary["after_run_inp"] = artifact(out_inp)
-        summary["after_run_bkp"] = artifact(out_bkp)
+        for export_role, suffix, target in (('input_export', 'inp', out_inp), ('backup_export', 'bkp', out_bkp)):
+            item = artifact(target)
+            exported = summary[f'work_after_run_{suffix}']
+            item['role'] = export_role
+            item['association'] = {'verified': bool(exported.get('ok') is True and item['sha256']
+                                                    and item['sha256'] == exported.get('sha256')),
+                                   'run_id': stages.run_id, 'case_sha256': case_hash}
+            summary[f'after_run_{suffix}'] = item
 
         save_as = work / f"{args.label}_post_run.bkp"
         stages.update('saving')
@@ -534,7 +633,12 @@ def main() -> int:
         except Exception as exc:
             summary["work_save_as"] = {"ok": False, "error": str(exc)}
 
-        blocks, bad_blocks = block_statuses(app, parse_block_ids(work_inp))
+        blocks, bad_blocks = block_statuses(app, summary['expected_blocks'])
+        final_drain = drain_events(_SESSIONS[id(app)], events, quiet_s=2, timeout_s=10)
+        summary['control_panel'] = capture_control_panel(out, args.label, events, run=summary['run'], final_drain=final_drain)
+        stages.update('closing')
+        lifecycle = close_aspen(app)
+        stages.update('assessing')
         sidecars = copy_sidecars(work, out, summary['run']['started_epoch'], before=before_history, run=summary['run'])
         histories = []
         history_counts = {pattern: 0 for pattern in HARD_PATTERNS}
@@ -545,6 +649,10 @@ def main() -> int:
                 continue
             decoded = decode_current_history(path.read_bytes(), sidecar=sidecar, run=summary['run'],
                                              encoding_evidence=summary['encoding_evidence'])
+            capture_matches = decoded['sha256'] == sidecar['sha256'] and decoded['size'] == sidecar['size']
+            if not capture_matches:
+                sidecar['association'] = {**sidecar['association'], 'verified': False,
+                                          'reason': 'COPIED_HISTORY_CHANGED_BEFORE_READ'}
             history_text = decoded.get('text') or ''
             inspection = inspect_history_text(history_text, source=str(path), source_sha256=decoded['sha256'])
             history = {**sidecar, **inspection, 'decode_verified': decoded['verified'], 'encoding': decoded['encoding'],
@@ -559,14 +667,6 @@ def main() -> int:
             for pattern, count in counts.items():
                 history_counts[pattern] += count
 
-        summary["control_panel"] = {
-            **artifact(control_path),
-            "message_count": len(MESSAGES),
-            "summary_counts": control_counts,
-            "hard_pattern_counts": control_hard,
-            'actual_messages': control_messages,
-            'association': control_association,
-        }
         summary["block_count"] = len(blocks)
         summary["bad_blocks"] = bad_blocks
         summary["block_statuses"] = blocks
@@ -575,18 +675,25 @@ def main() -> int:
         summary['history_present'] = bool(histories)
         summary['history_file_count'] = len(histories)
         summary['history_hard_pattern_counts'] = history_counts if histories else None
-        gate = evaluate_clean_gate(run=summary['run'], summary=control_counts, control_messages=control_messages,
-                                   control_association=control_association, histories=histories,
-                                   block_statuses=blocks, artifacts=[summary['after_run_inp'], summary['after_run_bkp']])
+        control = summary['control_panel']
+        gate = evaluate_clean_gate(run=summary['run'], summary=control['summary_counts'],
+                                   control_messages=control['actual_messages'], control_association=control['association'],
+                                   histories=histories, block_statuses=blocks, expected_blocks=summary['expected_blocks'],
+                                   artifacts=[summary['after_run_inp'], summary['after_run_bkp']], mode=args.mode)
         summary['clean_gate'] = gate
-        summary['simulation_clean'] = gate['simulation_clean']
-        summary['gate_results'] = gate['gate_results']
-        summary['rejection_reasons'] = gate['rejection_reasons']
+        for field in ('simulation_clean', 'simulation_assessment', 'summary_counts_status',
+                      'strict_solver_passed', 'gate_results', 'rejection_reasons'):
+            summary[field] = gate[field]
         summary['source_after_run'] = artifact(source)
+        summary['opened_candidate_after'] = artifact(staged)
         summary['source_unchanged'] = summary['source_sha256'] == summary['source_after_run']['sha256']
-        summary['passed'] = gate['passed'] and summary['source_unchanged']
-        if not summary['source_unchanged']:
-            summary['rejection_reasons'].append({'code': 'SOURCE_FILE_CHANGED_DURING_AUDIT'})
+        summary['opened_candidate_unchanged'] = case_hash == summary['opened_candidate_after']['sha256']
+        identity_verified = summary['source_unchanged'] and summary['opened_candidate_unchanged']
+        summary['passed'] = gate['passed'] and identity_verified
+        if not identity_verified:
+            summary.update(simulation_clean=False, simulation_assessment='UNKNOWN',
+                           summary_counts_status='unknown', strict_solver_passed=False)
+            summary['rejection_reasons'].append({'code': 'SOURCE_OR_OPENED_CANDIDATE_CHANGED_DURING_AUDIT'})
         summary["finished"] = now()
     except Exception as exc:
         summary["passed"] = False
@@ -594,27 +701,45 @@ def main() -> int:
         summary["traceback"] = traceback.format_exc()
         summary["finished"] = now()
     finally:
-        stages.update('closing')
         try:
-            lifecycle = close_aspen(app)
-        except Exception as exc:
-            lifecycle = {'closed_cleanly': False, 'error': str(exc)}
+            if lifecycle is None:
+                stages.update('closing')
+                if event_handler is not None and 'control_panel' not in summary:
+                    try:
+                        summary['control_panel'] = capture_control_panel(
+                            out, args.label, events, run=summary.get('run', {}), final_drain=final_drain)
+                    except Exception as exc:
+                        summary['control_capture_error'] = str(exc)
+                try:
+                    lifecycle = close_aspen(app)
+                except Exception as exc:
+                    lifecycle = {'closed_cleanly': False, 'error': str(exc)}
+        finally:
+            os.chdir(original_cwd)
+            for key, old in old_environment.items():
+                if old is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = old
         if creation_attempted and app is None:
             lifecycle.update(closed_cleanly=False, status='COM_CREATION_RESULT_UNPROVEN')
         summary['lifecycle'] = lifecycle
-        summary['passed'] = bool(summary.get('passed') and lifecycle.get('closed_cleanly') is True)
-        if lifecycle.get('closed_cleanly') is not True:
+        lifecycle_clean = lifecycle.get('closed_cleanly') is True
+        summary['operation_completed'] = bool(run_completed(summary.get('run', {})) and lifecycle_clean
+                                              and 'clean_gate' in summary and 'error' not in summary)
+        summary['passed'] = bool(summary.get('passed') and summary['operation_completed'])
+        summary['strict_solver_passed'] = bool(summary['strict_solver_passed'] and summary['operation_completed'])
+        if not lifecycle_clean:
             summary.setdefault('rejection_reasons', []).append({'code': 'LIFECYCLE_NOT_CLEAN', 'details': lifecycle})
-        summary['operation_completed'] = bool(summary.get('run', {}).get('status') == 'returned' and lifecycle.get('closed_cleanly'))
         summary['finished'] = now()
         aspen_runtime.atomic_json(summary_path, summary)
-        stages.update('finished', lifecycle_clean=lifecycle.get('closed_cleanly') is True)
-        os.chdir(original_cwd)
-        for key, old in old_environment.items():
-            if old is None:
-                os.environ.pop(key, None)
-            else:
-                os.environ[key] = old
+        closeout = {}
+        if summary['operation_completed']:
+            closeout['worker_outcome'] = 'audit_accepted' if summary['passed'] else 'audit_rejected'
+            closeout['closeout'] = {'run_id': stages.run_id, 'summary_path': str(summary_path),
+                                    'summary_sha256': sha256(summary_path), 'source_sha256': summary['source_sha256'],
+                                    'mode': args.mode, 'passed': summary['passed']}
+        stages.update('finished', lifecycle_clean=lifecycle_clean, **closeout)
 
     print(json.dumps({"passed": summary.get("passed"), "summary": str(summary_path)}, ensure_ascii=False))
     return 0 if summary.get("passed") else 1

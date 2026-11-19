@@ -85,6 +85,17 @@
         "derivation before missing",
         "macro design"
       ],
+      "required_read": {
+        "query_patterns": [
+          "(?<!未)(?<!没)(?<!没有)指定(?:了|的)?(?:计算|工艺|物性|建模)?方法",
+          "必须(?:按|使用|采用)(?:这个|指定|原定|用户指定的)方法",
+          "(?<!不)禁止替代|(?:不得|不能)(?:改用|替代)|方法锁",
+          "(?<!no )(?<!not a )\\brequired method\\b|\\bmethod lock\\b|\\bdo not substitute\\b|\\bforbidden substitutions?\\b"
+        ],
+        "source_group": "chemical-engineering-expert",
+        "source_path": "skills/chemical-engineering-expert/references/REASONING_PROTOCOL.md",
+        "section_heading": "## 3. Required-method lock"
+      },
       "source_group_bonus": {
         "chemical-engineering-expert": 0.28,
         "chemical_principles_knowledge": 0.08,

@@ -24,6 +24,29 @@ def resolved_reference(reference: dict, root: Path) -> dict:
             'sha256': reference['sha256'].upper()}
 
 
+def explicit_close_quote(quote: str) -> bool:
+    """Recognize an explicit close confirmation for the outstanding delivery."""
+    screened = re.sub(
+        r'(?:不再|不用(?:再)?|无需(?:再)?|不需要(?:再)?|不要再)(?:进行)?'
+        r'(?:继续(?:进行)?(?:修改|改进|调整|改动)?|修改|改进|调整|改动|重开|重新打开)|不改了',
+        '', quote)
+    incomplete = re.search(
+        r'[?？]|\b(?:if|when|after|once|unless|but|except|pending|next version|not completed)\b'
+        r'|(?:结束|完成)(?:后|以后|之后)|如果|假如|(?:若|等你|待|改完以后).{0,24}(?:结束|完成)'
+        r'|尚未|未完成|未结束|还没|没有结束|没有完成|暂时|下一版|预计|计划完成|(?:局部|阶段性)完成'
+        r'|还有问题|仍有问题|未达标|完成不了|(?:无法|不能|不算|请在|请先).{0,16}(?:完成|结束)'
+        r'|(?:还要|还需|仍需).{0,5}(?:改|补充|调整|检查|修复)|开始实施|开始修改'
+        r'|修改|改进|调整|但是|不过|继续|重开|重新打开', screened, re.I)
+    explicit = re.search(
+        r'(?:任务|项目|工作|本次|这次|这(?:一)?版|本版|当前版|这份交付|本次交付)'
+        r'.{0,16}(?:已(?:经)?(?:完成|结束)|正式结束|结束了|完成了|结束|完成|结项)(?=[\s。.!！,，；;]|$)'
+        r'|(?:task|project|work|this version|this delivery).{0,20}(?:is complete|is finished|completed|closed)'
+        r'|^\s*(?:已(?:经)?(?:完成|结束)|可以(?:结束|结项)了?|确认(?:已(?:经)?)?(?:完成|结束)'
+        r'|(?:结束|完成)了?|结项)[。.!！,，]?\s*$',
+        screened, re.I)
+    return bool(explicit and not incomplete)
+
+
 def inspect_task_closure(manifest: dict, root: Path) -> dict:
     """Require a source-bound current user close event, never assistant success."""
     reasons = []
@@ -51,12 +74,7 @@ def inspect_task_closure(manifest: dict, root: Path) -> dict:
         if not isinstance(quote, str) or not quote.strip() or not isinstance(locator, str) or not locator.strip() or not event.get('source_message_id'):
             reasons.append('USER_CLOSE_QUOTE_AND_LOCATOR_REQUIRED')
         else:
-            # Explicitly saying no more edits is a close confirmation, not a
-            # change request. Preserve all other conditional/unfinished signals.
-            screened = re.sub(r'(?:不再|不用(?:再)?|无需(?:再)?|不需要(?:再)?|不要再)(?:进行)?(?:继续(?:进行)?(?:修改|改进|调整|改动)?|修改|改进|调整|改动|重开|重新打开)|不改了', '', quote)
-            bad = re.search(r'[?？]|\b(?:if|when|after|once|unless)\b|(?:结束|完成)(?:后|以后|之后)|(?:如果|若|等你|待|改完以后).{0,24}(?:结束|完成)|尚未|未完成|未结束|还没|没有结束|没有完成|暂时|(?:还要|还需|仍需).{0,4}(?:改|补充|调整|检查|修复)|修改|改进|调整|但是|不过|继续|重开|重新打开', screened, re.I)
-            explicit = re.search(r'(?:任务|项目|工作|本次|这次).{0,16}(?:已(?:经)?(?:完成|结束)|正式结束|结束了|完成了|结束|完成|结项)|(?:task|project|work).{0,20}(?:is complete|is finished|completed|closed)|^\s*(?:已(?:经)?(?:完成|结束)|可以结束了?|(?:结束|完成)了?|结项)[。.!！,，]?\s*$', screened, re.I)
-            if bad or not explicit or event.get('contains_change_request') is not False:
+            if not explicit_close_quote(quote) or event.get('contains_change_request') is not False:
                 reasons.append('USER_CLOSURE_AMBIGUOUS_CONDITIONAL_OR_CHANGED')
         for key in ('task_id', 'task_revision', 'user_quote', 'source_locator'):
             if key in closure and closure[key] != event.get(key):
@@ -158,7 +176,15 @@ def intrinsic_exclusion(reference: object, root: Path) -> bool:
     return any(excluded(row) for row in rows)
 
 
-def inspect_receipt(reference: dict, root: Path) -> dict:
+def _load_aspen_evidence():
+    parser_path = Path(__file__).resolve().parents[2] / 'aspen-plus-operations/scripts/aspen_evidence.py'
+    spec = importlib.util.spec_from_file_location('_learning_aspen_evidence', parser_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def inspect_receipt(reference: dict, root: Path, *, aspen_run_status_mode: str = 'run') -> dict:
     """Interpret only registered real receipt schemas, preserving proof scope."""
     result = {'verified': False, 'evidence_kind': None, 'rejection_reasons': [], 'receipt': resolved_reference(reference, root)}
     reasons = result['rejection_reasons']
@@ -184,46 +210,46 @@ def inspect_receipt(reference: dict, root: Path) -> dict:
                 reasons.append('RECEIPT_VALIDATED_INPUT_HASH_DRIFT_OR_MISSING')
             result['required_checks'] = checks
             result['validated_artifacts'] = [resolved_reference(item, root) for item in files or [] if isinstance(item, dict) and check_artifact(item, root)]
-        elif schema == 'aspen_clean_delivery_audit/2':
+        elif schema in {'aspen_clean_delivery_audit/2', 'aspen_clean_delivery_audit/3'}:
             result['evidence_kind'] = 'simulation_result'
             result['scope'] = 'same_candidate_solver_clean_only_not_products_or_formal_delivery'
+            result['aspen_run_status_mode'] = payload.get('mode', 'strict' if schema.endswith('/2') else None)
             if payload.get('passed') is not True or payload.get('simulation_clean') is not True or payload.get('source_unchanged') is not True or payload.get('operation_completed') is not True:
                 reasons.append('RECEIPT_REPORTED_FAILED_UNKNOWN_OR_INCOMPLETE')
+            if (aspen_run_status_mode not in ('run', 'strict')
+                    or result['aspen_run_status_mode'] not in ('run', 'strict')
+                    or (schema.endswith('/2') and result['aspen_run_status_mode'] != 'strict')):
+                reasons.append('RECEIPT_ASPEN_RUN_STATUS_MODE_INVALID')
             checks = payload.get('gate_results')
             if not isinstance(checks, list) or not checks or any(item.get('passed') is not True for item in checks if isinstance(item, dict)) or any(not isinstance(item, dict) for item in checks):
                 reasons.append('RECEIPT_GATES_FAILED_OR_MISSING')
             # Reuse the pure evidence owner for source/count/history replay.
             if not reasons:
-                parser_path = Path(__file__).resolve().parents[2] / 'aspen-plus-operations/scripts/aspen_evidence.py'
-                spec = importlib.util.spec_from_file_location('_learning_aspen_evidence', parser_path)
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-                control = payload.get('control_panel', {})
-                histories = payload.get('histories', [])
-                if not check_artifact(control, root) or not histories or not all(check_artifact(item, root) for item in histories):
-                    reasons.append('RECEIPT_RAW_EVIDENCE_MISSING_OR_DRIFTED')
-                else:
-                    control_text = Path(resolved_reference(control, root)['path']).read_text(encoding='utf-8-sig')
-                    replayed = []
-                    for history in histories:
-                        raw = Path(resolved_reference(history, root)['path']).read_bytes()
-                        proof = history.get('encoding_evidence', {})
-                        fallback = ()
-                        if proof.get('fallback_eligible_for_current_history') is True and proof.get('fallback_roundtrip_verified') is True and proof.get('history_sha256') == history.get('sha256'):
-                            fallback = (proof.get('codec'),) if isinstance(proof.get('codec'), str) else ()
-                        decoded = module.decode_history_bytes(raw, verified_fallback_encodings=fallback)
-                        replayed.append({**history, 'decode_verified': decoded['verified'], **module.inspect_history_text(decoded.get('text') or '', source=history['path'], source_sha256=history['sha256'])})
-                    replay = module.evaluate_clean_gate(run=payload.get('run', {}), summary=module.parse_summary_counts(control_text),
-                        control_messages=module.find_hard_messages(control_text), control_association=control.get('association'), histories=replayed,
-                        block_statuses=payload.get('block_statuses'), artifacts=[payload.get('after_run_inp', {}), payload.get('after_run_bkp', {})])
-                    if replay['passed'] is not True:
-                        reasons.append('RECEIPT_RAW_EVIDENCE_REPLAY_FAILED')
+                module = _load_aspen_evidence()
+                if schema.endswith('/3'):
+                    replay = module.replay_audit_evidence(payload, root=root)
                     result['replayed_gate'] = replay
-            result['required_checks'] = {'solver_evidence_replayed': not reasons}
+                    if replay.get('passed') is not True or replay.get('simulation_clean') is not True:
+                        reasons.append('RECEIPT_RAW_EVIDENCE_REPLAY_FAILED')
+                    elif ('strict' in (aspen_run_status_mode, result['aspen_run_status_mode'])
+                          and replay.get('strict_solver_passed') is not True):
+                        reasons.append('RECEIPT_STRICT_SOLVER_COUNTS_NOT_VERIFIED')
+                else:
+                    control = payload.get('control_panel', {})
+                    histories = payload.get('histories', [])
+                    if not check_artifact(control, root) or not histories or not all(check_artifact(item, root) for item in histories):
+                        reasons.append('RECEIPT_RAW_EVIDENCE_MISSING_OR_DRIFTED')
+                    else:
+                        replay = _replay_legacy_aspen_receipt(module, payload, control, histories, root)
+                        if replay['passed'] is not True:
+                            reasons.append('RECEIPT_RAW_EVIDENCE_REPLAY_FAILED')
+                        result['replayed_gate'] = replay
             source = {'path': payload.get('source'), 'sha256': payload.get('source_sha256')}
-            if not check_artifact(source, root):
+            source_verified = check_artifact(source, root)
+            if not source_verified:
                 reasons.append('RECEIPT_MODEL_SOURCE_HASH_DRIFT_OR_MISSING')
-            result['validated_artifacts'] = [resolved_reference(source, root)] if check_artifact(source, root) else []
+            result['required_checks'] = {'solver_evidence_replayed': not reasons}
+            result['validated_artifacts'] = [resolved_reference(source, root)] if source_verified else []
         else:
             reasons.append('UNREGISTERED_STRICT_RECEIPT_SCHEMA')
     except (OSError, UnicodeError, ValueError, TypeError, KeyError, AttributeError) as exc:
@@ -231,6 +257,24 @@ def inspect_receipt(reference: dict, root: Path) -> dict:
         result['error'] = str(exc)
     result['verified'] = not reasons
     return result
+
+
+def _replay_legacy_aspen_receipt(module, payload, control, histories, root):
+    control_text = Path(resolved_reference(control, root)['path']).read_text(encoding='utf-8-sig')
+    replayed = []
+    for history in histories:
+        raw = Path(resolved_reference(history, root)['path']).read_bytes()
+        proof = history.get('encoding_evidence', {})
+        fallback = ()
+        if (proof.get('fallback_eligible_for_current_history') is True
+                and proof.get('fallback_roundtrip_verified') is True and proof.get('history_sha256') == history.get('sha256')):
+            fallback = (proof['codec'],) if isinstance(proof.get('codec'), str) else ()
+        decoded = module.decode_history_bytes(raw, verified_fallback_encodings=fallback)
+        replayed.append({**history, 'decode_verified': decoded['verified'], **module.inspect_history_text(
+            decoded.get('text') or '', source=history['path'], source_sha256=history['sha256'])})
+    return module.evaluate_clean_gate(run=payload.get('run', {}), summary=module.parse_summary_counts(control_text),
+        control_messages=module.find_hard_messages(control_text), control_association=control.get('association'), histories=replayed,
+        block_statuses=payload.get('block_statuses'), artifacts=[payload.get('after_run_inp', {}), payload.get('after_run_bkp', {})])
 
 
 def evaluate(manifest: dict, *, base_dir: Path) -> dict:
@@ -247,6 +291,9 @@ def evaluate(manifest: dict, *, base_dir: Path) -> dict:
         reject(reason)
     if manifest.get('learning_channel') not in LEARNING_CHANNELS:
         reject('LEARNING_CHANNEL_REQUIRED')
+    aspen_run_status_mode = manifest.get('aspen_run_status_mode', 'run')
+    if aspen_run_status_mode not in ('run', 'strict'):
+        reject('ASPEN_RUN_STATUS_MODE_INVALID')
     if not check_artifact(manifest.get('strict_standard'), base_dir):
         reject('STRICT_STANDARD_IDENTITY_NOT_VERIFIED')
     else:
@@ -383,7 +430,7 @@ def evaluate(manifest: dict, *, base_dir: Path) -> dict:
                 reject('STRICT_RECEIPT_HAS_EXCLUDED_ORIGIN')
                 tainted.add(identity)
             else:
-                interpreted = inspect_receipt(verification['receipt'], base_dir)
+                interpreted = inspect_receipt(verification['receipt'], base_dir, aspen_run_status_mode=aspen_run_status_mode)
                 for reason in interpreted['rejection_reasons']:
                     reject(reason)
                 if kind in {'code_result', 'simulation_result'} and interpreted['evidence_kind'] != kind:

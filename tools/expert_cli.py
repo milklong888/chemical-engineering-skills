@@ -16,17 +16,24 @@ from backends.process.feedback import build_plan, audit_replay
 from backends.process import pressure
 from tools.equipment_gateway import (EquipmentSession, equipment, equipment_batch,
                                      local_environment, describe_policy)
+from tools.equipment_graph import project_setting
 
 def search(query="", corpus="all", limit=5, vector=False, package_ids=None,
-           node_id=None, detail=False, full_text=False, *, equipment_runner=None):
+           node_id=None, detail=False, full_text=False, *, equipment_runner=None,
+           equipment_graph=None, evidence_root=None):
     if (not isinstance(query, str) or type(limit) is not int or not 1 <= limit <= 50
             or bool(query.strip()) == bool(node_id)):
         raise ValueError("Provide exactly one nonempty query or node_id and limit 1..50")
     if node_id is not None and (not isinstance(node_id, str) or not node_id.strip()
             or corpus not in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}):
         raise ValueError("node_id applies to the bundled concept/method/detail knowledge corpora")
+    explicit = corpus in {"equipment", "equipment_standards"} or package_ids is not None
+    if equipment_graph is False and explicit:
+        raise ValueError("Choose an equipment query or turn the equipment graph off in a separate request")
+    enabled = project_setting(evidence_root, equipment_graph)
     runner = equipment_runner or equipment
-    result = {"query": query, "node_id": node_id, "knowledge": None, "equipment": None}
+    result = {"query": query, "node_id": node_id, "knowledge": None, "equipment": None,
+              "equipment_graph_enabled": enabled}
     if corpus in {"all", "chemical_principles", "sun_lanyi", "aspen_v10"}:
         script = ROOT / "knowledge/scripts/query_knowledge.py"
         arguments = ["--node-id", node_id] if node_id else ["--query", query]
@@ -43,7 +50,7 @@ def search(query="", corpus="all", limit=5, vector=False, package_ids=None,
         except ValueError as exc:
             diagnostic = re.sub(r"(?:gh[pousr]_|github_pat_|sk-(?:proj-)?)[A-Za-z0-9_-]{20,}", "[redacted]", run.stderr[-2400:])
             raise ValueError(f"Knowledge query returned no JSON (exit {run.returncode}): {diagnostic}") from exc
-    if not node_id and corpus in {"all", "equipment", "equipment_standards"}:
+    if not node_id and corpus in {"all", "equipment", "equipment_standards"} and (enabled or explicit):
         if package_ids is not None and (not isinstance(package_ids, list)
                 or not package_ids or any(p not in {"equipment_core", "equipment_model_authority", "design_standards"} for p in package_ids)):
             raise ValueError("Choose registered public equipment packages")
@@ -71,6 +78,13 @@ def execute(request, evidence_root, *, equipment_runner=None):
     runner = equipment_runner or equipment
     operation = request["operation"]
     payload = request.get("payload", {})
+    if operation == "equipment_graph":
+        if set(payload) - {"enabled"} or ("enabled" in payload and type(payload["enabled"]) is not bool):
+            raise ValueError("Supply enabled=true/false, or an empty payload to read the project setting")
+        return {"enabled": project_setting(evidence_root, payload.get("enabled"))}
+    if operation == "task_closeout":
+        from tools.task_closeout_history import advance_closeout
+        return advance_closeout(payload, evidence_root)
     if operation in {"module_catalog", "module_check"}:
         from tools.module_tools import catalog, call
         return catalog(payload) if operation == "module_catalog" else call(payload)
@@ -83,7 +97,7 @@ def execute(request, evidence_root, *, equipment_runner=None):
     if operation == "design_stage":
         from tools.design_stage import check_stage
         def coordinated(active_runner):
-            return check_stage(payload, evidence_root,
+            return check_stage(payload, evidence_root, retain_findings=True,
                 search_runner=lambda **query: search(**query, equipment_runner=active_runner),
                 equipment_runner=active_runner)
         if equipment_runner is not None:
@@ -91,9 +105,9 @@ def execute(request, evidence_root, *, equipment_runner=None):
         with EquipmentSession() as session:
             return coordinated(session.request)
     if operation == "search":
-        if "equipment_runner" in payload:
-            raise ValueError("Internal runner cannot be supplied in a request")
-        return search(**payload, equipment_runner=runner)
+        if "equipment_runner" in payload or "evidence_root" in payload:
+            raise ValueError("Use the enclosing evidence root; internal runners cannot be supplied")
+        return search(**payload, equipment_runner=runner, evidence_root=evidence_root)
     if operation == "equipment":
         return runner(payload)
     if operation == "equipment_batch":
@@ -141,6 +155,8 @@ def main():
     entry = parser.add_mutually_exclusive_group(required=True)
     entry.add_argument("--request", help="Expert JSON request path, or - for stdin")
     entry.add_argument("--query")
+    entry.add_argument("--equipment-graph", choices=("on", "off", "status"),
+                       help="Set or read this project's equipment knowledge graph preference")
     entry.add_argument("--node-id")
     entry.add_argument("--describe", action="store_true", help="Discover actual local operations, schemas and installed paths")
     entry.add_argument("--schema", help="Product schema ID or an original equipment schema ID")
@@ -167,9 +183,13 @@ def main():
                         result = {"status": "NOT_COMPLETED", "error": str(exc)}
                     print(json.dumps(result, ensure_ascii=False, allow_nan=False), flush=True)
             return 0
-        if args.query or args.node_id:
+        if args.equipment_graph:
+            setting = {} if args.equipment_graph == "status" else {"enabled": args.equipment_graph == "on"}
+            result = execute({"operation": "equipment_graph", "payload": setting}, args.evidence_root or Path.cwd())
+        elif args.query or args.node_id:
             result = search(args.query or "", args.corpus, args.limit, args.vector,
-                            node_id=args.node_id, detail=args.detail, full_text=args.full_text)
+                            node_id=args.node_id, detail=args.detail, full_text=args.full_text,
+                            evidence_root=args.evidence_root or Path.cwd())
         elif args.describe or args.schema:
             result = execute({"operation": "schema" if args.schema else "capabilities",
                               "payload": {"schema_id": args.schema}}, args.evidence_root or Path.cwd())

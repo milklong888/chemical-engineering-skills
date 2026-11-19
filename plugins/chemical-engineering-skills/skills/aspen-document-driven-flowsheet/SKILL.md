@@ -1,6 +1,6 @@
 ---
 name: aspen-document-driven-flowsheet
-description: Coordinate document-driven Aspen process construction, staged rigorous replacement, repair routing and full-flow evidence under current source and change-offset authority. Use for process-route/scaffold/island/recycle integration; delegate Aspen mechanics and specialized tower/equipment work to existing skills.
+description: Coordinate document-driven process planning and Aspen construction, including process articles ready for first-model construction, staged rigorous replacement, repair routing and full-flow evidence under current source and change-offset authority. Use for process-route/scaffold/island/recycle integration; delegate Aspen mechanics and specialized tower/equipment work to existing skills.
 ---
 
 # Aspen Document Driven Flowsheet
@@ -14,7 +14,7 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 `nodes/streams`账，追清各组分的分支、回流和终端；沿真实接口核接收端相态、
 温压与热量，必要时才放入换热、冷凝分相、泵或压缩等功能。
 文字规划也要填[原边界与严化交接记录](references/source_scaffold_handoff.md)，
-经`source_work=expert_plan`结构检查后再回源逐句核语义；结构通过不证明排布合理。
+经[第1节的对应 source 检查](references/fullflow_generation_workflow.md#1-补全自然语言先闭合条件再建模)后回源逐句核语义。
 单模块、纯职责分工或工段合同不因此被扩大为整厂拓扑任务。
 
 单模块文字规划也要交接完整：必须实际读取
@@ -29,9 +29,11 @@ description: Coordinate document-driven Aspen process construction, staged rigor
 Calculator/目标求解的插入时机、每轮顺序及主写入者依原内置工具规则记录，
 不得以“调用相关模块”代替具体交接。
 
-仅文字规划也要先做出方案：执行[第1节规划工作过程](references/fullflow_generation_workflow.md)，通过原 `design_stage` 的 `source_work=expert_plan` 进入，随即在项目内创建同一份规划交接记录。沿来源逐段填连接，就地补方法、热压接口、回流启动与计算依据；完成原检查并回原文反查后，才从这份记录整理交付正文和图。交付前将最终 `planning_handoff` 路径和哈希交回同一入口，保留实际回执；初次检索的待办回执不算完成。规划JSON不是模拟文件，不因禁止Aspen或用户没有现成账本而跳过。声明检查不代替来源、物性和物理复核，按用户指定阶段停止。
+文字规划执行[第1节规划工作过程](references/fullflow_generation_workflow.md)，在项目内建立同一份交接记录。沿来源逐段填连接，就地补方法、热压接口、回流启动与计算依据，回原文反查后据此整理正文和图。通过原 `design_stage` 的 `source` 阶段保留最终 `planning_handoff` 路径、哈希和实际检查回执。只讨论方案、草稿或明确只要路线时用 `source_work=expert_plan`，依约定范围交付。
 
-完整流程生成先读[全流程生成工作流](references/fullflow_generation_workflow.md)：补全自然语言要求及每模块物性依据，完成5次独立Luna流程链审查后，用SEP/RStoic建立包含必要加热、换热、压缩、泵及压力路径的完整骨架；真实运行，有循环时取得循环初值，无循环时记录依据，再完成3份独立逐模块复述与热力学复核。随后逐模块单独细化，每岛以同版全设备选型反馈为回装前收尾门；合格模块逐个替换回原位置，完整接回后再检查所有适用物理设备并复算。这里的“切岛”不表示重新划分整厂路线。已有模型从实际阶段补齐证据和修复，不无理由从零重建。
+新建完整流程项目或用户索取可直接据以搭首版模型的完整规划时，`source_work=buildable_plan` 在交稿前触发三位采用同一模型和同一推理档的子代理，分别独立审核同版完整流程，即使只交工艺文章或明确不启动 Aspen。正文及所引依据应能让建模者独立重建首版的连接、输入、条件和判据。所有单元的首版必填输入逐项给出基准或启动值、单位、依据和适用范围。首版可用 SEP 表示分离工段的净分配，用 RStoic 表示有据的固定转化率。规划时同时查清严化分离方案及反应动力学资料，选定适用方法和可采用的资料，落实参数基准、适用限度和检查指标。详细严化求解在对应建模阶段进行。主代理给每位审查者派发同一份[完整任务说明](references/planning_review_brief.md)及冻结资料，逐项查缺、补证、改稿及重审受影响的链。常规缺项在本轮自行查证，真正无法取得的资料按[规划工作流](references/fullflow_generation_workflow.md#规划阶段先查明严化依据)核实可用替代并界定影响。重大歧义仍影响首版时，暂缓受影响部分的试跑和可开工结论。只交文稿时在源审闭合后结束；三份实际导出复核留到骨架真实运行后的阶段。
+
+完整流程生成先读[全流程生成工作流](references/fullflow_generation_workflow.md)：补全自然语言要求及每模块物性依据，完成三份同模型、同推理档的独立流程链审查后，用SEP/RStoic建立包含必要加热、换热、压缩、泵及压力路径的完整骨架；真实运行，有循环时取得循环初值，无循环时记录依据，再完成三份针对同次运行导出的独立逐模块复核。逐模块细化沿用首版的入口基准、工艺目标、参数及允许调整范围，按专业方法实现设计规定、求解和验收。每岛以同版全设备选型反馈为回装前收尾门；合格模块逐个替换回原位置，完整接回后再检查所有适用物理设备并复算。这里的“切岛”不表示重新划分整厂路线。已有模型从实际阶段补齐证据和修复，不无理由从零重建。
 
 图谱在选择方法和处理未知问题时介入，设备程序在骨架有负荷、每岛严化末尾及接回后分别复核，执行[阶段调用规则](../chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md)。若设备限制要求改工况或结构，先更新项目决定，再交操作模块修改和重算；目录无型号或偏小不自动拆设备。最终交付的是同一版本的模型、来源和修改记录、全流程结果及真实验收证据；简化骨架和单岛收敛不冒充最终全流程。
 
@@ -43,7 +45,7 @@ HCH 或换热配对表接入已有流程时，按[增量接入规则](references
 
 ## Authority First
 
-弱提示词同样先进入上述工作流第1节：复用原有循环、分离和排放/吹扫经验，主动补出有据的流程方案；区分原文要求、推导、工程提案和待定，不让用户逐项点名，也不把旧案例数值当默认。补项仍通过原5份/3份复核，不减验证。
+弱提示词同样先进入上述工作流第1节：复用原有循环、分离和排放/吹扫经验，主动补出有据的流程方案；区分原文要求、推导、工程提案和待定，不让用户逐项点名，也不把旧案例数值当默认。完整建模规划的补项随同版正文进入三份独立全链源审；实际运行后按原规则完成三份导出复核。
 
 Read `references/ERROR_MEMORY.md`, the chemical expert, and its
 `STRICT_ACCEPTANCE_AND_LEARNING.md`. Then read the current project's
@@ -69,7 +71,7 @@ equating each species' inlet and outlet across a reacting system.
 
 Start at the current project's actual stage, not automatically from zero:
 
-`prompt completion and five independent source reviews -> SEP/RStoic full-flow
+`prompt completion and three independent whole-plan source reviews -> SEP/RStoic full-flow
 scaffold with energy/pressure equipment -> native run, recycle initials and three
 independent checks -> individual module refinement -> replace at original interfaces
 -> whole-flow equipment coverage and feedback -> rerun and exact-file verification`
@@ -97,10 +99,10 @@ a simple feasible baseline; catalog proximity does not justify extra equipment.
   both directions; compare value and default/explicit card state to the
   pre-edit baseline. Physical purpose, mass/component fate, pressure/energy paths,
   control/recycle and product targets require same-candidate evidence.
-- Strict delivery uses all-zero complete version-bound Control Panel Summary,
-  no actual Control Panel/history warning or error, actual run identity and the
-  exact final-file no-edit reopen, then all required
-  project gates. Do not maintain another parser or warning policy here.
+- Delivery requires a no-edit rerun of the exact final file, confirmed run
+  completion and identity, complete clean Control Panel messages and raw
+  history, and every applicable project gate. Use the operations checker and
+  consult the native Summary for anomalies or expressly requested count proof.
 - A local user relaxation is explicitly case-only, reported with failed strict
   gates, and permanently barred from learning and shared/default retrieval.
 - Preserve required PFD/layout, USER dependencies, target version and sidecars;
@@ -119,9 +121,7 @@ Authorized temporary submissions follow the expert's
 [inbox route](../chemical-engineering-expert/references/EXPERIENCE_INBOX.md);
 they may precede closure and never authorize default retrieval or canonical writes.
 
-At delivery report the completed scope and remaining work. Request current-revision
-closure only when needed for user-requested formal promotion and not already confirmed
-or awaiting an answer. After explicit closure follow the expert's `EVOLUTION_LOOP.md`: condense macro prompt
+At a real handoff, check the actual files and open findings under [final delivery review](../chemical-engineering-expert/references/DELIVERY_FINDINGS.md). Ask once in the user-visible reply whether this revision is finished or needs a change. On explicit closure prepare the local retrospective and proposed submission table in that turn. Follow the expert's `EVOLUTION_LOOP.md` to condense macro prompt
 principles and test data-pattern hypotheses separately; keep specific values
 and operations below the prompt layer. No reusable increment means no change.
 

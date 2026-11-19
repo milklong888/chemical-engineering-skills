@@ -1096,6 +1096,54 @@
     {
       "path": "tests/test_normalized_transport.py",
       "sidecar": "tests/test_normalized_transport.py.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/planning_review_brief.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/aspen-document-driven-flowsheet/references/planning_review_brief.md.license"
+    },
+    {
+      "path": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DELIVERY_FINDINGS.md",
+      "sidecar": "plugins/chemical-engineering-skills/skills/chemical-engineering-expert/references/DELIVERY_FINDINGS.md.license"
+    },
+    {
+      "path": "tools/equipment_graph.py",
+      "sidecar": "tools/equipment_graph.py.license"
+    },
+    {
+      "path": "tools/planning_property_lookup.py",
+      "sidecar": "tools/planning_property_lookup.py.license"
+    },
+    {
+      "path": "tools/planning_research.py",
+      "sidecar": "tools/planning_research.py.license"
+    },
+    {
+      "path": "tools/review_finding_scope.py",
+      "sidecar": "tools/review_finding_scope.py.license"
+    },
+    {
+      "path": "tools/review_findings.py",
+      "sidecar": "tools/review_findings.py.license"
+    },
+    {
+      "path": "tools/review_scope_history.py",
+      "sidecar": "tools/review_scope_history.py.license"
+    },
+    {
+      "path": "tools/task_closeout.py",
+      "sidecar": "tools/task_closeout.py.license"
+    },
+    {
+      "path": "tools/task_closeout_history.py",
+      "sidecar": "tools/task_closeout_history.py.license"
+    },
+    {
+      "path": "tests/test_design_target_tolerance.py",
+      "sidecar": "tests/test_design_target_tolerance.py.license"
+    },
+    {
+      "path": "tests/test_scaffold_evidence_checks.py",
+      "sidecar": "tests/test_scaffold_evidence_checks.py.license"
     }
   ],
   "policy_files": [

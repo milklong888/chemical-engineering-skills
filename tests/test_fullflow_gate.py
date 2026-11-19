@@ -128,7 +128,7 @@ class FullflowFixture:
         basis = {**self.identity, "modules": [{k: copy.deepcopy(v) for k, v in x.items() if k != "module_revision"} for x in self.modules]}
         basis_ref = self.put("design-basis.json", basis)
         self.contract["source_gate"] = {"design_basis_ref": basis_ref, **self.handoff(),
-            **self.reviews("source", 5, {"design_basis_sha256": basis_ref["sha256"]})}
+            **self.reviews("source", 3, {"design_basis_sha256": basis_ref["sha256"]})}
         self.contract["source_gate"]["planning_checks_ref"] = self.planning()
 
     def planning(self):
@@ -160,8 +160,8 @@ class FullflowFixture:
             output_ref = self.put(call_id + "-output.json", output)
             record = {"schema": "fullflow-agent-call-v1", **self.identity, "stage": stage, "call_id": call_id,
                       "independent_context_id": call_id + "-context", "model_id": "gpt-6-luna" if stage == "source" else "synthetic-other-model",
-                      "prompt_sha256": prompt["sha256"], "output_ref": output_ref}
-            invocation = {**self.identity, **{k: record[k] for k in ("call_id", "independent_context_id", "model_id", "prompt_sha256")},
+                      "reasoning_effort": "high", "prompt_sha256": prompt["sha256"], "output_ref": output_ref}
+            invocation = {**self.identity, **{k: record[k] for k in ("call_id", "independent_context_id", "model_id", "reasoning_effort", "prompt_sha256")},
                           "invocation_id": call_id + "-invocation", "output_sha256": output_ref["sha256"], "synthetic": True}
             record["invocation_ref"] = self.put(call_id + "-invocation.json", invocation)
             calls.append(self.put(call_id + ".json", record))
@@ -321,7 +321,7 @@ class FullflowGateTests(unittest.TestCase):
         result = check_fullflow({"stage": "source", "question": "读取物流焓"}, self.f.root)
         self.assertEqual(result["status"], "NOT_APPLICABLE")
 
-    def test_source_requires_five_not_four(self):
+    def test_source_requires_three_not_two(self):
         self.f.contract["source_gate"]["independent_calls"].pop()
         self.assertIn("INDEPENDENT_REVIEW_COUNT", self.codes(self.f.check()))
 
@@ -336,12 +336,12 @@ class FullflowGateTests(unittest.TestCase):
         self.assertIn("DUPLICATE_CALL_ID", codes)
         self.assertIn("NONINDEPENDENT_REVIEW", codes)
 
-    def test_source_wrong_model_is_not_luna(self):
+    def test_source_reviewer_must_match_invocation_model(self):
         rows = self.f.contract["source_gate"]["independent_calls"]
         rows[0] = self.f.rewrite(rows[0], lambda x: x.update(model_id="gpt-5.6-sol"))
-        self.assertIn("REVIEW_MODEL_MISMATCH", self.codes(self.f.check()))
+        self.assertIn("INVOCATION_IDENTITY_MISMATCH", self.codes(self.f.check()))
 
-    def test_prior_luna_model_does_not_count_for_current_source_gate(self):
+    def test_source_reviewers_must_use_same_actual_model(self):
         rows = self.f.contract["source_gate"]["independent_calls"]
         row = self.f.read(rows[0])
         invocation = self.f.read(row["invocation_ref"])
@@ -349,7 +349,7 @@ class FullflowGateTests(unittest.TestCase):
         row["invocation_ref"] = self.f.put(row["invocation_ref"]["path"], invocation)
         row["model_id"] = "gpt-5.6-luna"
         rows[0] = self.f.put(rows[0]["path"], row)
-        self.assertIn("REVIEW_MODEL_MISMATCH", self.codes(self.f.check()))
+        self.assertIn("REVIEW_CAPABILITY_MISMATCH", self.codes(self.f.check()))
 
     def test_old_prompt_rejected(self):
         self.f.contract["source_gate"]["prompt_ref"] = self.f.put("new-prompt.txt", "different prompt")
@@ -547,7 +547,7 @@ class FullflowGateTests(unittest.TestCase):
         handoff = self.f.read(gate["handoff_input_ref"])
         del handoff["source_review"]
         gate.update(self.f.write_handoff(handoff))
-        gate.update(self.f.reviews("source", 5, {"design_basis_sha256": gate["design_basis_ref"]["sha256"]}))
+        gate.update(self.f.reviews("source", 3, {"design_basis_sha256": gate["design_basis_ref"]["sha256"]}))
         result = self.f.check("source")
         self.assertIn("SOURCE_REVIEW_REQUIRED", self.codes(result))
         self.assertFalse(result["engineering_accepted"])
@@ -566,7 +566,7 @@ class FullflowGateTests(unittest.TestCase):
         data = self.f.read(gate["handoff_input_ref"])
         data["streams"][0]["state"] = "proposed"
         gate.update(self.f.write_handoff(data))
-        gate.update(self.f.reviews("source", 5, {"design_basis_sha256": gate["design_basis_ref"]["sha256"]}))
+        gate.update(self.f.reviews("source", 3, {"design_basis_sha256": gate["design_basis_ref"]["sha256"]}))
         self.assertIn("HANDOFF_INCOMPLETE", self.codes(self.f.check()))
         approval = {**self.f.identity, "stream_ids": ["T0"], "basis": "Synthetic permitted auxiliary connection", "authority_ref": self.f.source}
         gate["proposal_authorizations"] = [self.f.put("proposal-approval.json", approval)]

@@ -72,4 +72,4 @@ python -B -X utf8 -m unittest discover -s plugins/chemical-engineering-skills/sk
 
 公开fixture为小型合成文本，无真实模型/工程参数/商业原件。核查旋转镜像、Scale/$D恢复、多端角色、完整真实卡不变和错误拒绝；结果和文件摘要见SOURCE_METADATA。离线测试不证明Aspen运行。
 
-原生机制依据合法本机V14帮助主题与样例坐标的独立核查，商业原文不随包。真实模型、运行日志、原INP、客户数字和私人路径保留本地。完整原生Summary、Control Panel/history、产品与硬件验收仍归原owner，本包不另造解析器或成功条件。
+原生机制依据合法本机V14帮助主题与样例坐标的独立核查，商业原文不随包。真实模型、运行日志、原INP、客户数字和私人路径保留本地。运行完成、完整 Control Panel/history、按需核验原生 Summary，以及产品与硬件验收均归原 owner。

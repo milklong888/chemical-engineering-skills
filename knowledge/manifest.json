@@ -7496,7 +7496,7 @@
       "bytes": 955,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "learning_owner_contract.json",
-      "sha256": "6714cfe31869ab09aa5a9231c8f288d65198ca5c72888931cfae3930d37eb56a"
+      "sha256": "a5c5d2c96b2a48c1433f1c8baaf5eb8f0ef726844c1fcc8662f838688329caa3"
     },
     {
       "automatic_activation": false,
@@ -8705,16 +8705,16 @@
       "sha256": "15e6a6787c80ba516a61105222b11e0bc48c835fe35abc20c47e46773b857fc9"
     },
     {
-      "bytes": 5377,
+      "bytes": 5648,
       "kind": "distribution_availability_contract",
       "path": "README.md",
-      "sha256": "73adc2dab74f07e521d06a8c44a81d95d3ff5a64040d64caf183fe97607f0c4d"
+      "sha256": "843a74fd3d09e37faa815c1147a04d299e66b038f4b44588b64d31221dae6ff9"
     },
     {
-      "bytes": 7971346,
-      "kind": "lookup_projection_of_original_records",
+      "bytes": 7971936,
+      "kind": "lookup_projection_of_knowledge_records",
       "path": "records.jsonl",
-      "sha256": "73a2a0fc29ac5660a22aaf6586d5d510c5d4d9dab70bd0a7b952ea20b6bf2c4b"
+      "sha256": "8a659604f4c15425d6ec5c64c3fc8c375ba33a14ec1dead4969e184abe73a0d1"
     },
     {
       "bytes": 2332,
@@ -8732,13 +8732,13 @@
       "bytes": 201652,
       "kind": "source_script_disposition",
       "path": "script_source_manifest.json",
-      "sha256": "567072053e01ef28c560da67efe703594ef75a11b0e5b51d254f6ffa2dbbb81d"
+      "sha256": "378dae26c86eb05358a0f4f3410e199fd024c16103499e89e186d5aff130edfa"
     },
     {
-      "bytes": 25623,
+      "bytes": 25654,
       "kind": "isolated_knowledge_candidate_artifact",
       "path": "scripts/build_knowledge_version.py",
-      "sha256": "266335549dd9d754d89b7ac05a9a2a18a292b95c6286207e7b7141bbcc7b8757"
+      "sha256": "e2bf845133e17641c7acba992c23bf0736ae3541db2cb049dda69dff11c9ae81"
     },
     {
       "bytes": 12197,
@@ -8811,24 +8811,30 @@
       "technical_paraphrase_performed": false
     },
     {
-      "bytes": 12676,
-      "kind": "source_preserved_markdown",
+      "bytes": 12754,
+      "kind": "locally_maintained_workflow_markdown",
+      "maintenance": {
+        "date": "2026-11-19",
+        "scope": "Aspen run completion, messages and delivery evidence in the EDR workflow",
+        "baseline_commit": "f39369dc05d7465508754403b90ae7fe99bcdb39",
+        "baseline_projection_sha256": "68a65fbbc8a741bd3f195e08216d59478c0a9c86a4749e454b3c2d106e629d8a",
+        "baseline_source": {
+          "relative_path": "aspen_sun_lanyi_knowledge/knowledge_graph/aspen_operation_playbook.md",
+          "sha256": "5f6064a8dfddb2af22b4737b746d72ee6784d1e3c757eadc7997477576878d4b",
+          "byte_spans": [
+            [
+              0,
+              8769
+            ],
+            [
+              9159,
+              13069
+            ]
+          ]
+        }
+      },
       "path": "sun_lanyi/knowledge_graph/aspen_operation_playbook.md",
-      "path_parameterizations": [],
-      "sha256": "68a65fbbc8a741bd3f195e08216d59478c0a9c86a4749e454b3c2d106e629d8a",
-      "source_byte_spans": [
-        [
-          0,
-          8769
-        ],
-        [
-          9159,
-          13069
-        ]
-      ],
-      "source_relative_path": "aspen_sun_lanyi_knowledge/knowledge_graph/aspen_operation_playbook.md",
-      "source_sha256": "5f6064a8dfddb2af22b4737b746d72ee6784d1e3c757eadc7997477576878d4b",
-      "technical_paraphrase_performed": false
+      "sha256": "db4e2396ad68d2774e26d2c35a173282cf3a3fc808e1795b259fff590ec3cf99"
     },
     {
       "bytes": 46448,
@@ -8979,19 +8985,19 @@
       "bytes": 4447,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/config.json",
-      "sha256": "96eb86ccfdb3ffe95dbe077dbefd3e88ed03fd0d4460e532f3c8509431e387f6"
+      "sha256": "3a11064113720fe92d7f4706d8705e830ac2ef5b0431f04920a0b2a0a6077d5c"
     },
     {
-      "bytes": 11142586,
+      "bytes": 11143176,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/records.jsonl",
-      "sha256": "6bc2f8e1e703c8b24432303d5875b7ad14f43d142cc5aa0eb9003e46ec54f599"
+      "sha256": "4f78769556f2b49c1973ac43fd84f800ce62349407c36898d1dc308dddd24dbd"
     },
     {
       "bytes": 21255296,
       "kind": "deterministic_hash_vector_projection",
       "path": "vectors/vectors.npy",
-      "sha256": "79d1fb6647d31e9686d829d87dc7c5e18b12b819cc5d855e2a370f59eeeac436"
+      "sha256": "d2c12a8db3607c691ac602da5045899bb541b9aa940311fc47c3e848c0106433"
     }
   ],
   "layer_record_counts": {

@@ -159,8 +159,10 @@ Test from a different working directory without the old workspace. Database
 queries must return source identity, units, applicability and reuse status.
 A missing, changed or extra required runtime asset fails verification. GUI/EXE
 self-tests are outside this Skill's distribution and acceptance scope. For a
-real Aspen candidate, independently apply the all-zero version-bound Summary
-and raw-history gate to the exact reopened delivery file.
+real Aspen candidate, use the operations clean-run evidence gate on the exact
+reopened delivery file. Verify completion, full same-run Control Panel
+messages and raw history. Consult the native Summary for diagnostics or
+expressly required all-zero count proof.
 
 Do not declare the app or a design result ready until an independent chemical-equipment/knowledge-graph reviewer has checked the deterministic boundary, formula chains, evidence propagation, and packaging result.
 

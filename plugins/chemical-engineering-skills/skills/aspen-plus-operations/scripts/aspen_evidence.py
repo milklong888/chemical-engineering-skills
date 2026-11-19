@@ -1,8 +1,8 @@
-"""Pure Aspen evidence parsing; no COM, filesystem writes, or policy exemptions.
+"""Aspen evidence parsing and run assessment without COM or filesystem writes.
 
-The user-approved contract requires all four rows and every column of an
-allowlisted, source-verified native schema to be present and zero. Success prose
-never supplies absent counts. No arbitrary smaller matrix is inferred.
+The strict solver gate requires every count in the source-verified native
+summary to be present and zero. A normal run can establish clean completion
+from complete native messages and fresh history while the counts stay unknown.
 """
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import codecs
 import hashlib
 import json
 import math
+from pathlib import Path
 import re
 from typing import Any
 
@@ -32,16 +33,22 @@ PROFILE_AUTHORITY = {
                          'acceptance_eligible': False, 'reason': 'Synthetic diagnostic profile; no native five-column source is registered.'},
 }
 HARD_PATTERNS = [
-    r'\*\s+WARNING', r'^\s*\*{2,}\s+ERROR\b', r'^\s*WARNING\b', r'^\s*ERROR\b',
+    r'\*\s+WARNING', r'^\s*\*+\s+ERROR\b', r'^\s*WARNING\b', r'^\s*ERROR\b',
     r'WARNING IN THE', r'WARNING WHILE', r'SEVERE ERROR',
     r'ERROR IN THE', r'ERROR WHILE EXECUTING', r'TERMINAL ERROR',
     r'CHECK THE RUN STATUS', r'M-BAL LOOP DID NOT CONVERGE',
     r'ZEROTH ORDER REACTANT NOT PRESENT', r'FAILED TO CONVERGE',
     r'ZERO FEED', r'BLOCK BYPASSED',
+    r'^\s*\**\s*[1-9][0-9]*\s+(?:errors?|warnings?)\b.*\b(?:issued|generated)\b',
 ]
 _TITLE = re.compile(r'^\s*(?:\*{3}\s*)?(?:Summary of Simulation Errors|Summary of Errors)(?:\s*\*{3})?\s*$', re.I)
 _ROW = re.compile(r'^\s*(Terminal Errors|Severe Errors|Errors|Warnings)\b(.*)$', re.I)
 _CLEAN = re.compile(r'NO ERRORS OR WARNINGS (?:GENERATED|WERE ISSUED)', re.I)
+_CONTROL_COMPLETED = re.compile(r'^\s*(?:->\s*)?Simulation calculations completed\s*(?:\.{3})?\s*$', re.I)
+_CONTROL_CLEAN = re.compile(r'^\s*\**\s*No Errors or Warnings were issued during Simulation\s*\**\s*$', re.I)
+_HISTORY_CLEAN = re.compile(r'^\s*\**\s*NO ERRORS OR WARNINGS GENERATED\s*\**\s*$', re.I)
+_HISTORY_HEADER = re.compile(r'^\s*(?:\+\s*)*ASPEN PLUS CALCULATION HISTORY\s*(?:\+\s*)*$', re.I)
+_HISTORY_RESULTS = re.compile(r'^\s*Results generated\s+Time\s*=\s*[0-9]+(?:\.[0-9]+)?\s*$', re.I)
 _INTEGER = re.compile(r'^[0-9]+$')
 _HASH = re.compile(r'^[A-Fa-f0-9]{64}$')
 _MAX_TABLE_LINES = 80
@@ -218,12 +225,65 @@ def hard_pattern_counts(text: str) -> dict[str, int]:
     return {pattern: sum(pattern in record['patterns'] for record in records) for pattern in HARD_PATTERNS}
 
 
+def inspect_control_events(events: list[dict[str, Any]], run: dict[str, Any],
+                           final_drain: dict[str, Any]) -> dict[str, Any]:
+    """Replay native callbacks, retaining messages that arrive during exports."""
+    malformed = []
+    messages = []
+    completions = []
+    for index, row in enumerate(events):
+        epoch = row.get('epoch') if isinstance(row, dict) else None
+        if type(epoch) not in (int, float) or not math.isfinite(epoch):
+            malformed.append(index)
+            continue
+        if row.get('event') == 'OnCalculationCompleted':
+            completions.append(epoch)
+            continue
+        clear, message = row.get('clear'), row.get('message')
+        if (row.get('event') != 'OnControlPanelMessage' or type(clear) not in (bool, int)
+                or clear not in (0, 1, -1) or (clear == 0 and not isinstance(message, str))):
+            malformed.append(index)
+        if isinstance(message, str):
+            messages.append(message)
+    start, finish = run.get('started_epoch'), run.get('finished_epoch')
+    valid_window = all(type(value) in (int, float) and math.isfinite(value) for value in (start, finish))
+    in_run = sum(start <= epoch <= finish for epoch in completions) if valid_window else 0
+    complete = (run.get('events_cleared_before_run') is True and in_run > 0 and not malformed
+                and final_drain.get('completed') is True and final_drain.get('event_count') == len(events))
+    # Preserve message payload whitespace and add a boundary when Aspen did not
+    # include one. Clear callbacks never erase previously captured diagnostics.
+    text = ''.join(message if message.endswith(('\n', '\r')) else message + '\n' for message in messages)
+    return {'text': text, 'capture_complete': complete, 'completion_event_count': len(completions),
+            'run_completion_event_count': in_run, 'malformed_event_indices': malformed,
+            'message_count': len(messages)}
+
+
+def inspect_control_terminal(text: str, summary: dict[str, Any]) -> dict[str, Any]:
+    """Identify documented native completion text without deriving counts from prose."""
+    lines = text.splitlines()
+    completed = [number for number, line in enumerate(lines, 1) if _CONTROL_COMPLETED.fullmatch(line)]
+    clean = [number for number, line in enumerate(lines, 1) if _CONTROL_CLEAN.fullmatch(line)]
+    completion_line = completed[0] if len(completed) == 1 else None
+    table_starts = [table['start_line'] for table in summary.get('tables', []) if table['complete']]
+    terminal_clean = completion_line is not None and any(line > completion_line for line in clean + table_starts)
+    return {'verified': terminal_clean, 'completion_lines': completed, 'clean_status_lines': clean,
+            'complete_summary_start_lines': table_starts}
+
+
 def inspect_history_text(text: str, *, source: str = 'history', source_sha256: str | None = None) -> dict[str, Any]:
-    """Inspect a captured full file; an unknown/truncated terminal format stays open."""
+    """Inspect a full history; only a native end marker or terminal table closes it."""
     summary = parse_summary_counts(text)
     messages = find_hard_messages(text, source=source, source_sha256=source_sha256)
-    clean_statement = bool(_CLEAN.search(text))
-    complete = bool(text.strip()) and (clean_statement or summary['complete'])
+    nonblank = [(number, line) for number, line in enumerate(text.splitlines(), 1) if line.strip()]
+    last_line, last_text = nonblank[-1] if nonblank else (0, '')
+    clean_statement = bool(_HISTORY_CLEAN.fullmatch(last_text))
+    # end_line may include a following non-table line. Use actual row lines here.
+    terminal_table = summary['complete'] and last_line in summary['summary_row_lines']
+    complete = clean_statement or terminal_table
+    header_lines = [number for number, line in nonblank if _HISTORY_HEADER.fullmatch(line)]
+    results_lines = [number for number, line in nonblank if _HISTORY_RESULTS.fullmatch(line)]
+    native_run_body_verified = bool(header_lines and
+                                    any(header_lines[0] < number < last_line for number in results_lines))
     issues = []
     if not complete:
         issues.append(_issue('HISTORY_TERMINAL_EVIDENCE_MISSING'))
@@ -232,7 +292,9 @@ def inspect_history_text(text: str, *, source: str = 'history', source_sha256: s
         complete = False
     if clean_statement and messages:
         issues.append(_issue('CLEAN_STATEMENT_CONFLICTS_WITH_MESSAGES'))
-    return {'complete': complete, 'terminal_evidence': 'CLEAN_STATEMENT' if clean_statement else 'COMPLETE_SUMMARY' if summary['complete'] else None,
+    return {'complete': complete, 'terminal_evidence': 'CLEAN_STATEMENT' if clean_statement else 'COMPLETE_SUMMARY' if terminal_table else None,
+            'native_run_body_verified': native_run_body_verified,
+            'native_run_body': {'header_lines': header_lines, 'results_lines': results_lines},
             'summary': summary, 'messages': messages, 'issues': issues}
 
 
@@ -263,11 +325,17 @@ def evaluate_clean_gate(*, run: dict[str, Any], summary: dict[str, Any],
                         control_messages: list[dict[str, Any]], histories: list[dict[str, Any]],
                         control_association: dict[str, Any] | None = None,
                         block_statuses: list[dict[str, Any]] | None = None,
-                        artifacts: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    """Strict current-run solver evidence gate; never certifies project delivery."""
-    gates = []
-    def check(code: str, passed: bool, **details: Any) -> None:
-        gates.append({'code': code, 'passed': bool(passed), **details})
+                        artifacts: list[dict[str, Any]] | None = None,
+                        expected_blocks: list[str] | None = None,
+                        mode: str | None = None) -> dict[str, Any]:
+    """Assess a current run; omitted mode retains the legacy strict input contract."""
+    if mode not in {None, 'run', 'strict'}:
+        raise ValueError(f'Unknown audit mode: {mode}')
+    gates: list[dict[str, Any]] = []
+
+    def check(code: str, passed: bool, *, problem: bool = False, **details: Any) -> None:
+        gates.append({'code': code, 'passed': bool(passed), 'actual_problem': problem and not passed, **details})
+
     run_id, case_hash = run.get('run_id'), run.get('case_sha256')
     check('RUN_IDENTITY_REQUIRED', bool(run_id) and bool(_HASH.fullmatch(str(case_hash))))
     try:
@@ -275,42 +343,227 @@ def evaluate_clean_gate(*, run: dict[str, Any], summary: dict[str, Any],
     except (KeyError, TypeError, ValueError):
         timing = False
     check('RUN_TIME_IDENTITY_REQUIRED', timing)
-    check('RUN_NOT_COMPLETED', run.get('status') in {'returned', 'completed'} and not run.get('forced_termination', False), observed=run.get('status'))
+    completed = run.get('status') in {'returned', 'completed'} and not run.get('forced_termination', False)
+    if mode is not None:
+        completed = (completed and run.get('status') == 'completed'
+                     and run.get('completion_event_observed') is True and run.get('terminal_engine_idle') is True)
+    check('RUN_NOT_COMPLETED', completed, observed=run.get('status'))
+
     def associated(item: dict[str, Any] | None) -> bool:
-        return bool(item and item.get('verified') is True and item.get('run_id') == run_id and str(item.get('case_sha256', '')).upper() == str(case_hash).upper())
+        return bool(item and item.get('verified') is True and item.get('run_id') == run_id
+                    and str(item.get('case_sha256', '')).upper() == str(case_hash).upper())
+
     check('CONTROL_ASSOCIATION_UNVERIFIED', associated(control_association))
-    check('SUMMARY_SCHEMA_NOT_SOURCE_VERIFIED', summary.get('source_verified_schema') is True
-          and summary.get('acceptance_eligible') is True and summary.get('native_schema') == VERIFIED_NATIVE_SCHEMA,
-          profile=summary.get('profile'), native_schema=summary.get('native_schema'))
-    check('SUMMARY_INCOMPLETE_OR_NONZERO', summary.get('found') is True and summary.get('complete') is True and summary.get('valid_schema') is True and summary.get('all_zero') is True and summary.get('total') == 0 and not summary.get('diagnostics'), diagnostics=summary.get('diagnostics', []))
-    check('ACTUAL_CONTROL_PROBLEM', not control_messages, messages=control_messages)
+    if mode is not None:
+        check('CONTROL_CAPTURE_INCOMPLETE', (control_association or {}).get('capture_complete') is True)
+        check('CONTROL_TERMINAL_EVIDENCE_MISSING', (control_association or {}).get('terminal_verified') is True)
+    check('ACTUAL_CONTROL_PROBLEM', isinstance(control_messages, list) and not control_messages,
+          problem=bool(control_messages), messages=control_messages)
     check('HISTORY_MISSING', bool(histories))
     for index, history in enumerate(histories):
         identity = {'history_index': index, 'path': history.get('path')}
         check('HISTORY_EMPTY_OR_UNHASHED', isinstance(history.get('size'), (int, float)) and history['size'] > 0 and bool(_HASH.fullmatch(str(history.get('sha256', '')))), **identity)
         check('HISTORY_DECODE_UNVERIFIED', history.get('decode_verified') is True, **identity)
         check('HISTORY_INCOMPLETE', history.get('complete') is True, issues=history.get('issues', []), **identity)
-        check('HISTORY_ASSOCIATION_UNVERIFIED', associated(history.get('association')), association=history.get('association'), **identity)
-        check('ACTUAL_HISTORY_PROBLEM', isinstance(history.get('messages'), list) and not history['messages'], messages=history.get('messages'), **identity)
-        # Three-column history summaries are auxiliary evidence only, but any
-        # visible nonzero cell still contradicts a claimed clean run.
-        check('NONZERO_HISTORY_SUMMARY', not history.get('summary', {}).get('nonzero_cells'), **identity)
-    simulation_clean = all(gate['passed'] for gate in gates)
-    if block_statuses is not None:
-        for row in block_statuses:
-            try:
-                value = float(row.get('blkstat'))
-                valid = math.isfinite(value) and value == 0
-            except (TypeError, ValueError):
-                valid = False
-            check('BLOCK_STATUS_NONZERO_OR_UNKNOWN', valid, block=row.get('block'), observed=row.get('blkstat'))
-    if artifacts is not None:
-        for item in artifacts:
-            size = item.get('size', item.get('size_bytes'))
-            check('ARTIFACT_MISSING_EMPTY_OR_UNHASHED', item.get('exists') is True and isinstance(size, (int, float)) and size > 0 and bool(_HASH.fullmatch(str(item.get('sha256', '')))), path=item.get('path'))
-    passed = all(gate['passed'] for gate in gates)
-    return {'schema_version': 'aspen_clean_gate/2', 'passed': passed, 'simulation_clean': simulation_clean,
+        association = history.get('association')
+        check('HISTORY_ASSOCIATION_UNVERIFIED', associated(association), association=association, **identity)
+        if mode is not None:
+            check('HISTORY_FRESH_CAPTURE_UNVERIFIED',
+                  all((association or {}).get(key) is True
+                      for key in ('new_or_changed', 'fresh_time', 'unchanged_during_capture')), **identity)
+            check('HISTORY_NATIVE_RUN_BODY_UNVERIFIED',
+                  history.get('terminal_evidence') == 'COMPLETE_SUMMARY' or history.get('native_run_body_verified') is True,
+                  **identity)
+        check('ACTUAL_HISTORY_PROBLEM', isinstance(history.get('messages'), list) and not history['messages'],
+              problem=bool(history.get('messages')), messages=history.get('messages'), **identity)
+        history_nonzero = history.get('summary', {}).get('nonzero_cells')
+        check('NONZERO_HISTORY_SUMMARY', not history_nonzero, problem=bool(history_nonzero), **identity)
+
+    source_verified = (summary.get('source_verified_schema') is True
+                       and summary.get('acceptance_eligible') is True
+                       and summary.get('native_schema') == VERIFIED_NATIVE_SCHEMA)
+    summary_zero = (summary.get('found') is True and summary.get('complete') is True
+                    and summary.get('valid_schema') is True and summary.get('all_zero') is True
+                    and summary.get('total') == 0 and not summary.get('diagnostics'))
+    summary_diagnostics = summary.get('diagnostics', [])
+    if mode is not None:
+        check('SUMMARY_OBSERVATION_UNVERIFIED',
+              summary.get('schema_version') == SCHEMA_VERSION and type(summary.get('found')) is bool)
+        counts = summary.get('counts')
+        summary_zero = (summary_zero and summary.get('columns') == list(NATIVE_THREE_COLUMNS)
+                        and isinstance(counts, dict) and set(counts) == set(ROWS)
+                        and all(isinstance(row, list) and len(row) == len(NATIVE_THREE_COLUMNS)
+                                and all(type(value) is int and value == 0 for value in row)
+                                for row in counts.values()))
+    conflict = any(row['code'] in {'CONFLICTING_SUMMARIES', 'MIXED_SUMMARY_SCHEMAS',
+                                   'CLEAN_STATEMENT_CONFLICTS_WITH_COUNTS', 'DUPLICATE_ROW', 'DUPLICATE_HEADER'}
+                   for row in summary_diagnostics)
+    nonzero = bool(summary.get('nonzero_cells'))
+    counts_status = ('conflicting' if conflict else 'nonzero' if nonzero else
+                     'all_zero' if source_verified and summary_zero else 'unknown')
+    check('NONZERO_CONTROL_SUMMARY', not nonzero, problem=nonzero, cells=summary.get('nonzero_cells', []))
+    check('CONFLICTING_CONTROL_SUMMARY', not conflict, diagnostics=summary_diagnostics if conflict else [])
+    if summary.get('found') is True:
+        check('SUMMARY_SCHEMA_NOT_SOURCE_VERIFIED', source_verified,
+              profile=summary.get('profile'), native_schema=summary.get('native_schema'))
+        check('SUMMARY_INCOMPLETE_OR_NONZERO', summary_zero, diagnostics=summary_diagnostics)
+
+    # Preserve the old meaning of simulation_clean for callers that omit mode.
+    legacy_simulation_clean = all(gate['passed'] for gate in gates) and source_verified and summary_zero
+    if mode is not None:
+        expected = [name.casefold() for name in expected_blocks or [] if isinstance(name, str) and name]
+        observed = [row['block'].casefold() for row in block_statuses or []
+                    if isinstance(row.get('block'), str) and row['block']]
+        check('BLOCK_INVENTORY_UNVERIFIED',
+              bool(expected) and len(expected) == len(expected_blocks or []) == len(set(expected))
+              and len(observed) == len(block_statuses or []) == len(set(observed))
+              and set(expected) == set(observed), expected=expected_blocks, observed=observed)
+        roles = [item.get('role') for item in artifacts or []]
+        check('REQUIRED_ARTIFACTS_UNVERIFIED', len(roles) == 2 and set(roles) == {'input_export', 'backup_export'}, roles=roles)
+    for row in block_statuses or []:
+        value = row.get('blkstat')
+        try:
+            number = float(value)
+            numeric = not isinstance(value, bool) and math.isfinite(number)
+        except (TypeError, ValueError, OverflowError):
+            numeric = False
+        check('BLOCK_STATUS_NONZERO_OR_UNKNOWN', numeric and number == 0,
+              problem=numeric and number != 0, block=row.get('block'), observed=value)
+        messages = find_hard_messages(str(row.get('blkmsg') or ''))
+        if messages:
+            check('ACTUAL_BLOCK_PROBLEM', False, problem=True, block=row.get('block'), messages=messages)
+    for item in artifacts or []:
+        size = item.get('size', item.get('size_bytes'))
+        valid = (item.get('exists') is True and isinstance(size, (int, float)) and size > 0
+                 and bool(_HASH.fullmatch(str(item.get('sha256', '')))))
+        if mode is not None:
+            valid = valid and associated(item.get('association'))
+        check('ARTIFACT_MISSING_EMPTY_OR_UNHASHED', valid, path=item.get('path'))
+
+    normal_passed = all(gate['passed'] for gate in gates)
+    if mode != 'run' and summary.get('found') is not True:
+        check('SUMMARY_SCHEMA_NOT_SOURCE_VERIFIED', source_verified,
+              profile=summary.get('profile'), native_schema=summary.get('native_schema'))
+        check('SUMMARY_INCOMPLETE_OR_NONZERO', summary_zero, diagnostics=summary_diagnostics)
+    strict_solver_passed = normal_passed and source_verified and summary_zero
+    passed = normal_passed if mode == 'run' else strict_solver_passed
+    actual_problem = any(gate['actual_problem'] for gate in gates)
+    assessment = 'PASS' if normal_passed else 'FAIL' if actual_problem else 'UNKNOWN'
+    return {'schema_version': 'aspen_clean_gate/2' if mode is None else 'aspen_clean_gate/3',
+            'mode': mode or 'strict',
+            'passed': passed, 'simulation_assessment': assessment,
+            'simulation_clean': legacy_simulation_clean if mode is None else normal_passed,
+            'summary_counts_status': counts_status, 'strict_solver_passed': strict_solver_passed,
             'delivery_verified': False, 'precision_lock_verified': False,
-            'gate_status': 'PASS' if passed else 'FAIL',
+            'gate_status': 'PASS' if passed else 'FAIL' if actual_problem or mode is None else 'UNKNOWN',
             'gate_results': gates, 'rejection_reasons': [gate for gate in gates if not gate['passed']],
-            'boundary': 'Solver evidence only. Exact delivery identity, lifecycle, pre-edit versus final solver-tolerance card/default-state comparison, and current project engineering targets remain separate required gates.'}
+            'boundary': 'Solver evidence only. Engineering targets, exact delivery identity, and solver-tolerance preservation require separate evidence.'}
+
+
+def replay_audit_evidence(native: dict[str, Any], *, root: Path) -> dict[str, Any]:
+    """Recheck a supervised v3 receipt against its worker report and native artifacts."""
+    def require(condition: bool, message: str) -> None:
+        if not condition:
+            raise ValueError(message)
+
+    def read_ref(ref: dict[str, Any]) -> bytes:
+        raw = (root / ref['path']).read_bytes()
+        require(bool(raw) and hashlib.sha256(raw).hexdigest().upper() == ref['sha256'].upper(),
+                f"Artifact is empty or its digest changed: {ref['path']}")
+        if 'size' in ref:
+            require(type(ref['size']) is int and ref['size'] == len(raw), 'Artifact size mismatch')
+        return raw
+
+    try:
+        require(native['schema_version'] == 'aspen_clean_delivery_audit/3', 'Unsupported native receipt')
+        supervisor = native['supervisor']
+        stage = supervisor['last_stage']
+        process = supervisor['owned_worker']
+        require(process['verified'] is True and stage['process_identity'] == process
+                and stage['pid'] == process['pid'] and supervisor['run_id'] == stage['run_id'],
+                'Worker process identity mismatch')
+        closeout = stage['closeout']
+        worker_ref = native['worker_summary']
+        require(supervisor['status'] == 'completed' and supervisor['lifecycle_clean'] is True
+                and supervisor['audit_closeout_verified'] is True and supervisor['forced_termination'] is False
+                and stage['phase'] == 'finished' and stage['lifecycle_clean'] is True,
+                'Supervised worker closeout is missing or incomplete')
+        require(worker_ref['sha256'] == closeout['summary_sha256']
+                and (root / worker_ref['path']).resolve() == (root / closeout['summary_path']).resolve(),
+                'Unexpected worker evidence path or digest')
+        worker = json.loads(read_ref(worker_ref))
+        require(all(native.get(k) == v for k, v in worker.items()),
+                'Published report differs from the closed worker report')
+        require(type(worker['passed']) is bool and worker['operation_completed'] is True
+                and worker['lifecycle']['closed_cleanly'] is True and not worker.get('error')
+                and not worker.get('traceback'), 'Incomplete worker lifecycle')
+        outcome = 'audit_accepted' if worker['passed'] else 'audit_rejected'
+        require(supervisor['worker_outcome'] == stage['worker_outcome'] == outcome
+                and supervisor['worker_exit_code'] == (0 if worker['passed'] else 1)
+                and closeout['passed'] is worker['passed'], 'Worker result disagrees with closeout')
+        mode, run = worker['mode'], worker['run']
+        require(mode in ('run', 'strict') and mode == closeout['mode']
+                and run['run_id'] == worker['run_id'] == closeout['run_id'] == stage['run_id'],
+                'Run identity or mode mismatch')
+        digest = worker['source_sha256']
+        require(digest == closeout['source_sha256'] and worker['source_unchanged'] is True
+                and worker['source_after_run']['sha256'] == digest and worker['opened_candidate_unchanged'] is True
+                and run['case_sha256'] == worker['opened_candidate_before']['sha256']
+                == worker['opened_candidate_after']['sha256'] == worker.get('embedded_model_sha256', digest),
+                'Opened model identity mismatch')
+        read_ref({'path': worker['source'], 'sha256': digest})
+        inventory = worker['expected_block_inventory']
+        require(inventory['verified'] is True and inventory['blocks'] == worker['expected_blocks']
+                and inventory['path'] == r'\Data\Blocks', 'Unverified native block inventory')
+
+        control = worker['control_panel']
+        control_text = read_ref(control).decode('utf-8')
+        raw_events = json.loads(read_ref(control['raw_events']))
+        require(raw_events['run_id'] == run['run_id'] and raw_events['case_sha256'] == run['case_sha256'],
+                'Control event identity mismatch')
+        capture = inspect_control_events(raw_events['events'], run, control['final_drain'])
+        require(capture['text'] == control_text, 'Control text differs from original events')
+        summary = parse_summary_counts(control_text)
+        association = dict(control['association'], capture_complete=capture['capture_complete'],
+                           terminal_verified=inspect_control_terminal(control_text, summary)['verified'])
+        observed_histories = []
+        current = {entry['path'] for entry in worker['sidecars']
+                   if Path(entry['path']).suffix.casefold() == '.his'
+                   and entry['evidence_role'] != 'stale_excluded'}
+        require(current and current == {item['path'] for item in worker['histories']},
+                'Current history inventory mismatch')
+        for item in worker['histories']:
+            raw = read_ref(item)
+            assoc = item['association']
+            after = assoc['after']
+            before = worker['pre_run_sidecar_snapshot'].get(assoc['source_path'])
+            require(before == assoc['before'] and (before is None or before['sha256'] != after['sha256'])
+                    and after['sha256'] == item['sha256'] and after['size'] == len(raw)
+                    and after['mtime_ns'] / 1e9 >= run['started_epoch'] - 2,
+                    'History is stale or has inconsistent capture records')
+            proof = item.get('encoding_evidence', {})
+            fallback = ()
+            if (proof.get('fallback_eligible_for_current_history') is True
+                    and proof.get('fallback_roundtrip_verified') is True
+                    and proof.get('history_sha256') == item['sha256'] and proof.get('verified') is True
+                    and proof.get('source') == 'Windows kernel32.GetACP' and proof.get('run_id') == run['run_id']
+                    and proof.get('case_sha256') == run['case_sha256'] and type(proof.get('acp')) is int
+                    and proof.get('codec') == 'cp' + str(proof['acp'])):
+                fallback = (proof['codec'],)
+            decoded = decode_history_bytes(raw, verified_fallback_encodings=fallback)
+            if decoded['verified'] and decoded['encoding'] in fallback:
+                require(decoded['text'].encode(decoded['encoding'], errors='strict') == raw,
+                        'Native code-page round trip changed history bytes')
+            inspection = inspect_history_text(decoded.get('text') or '', source=item['path'], source_sha256=item['sha256'])
+            observed_histories.append({**item, **inspection, 'decode_verified': decoded['verified']})
+        exports = [worker['after_run_inp'], worker['after_run_bkp']]
+        for item in exports:
+            read_ref(item)
+        return evaluate_clean_gate(run=run, summary=summary, control_messages=find_hard_messages(control_text),
+                                   control_association=association, histories=observed_histories,
+                                   block_statuses=worker['block_statuses'], expected_blocks=inventory['blocks'],
+                                   artifacts=exports, mode=mode)
+    except (OSError, UnicodeError, ValueError, KeyError, IndexError, TypeError, AttributeError, OverflowError) as exc:
+        return {'passed': False, 'simulation_clean': False, 'strict_solver_passed': False,
+                'simulation_assessment': 'UNKNOWN', 'summary_counts_status': 'unknown',
+                'rejection_reasons': [{'code': 'RAW_AUDIT_EVIDENCE_INVALID', 'detail': str(exc)}]}

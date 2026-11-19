@@ -12,7 +12,8 @@ when the task crosses several skills or the route is unclear.
 |---|---|---|
 | HCH 或换热配对表接入既有流程 | [增量接入](hen_incremental_integration.md) | 换热服务映射、保留回路及改造范围 |
 | 只给目标/原料，循环、分离、排放或配套未说明 | `fullflow_generation_workflow.md` 第1节弱提示词补全 | 按需读原方法，补全方案和依据，再进同一源门；不强加不适用设备 |
-| 自然语言生成完整流程、要求逐模块细化后回装 | [全流程生成门](fullflow_generation_workflow.md) | 补全与5份源门、骨架运行与3份复核、逐模块回装和全设备覆盖 |
+| 新建完整流程项目，交可据以直接建首版的规划或工艺文章 | [源阶段及三份独立全链审查](fullflow_generation_workflow.md#源门的三份独立全链审查) | `source_work=buildable_plan`，同版正文、首版基准参数、三位同模型同档子代理独立审核和差异闭合。只交文章到此结束 |
+| 生成完整模型、按全流程方法细化后回装 | [全流程生成门](fullflow_generation_workflow.md) | 在已闭合的源阶段上，继续骨架实跑和三份实际导出复核、逐模块回装与全设备覆盖 |
 | 提取任务书或冻结/改变物性方法 | [来源协议](source_taskbook_and_gate_protocol.md) | 两遍来源核查、物性冻结及允许修改 |
 | 新建骨架、严化岛或逐段接回 | [流程方法](aspen_workflow_playbooks.md) | 当前阶段和同版边界 |
 | 实施正式动力学反应器 | 工作区登记的孙兰义图谱 `kinetics_expert_system.md`、`kinetics_freeze_template.md`，再交操作层 | 冻结的来源→换算→卡片链；仅写动力学说明才走文档 Skill |

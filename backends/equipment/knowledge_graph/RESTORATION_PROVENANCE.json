@@ -60,11 +60,17 @@
       "source_sha256": "4CC283E2DB727D5574AF8E08F27C0780B93FFD4C297FB0F3A1AB77531D5A18EA",
       "source_bytes": 2452,
       "runtime_path": "knowledge_graph/evidence_boundary_nodes.md",
-      "sha256": "20F6804289E42DE8D63E154CBA092C5F7C7F67B013C51BE1588AC895A830360D",
-      "bytes": 2710,
+      "sha256": "ABE65DA12E8CA812C794821C3352613EA8922D4DE0C75519E0AAD1299A8EB1E6",
+      "bytes": 2799,
       "field_changes": [],
       "source_identity": "local_original_equipment_graph",
-      "semantic_status": "METHOD_AND_BOUNDARY_NOT_ENGINEERING_ACCEPTANCE"
+      "semantic_status": "METHOD_AND_BOUNDARY_NOT_ENGINEERING_ACCEPTANCE",
+      "runtime_maintenance": {
+        "date": "2026-11-19",
+        "reason": "align_current_aspen_run_evidence_boundary",
+        "previous_runtime_sha256": "20F6804289E42DE8D63E154CBA092C5F7C7F67B013C51BE1588AC895A830360D",
+        "previous_runtime_bytes": 2710
+      }
     },
     {
       "source_relative": "manual_decision_gates.md",
@@ -82,8 +88,8 @@
       "source_sha256": "B3EAFF6C9BE4BB6199912ADCCFA40EF18B3A237A630874BDB012BFE035E06040",
       "source_bytes": 1457,
       "runtime_path": "knowledge_graph/software_boundary_graph.md",
-      "sha256": "B49A8E67F1114B992F9BF450F229F40679873C6F8AC4EDC1960DB4D45576A9C0",
-      "bytes": 1771,
+      "sha256": "532E117765ACE4526D3A0920F22F8FD98D09271E4A2FD3B5FBB42DF4B22D93B5",
+      "bytes": 1754,
       "field_changes": [
         {
           "source_span_sha256": "62ED035D177F578A674910FD7947C33DF1D14F5BBB2513D48E5B0CEC87907881",
@@ -93,7 +99,13 @@
         }
       ],
       "source_identity": "local_original_equipment_graph",
-      "semantic_status": "METHOD_AND_BOUNDARY_NOT_ENGINEERING_ACCEPTANCE"
+      "semantic_status": "METHOD_AND_BOUNDARY_NOT_ENGINEERING_ACCEPTANCE",
+      "runtime_maintenance": {
+        "date": "2026-11-19",
+        "reason": "align_current_aspen_run_evidence_boundary",
+        "previous_runtime_sha256": "B49A8E67F1114B992F9BF450F229F40679873C6F8AC4EDC1960DB4D45576A9C0",
+        "previous_runtime_bytes": 1771
+      }
     },
     {
       "source_relative": "mismatch_audit_playbook.md",

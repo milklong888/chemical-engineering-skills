@@ -85,30 +85,26 @@ of included content. Missing local help cannot be filled from historical values.
 
 ## Hard Gates
 
-本节严格验收门不阻止独立核查。完整Summary缺失保持计数未知，按[可验证范围](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)继续可验证项；真实问题与读取缺口分别报告。
-
-- Aspen delivery first criterion: after reopening the exact delivery
-  `.bkp/.apw/.apwz` candidate and running it without further edits, the Aspen
-  Run Status Results table `Summary of Simulation Errors` must be all zeros
-  across every named column of the independently verified version/format
-  schema. Physical Property is one wrapped column in the observed three-column
-  format, alongside System and Simulation. The checked rows are Terminal
-  Errors, Severe Errors, Errors, and Warnings; no missing cell may be padded. A nonzero Simulation severe/error/warning count fails delivery even
-  when Terminal Errors is zero. Product flow, purity, `BLKSTAT=0`, exported
-  streams, or a clean Required Input check cannot override this first
-  criterion. Also scan the exact run's raw `.his` for actual problem lines such
-  as `* WARNING`, `WARNING IN THE`, `SEVERE ERROR`, `ERROR IN THE`, terminal
-  errors, or `CHECK THE RUN STATUS`; the final phrase `NO ERRORS OR WARNINGS
-  GENERATED` is success evidence, but it does not excuse earlier actual warning
-  or error lines in the same history file.
-- For direct Control Panel evidence, attach an `OnControlPanelMessage` COM event
-  sink and run asynchronously with `Engine.Run2(False)` while pumping COM
-  messages until `Engine.IsRunning` is false. A synchronous `Run2(True)` can
-  return a valid run yet deliver only a partial event stream, so it cannot prove
-  the final summary by itself. Keep the event handler alive, pump briefly after
-  completion, persist the full message text, and cross-check the same run's
-  `.his/.sum`. Use `scripts/aspen_clean_delivery_audit.py` for BKP/INP delivery
-  checks when applicable.
+- Reopen the exact `.bkp/.apw/.apwz` delivery file and run it without model
+  edits. Confirm the calculation ended and retain complete same-run Control
+  Panel messages and raw `.his`. Scan both for actual diagnostic lines including
+  `* WARNING`, `** ERROR`, `WARNING IN THE`, `SEVERE ERROR`, `ERROR IN THE`,
+  terminal errors and `CHECK THE RUN STATUS`. Inspect anomalies against the native
+  `Summary of Simulation Errors` and relevant block or stream diagnostics.
+  Observed nonzero counts or actual errors and warnings fail the clean-run gate.
+  When explicitly required, prove the complete [version-bound table](summary_format_contract.md)
+  is all zero. A clean run can emit no table. Record that state without filling
+  any cell or treating missing counts as a simulation failure.
+- For headless Control Panel evidence, attach `OnControlPanelMessage` and
+  `OnCalculationCompleted` before `Run2`, drain pre-run callbacks and reset
+  capture for the current run. In V14 `Engine.Run2(True)` requests asynchronous
+  operation and `Engine.Run2(False)` is synchronous. Pump COM messages until the
+  run is idle and current-run completion evidence has arrived. Continue pumping
+  through a bounded quiet interval to retain the trailing error table or clean
+  message, and preserve text across Control Panel clear events. Bind and check
+  the same run's raw `.his` separately. R11 V14 captures showed a clean run
+  ending with an Aspen no-error/no-warning message and no table, while the error
+  case emitted the full native table with five Simulation Errors.
 - Target-version compatibility gate: when the user or customer names an older
   Aspen target version, do not hand off only a latest-version `.bkp/.apw`.
   Produce or request an importable package for that target version and scan the
@@ -290,8 +286,9 @@ of included content. Missing local help cannot be filled from historical values.
   iteration limits. Verify Aspen tree names directly; for example exported
   `CONV-OPTIONS WEGSTEIN MAXIT=...` maps to the COM node
   `\Data\Convergence\Conv-Options\Input\WEG_MAXIT` in Aspen Plus V14.
-  Promote only if the reopened original-archive candidate has the complete strict version-bound summary and actual raw-history gate;
-  a local warning exemption is diagnostic/relaxed-case evidence only.
+  Verify completion and complete, clean same-run Control Panel messages and raw
+  history from the reopened original-archive candidate. Require full native
+  all-zero count proof only when explicitly requested.
 - Treat physical connectivity and convergence tears as separate evidence. A
   stream removed from the explicit tear list can remain physically connected;
   verify both the FLOWSHEET block/stream map and the exported TEAR card before
@@ -330,14 +327,12 @@ of included content. Missing local help cannot be filled from historical values.
 - Final delivery zero-warning gate: before promoting an APW/BKP package, reopen
   the exact delivery file, run it, export after-run `.inp/.bkp`, stream and
   block-status tables, and capture the real Aspen `.his` Control Panel history.
-  The final Run Status summary must be complete for its source-verified
-  version/format and every Terminal Errors, Severe Errors, Errors and Warnings
-  count must be zero. The same run's Control Panel message stream and separate
-  current raw `.his` must contain no actual error or warning lines. Targeted
-  scans must also be clean for zero-feed
-  startup, RYield normalization, atom-balance, reactor mass-balance,
-  negative-NPSH, and warning/error/severe blocks. If products pass but `.his` or
-  the Run Status Results table is dirty, the case is not a delivery candidate.
+  The same run's complete Control Panel message stream and separate current raw
+  `.his` must contain no actual errors or warnings. Targeted scans must also be
+  clean for zero-feed startup, RYield normalization, atom balance, reactor mass
+  balance, negative NPSH and warning/error/severe blocks. Retain observed counts
+  and investigate anomalies. A full all-zero table is an extra proof only when
+  explicitly required.
 - Zero-warning scanners must parse terminal summary counts and message context,
   not raw warning-word frequency. Phrases that state the final run generated no
   errors or warnings are success evidence only when the same `.his` has no
@@ -449,25 +444,26 @@ process monitor or orphan terminator.
 
 ## Delivery Workflow Order
 
-For a strict Aspen `.bkp`, `.apw`, or `.apwz` acceptance claim, collect all gates below.
-Evidence collection may proceed independently where its inputs are valid; report scoped assets
-and unresolved gates without calling the whole case strict-passed.
+For Aspen `.bkp`, `.apw`, or `.apwz` delivery, satisfy all applicable gates below.
+Collect evidence independently where its inputs are valid and report unresolved
+requirements against the scope they affect.
 
 1. Freeze the source route, change-offset table, allowed edits, and product
    targets before mutating Aspen files.
 2. Build or repair only a protected working candidate, then run/export enough
    evidence to diagnose required-input, block-status, and product gaps.
-3. When a candidate appears solved, run the clean-delivery audit first: reopen
-   that exact candidate with no model edits, run it, force `.his` generation,
-   and parse `Summary of Simulation Errors`.
-4. If any Terminal Errors, Severe Errors, Errors, or Warnings count is nonzero
-   in any named column of the complete verified version/format schema,
-   quarantine the candidate even if product flow, purity, `BLKSTAT=0`, and
-   `NextIncomplete=('', 0)` pass. Repair the Run Status cause before continuing.
-5. Check product/capacity/impurity/recycle gates on the same candidate whenever
-   their current-run inputs and upstream states are valid. Missing Summary alone
-   does not stop these checks; unresolved errors affecting results do. Keep their
-   outcomes separate until all required gates support the overall acceptance claim.
+3. Reopen the exact candidate without edits and run the clean-delivery audit
+   in `--mode run` (default). Verify completion and scan complete Control Panel
+   messages and raw `.his` from that run. Use `--mode strict` only for an explicit
+   requirement to prove the native counts are all zero.
+4. For actual diagnostics, nonzero counts, nonconvergence, abnormal results or
+   contradictory evidence, inspect the native Summary and the affected blocks
+   or streams. Quarantine affected results, repair the issue, then verify a
+   repeat of the same case. Record a clean run's unreported table without
+   rerunning solely to obtain counts.
+5. Check Required Input, blocks, product/capacity/impurity, balances and recycle
+   on the same candidate when current-run inputs and upstream results are valid.
+   Satisfy all applicable gates before overall acceptance.
 6. Copy the accepted file to the user-facing delivery path, hash it, reopen
    that exact copied delivery file without edits, rerun the clean-delivery audit,
    and rerun or attach the product evidence from the exact delivery file.

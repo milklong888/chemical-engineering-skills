@@ -275,11 +275,11 @@ Use two acceptance labels:
   compression remains, and boundary/downstream streams meet the stated
   comparison criterion. It can stop topology exploration but cannot pass
   the strict island or final-delivery gate while any warning/error remains.
-- `zero_warning_delivery`: the exact delivered BKP/APW is reopened, rerun, and
-  its complete version-verified Control Panel Summary has zero counts in every
-  Terminal Errors/Severe Errors/Errors/Warnings cell and its current raw
-  history has no actual warning/error line. Startup/recycle history cleanup belongs
-  here; do not change accepted product targets merely to clean history text.
+- `zero_warning_delivery`: reopen and rerun the exact delivered BKP/APW.
+  Confirm completion and scan the complete same-run Control Panel messages and
+  raw history for actual errors and warnings. Investigate anomalies and any
+  reported nonzero counts. Require native all-zero count proof only if expressly
+  requested. Repair startup/recycle warnings on the same product basis.
 
 If local reflux/vapor-return streams are real connected recycles but Aspen does
 not export them on the `TEAR` card after COM insertion attempts, classify that

@@ -41,12 +41,12 @@ its results and descendants are excluded from learning and default retrieval.
   exported-input verification.
 - Priority gate: the current authority artifact names the user-requested target,
   accepted source basis, accepted scaffold, latest hard blocker, and next module.
-- Zero-warning gate: strict is the default. Use the canonical checker on the
-  source-verified complete Summary schema and current raw history, preserving
-  run/file identity. Any actual warning/error fails strict acceptance; missing
-  evidence is not zero. Block-status and named-gate messages are additional
-  diagnosis, not replacements. A user-authorized exception is case-local only
-  and cannot qualify as strict promotion or learning evidence.
+- Clean-run gate: use the canonical checker on verified completion, complete
+  same-run Control Panel messages and raw history, preserving run/file identity.
+  Any actual warning, error or observed nonzero count fails the gate. Inspect
+  the native Summary for anomalies and require its full counts only when the
+  user or contract explicitly asks for all-zero proof. Verify block status and
+  all applicable named gates.
 - Scaffold gate: a yield/stoichiometric plus shortcut skeleton is explicitly
   labeled as scaffold, capacity-balanced, pressure-audited, and not final
   kinetics or separator rigor.

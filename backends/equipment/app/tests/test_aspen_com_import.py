@@ -656,10 +656,11 @@ STREAM-REPOR MOLEFLOW PROPERTIES=TXPORT
         self.assertEqual(record_type, "")
         self.assertTrue(source.startswith("missing:"))
 
-    def test_history_clean_statement_is_zero(self) -> None:
+    def test_history_clean_statement_leaves_numeric_counts_unknown(self) -> None:
         parsed = aspen_com_import.parse_aspen_history("NO ERRORS OR WARNINGS GENERATED\n")
-        self.assertTrue(parsed["found"])
-        self.assertEqual(parsed["counts"], {"terminal_errors": 0, "severe_errors": 0, "errors": 0, "warnings": 0})
+        self.assertTrue(parsed["clean_statement"])
+        self.assertFalse(parsed["found"])
+        self.assertIsNone(parsed["counts"])
         self.assertEqual(parsed["problem_lines"], [])
 
     def test_history_summary_sums_all_columns(self) -> None:

@@ -10,14 +10,14 @@
     768
   ],
   "dtype": "float32",
-  "source_records_sha256": "73a2a0fc29ac5660a22aaf6586d5d510c5d4d9dab70bd0a7b952ea20b6bf2c4b",
+  "source_records_sha256": "8a659604f4c15425d6ec5c64c3fc8c375ba33a14ec1dead4969e184abe73a0d1",
   "records_jsonl": "records.jsonl",
-  "records_sha256": "6bc2f8e1e703c8b24432303d5875b7ad14f43d142cc5aa0eb9003e46ec54f599",
+  "records_sha256": "4f78769556f2b49c1973ac43fd84f800ce62349407c36898d1dc308dddd24dbd",
   "vectors_npy": "vectors.npy",
-  "vectors_sha256": "79d1fb6647d31e9686d829d87dc7c5e18b12b819cc5d855e2a370f59eeeac436",
-  "algorithm_sha256": "88a3044c52c615cb5c4533b95c1d405bbf935e886e2ea078b2ecd2f9b9c2c0be",
-  "query_routing_sha256": "feb1a3f240863755c7cb3d0ed2eb7244783881bda6f44ab7a94a9484dc67e155",
-  "routes_sha256": "7cd6edcbf50c71b255cf5292c68e0e91b5be4e0885c31568d840af9c7ad13276",
+  "vectors_sha256": "d2c12a8db3607c691ac602da5045899bb541b9aa940311fc47c3e848c0106433",
+  "algorithm_sha256": "d8d6bec571b9f4d202b9aac1cdad19a992154170350ee61e1a3ae678c5cc4f18",
+  "query_routing_sha256": "83c86ba2285a8fab985d3850bb37be5f20db73bd989b4ebca6a46c59b0be30ba",
+  "routes_sha256": "719d83e5404477ee52808eb3b99167a0bc9a1c91f674841c6fa02af43bb463fb",
   "excluded_records": [
     {
       "node_id": "UG10-CH06-D017",

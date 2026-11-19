@@ -18,7 +18,7 @@ already chosen the process target and acceptance gates.
 | `design-spec` | One scalar target must be met by one physical degree of freedom | Target, manipulated variable, bounds, residual/status, same-run evidence; query `design_spec.define_vary` |
 | `optimization-regression` | Need constrained objective optimization or parameter fitting | Objective/parameters, constraints/bounds, residuals, validity range |
 | `run-export` | Need Aspen run and authority exports | `Run2` status, block status CSV, stream results CSV, after-run `.inp`; query `run_export.evidence` |
-| `delivery-qa` | Need final Aspen package or PDF verification | Exact delivery file reopen/run proof, `.his` Run Status all-zero proof, stream/block product evidence, target-version compatibility evidence when a target version is named, hashes, and file list |
+| `delivery-qa` | Need final Aspen package or PDF verification | Exact delivery file reopen/run proof, complete same-run Control Panel and `.his`, native all-zero count proof if required, stream/block product evidence, target-version compatibility evidence when a target version is named, hashes, and file list |
 
 ## Manual Graph Queries
 
@@ -186,24 +186,18 @@ hydraulic gates still pass.
 
 ### Final Package And PDF
 
-1. For Aspen `.bkp/.apw/.apwz`, run `delivery-qa` before reporting a final
-   candidate: reopen the exact candidate without model edits, run it, force
-   `.his` generation, parse Run Status Results -> Summary of Simulation Errors,
-   and scan the same raw `.his` for actual problem lines such as `* WARNING`,
-   `WARNING IN THE`, `SEVERE ERROR`, `ERROR IN THE`, terminal errors, or
-   `CHECK THE RUN STATUS`.
-2. Use the canonical evidence checker and the chemical expert's
-   `STRICT_ACCEPTANCE_AND_LEARNING.md`: every named row and column of the
-   source-verified version/format schema must be present and all-zero.
-   Unknown/incomplete schema leaves count and strict-pass claims unverified;
-   observed nonzero counts or actual problem lines remain failures. Keep affected
-   results quarantined while continuing independent checks under the expert
-   [evidence-scope rule](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口).
-   Product flow, purity or `BLKSTAT=0` cannot invent missing counts or cancel errors.
+1. For Aspen `.bkp/.apw/.apwz`, run `delivery-qa`: reopen the exact candidate
+   without edits, verify completion and scan complete same-run Control Panel
+   messages and raw `.his` for actual errors and warnings.
+2. Use the canonical checker in `--mode run` (default) for normal acceptance.
+   Consult the native Summary for anomalies. Preserve any nonzero counts or
+   actual diagnostics and quarantine affected results. Use `--mode strict`
+   when the user or contract explicitly requires all native counts zero.
+   Unreported cells remain unknown. Apply the expert's [evidence-scope rule](../../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口).
 3. With valid current-run evidence, independently verify product, impurity,
    recycle, stream, and block gates on the same accepted candidate.
 4. Copy the accepted Aspen file to the user-facing delivery path, hash it,
-   reopen that copied file with no edits, rerun the Run Status first criterion,
+   reopen that copied file with no edits, repeat the clean-run checks,
    and record the final `.his` plus after-run `.inp/.bkp` evidence.
 5. If the customer target Aspen version is older than the local working version,
    add a target-version compatibility package. For V12 targets from V14, scan

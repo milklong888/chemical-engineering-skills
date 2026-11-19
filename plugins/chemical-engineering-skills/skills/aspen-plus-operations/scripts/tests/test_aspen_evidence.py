@@ -209,6 +209,41 @@ class MessageDecodeTests(unittest.TestCase):
         for text in [table() + '\n* WARNING REAL\nNO ERRORS OR WARNINGS GENERATED', table().replace('Errors  0 0 0 0 0', 'Errors 0 0 0 0 0 * WARNING REAL', 1), table().replace('Severe Errors', '* WARNING REAL\nSevere Errors')]:
             self.assertTrue(ev.find_hard_messages(text))
 
+    def test_raw_control_replay_keeps_export_callbacks_and_clear_does_not_erase_warnings(self):
+        rows = [
+            {'event': 'OnControlPanelMessage', 'epoch': 101, 'message': '  * WARNING late queue', 'clear': False},
+            {'event': 'OnCalculationCompleted', 'epoch': 105},
+            {'event': 'OnControlPanelMessage', 'epoch': 106, 'message': '', 'clear': True},
+            {'event': 'OnControlPanelMessage', 'epoch': 107, 'message': '->Simulation calculations completed ...', 'clear': False},
+            {'event': 'OnControlPanelMessage', 'epoch': 108,
+             'message': ' *** No Errors or Warnings were issued during Simulation ***', 'clear': False},
+            {'event': 'OnCalculationCompleted', 'epoch': 112},
+        ]
+        run = {'started_epoch': 100, 'finished_epoch': 105, 'events_cleared_before_run': True}
+        drain = {'completed': True, 'event_count': len(rows)}
+        observation = ev.inspect_control_events(rows, run, drain)
+        self.assertTrue(observation['capture_complete'])
+        self.assertEqual(observation['completion_event_count'], 2)
+        self.assertEqual(observation['run_completion_event_count'], 1)
+        self.assertIn('* WARNING late queue', observation['text'])
+        self.assertTrue(ev.inspect_control_terminal(observation['text'], ev.parse_summary_counts(observation['text']))['verified'])
+        self.assertTrue(ev.find_hard_messages(observation['text']))
+        self.assertFalse(ev.inspect_control_events(rows, {**run, 'finished_epoch': 104}, drain)['capture_complete'])
+        self.assertFalse(ev.inspect_control_events(rows, run, {**drain, 'event_count': len(rows) - 1})['capture_complete'])
+
+    def test_clean_history_body_and_terminal_marker_are_independent(self):
+        clean = ' NO ERRORS OR WARNINGS GENERATED'
+        header = ' + + ASPEN PLUS CALCULATION HISTORY + +'
+        results = ' Results generated     Time = 13.28'
+        self.assertFalse(ev.inspect_history_text(clean)['native_run_body_verified'])
+        self.assertTrue(ev.inspect_history_text('\n'.join([header, results, clean]))['native_run_body_verified'])
+        self.assertFalse(ev.inspect_history_text('\n'.join([header, clean, results]))['complete'])
+        self.assertFalse(ev.inspect_history_text('\n'.join([results, header, clean]))['native_run_body_verified'])
+
+    def test_native_status_with_nonzero_count_is_a_problem(self):
+        text = ' ***  1 Error was issued during Simulation ***'
+        self.assertTrue(ev.find_hard_messages(text))
+
     def test_supported_encodings_once_and_unknown_failclosed(self):
         text = '* WARNING 中文\n'
         for data in [text.encode('utf-8'), codecs.BOM_UTF8 + text.encode('utf-8'), codecs.BOM_UTF16_LE + text.encode('utf-16-le'), codecs.BOM_UTF16_BE + text.encode('utf-16-be')]:
@@ -265,6 +300,47 @@ class GateTests(unittest.TestCase):
             elif mutation == 'control': args['control_association'] = None
             elif mutation == 'incomplete': args['histories'][0]['complete'] = False
             with self.subTest(mutation=mutation): self.assertFalse(ev.evaluate_clean_gate(**args)['passed'])
+
+    def current_inputs(self):
+        args = self.inputs()
+        args['run'].update(status='completed', completion_event_observed=True, terminal_engine_idle=True)
+        args['control_association'].update(capture_complete=True, terminal_verified=True)
+        history = args['histories'][0]
+        history.update(native_run_body_verified=True, terminal_evidence='CLEAN_STATEMENT')
+        history['association'].update(new_or_changed=True, fresh_time=True, unchanged_during_capture=True)
+        args['expected_blocks'] = ['B1']
+        args['block_statuses'] = [{'block': 'B1', 'blkstat': 0}]
+        args['artifacts'] = [{'role': role, 'exists': True, 'size': 9, 'sha256': 'B' * 64,
+                              'association': args['control_association'].copy()}
+                             for role in ('input_export', 'backup_export')]
+        return args
+
+    def test_default_keeps_legacy_strict_while_explicit_run_can_proceed(self):
+        args = self.current_inputs()
+        args['summary'] = ev.parse_summary_counts('')
+        legacy = ev.evaluate_clean_gate(**args)
+        self.assertEqual(legacy['schema_version'], 'aspen_clean_gate/2')
+        self.assertEqual(legacy['gate_status'], 'FAIL')
+        self.assertFalse(legacy['passed'])
+        run = ev.evaluate_clean_gate(**args, mode='run')
+        self.assertTrue(run['passed'])
+        self.assertFalse(run['strict_solver_passed'])
+        self.assertEqual(run['summary_counts_status'], 'unknown')
+        strict = ev.evaluate_clean_gate(**args, mode='strict')
+        self.assertFalse(strict['passed'])
+        self.assertEqual(strict['simulation_assessment'], 'PASS')
+
+    def test_explicit_strict_checks_cells_and_explicit_run_rejects_known_nonzero(self):
+        args = self.current_inputs()
+        strict = ev.evaluate_clean_gate(**args, mode='strict')
+        self.assertTrue(strict['strict_solver_passed'])
+        args['summary']['counts'].pop('Warnings')
+        self.assertFalse(ev.evaluate_clean_gate(**args, mode='strict')['passed'])
+        args['summary'] = ev.parse_summary_counts(native_table().replace('Warnings 0 0 0', 'Warnings 0 0 1'))
+        run = ev.evaluate_clean_gate(**args, mode='run')
+        self.assertFalse(run['passed'])
+        self.assertEqual(run['simulation_assessment'], 'FAIL')
+        self.assertEqual(run['summary_counts_status'], 'nonzero')
 
     def test_actual_history_warning_always_fails(self):
         args = self.inputs()

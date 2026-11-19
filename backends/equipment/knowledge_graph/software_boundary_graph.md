@@ -13,7 +13,7 @@
 
 - `HeatX Detailed` 不是 Aspen EDR；必须有同设备 `.EDR`、严格 EDR 模式和结果读回。
 - EDR COM 的 `Run2=0` 不是通过结论；同时检查 `IsComplete`、XML `TascMsg` 和物理结果。
-- Aspen Control Panel 全零只证明模型交付门槛；不能把负面积裕量或物性范围提示改写成设备设计通过。
+- Aspen 运行证据用于核验模型运行。设备设计另核面积裕量、物性范围与适用机械要求。
 - EDR 负责热工/水力/振动评级，不替代 SW6 管板、法兰、壳体、开孔、支座和厂家制造确认。
 - 详细路由由包内 `aspen-edr-rating-delivery` 技能承担；原项目叠加图谱是可选本地资料，未随本包提供。
 

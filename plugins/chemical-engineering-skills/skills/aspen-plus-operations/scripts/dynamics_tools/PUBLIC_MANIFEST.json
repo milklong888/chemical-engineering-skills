@@ -11,7 +11,7 @@
     {
       "path": "DEPENDENCIES.md",
       "size": 3870,
-      "sha256": "d9357d991b958326f0bbc1dc4530fdd3bc5fa7045a83317a89b275e744c57311"
+      "sha256": "e8941978173b704aaa260ff11ebcdd578b72da07b318bee5b5baa0fa70b13875"
     },
     {
       "path": "examples/demo_offline.py",
@@ -60,8 +60,8 @@
     },
     {
       "path": "RELOCATION.json",
-      "size": 11387,
-      "sha256": "ca3839d6d119cc9f4f858ade5dff5ee92d792b33a5a913af359a58ba97346c0d"
+      "size": 11612,
+      "sha256": "b90a67dc6bba22598fddb7c289366ee48ac148f3d35b664cd02ceb479bb9a68f"
     },
     {
       "path": "requirements-mcp.txt",
@@ -95,8 +95,8 @@
     },
     {
       "path": "tests/test_offline_facade.py",
-      "size": 8523,
-      "sha256": "941e5daa2d541f21df5785c1cb351ac20184f7ddf08134329c3d3f68d959f631"
+      "size": 9133,
+      "sha256": "42132c8f3fe300b6f2c484231845407514016149849cb16f59f67401e91a84e7"
     },
     {
       "path": "tests/test_toolpack.py",
@@ -110,8 +110,8 @@
     },
     {
       "path": "toolpack.py",
-      "size": 14050,
-      "sha256": "291d7decd928c10f5e3a77f8d643a658b8d9f830e9d59f39abd55cfc96d3282e"
+      "size": 14176,
+      "sha256": "d3f11b0df681d943b14be81a4337895a5a370ba0e89bcff206007a765e0832db"
     }
   ]
 }

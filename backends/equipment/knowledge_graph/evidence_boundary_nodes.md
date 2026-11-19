@@ -30,7 +30,7 @@
 1. `EDR file present`：只有文件身份，不代表运行或完成。
 2. `EDR calculation accepted`：同设备 `.EDR` 的 `TascMsg` 无未解决的输入错误/运行失败，结果物理合理。
 3. `Aspen binding accepted`：重开后仍为 `TASCPLUS-RIG` 且报告/输出证明 EDR 执行。
-4. `Aspen delivery accepted`：最终复制文件 Required Input 完整、Run Status 全零、原始历史无实际问题行，流程与产品门槛保持。
+4. `Aspen delivery accepted`：最终复制文件无编辑复开、运行完成、Required Input 完整、同次完整 Control Panel 消息和原始 `.his` 无实际错警，流程和产品门槛达标。按明确约定核验原生全零计数。
 5. `engineering design accepted`：面积裕量、压降、速度、振动、物性范围和材料均闭合。
 6. `mechanical/vendor accepted`：SW6、厂家图纸、制造规范和性能保证闭合。
 

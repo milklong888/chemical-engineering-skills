@@ -6,8 +6,8 @@
       "source_path": "app/app_core.py"
     },
     {
-      "sha256": "97F10DFB8E8A1FFCB2EB66254EB6185D7716BD8E7EEC605E6F9C006EA244D205",
-      "size_bytes": 93661,
+      "sha256": "8D104E1257FCB2C27CAA12EB616DC5737E885A531FC4C9CA31247B9312F27B5D",
+      "size_bytes": 92978,
       "source_path": "app/aspen_com_import.py"
     },
     {
@@ -36,8 +36,8 @@
       "source_path": "app/derivation_workbench.py"
     },
     {
-      "sha256": "964835231DF8CA4A355B24FDF4AD7BD006668CC3D97EF92E0A9530A28C4A93C4",
-      "size_bytes": 140087,
+      "sha256": "CE5BB7760CE7EF79AC16CD3213C4F6DFB510D9572B5DF6603B076E04868F1BDA",
+      "size_bytes": 140318,
       "source_path": "app/equipment_design_agent.py"
     },
     {
@@ -76,8 +76,8 @@
       "source_path": "app/viscosity_fallback.py"
     },
     {
-      "sha256": "24A03B05779C4C903FABBDDBC1653BE3420584DED509C357315E0B09D472259C",
-      "size_bytes": 459646,
+      "sha256": "1D6D39AA5791861C54CBE8BA54E058922F88A99FB4E30D7BE2CC01339CB3EE3F",
+      "size_bytes": 465004,
       "source_path": "scripts/aspen_equipment_derivation.py"
     },
     {
@@ -106,10 +106,10 @@
       "source_path": "scripts/case_profile.py"
     }
   ],
-  "manifest_payload_sha256": "FCC0C799BCCD8E40DBA6589A7DF6CD2AF78B8180B60447666C636BF11CEF7E41",
+  "manifest_payload_sha256": "F9751A3F3DED9FED05D448194B38A08BA00A8A61CB75732AD23B11D8D8435257",
   "path_set_sha256": "958F183EF1219C282E0D7480A72E998BBF800D5D7864DB813E609701ED9A3DF4",
   "schema": "equipment-design-source-code-manifest-v1",
-  "source_code_set_sha256": "C5B59B9BA3696493BE8D3E3DAF6A72664A62D27B59FA82FB8877401999A698D4",
+  "source_code_set_sha256": "79378E609EDB42426CD83A76F21EDB6FE5A496FBF56D5A5835CBF9C8813B7AC1",
   "source_paths": [
     "app/app_core.py",
     "app/aspen_com_import.py",
