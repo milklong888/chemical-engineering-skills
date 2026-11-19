@@ -13,7 +13,8 @@
     "Relocated complete public package; preserved source/license notices and historical source metadata",
     "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
     "Updated executable test/example paths and documentation links",
-    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing"
+    "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing",
+    "Active audit evidence and documentation updated after relocation; source identities above retain their original meaning."
   ],
   "files": [
     {
@@ -31,7 +32,7 @@
       "source_size": 5449,
       "destination_path": "README.md",
       "disposition": "relocated",
-      "destination_sha256": "1f155f737a9628fc06fd4041d0de16977be03e2ac8c934c2f8a07930bc94b506",
+      "destination_sha256": "2ca5b18103d9d66ee9ec962256520db99f0cb29b37dde3bc9a257283d8f5471c",
       "transformed": true
     },
     {
@@ -82,7 +83,7 @@
       "source_size": 7106,
       "destination_path": "references/tools-interface.md",
       "disposition": "relocated",
-      "destination_sha256": "68bfa77794df6126984011016701d85c2f74697f9e59509dc2c8b23b2232f52d",
+      "destination_sha256": "b521755eb8169671fcfd3d82d9e2f06a4402ed5f8b933facaa6979d2ec8d4615",
       "transformed": true
     },
     {

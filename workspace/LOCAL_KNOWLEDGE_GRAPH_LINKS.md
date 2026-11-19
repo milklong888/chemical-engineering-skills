@@ -32,7 +32,7 @@
 专业技能中保留的旧图谱名称先按此表解析，不在缺少原目录时重新造图谱或仅返回
 “未安装”。不把未随包的原PDF页、私人案例或真实模型映射到方法卡冒充原件。
 
-查询 `tools/expert_cli.py --query <问题>` 可联查方法节点与设备事实；限定
+查询 `tools/expert_cli.py --query <问题>` 默认检索方法节点。项目开启设备图谱后可联查设备事实；限定
 `--corpus chemical_principles|sun_lanyi|aspen_v10|equipment|equipment_standards` 可减少无关加载。
 加 `--vector` 使用包内768维原算法哈希向量，未训练语义模型；默认基础查询不需
 NumPy。`knowledge/manifest.json`与各后端清单说明实际载荷和缺口。

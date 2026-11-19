@@ -8,7 +8,7 @@
 设备设计图谱与脚本
 └─ Aspen导出适配
    ├─ aspen-equipment-export-v1
-   ├─ aspen-run-status-evidence-v1
+   ├─ aspen_clean_delivery_audit/3 或历史 aspen-run-status-evidence-v1
    └─ aspen_equipment_derivation.py
       -> equipment_design_match.py
       -> 标准/公式/型号状态
@@ -22,8 +22,8 @@ Aspen skill 负责机械导出和运行证据，本节点负责把导出结果�
 实际JSON导出文件
 -> 重读文件并核对内存对象
 -> 导出文件SHA256
--> 原始.his及SHA256
--> Run Status四类非负整数计数和问题行
+-> 同案运行审计、完整 Control Panel 与原始 .his 的身份与复验
+-> 实际诊断及原生计数证明状态
 -> 流股/模块/连接字段
 -> 同义字段冲突检查
 -> 显式单位与绝压/表压换算
@@ -55,9 +55,11 @@ Aspen clean-run 只证明流程侧工况可作为 process basis，不证明设�
 
 `formal_use_gate` 只有在以下条件全部满足时才为 `ELIGIBLE_AS_PROCESS_BASIS`：
 
-1. Run Status JSON、原始 `.his` 和各自 SHA256 一致；
-2. terminal/severe/error/warning 计数全零且为整数；
-3. 原始问题行为空；
-4. 设备身份、端口基数、必需计算和 Aspen 对账无阻断。
+1. 导出绑定的模型路径、文件哈希及审计回执属于同案，完成与同次日志通过复验。
+2. 实际问题行为空，相关块状态与设备身份、端口、必需计算和 Aspen 对账无阻断。
+3. `case.run_status_mode="strict"` 明确要求完整原生计数全零，须使用 `aspen_clean_delivery_audit/3` 证明；普通运行的计数未输出时保持未知。
+4. 历史 `aspen-run-status-evidence-v1` 继续按原数值及历史文件核验。明确列出的原始计数才可用，成功短语不产生计数。
+
+已有导出可通过 `case.run_status_evidence_path` 和 `case.run_status_evidence_sha256` 关联审计回执，也可用推导 CLI 的 `--audit-receipt` 或 `aspen_derive` 的 `audit_receipt_path`。这两个入口复用已经留存的运行证据。
 
 型号升级另需 `equipment-evidence-manifest-v1` 逐 gate 关联同位号、同设备族、同候选型号的不同工件；`final_model` 还需 `equipment-audit-approval-v1` 独立审核批准记录。大模型只允许生成或核查该审核记录，不能修改确定性匹配结果。

@@ -85,10 +85,11 @@ column specs still require a unit/card ledger before they are written to Aspen.
   setting precision to `0.001` is already a deduction, and setting it above
   `0.001` is a larger deduction. Record run status, control-panel
   errors/warnings, block CSV, stream CSV, and exported after-run input. Do not
-  promote a strict case with any actual simulation error or warning; explaining
-  the cause is not an exemption. Use the central complete source-bound Summary
-  and raw-history gate. Any explicitly relaxed case and its descendants remain
-  audit-only and learning-ineligible.
+  promote a case with any actual simulation error or warning. Use the central
+  completion, complete same-run Control Panel and raw-history gate. Consult
+  the native Summary for actual anomalies and require all-zero count proof only
+  when expressly requested. Explicitly relaxed cases and their descendants
+  remain audit-only and learning-ineligible.
 - Taskbook basis gate: because the taskbook leaves raw materials, product
   structure/specs, and production scale open, do not treat the taskbook as a
   process recipe. Require market/resource/economic justification plus a

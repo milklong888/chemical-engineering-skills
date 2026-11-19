@@ -44,9 +44,10 @@ def describe(runner):
             "skill": skill_location(), "equipment_gateway": describe_policy(),
             "original_backend_capabilities": original,
             "backend_skill_path_notice": "The original backend's legacy global_skill_installed field describes its old layout; this product's skill object above uses the explicit installed layout.",
-            "operations": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema"],
-            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog", "module-tools"],
+            "operations": ["search", "equipment_graph", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema", "task_closeout"],
+            "product_schema_ids": ["expert-request", "process-feedback", "pressure-methods", "process-replay-audit", "design-stage", "fullflow-contract", "solve-route", "workflow-catalog", "module-tools", "task-closeout"],
             "knowledge": {"corpora": ["all", "chemical_principles", "sun_lanyi", "aspen_v10", "equipment", "equipment_standards"],
+                          "equipment_graph": "Off by default for general searches. Set enabled=true/false on operation equipment_graph at the project evidence root; an empty payload reads it. An explicit equipment corpus is a one-time search.",
                           "query_modes": ["lexical", "hash_vector", "exact_node_id"],
                           "detail": True, "full_text": True, "knowledge_update_entry": "knowledge/scripts/build_knowledge_version.py"},
             "examples": ["examples/heat_exchanger_request.json", "examples/parallel_pressure_request.json", "examples/prepare_feedback_case.py"],
@@ -57,6 +58,9 @@ def describe(runner):
 
 
 def schema(schema_id, runner):
+    if schema_id == "task-closeout":
+        from tools.task_closeout import schema as closeout_schema
+        return closeout_schema()
     if schema_id == "module-tools":
         from tools.module_tools import schema as module_schema
         return module_schema()
@@ -66,7 +70,7 @@ def schema(schema_id, runner):
     if schema_id == "expert-request":
         return {"$schema": "https://json-schema.org/draft/2020-12/schema", "type": "object",
                 "required": ["operation", "payload"], "properties": {
-                    "operation": {"enum": ["search", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema"]},
+                    "operation": {"enum": ["search", "equipment_graph", "equipment", "equipment_batch", "pressure", "feedback", "replay_audit", "design_stage", "solve_route", "workflow", "module_catalog", "module_check", "capabilities", "schema", "task_closeout"]},
                     "payload": {"type": "object"}},
                 "description": "equipment payload is an original Agent request; equipment_batch payload has requests[]. Use original schema_get IDs for detailed backend inputs."}
     if schema_id == "pressure-methods":
@@ -128,9 +132,10 @@ def schema(schema_id, runner):
             "additionalProperties": False, "required": ["stage", "question"],
             "properties": {
                 "stage": {"enum": list(STAGES)}, "question": {"type": "string", "minLength": 1},
-                "source_work": {"enum": ["expert_plan"], "description": "Source-only opt-in to the existing planning workflow and strict declaration checker; omission preserves narrow source queries."},
-                "planning_handoff": {"$ref": "#/$defs/planning_reference", "description": "Only with source_work=expert_plan and stage=source. Exact hash-bound document-flow-handoff-v1 source input to the registered existing checker; no caller checker or runner."},
-                "case_id": {"type": "string"}, "run_id": {"type": "string"},
+                "equipment_graph": {"type": "boolean", "description": "Persist the user's choice for equipment graph searches at this project evidence root. Omit to use the saved choice; a new project defaults to off."},
+                "source_work": {"enum": ["expert_plan", "buildable_plan"], "description": "At source, buildable_plan requests a complete first-model article and three independent full-chain reviews. Engineering intent or the frozen planning scope can also select it. expert_plan still supports narrower planning."},
+                "planning_handoff": {"$ref": "#/$defs/planning_reference", "description": "Exact hash-bound document-flow-handoff-v1 input, at the source planning stage."},
+                "case_id": {"type": "string"}, "run_id": {"type": "string"}, "task_revision": {"type": "string", "minLength": 1},
                 "source_export": {"$ref": "#/$defs/reference"}, "authority": {"$ref": "#/$defs/reference"},
                 "fullflow_contract": {"$ref": "#/$defs/reference", "description": "Required for whole-flow generation and its continuing stages; discover fullflow-contract. Hash-bound workflow evidence is not engineering acceptance."},
                 "detail": {"type": "boolean", "description": "Source-stage detail opt-in; later stages retrieve implementation methods automatically"},
@@ -149,8 +154,7 @@ def schema(schema_id, runner):
                     "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}},
             "allOf": [
                 {"if": {"required": ["source_work"]}, "then": {"properties": {"stage": {"const": "source"}}}},
-                {"if": {"required": ["planning_handoff"]}, "then": {"required": ["source_work"],
-                    "properties": {"stage": {"const": "source"}, "source_work": {"const": "expert_plan"}}}},
+                {"if": {"required": ["planning_handoff"]}, "then": {"properties": {"stage": {"const": "source"}}}},
             ],
             "operation": "design_stage", "description": "This schema describes the payload of an expert request. Source needs no invented equipment inputs. Later stages expose local needs when current references or device requests are absent.",
             "example": {"operation": "design_stage", "payload": {"stage": "source", "question": "预热与压缩如何减少高温公用工程"}},

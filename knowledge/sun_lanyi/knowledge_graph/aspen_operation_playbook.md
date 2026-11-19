@@ -212,8 +212,9 @@ Required order:
 6. Apply engineering gates: positive or explicitly accepted area margin,
    pressure and velocity limits, vibration, property-curve coverage, and
    materials basis.
-7. Apply Aspen delivery gates separately: Required Input complete, all-zero Run
-   Status/history, and unchanged authorized process/product/recycle targets.
+7. Verify Required Input, completed Aspen run, clean full same-run Control
+   Panel messages and history, and unchanged authorized process/product/recycle
+   targets. Use the native Summary for anomalies or explicitly required counts.
 8. Copy, hash, reopen, rerun, and re-audit the exact user-facing BKP/APW.
 
 Never transfer project exchanger values, geometry, materials, method choice,

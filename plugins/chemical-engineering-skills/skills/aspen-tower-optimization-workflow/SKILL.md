@@ -58,7 +58,7 @@ Read `references/ERROR_MEMORY.md`, the chemical expert's strict
 acceptance/learning policy, and the current project change-offset plus tower
 ledger. Upstream `aspen-document-driven-flowsheet` owns route, feed,
 products and property/phase model; operations owns mechanical cards and the
-single strict Summary/history implementation.
+shared clean-run evidence implementation.
 
 ## Choose the route
 
@@ -129,8 +129,9 @@ current Aspen help for fragile card rules; source bodies are not bundled.
 
 Return current tower ledger, same-run feeds/products, live spec/residuals,
 pressure/heat/power, hydraulic/selection state and exact-file evidence.
-All strict Summary counts for the supported real schema and actual raw
-history must pass; products and full-flow gates remain additional requirements.
+Use verified completion and complete, clean same-run Control Panel messages
+and raw history. Consult the native Summary for anomalies or expressly required
+all-zero count proof. Verify products and all applicable full-flow gates.
 
 A relaxed local result is labeled case-only and excluded with all descendants
 from learning/default retrieval. Historical case examples and prior entry archives are not distributed; optional

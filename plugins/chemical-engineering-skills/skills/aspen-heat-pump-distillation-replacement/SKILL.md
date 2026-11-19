@@ -67,8 +67,9 @@ change-offset rows, and final promotion.
 First read `references/ERROR_MEMORY.md` and the chemical expert's
 `STRICT_ACCEPTANCE_AND_LEARNING.md`. Strict is the default; a user-authorized
 local relaxation and all descendants are audit-only, never self-evolution or
-shared/default knowledge. Use the same complete version-bound Summary/history
-gate as operations, not a separate warning exception.
+shared/default knowledge. Apply the operations clean-run gate with completion
+and complete same-run Control Panel messages and raw history. Use the native
+Summary for anomalies or expressly required all-zero count proof.
 
 Open these files before edits:
 

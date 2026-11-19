@@ -432,10 +432,11 @@ class SourcePlanHookTests(unittest.TestCase):
 
     def test_schema_declares_source_only_mode_and_strict_reference(self):
         schema = product.schema("design-stage", lambda request: {})
-        self.assertEqual(schema["properties"]["source_work"]["enum"], ["expert_plan"])
+        self.assertEqual(schema["properties"]["source_work"]["enum"], ["expert_plan", "buildable_plan"])
         self.assertFalse(schema["$defs"]["planning_reference"]["additionalProperties"])
         self.assertEqual(schema["allOf"][0]["then"]["properties"]["stage"]["const"], "source")
-        self.assertIn("source_work", schema["allOf"][1]["then"]["required"])
+        self.assertEqual(schema["allOf"][1]["if"]["required"], ["planning_handoff"])
+        self.assertEqual(schema["allOf"][1]["then"]["properties"]["stage"]["const"], "source")
 
 
 if __name__ == "__main__":

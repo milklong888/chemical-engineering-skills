@@ -138,7 +138,7 @@ def experience_gate(change, directory, owners):
 def known_task_artifact(path, evaluator):
     """Route registered actual task records, not words such as 'case' in sources."""
     known=set(evaluator.AUDIT_SCHEMAS)|{evaluator.SCHEMA,'user-task-closure-event-v1',
-        'aspen-parser-refactor-validation-v1','aspen_clean_delivery_audit/2',
+        'aspen-parser-refactor-validation-v1','aspen_clean_delivery_audit/2','aspen_clean_delivery_audit/3',
         'knowledge-candidate-build-v1','knowledge-pending-intake-v1'}
     try:
         with path.open('rb') as stream:prefix=stream.read(256).lstrip(b'\xef\xbb\xbf \r\n\t')

@@ -9,6 +9,8 @@ description: Execute Aspen Plus case I/O, component/property and block/stream ca
 
 ## 工作过程
 
+新建完整简化流程的第一次原生求解，从阶段协调器 `tools.design_stage.run_buildable_first_scaffold` 调用本层的既有运行函数。三份独立全链审查使用同一份可建模正文，检查未齐时继续补相应规格或复核。已存在文件的机械复开、故障取证和纯资料咨询沿用各自入口。[首版与切岛规格交接](references/unit_modeling_workflow.md)
+
 单模块文字规划也要交接完整：必须实际读取
 [单模块方法及交接检查](references/unit_modeling_workflow.md)
 的适用部分。输出当前目标—具体操纵/写入变量—边界来源—插入阶段—每轮执行先后
@@ -58,7 +60,7 @@ SetValue/Run 不是原生 Sensitivity；卡片、结果表、残差和依赖顺�
 | --- | --- | --- |
 | Common session, units, version and resources | `scripts/aspen_runtime.py` | Structured operation/lifecycle evidence, not process feasibility |
 | Bounded external worker | `scripts/aspen_run_supervisor.py` | Stage timeout/owned-worker supervision, not permission to kill other sessions |
-| Summary/history interpretation | `scripts/aspen_evidence.py` | Complete supported-schema counts and actual diagnostics |
+| Summary/history interpretation | `scripts/aspen_evidence.py` | Actual diagnostics and supported-schema counts when reported |
 | No-edit candidate audit | `scripts/aspen_clean_delivery_audit.py` | The emitted evidence gates for the tested candidate/run |
 | APW save/reopen | `scripts/apw_saveas_reopen_check.py` | Mechanical save/reopen separately from strict simulation/delivery evidence |
 | Card rules and targeted static checks | `references/operation_graph.md` | Routes to existing documented field-specific tools |
@@ -96,15 +98,9 @@ history, uncertain engine state or unsupported format is explicit—not zero.
 
 ## Strict handoff
 
-先按[可验证范围](../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#可验证范围与局部缺口)区分当前具体结论与整体严格通过。Summary缺失仅保留计数未知和相关未完成项；继续独立的输入、连接、产品或文件核查。下述完整证据约束严格通过，不把未知当实际软件错误，不豁免已见非零或报错。
+Apply the expert's [Aspen run evidence standard](../chemical-engineering-expert/references/STRICT_ACCEPTANCE_AND_LEARNING.md#2-aspen运行状态检查). Confirm calculation completion, candidate and run identity, and fully captured, decodable Control Panel messages and raw `.his` from that run. Scan both for actual errors, warnings and contradictions. Check Required Input, block status, recycle, balances, products and equipment where applicable. Compare final tolerance cards against the frozen pre-edit baseline. Missing relevant evidence leaves its gate open.
 
-Verify the same candidate's complete source-verified version/format Summary
-(Terminal Errors, Severe Errors, Errors, Warnings: all named counts zero),
-current Control Panel actual-message scan, raw history, run identity, and no
-contradictions. Compare the final export's tolerance cards with the frozen
-pre-edit baseline; missing comparison remains an open gate. Physical Property is
-one wrapped column in the observed local format; never fabricate columns or
-missing zeros. Check project targets, balances and equipment independently when their own current-run evidence is valid; only combine complete gates for strict acceptance.
+Use `scripts/aspen_clean_delivery_audit.py --mode run` for the normal default check. Use `--mode strict` when the user asks for proof all 12 native counts are zero or the project contract expressly requires that table. Consult the native Summary to investigate anomalies and retain observed nonzero counts. If a clean run emits no native table, record the counts as unavailable and finish the applicable checks.
 
 After copying to the user-facing path, reopen and run that exact file without
 model edits and bind its hashes/evidence. A staged-copy diagnostic cannot

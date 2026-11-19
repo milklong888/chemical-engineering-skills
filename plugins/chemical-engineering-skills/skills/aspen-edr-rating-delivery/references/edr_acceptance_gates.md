@@ -15,7 +15,7 @@ Use one row per exchanger:
 | EDR completeness | `TascMsg`, complete state, physical results |
 | Aspen binding | Mode/file/result readback after reopen |
 | Engineering status | Area, DP, RhoV2, vibration, property range, materials |
-| Delivery status | Required Input, all-zero history, process/product gates |
+| Delivery status | Required Input, verified completion, clean complete Control Panel messages and raw same-run history, process/product gates |
 | Next action | Smallest allowed repair |
 
 ## Promotion Ladder

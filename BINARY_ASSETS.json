@@ -654,7 +654,7 @@
     {
       "path": "knowledge/vectors/vectors.npy",
       "kind": "numpy_index",
-      "sha256": "79d1fb6647d31e9686d829d87dc7c5e18b12b819cc5d855e2a370f59eeeac436",
+      "sha256": "d2c12a8db3607c691ac602da5045899bb541b9aa940311fc47c3e848c0106433",
       "bytes": 21255296,
       "dtype": "float32",
       "shape": [
@@ -664,7 +664,7 @@
       "allow_pickle": false,
       "source_ledger": "knowledge/vectors/config.json",
       "review_status": "admitted",
-      "redistribution_basis": "Deterministic hash-vector numeric index built solely from admitted original method/operation records; not a trained model"
+      "redistribution_basis": "Deterministic hash-vector numeric index of admitted source records and the locally maintained SUN-OPERATIONS workflow projection. Source identity and maintenance provenance are retained in the knowledge manifest and records."
     }
   ]
 }

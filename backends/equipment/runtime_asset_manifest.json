@@ -1,5 +1,5 @@
 {
-  "bundle_revision": "1F7D8FC06C8C075E6CB33C0C5AA55D568229B40FE3547C521631309A82AC5D1C",
+  "bundle_revision": "6258428A177C75BE45C93782040D782FA53693096E6A84D454156D17D1C0071F",
   "coverage_definition": {
     "complete_requires": [
       "exact manifest path set, size and SHA-256 verification",
@@ -31,14 +31,14 @@
     {
       "asset_class": "equipment_core",
       "runtime_path": "knowledge_graph/aspen_equipment_derivation_chain.md",
-      "sha256": "75984D2FB3B0A04BFB732BC4671C173C0D10A6B0A477AF754633A0CC1699A303",
-      "size_bytes": 2903
+      "sha256": "C4A4712DC89AB5A340DD1402A65B0F0E33F8BC588DBCDDD54A6331A9D112C89B",
+      "size_bytes": 3568
     },
     {
       "asset_class": "equipment_core",
       "runtime_path": "knowledge_graph/aspen_equipment_export.schema.json",
-      "sha256": "5562EC7025ECE195E76FF7FC19C446DC60BCBB651B69CEE0CE7F31BF1FD0146A",
-      "size_bytes": 12572
+      "sha256": "75C2E77A09D6357CB9095FAB275DACDD079B9BA1B824353A8A1419CF4DA941EA",
+      "size_bytes": 12781
     },
     {
       "asset_class": "equipment_core",
@@ -121,8 +121,8 @@
     {
       "asset_class": "equipment_core",
       "runtime_path": "knowledge_graph/evidence_boundary_nodes.md",
-      "sha256": "20F6804289E42DE8D63E154CBA092C5F7C7F67B013C51BE1588AC895A830360D",
-      "size_bytes": 2710
+      "sha256": "ABE65DA12E8CA812C794821C3352613EA8922D4DE0C75519E0AAD1299A8EB1E6",
+      "size_bytes": 2799
     },
     {
       "asset_class": "equipment_core",
@@ -157,14 +157,14 @@
     {
       "asset_class": "equipment_core",
       "runtime_path": "knowledge_graph/RESTORATION_PROVENANCE.json",
-      "sha256": "521B5A7187ED6BFBF7D3B03BC9CE9E7BE8927B21D82E7B64F95B1E0742AD3BBE",
-      "size_bytes": 84548
+      "sha256": "60AADD37A4A53A132357074F079D3DE961595EB9CAF74FBD85FD66B59E87B467",
+      "size_bytes": 85098
     },
     {
       "asset_class": "equipment_core",
       "runtime_path": "knowledge_graph/software_boundary_graph.md",
-      "sha256": "B49A8E67F1114B992F9BF450F229F40679873C6F8AC4EDC1960DB4D45576A9C0",
-      "size_bytes": 1771
+      "sha256": "532E117765ACE4526D3A0920F22F8FD98D09271E4A2FD3B5FBB42DF4B22D93B5",
+      "size_bytes": 1754
     },
     {
       "asset_class": "design_standards",
@@ -629,7 +629,7 @@
       "size_bytes": 12983
     }
   ],
-  "generated_utc": "2026-09-09T17:09:05.749530+00:00",
+  "generated_utc": "2026-11-18T18:05:59.338108+00:00",
   "package_counts": {
     "design_standards": 6,
     "deterministic_data": 10,
@@ -640,7 +640,7 @@
   "package_size_bytes": {
     "design_standards": 18812,
     "deterministic_data": 9340766,
-    "equipment_core": 1047909,
+    "equipment_core": 1049405,
     "equipment_model_authority": 124872,
     "protocol_schemas": 108862
   },
@@ -671,5 +671,5 @@
     "status": "PASS"
   },
   "total_files": 100,
-  "total_size_bytes": 10641221
+  "total_size_bytes": 10642717
 }

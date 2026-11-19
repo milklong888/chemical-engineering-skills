@@ -25,8 +25,9 @@ downloaded README examples are not proof the target machine supports them.
 - Use the common runtime/supervisor for owned-session/timeout/lock handling.
 - Preserve tool name, arguments, exact case identity, changed nodes, result
   state, paths/hashes, missing dependencies and close outcome.
-- Final acceptance remains the shared strict Summary/history implementation
-  plus current project/product/equipment gates on the exact candidate.
+- Apply the shared operations checks for completion, full same-run messages and
+  raw history, and any expressly required native count proof. Verify current
+  project/product/equipment gates on the exact candidate.
 - Successful MCP prose does not prove current raw history is clean or that
   saved files reopen unchanged.
 

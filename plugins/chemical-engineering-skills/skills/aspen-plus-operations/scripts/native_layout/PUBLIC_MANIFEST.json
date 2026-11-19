@@ -25,18 +25,18 @@
     },
     {
       "path": "README.md",
-      "size": 5796,
-      "sha256": "1f155f737a9628fc06fd4041d0de16977be03e2ac8c934c2f8a07930bc94b506"
+      "size": 5790,
+      "sha256": "2ca5b18103d9d66ee9ec962256520db99f0cb29b37dde3bc9a257283d8f5471c"
     },
     {
       "path": "references/tools-interface.md",
-      "size": 7171,
-      "sha256": "68bfa77794df6126984011016701d85c2f74697f9e59509dc2c8b23b2232f52d"
+      "size": 7204,
+      "sha256": "b521755eb8169671fcfd3d82d9e2f06a4402ed5f8b933facaa6979d2ec8d4615"
     },
     {
       "path": "RELOCATION.json",
-      "size": 5412,
-      "sha256": "fc8068d9a31cbaf02266cc0f0d472f315fcff2b7bf1c8adee0b6c0c178108a3d"
+      "size": 5540,
+      "sha256": "0660bc27aa59ed25e8026b960d9beb0059e6f0ca0d1ecf2ee383ddf8d233e856"
     },
     {
       "path": "SOURCE_METADATA.json",

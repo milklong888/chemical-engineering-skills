@@ -27,6 +27,15 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 class StandaloneKnowledge(unittest.TestCase):
+    @unittest.skipUnless(importlib.util.find_spec("numpy"), "Local index construction requires NumPy")
+    def test_indexed_file_chunk_preserves_method_section_after_preview_limit(self):
+        vectorizer, _ = vector_adapter.modules()
+        body = "a" * 1850 + "\n## 3. Required-method lock\nUse the specified method."
+        with tempfile.TemporaryDirectory() as temporary:
+            records = Path(temporary) / "records.jsonl"
+            vectorizer.write_jsonl(records, [{"scope": "file-chunk", "text": body}])
+            self.assertEqual(json.loads(records.read_bytes())["text"], body)
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(prefix='knowledge-lifecycle-test-')
         self.addCleanup(self.temp.cleanup)
@@ -192,10 +201,12 @@ class StandaloneKnowledge(unittest.TestCase):
         self.assertIn('SOURCE_INTRINSIC_EXCLUSION',result['decisions'][0]['reasons'])
 
     def test_19_strict_actual_task_receipt_still_requires_closure(self):
-        write_json(self.source,{'schema':'aspen_clean_delivery_audit/2','passed':True,'relaxation_applied':False})
-        self.change['source']['sha256']=sha(self.source);self.refresh()
-        result=self.cli(inspect=True,expected=2)
-        self.assertIn('TASK_ARTIFACT_REQUIRES_EXPERIENCE_LANE',result['decisions'][0]['reasons'])
+        for schema, version in [('schema', '2'), ('schema_version', '3')]:
+            with self.subTest(version=version):
+                write_json(self.source,{schema:'aspen_clean_delivery_audit/'+version,'passed':True,'relaxation_applied':False})
+                self.change['source']['sha256']=sha(self.source);self.refresh()
+                result=self.cli(inspect=True,expected=2)
+                self.assertIn('TASK_ARTIFACT_REQUIRES_EXPERIENCE_LANE',result['decisions'][0]['reasons'])
 
     def test_20_external_schema_definition_is_not_a_task_record(self):
         write_json(self.source,{'$schema':'https://json-schema.org/draft/2020-12/schema','properties':{'example':{'const':{'schema':'aspen_clean_delivery_audit/2','relaxation_applied':True}}}})

@@ -84,7 +84,7 @@ Use `aspen-plus-operations` for the final sequence:
 protected candidate
 -> no-mutation reopen/run/export
 -> EDR readback and report audit
--> Required Input and all-zero history
+-> Required Input and complete, clean same-run Control Panel and history
 -> process/product/recycle gates
 -> copy to delivery path and hash
 -> no-mutation reopen/run/export of copied file

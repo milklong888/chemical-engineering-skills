@@ -291,6 +291,17 @@ Each row has:
 - `condition_or_basis`: why that action applies or the minimum condition that
   decides the branch. Unknown numbers do not erase the interface decision.
 
+When both endpoints are declared, a process equipment tag named in
+`equipment_action` must be one of those endpoints. Give the action for the
+stream itself. Put nonlocal supply and loss dependencies in the pressure
+group's `equation_or_reason`, or name equipment on the interface where it acts.
+The checker recognizes exact registered process IDs written as standalone
+uppercase equipment tags (at least two characters) or as inline code.
+Use ordinary role names for generic equipment descriptions. Shared connector
+rules are allowed across rows. Unknown endpoints remain unresolved and require
+review. This check reads declared identifiers and does not evaluate the pressure
+arithmetic or interpret untagged prose.
+
 N/A pressure groups omit this field or use an empty list with their original
 specific N/A reason. N/A cannot mean “operating data not supplied”; that remains
 a symbolic service. These declarations are not a new pressure calculator.

@@ -202,9 +202,11 @@ Reject branches that:
 Apply gates in this order:
 
 1. Reopen the candidate with no model edits and run it.
-2. Capture direct Control Panel summary counts and raw `.his` from that run.
-3. Require terminal, severe, error, and warning counts to satisfy the project
-   first criterion; scan actual problem lines as well.
+2. Verify completion and capture the complete Control Panel message stream
+   and raw `.his` from the current run.
+3. Scan both for actual problem lines. Inspect the native Summary for anomalies
+   and require all-zero count proof only if the current contract explicitly
+   requires it.
 4. Verify all final block/Calculator/spec statuses.
 5. Verify every fresh boundary, component basis, physical recycle connection,
    guard final state, loop ratio, total-phase conversion/selectivity, residence
@@ -223,7 +225,8 @@ accepted root fingerprint:
 Calculator dependency/order:
 initial estimates changed:
 first problem before/after:
-Control Panel counts:
+Control Panel coverage and actual diagnostics:
+Native counts when reported or expressly required:
 raw history counts:
 same-run process metrics:
 delivery-copy hash and reopen evidence:

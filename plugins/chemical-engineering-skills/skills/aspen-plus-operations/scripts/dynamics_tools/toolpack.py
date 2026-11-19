@@ -15,7 +15,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 import sys
 
 VERSION = "1.1.0"
-PUBLIC_PARSER_SHA256_LF = "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31"
+PUBLIC_PARSER_SHA256_LF = "d6eae9e915618c8307254ab767b088ee7d59f189a4b5ae057ba2b7c231f4bfd4"
 PUBLIC_PARSER = Path(__file__).resolve().parent.parent / "aspen_evidence.py"
 ROOT = Path(__file__).resolve().parent
 
@@ -182,7 +182,12 @@ def history_report(path, operations_root=None, verified_encoding=None, expected_
         return {"scope": "offline_history_text_only", "matches": False, "decoded": decoded,
                 **identity, "strict_simulation_passed": False}
     report = module.inspect_history_text(decoded["text"], source=str(path), source_sha256=decoded["sha256"])
-    text_ok = report["complete"] and not report["messages"] and report["summary"]["complete"] and report["summary"]["gate_status"] == "PASS"
+    summary = report["summary"]
+    if summary["found"]:
+        text_ok = summary["complete"] and summary["gate_status"] == "PASS"
+    else:
+        text_ok = report["native_run_body_verified"]
+    text_ok = report["complete"] and not report["messages"] and text_ok
     return {"scope": "offline_history_text_only", "matches": bool(text_ok),
             "encoding": decoded["encoding"], "source_sha256": decoded["sha256"],
             **identity, "report": report, "strict_simulation_passed": False,

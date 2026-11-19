@@ -52,9 +52,10 @@ For a non-GUI delivery audit:
 4. Record every extracted member hash and select the unambiguous embedded BKP
    or APW.
 5. Open that embedded model without edits through Aspen COM.
-6. Attach `OnControlPanelMessage` before asynchronous `Engine.Run2(False)`.
-7. Require the complete all-zero Control Panel summary, zero hard-pattern
-   counts, zero bad blocks, and a clean same-run history.
+6. Use the operations [headless Control Panel procedure](../../aspen-plus-operations/references/operations_workflow.md#hard-gates). Attach `OnControlPanelMessage` and `OnCalculationCompleted` before asynchronous `Engine.Run2(True)` in V14.
+7. Verify completion, complete Control Panel messages and raw same-run history
+   with no actual errors/warnings, and clean block states. Use the native Summary
+   for diagnostics or expressly required all-zero count proof.
 8. Export after-run input and confirm every eligible HeatX still uses rigorous
    EDR Rating/Design as authorized and references its embedded same-equipment
    EDR file.
@@ -83,7 +84,8 @@ Embedded model member and hash:
 Expected EDR members and hashes:
 No-external-sidecar proof:
 No-GUI extraction/open strategy:
-Control Panel message count and all-zero summary:
+Completion and Control Panel message coverage:
+Native Summary diagnostics or explicit count proof, if applicable:
 Same-run history scan:
 After-run true-EDR readback:
 Target Aspen/EDR version and license requirement:

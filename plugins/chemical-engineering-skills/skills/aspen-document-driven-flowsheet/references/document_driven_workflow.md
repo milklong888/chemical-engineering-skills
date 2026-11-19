@@ -166,11 +166,12 @@ operations.
 
 Default construction route:
 
-Complete-flow generation follows [fullflow_generation_workflow.md](fullflow_generation_workflow.md)
-for prompt completion, five independent source reviews, and the native scaffold
-run/recycle initials plus three independent export reviews. The detailed
-engineering operations below remain their implementation, not a way around
-those gates.
+New full-flow projects and plans that define the first model follow the
+[source workflow](fullflow_generation_workflow.md) through three independent
+whole-plan reviews by subagents using the same model and reasoning effort.
+The source gate applies to article-only delivery. Model construction then
+continues to the native scaffold run, recycle initials and three independent
+reviews of the actual exports.
 
 ```text
 source route and change-offset table

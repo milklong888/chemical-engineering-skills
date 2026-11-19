@@ -45,10 +45,13 @@ mcp = FastMCP("chemical-engineering-expert-local", lifespan=lifespan)
 @mcp.tool()
 def knowledge_search(query: str = "", corpus: str = "all", limit: int = 5, vector: bool = False,
                      package_ids: list[str] | None = None, node_id: str | None = None,
-                     detail: bool = False, full_text: bool = False) -> dict:
-    """Search bundled original concept/method cards and equipment facts with scope."""
+                     detail: bool = False, full_text: bool = False,
+                     evidence_root: str | None = None, equipment_graph: bool | None = None) -> dict:
+    """Search bundled knowledge. Pass the project evidence_root to use its optional equipment graph."""
+    if equipment_graph is not None and not evidence_root:
+        raise ValueError("Pass the project's evidence_root to change its equipment graph setting")
     return search(query, corpus, limit, vector, package_ids, node_id, detail, full_text,
-                  equipment_runner=equipment_runner)
+                  equipment_runner=equipment_runner, evidence_root=evidence_root or Path.cwd(), equipment_graph=equipment_graph)
 
 
 @mcp.tool()

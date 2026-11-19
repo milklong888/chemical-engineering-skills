@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import textwrap
 import types
 import unittest
 from unittest import mock
@@ -45,8 +46,10 @@ class FakePythonCom:
 class FakeEngine:
     def __init__(self, mode="completed"):
         self.mode, self.runs = mode, 0
-    def Run2(self, sync):
+        self.run_modes = []
+    def Run2(self, asynchronous):
         self.runs += 1
+        self.run_modes.append(asynchronous)
         if self.mode == "run_error": raise RuntimeError("synthetic Run2 COM error")
     @property
     def IsRunning(self):
@@ -142,8 +145,45 @@ class RuntimeTests(unittest.TestCase):
                 item = session(FakeApp(mode))
                 result = rt.run_case(item, timeout_s=.03, run_id="SYNTHETIC", case_sha256="A" * 64)
                 self.assertEqual(result["status"], expected)
+                self.assertEqual(item.app.Engine.run_modes, [False])
                 self.assertIsNone(result["simulation_clean"])
                 self.assertFalse(result.get("delivery_passed", False))
+                rt.close_session(item)
+
+    def test_async_run_ignores_initial_idle_and_waits_for_terminal_idle(self):
+        item = session()
+
+        class DelayedEngine(FakeEngine):
+            @property
+            def IsRunning(self):
+                return item.pythoncom.pumps in (2, 3)
+
+        item.app.Engine = DelayedEngine()
+        result = rt.run_case(item, timeout_s=1, run_id="SYNTHETIC",
+                             completion_observed=lambda: item.pythoncom.pumps >= 3)
+        self.assertEqual(item.app.Engine.run_modes, [True])
+        self.assertEqual(item.pythoncom.pumps, 4)
+        self.assertEqual(result["run_mode"], "asynchronous")
+        self.assertEqual(result["status"], "completed")
+        self.assertTrue(result["completion_event_observed"])
+        self.assertTrue(result["engine_running_observed"])
+        self.assertTrue(result["terminal_engine_idle"])
+        rt.close_session(item)
+
+    def test_async_run_requires_fresh_completion_event_even_when_already_idle(self):
+        for name, callback, status, modes in (
+            ("fast", lambda item: item.pythoncom.pumps >= 1, "completed", [True]),
+            ("missing", lambda _: False, "timeout", [True]),
+            ("stale", lambda _: True, "state_unknown", []),
+        ):
+            with self.subTest(name=name):
+                item = session()
+                result = rt.run_case(item, timeout_s=.03, run_id="SYNTHETIC",
+                                     completion_observed=lambda: callback(item))
+                self.assertEqual(item.app.Engine.run_modes, modes)
+                self.assertEqual(result["status"], status)
+                self.assertIs(result["completion_event_observed"], name == "fast")
+                self.assertIs(result["terminal_engine_idle"], name == "fast")
                 rt.close_session(item)
 
     def test_exact_input_units_and_output_write_guard(self):
@@ -177,7 +217,7 @@ class RuntimeTests(unittest.TestCase):
     def test_every_blocking_phase_has_external_timeout(self):
         foreign = subprocess.Popen([sys.executable, "-c", "import time;time.sleep(60)"])
         try:
-            for phase in ("worker_boot", "creating_com", "opening", "running", "exporting", "saving", "closing"):
+            for phase in ("worker_boot", "creating_com", "opening", "running", "exporting", "saving", "closing", "assessing"):
                 with self.subTest(phase=phase):
                     result = supervisor.run_worker(self.worker_command(phase), run_dir=self.root / phase,
                         stage_timeouts={name: .25 if name == phase else 2 for name in supervisor.DEFAULT_PHASE_TIMEOUTS},
@@ -215,6 +255,84 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(result["status"], "completed")
         self.assertTrue(result["lifecycle_clean"])
         self.assertTrue(result["next_dispatch_allowed"])
+
+    def audit_worker(self, scenario, *, verify_closeout=True, stage_timeouts=None):
+        summary_path = self.root / (scenario + "_summary.json")
+        code = textwrap.dedent("""
+            import sys
+            import time
+            from pathlib import Path
+
+            sys.path.insert(0, sys.argv[1])
+            from aspen_runtime import StageRecorder, atomic_json, sha256
+
+            report_path, scenario = Path(sys.argv[2]), sys.argv[3]
+            stages = StageRecorder()
+            stages.update("running")
+            if scenario == "crash":
+                raise RuntimeError("synthetic worker crash")
+            stages.update("closing")
+            passed = scenario == "accepted"
+            report = {"run_id": stages.run_id, "source_sha256": "A" * 64, "mode": "strict", "passed": passed,
+                      "operation_completed": scenario != "operation_failed", "lifecycle": {"closed_cleanly": True}}
+            if scenario == "worker_error":
+                report.update(error="synthetic worker error")
+            atomic_json(report_path, report)
+            receipt = {"run_id": stages.run_id, "source_sha256": "A" * 64, "mode": "strict", "passed": passed,
+                       "summary_path": str(report_path), "summary_sha256": sha256(report_path)}
+            invalid_receipts = {"bad_digest": ("summary_sha256", "B" * 64), "bad_run": ("run_id", "FOREIGN"),
+                                "bad_path": ("summary_path", str(report_path.with_name("foreign.json"))),
+                                "bad_source": ("source_sha256", "B" * 64), "bad_mode": ("mode", "run"),
+                                "bad_result": ("passed", True)}
+            if scenario in invalid_receipts:
+                key, value = invalid_receipts[scenario]
+                receipt[key] = value
+            stage = {"lifecycle_clean": scenario != "dirty_close",
+                     "worker_outcome": "audit_accepted" if passed else "audit_rejected", "closeout": receipt}
+            if scenario == "foreign_worker":
+                stage.update(owner_token="FOREIGN")
+            stages.update("finished", **stage)
+            if scenario == "timeout":
+                time.sleep(60)
+            raise SystemExit(0 if passed else 1)
+        """)
+        return supervisor.run_worker([sys.executable, "-c", code, str(SCRIPTS), str(summary_path), scenario],
+            run_dir=self.root / scenario, lock_path=self.root / (scenario + ".lock"),
+            audit_summary_path=summary_path if verify_closeout else None, stage_timeouts=stage_timeouts,
+            worker_can_create_com=False)
+
+    def test_authenticated_audit_acceptance_and_rejection_both_complete(self):
+        for scenario, code in (("accepted", 0), ("rejected", 1)):
+            with self.subTest(scenario=scenario):
+                result = self.audit_worker(scenario)
+                self.assertEqual(result["status"], "completed")
+                self.assertEqual(result["worker_exit_code"], code)
+                self.assertEqual(result["worker_outcome"], "audit_" + scenario)
+                self.assertTrue(result["audit_closeout_verified"])
+                self.assertTrue(result["lifecycle_clean"])
+                self.assertTrue(result["next_dispatch_allowed"])
+
+    def test_closeout_without_durable_worker_and_summary_binding_cannot_reclassify_exit_one(self):
+        for scenario in ("bad_digest", "bad_run", "bad_path", "bad_source", "bad_mode", "bad_result",
+                         "operation_failed", "worker_error", "dirty_close", "foreign_worker", "crash"):
+            with self.subTest(scenario=scenario):
+                result = self.audit_worker(scenario)
+                self.assertEqual(result["worker_exit_code"], 1)
+                self.assertEqual(result["status"], "worker_failed")
+                self.assertFalse(result["audit_closeout_verified"])
+                self.assertNotIn("worker_outcome", result)
+
+    def test_generic_nonzero_worker_and_watchdog_timeout_remain_distinct(self):
+        generic = self.audit_worker("rejected", verify_closeout=False)
+        self.assertEqual(generic["worker_exit_code"], 1)
+        self.assertEqual(generic["status"], "worker_failed")
+        self.assertNotIn("audit_closeout_verified", generic)
+        timeout = self.audit_worker("timeout", stage_timeouts={"finished": .25})
+        self.assertEqual(timeout["status"], "timeout")
+        self.assertEqual(timeout["timed_out_phase"], "finished")
+        self.assertTrue(timeout["forced_termination"])
+        self.assertFalse(timeout["audit_closeout_verified"])
+        self.assertNotIn("worker_outcome", timeout)
 
     def apw_args(self, skip=False):
         source = self.root / "源文件.bkp"

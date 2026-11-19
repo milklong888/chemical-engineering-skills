@@ -73,13 +73,12 @@ user asks for a summary only, state this limit without launching new runs.
 - Control only defensible variables: feed amounts, makeup utilities, reactor temperature, pressure within engineering bounds, duties, reflux, solvent rate, recovery targets, and initial guesses.
 - Keep steam, water, solvent, MEA, oxygen, and hydrogen as explicit boundary or utility streams; never let them appear without a block, heater, pump, compressor, or makeup rule.
 - Check Aspen status, bad blocks, design-spec convergence, product gates, boundary streams, utilities, exported evidence, and COM locks before accepting a template.
-- For strict promotion and the default delivery contract, reject every candidate
-  that has any control-panel or fresh-history
-  warning/error. Require first run, unmodified BKP reopen/rerun, and direct run
-  from the promoted delivery path to each report zero terminal errors, severe
-  errors, errors, and warnings. Do not allowlist expected Calculator, Design
-  Spec, inactive-branch, or zero-flow warnings; `INFORMATION` records remain
-  evidence but are not warnings.
+- Verify the first run, unmodified BKP reopen/rerun, and the promoted delivery
+  path run through the operations clean-run gate. Verify completion and scan
+  complete same-run Control Panel and raw history. Actual Calculator, Design
+  Spec, inactive-branch and zero-flow warnings fail the gate. Keep informational
+  records as evidence. Consult the native Summary for anomalies or explicitly
+  required count proof.
 - Keep an immutable `strict_baseline` before tuning. Record explicit case-local
   relaxation separately under `relaxation`, and propagate that exclusion through
   the complete `lineage` of results, summaries and proposed rules. Such a case
@@ -184,7 +183,7 @@ Goal: run all production cases in order, using low-judgment workers for executio
 
 1. The main agent defines the active template version, case queue, output table schema, acceptance gates, anomaly thresholds, and stop conditions.
 2. Low-intelligence workers run cases sequentially or in safe parallel only through approved scripts. They extract results to tables and do not invent process fixes.
-3. Each worker returns case id, template version, input features, run status, bad blocks, warning/error counts, product gates, utility metrics, boundary streams, and raw evidence paths.
+3. Each worker returns case id, template version, input features, verified run status, actual warning/error diagnostics, reported native counts if available, block statuses, product gates, utility metrics, boundary streams and raw evidence paths. Use the operations clean-run evidence gate and require all-zero native count proof only when expressly specified.
 4. If a result fails gates or looks unreasonable, pause the processing queue and escalate with a compact anomaly packet.
 5. The main agent classifies whether the anomaly supports a strict generalized
    repair or an authorized case-local action. Only eligible strict evidence may

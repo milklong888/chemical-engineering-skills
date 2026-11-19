@@ -5,8 +5,9 @@ import json
 from pathlib import Path
 import sys
 import tempfile
+import types
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -34,7 +35,11 @@ class FeedbackIntegrityTests(unittest.TestCase):
         data=text.encode("utf-8");(self.root/name).write_bytes(data)
         return {"path":name,"sha256":hashlib.sha256(data).hexdigest().upper()}
 
-    def replay_fixture(self):
+    def replay_fixture(self, aspen_mode=None):
+        if aspen_mode is not None:
+            authority=f.read_reference(self.root,self.context["authority"])
+            authority["aspen_run_status_mode"]=aspen_mode
+            self.context["authority"]=self.put("authority.json",authority)
         plan=f.build_plan(self.response,self.context,self.root)
         candidate=self.put("candidate.json",{"synthetic":"NOT ASPEN"})
         replay={"case_id":self.context["case_id"],"run_id":self.context["run_id"],"plan_sha256":plan["plan_sha256"],
@@ -47,8 +52,8 @@ class FeedbackIntegrityTests(unittest.TestCase):
             "source_export_sha256":replay["source_export"]["sha256"],"status":"strict_passed", "validator":validator,
             "checks":[{"id":gate+"_result","passed":True}],"native_result":native,"evidence":[native,replay["candidate"]]}
 
-    def native_receipt(self, *, warning=False):
-        plan,replay=self.replay_fixture()
+    def native_receipt(self, *, warning=False, aspen_mode=None):
+        plan,replay=self.replay_fixture(aspen_mode)
         cp=self.put_raw("control.txt","Summary of Simulation Errors\nPhysical\nProperty System Simulation\nTerminal Errors 0 0 0\nSevere Errors 0 0 0\nErrors 0 0 0\nWarnings 0 0 0\n")
         his=self.put_raw("run.his",("* WARNING SYNTHETIC REAL DIAGNOSTIC\n" if warning else "")+"NO ERRORS OR WARNINGS GENERATED\n")
         association={"verified":True,"run_id":self.context["run_id"],"case_sha256":replay["candidate"]["sha256"]}
@@ -57,10 +62,25 @@ class FeedbackIntegrityTests(unittest.TestCase):
             "run":{"run_id":self.context["run_id"],"case_sha256":replay["candidate"]["sha256"],"started_epoch":1,"finished_epoch":2,"status":"completed"},
             "control_panel":{**cp,"association":association},"histories":[{**his,"association":association}],"block_statuses":[{"block":"E1","blkstat":0}]}
         native_ref=self.put("native.json",native)
-        validator={"id":"aspen_summary_history_v2","sha256":f.TRUSTED_REPLAY_VALIDATORS["aspen_summary_history_v2"]["implementation_sha256"]}
+        validator={"id":"aspen_summary_history_v2","sha256":f._LEGACY_ASPEN_EVIDENCE_SHA256}
         record=self.receipt(plan,replay,"strict_run_status",native_ref,validator)
         replay["gates"]["strict_run_status"]=self.put("strict_receipt.json",record)
         return plan,replay,record
+
+    def normal_run_receipt(self, *, aspen_mode=None):
+        plan,replay=self.replay_fixture(aspen_mode)
+        gate=f.ASPEN_STRICT_GATE if aspen_mode=="strict" else f.ASPEN_RUN_GATE
+        native={"schema_version":"aspen_clean_delivery_audit/3","mode":"run","operation_completed":True,
+            "passed":True,"simulation_clean":True,"source_unchanged":True,"strict_solver_passed":True,
+            "source_sha256":replay["candidate"]["sha256"],
+            "run":{"run_id":self.context["run_id"],"case_sha256":replay["candidate"]["sha256"]}}
+        native_ref=self.put("run_native.json",native)
+        validator={"id":"aspen_run_evidence_v3","sha256":f.TRUSTED_REPLAY_VALIDATORS["aspen_run_evidence_v3"]["implementation_sha256"]}
+        record=self.receipt(plan,replay,gate,native_ref,validator)
+        if gate==f.ASPEN_RUN_GATE:
+            record["status"]="run_passed"
+        replay["gates"][gate]=self.put("normal_receipt.json",record)
+        return plan,replay,native
 
     def constraint(self,quantity="heat_transfer_area_m2",value=2000,limit=1000,unit="m2", *, old=False):
         actual = self.context["source_export"]
@@ -141,9 +161,50 @@ class FeedbackIntegrityTests(unittest.TestCase):
     def test_production_native_parser_actually_rechecks_raw_files(self):
         plan,replay,_=self.native_receipt()
         result=f.audit_replay(plan,replay,self.root)
-        self.assertTrue(next(row for row in result["receipts"] if row["gate"]=="strict_run_status")["valid"])
+        self.assertTrue(next(row for row in result["receipts"] if row["gate"]==f.ASPEN_RUN_GATE)["valid"])
         self.assertEqual(len(result["failed_gates"]),10)
         self.assertFalse(result["engineering_accepted"])
+
+    def test_strict_authority_keeps_legacy_gate_and_receipt(self):
+        plan,replay,_=self.native_receipt(aspen_mode="strict")
+        self.assertIn(f.ASPEN_STRICT_GATE,plan["required_replay_gates"])
+        self.assertNotIn(f.ASPEN_RUN_GATE,plan["required_replay_gates"])
+        result=f.audit_replay(plan,replay,self.root)
+        self.assertTrue(result["receipts"][0]["valid"])
+        self.assertFalse(result["engineering_accepted"])
+
+    def test_new_receipt_follows_raw_replay_and_frozen_authority_mode(self):
+        for mode, gate, solver in ((None,f.ASPEN_RUN_GATE,False),("strict",f.ASPEN_STRICT_GATE,False),
+                                   ("strict",f.ASPEN_STRICT_GATE,True)):
+            with self.subTest(mode=mode,solver=solver):
+                plan,replay,native=self.normal_run_receipt(aspen_mode=mode)
+                self.assertIn(gate,plan["required_replay_gates"])
+                recheck=Mock(return_value={"passed":True,"simulation_clean":True,"strict_solver_passed":solver})
+                with patch.object(f,"load_aspen_evidence_parser",return_value=types.SimpleNamespace(replay_audit_evidence=recheck)):
+                    result=f.audit_replay(plan,replay,self.root)
+                recheck.assert_called_once_with(native,root=self.root)
+                self.assertIs(result["receipts"][0]["valid"],mode is None or solver)
+                self.assertFalse(result["engineering_accepted"])
+
+    def test_new_receipt_claim_does_not_bypass_failed_raw_replay(self):
+        plan,replay,native=self.normal_run_receipt()
+        recheck=Mock(return_value={"passed":False,"simulation_clean":False,"strict_solver_passed":False})
+        with patch.object(f,"load_aspen_evidence_parser",return_value=types.SimpleNamespace(replay_audit_evidence=recheck)):
+            result=f.audit_replay(plan,replay,self.root)
+        recheck.assert_called_once_with(native,root=self.root)
+        self.assertFalse(result["receipts"][0]["valid"])
+
+    def test_pinned_parser_loader_supports_disjoint_installed_runtime(self):
+        runtime=self.root/"installed_runtime"
+        validator=runtime/"validators/aspen_evidence.py"
+        validator.parent.mkdir(parents=True)
+        validator.write_text("PARSER_MARKER = 'SYNTHETIC'\n",encoding="utf-8")
+        digest=f.digest_file(validator)
+        with patch.object(f,"__file__",str(runtime/"backends/process/feedback.py")), patch.object(f,"_ASPEN_EVIDENCE_SHA256",digest):
+            self.assertEqual(f.load_aspen_evidence_parser().PARSER_MARKER,"SYNTHETIC")
+            validator.write_text("PARSER_MARKER = 'CHANGED'\n",encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"hash has changed"):
+                f.load_aspen_evidence_parser()
 
     def test_native_self_claim_pass_does_not_hide_raw_warning(self):
         plan,replay,_=self.native_receipt(warning=True)

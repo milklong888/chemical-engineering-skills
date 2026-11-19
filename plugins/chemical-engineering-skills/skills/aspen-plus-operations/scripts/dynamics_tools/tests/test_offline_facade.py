@@ -93,6 +93,16 @@ class FacadeTests(unittest.TestCase):
             self.assertEqual(result["status"], "ok")
             self.assertFalse(result["matches"]); self.assert_scope(result)
 
+    def test_complete_native_history_without_summary(self):
+        text = (" + + ASPEN PLUS CALCULATION HISTORY + +\n"
+                " Results generated                     Time =     34.31\n"
+                "RUN SAVED\n\n NO ERRORS OR WARNINGS GENERATED\n")
+        result = facade.inspect_history(str(self.file("complete.his", text)))
+        self.assertTrue(result["matches"])
+        self.assert_scope(result)
+        with_warning = text.replace("RUN SAVED", "* WARNING IN THE BLOCK\nRUN SAVED")
+        self.assertFalse(facade.inspect_history(str(self.file("warning.his", with_warning)))["matches"])
+
     def test_history_fallback_real_public_source_copy_requires_hash(self):
         history = self.file("synthetic.his", native_shaped_text())
         parser = self.root / "operations/scripts/aspen_evidence.py"

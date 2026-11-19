@@ -27,9 +27,9 @@ overlays and textbook/standard source pages are optional user-supplied sources;
 their absence does not mean the bundled calculation backend is absent.
 
 用户要求查依据、核对结论的证据归属，或当前方法/标准的适用性不确定时，先做
-相关查询再作判断。按当前设备族和待核结论构造查询，实际执行本节已解析的
+相关查询再作判断。按当前设备族和待核结论查证。设备图谱按项目默认关闭，关闭时使用项目原件、标准或其他适用文献。项目已开启设备图谱或用户明确要求单次查该图谱时，实际执行本节已解析的
 `tools/expert_cli.py --query "查询内容" --corpus equipment` 或已发现的 MCP
-`knowledge_search`；标准事实使用 `equipment_standards`。读取相关命中的正文、
+`knowledge_search`（指定 `corpus=equipment`）；标准事实使用 `equipment_standards`。读取相关命中的正文、
 来源位置与适用范围，将“待核结论—依据能证明什么—当前同设备证据—尚缺什么”
 逐项对应后给出纠正或最少交接项，并保留实际查询及来源标识。只读 Skill、列出
 附件目录或凭熟悉的术语回答，不能代替这一步。当前任务已有适用的查询回执和
@@ -62,7 +62,7 @@ The deterministic matcher must choose the equipment family, formula route, stand
 
 When several subtypes, formula branches, or vendor/standard candidates remain feasible, retain the most general common family/type and the candidate set. Do not use score, habit, or model preference to select a specialized branch; only a physical or cross-family contradiction should block the parent match.
 
-Aspen-derived parameters are process-basis evidence only when the run-status counts are reproduced from a separately hashed `aspen-run-status-evidence-v1` artifact. They do not set design pressure/temperature, material, corrosion allowance, mechanical thickness, internals, or vendor models. `final_model` additionally requires a gate-to-artifact `equipment-evidence-manifest-v1` plus a separately hashed `equipment-audit-approval-v1`; a manifest's self-declaration alone is not approval.
+For Aspen-derived process-basis evidence, use the deterministic derivation adapter to replay a hash-bound public `aspen_clean_delivery_audit/3` receipt for the source candidate. Supply it through the export case evidence reference, the CLI's `--audit-receipt`, or `aspen_derive`'s `audit_receipt_path`. The adapter still verifies legacy `aspen-run-status-evidence-v1` against its original numeric history contract. A normal run can have unknown native counts. Use `case.run_status_mode="strict"` when the project explicitly requires full native all-zero count proof. Derive design pressure/temperature, material, corrosion allowance, mechanical thickness, internals and vendor models from their own engineering evidence. `final_model` additionally requires a gate-to-artifact `equipment-evidence-manifest-v1` plus a separately hashed `equipment-audit-approval-v1`; a manifest's self-declaration alone is not approval.
 
 Generated drafts and previous handoffs are evidence candidates, not authority. Treat them as contaminated until revalidated against current project source documents and the accepted Aspen export. Preserve methods and structure when useful, but do not preserve chemistry, stream IDs, products, purities, materials, or software conclusions unless the current project source ledger independently supports them.
 

@@ -20,9 +20,9 @@ from backends.process.feedback import (audit_replay, build_plan, configuration_c
 from backends.process.selector_analysis import canonical_sha, equipment_records
 
 STAGES = ("source", "scaffold", "island", "reconnect", "change", "delivery")
-FIELDS = {"stage", "question", "case_id", "run_id", "source_export", "authority",
+FIELDS = {"stage", "question", "case_id", "run_id", "task_revision", "source_export", "authority",
           "equipment_requests", "context", "pressure_checks", "plan", "replay", "detail", "solve_request",
-          "fullflow_contract", "source_work", "planning_handoff"}
+          "fullflow_contract", "source_work", "planning_handoff", "equipment_graph"}
 IDENTITY_FIELDS = ("case_id", "run_id", "source_export", "authority")
 CALCULATIONS = {"manual_match", "auto_match", "equipment.match"}
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +35,7 @@ def domain_reads(stage, question, source_work=None):
     skills = Path(location["path"]).parent.parent if location.get("available") else None
     names = ["chemical-engineering-expert/SKILL.md", "aspen-document-driven-flowsheet/SKILL.md",
              "chemical-engineering-expert/references/DESIGN_STAGE_ROUTING.md"]
-    if source_work == "expert_plan":
+    if source_work in ("expert_plan", "buildable_plan"):
         names += ["aspen-document-driven-flowsheet/references/fullflow_generation_workflow.md",
                   "aspen-document-driven-flowsheet/references/source_scaffold_handoff.md",
                   "aspen-pressure-pfd-delivery/SKILL.md"]
@@ -205,7 +205,70 @@ def change_planning_requirements(receipt, documents):
     }
 
 
-def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
+def planning_revision_actions(needs, contract):
+    """Translate failed later-model research checks into concrete work on this plan."""
+    modules = contract.get("modules", []) if isinstance(contract, dict) else []
+    if not isinstance(modules, list):
+        modules = []
+    by_id = {m["id"]: m for m in modules if isinstance(m, dict) and isinstance(m.get("id"), str)}
+    jobs = {}
+    for need in needs:
+        code, scope = str(need.get("code", "")), str(need.get("scope", ""))
+        baseline = False
+        if code.startswith("PLAN_REACTION_RESEARCH") or ".reaction.planning_research" in scope:
+            role = "reaction"
+        elif code.startswith("PLAN_SEPARATION_RESEARCH") or ".separation.planning_research" in scope:
+            role = "separation"
+        elif code in {"PLAN_FIXED_CONVERSION", "PLAN_CONVERSION_BASIS", "PLAN_REACTION_UNSPECIFIED", "PLAN_REACTION_EXTENT"}:
+            role, baseline = "reaction", True
+        elif code in {"PLAN_NATIVE_SEP_SPLITS", "PLAN_MEASURABLE_TARGET", "PLAN_SEPARATION_UNDERSPECIFIED"}:
+            role, baseline = "separation", True
+        else:
+            continue
+        tag = next((tag for tag in sorted(by_id, key=len, reverse=True) if scope == tag or scope == "module." + tag
+                    or scope.startswith("module." + tag + ".")), scope)
+        job = jobs.get((tag, role, baseline))
+        if job is None:
+            module = by_id.get(tag, {})
+            service = str(module.get("physical_service") or tag)
+            thermo = module.get("thermodynamics", {})
+            components = thermo.get("components", []) if isinstance(thermo, dict) else []
+            if not isinstance(components, list):
+                components = []
+            subject = " ".join([service] + [c for c in components if isinstance(c, str)][:5])
+            if role == "reaction":
+                terms = ("动力学 模拟 催化剂 速率式 参数表", "reaction kinetics model rate law catalyst parameter estimation")
+                collect = "定位速率式、参数表、催化剂和有效工况，换算到计划的速率基准，说明能否重建与核验反应程度。"
+            else:
+                terms = ("分离 流程模拟 相平衡 回收率 净物流", "process simulation separation phase equilibrium recovery")
+                collect = "核对候选分离机理、物性与操作窗口，依据同一进料复算或比对净出口指标，写出适用或淘汰条件。"
+            if baseline and role == "reaction":
+                terms = ("进出料 单程转化率 物料衡算 基准组分", "feed product balance conversion selectivity operating conditions")
+                collect = "先从已有同工况进出料或反应程度复算首版转化率和产物分配。缺原值时补查出处、原料、分母及可比条件。"
+            elif baseline:
+                terms = ("组分 分配 油气水 衡算 回收率", "component distribution inlet outlet flow recovery split")
+                collect = "先用原料及产品数据按组分闭合净出口，确定首版独立分配；数据不足时补查可比工况的原始物流表或明确设计目标。"
+            job = jobs[tag, role, baseline] = {"module_id": tag, "subject": role, "service": service,
+                "scope": "first_model" if baseline else "later_model_research",
+                "queries_to_run": [subject + " " + suffix for suffix in terms], "findings": [],
+                "next_operation": collect}
+        finding = {key: need.get(key) for key in ("code", "scope", "detail")}
+        if finding not in job["findings"]:
+            job["findings"].append(finding)
+    return list(jobs.values())
+
+
+def _future_study_only(question):
+    study = r"(?:优化|灵敏度|敏感性|参数扫描|design\s*spec|sensitivity|optimi[sz]\w*|parameter sweep)"
+    # A current study/definition request is never deferred by a later clause.
+    current = r"(?:现在|当轮|本次|当前|先|同时|先行|now)\s*(?:还要|要|请|做|给出|定义|运行|执行|先做|perform|run)\s*"
+    if re.search(current + r"[^，,。；;.]{0,24}" + study, question, re.I):
+        return False
+    return bool(re.search(r"(?:后续|以后|之后|下一阶段|切岛时|later|subsequently|after the (?:baseline|first model))"
+                          r"[^，,。；;.]{0,28}" + study, question, re.I))
+
+
+def check_stage(payload, evidence_root, *, search_runner, equipment_runner, retain_findings=False):
     if not isinstance(payload, dict) or set(payload) - FIELDS:
         raise ValueError("design-stage accepts declared inputs only; unknown/skip/PASS/runner fields are forbidden")
     stage, question = payload.get("stage"), payload.get("question")
@@ -214,11 +277,15 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     if "detail" in payload and type(payload["detail"]) is not bool:
         raise ValueError("detail must be boolean")
     source_work = payload.get("source_work")
-    if "source_work" in payload and (stage != "source" or source_work != "expert_plan"):
-        raise ValueError("source_work supports only expert_plan at stage=source; omit it for a narrow source query")
-    if "planning_handoff" in payload and (stage != "source" or source_work != "expert_plan"):
-        raise ValueError("planning_handoff is permitted only for source_work=expert_plan at stage=source")
+    if "source_work" in payload and (stage != "source" or source_work not in ("expert_plan", "buildable_plan")):
+        raise ValueError("source_work supports expert_plan or buildable_plan at stage=source; omit it for a narrow source query")
+    if "planning_handoff" in payload and stage != "source":
+        raise ValueError("planning_handoff is permitted only at stage=source")
     root = Path(evidence_root)
+    from tools.equipment_graph import project_setting
+    if "equipment_graph" in payload and type(payload["equipment_graph"]) is not bool:
+        raise ValueError("equipment_graph must be true or false")
+    graph_enabled = project_setting(root, payload.get("equipment_graph"))
     needs, queries, equipment, calls, pressure = [], [], [], [], []
 
     def gap(code, scope, detail):
@@ -241,11 +308,13 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     # existing exact-node API for an honest L3 system anchor, then search the
     # real question without replacing the query engine's inferred mode.
     query_requests = [{"node_id": "L3-03", "corpus": "chemical_principles", "limit": 1, "detail": False, "full_text": False},
-        {"query": question, "corpus": "chemical_principles" if stage == "source" else "all",
+        {"query": question, "corpus": "chemical_principles" if stage == "source" and not graph_enabled else "all",
          "limit": 5, "detail": stage != "source", "full_text": False}]
     if stage == "source" and payload.get("detail"):
         query_requests.append({"query": question, "corpus": "all", "limit": 5, "detail": True, "full_text": False})
     for request in query_requests:
+        if request["corpus"] == "all":
+            request["equipment_graph"] = graph_enabled
         query = call("knowledge_search", request, lambda request=request: search_runner(**request))
         value = query.get("result", {})
         rows = (value.get("knowledge") or {}).get("results", [])
@@ -282,9 +351,6 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         decision = solve.get("result", {})
         if decision.get("strong_trigger") or "solve_request" in payload:
             solve_action_required = True
-            gap("SOLVE_TOOL_ACTION_REQUIRED", "solve_route", {
-                "status": decision.get("status"), "needs": decision.get("needs", []),
-                "boundary": "Route is not native creation/execution; continue existing computations and resolve the domain action"})
 
     if stage == "source":
         request = {"schema": "equipment-design-agent-request-v1", "request_id": "DESIGN-STAGE-DISCOVERY",
@@ -376,6 +442,66 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     export_ids = set((documents.get("source_export") or {}).get("equipment", {}))
     from tools.fullflow_gate import check_fullflow
     fullflow = check_fullflow(payload, root, documents=documents)
+    from tools.review_findings import registered_case, remember_stage, check_delivery_review
+    finding_history = []
+    if retain_findings:
+        try:
+            finding_history = remember_stage(root, payload)
+        except (OSError, ValueError, TypeError, AttributeError, KeyError, IndexError) as exc:
+            gap("FINDING_REGISTRATION_INCOMPLETE", "review", str(exc))
+    final_review = None
+    if stage == "delivery" and (fullflow.get("required") or "delivery_review" in documents.get("authority", {})
+                                or registered_case(root, payload.get("case_id"))):
+        final_review = check_delivery_review(root, payload)
+        needs.extend(final_review["needs"])
+    if solve_action_required:
+        # Keep the real route and its needs; a study explicitly scheduled after
+        # the baseline is outside this planning run.
+        later_study = (stage == "source" and (source_work or fullflow.get("buildable_plan_required"))
+                       and "solve_request" not in payload and _future_study_only(question))
+        if later_study:
+            solve["execution_scope"] = "AFTER_FIRST_MODEL"
+        else:
+            gap("SOLVE_TOOL_ACTION_REQUIRED", "solve_route", {
+                "status": decision.get("status"), "needs": decision.get("needs", []),
+                "boundary": "Route is not native creation/execution; continue existing computations and resolve the domain action"})
+    contract = {}
+    if stage == "source" and fullflow.get("buildable_plan_required"):
+        source_work = "buildable_plan"
+        if "fullflow_contract" in payload:
+            # The gate already reported missing, stale or invalid contract references.
+            try:
+                contract = read_reference(root, payload["fullflow_contract"])
+            except (ValueError, TypeError, KeyError, OSError):
+                contract = {}
+            from tools.planning_property_lookup import retrieve_property_method, record_property_selection_issue
+            looked_up = {}
+            modules = contract.get("modules") if isinstance(contract, dict) else None
+            for module in modules if isinstance(modules, list) else []:
+                thermo = module.get("thermodynamics") if isinstance(module, dict) else None
+                if not isinstance(thermo, dict) or thermo.get("selection_status") not in ("uncertain", "conflict", "outside_range"):
+                    continue
+                query = thermo.get("selection_question") or " ".join(str(thermo.get(k, "")) for k in
+                    ("components", "phases", "temperature_range", "pressure_range", "method", "applicability"))
+                query = "物性方法 相平衡 " + str(query).strip()
+                if query not in looked_up:
+                    looked_up[query] = call("external_property_lookup", {"collection": "TH03", "query": query},
+                                            lambda: retrieve_property_method(query))
+                row = looked_up[query]
+                property_issue = None
+                if retain_findings:
+                    try:
+                        property_issue = record_property_selection_issue(root, contract["case_id"],
+                            contract["task_revision"], module, query, row)
+                    except (OSError, ValueError, TypeError, KeyError) as exc:
+                        gap("PROPERTY_FINDING_REGISTRATION_INCOMPLETE", module.get("id"), str(exc))
+                gap("PROPERTY_SELECTION_REVIEW_REQUIRED", module.get("id"), {
+                    "query": query, "property_issue": property_issue,
+                    "lookup_status": row.get("result", {}).get("outcome", row["status"]),
+                    "action": "Read the relevant source pages, compare their applicability with this feed, phases and T/P; "
+                              "when no usable result exists, check another traceable primary source. Record the design choice and basis."})
+    if "planning_handoff" in payload and source_work not in ("expert_plan", "buildable_plan"):
+        raise ValueError("planning_handoff requires planning work at stage=source")
     for item in fullflow.get("needs", []):
         gap(item.get("code", "FULLFLOW_EVIDENCE_REQUIRED"),
             item.get("scope", "fullflow"), item.get("detail", item))
@@ -389,7 +515,7 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
             gap("REQUESTED_DEVICES_NOT_IN_EXPORT", "equipment", sorted(declared - export_ids))
 
     expert_planning = None
-    if source_work == "expert_plan":
+    if source_work in ("expert_plan", "buildable_plan"):
         expert_planning = {
             "schema": "source-expert-planning-stage-v1", "status": "HANDOFF_REQUIRED",
             "checker_execution_status": "NOT_EXECUTED", "engineering_accepted": False,
@@ -402,15 +528,20 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
             ],
             "boundary": "Read and apply the existing fullflow/source-handoff workflow. These short obligations and the checker do not certify source truth, formula/physics correctness or completion, and never waive the original fullflow gates.",
         }
-        if "planning_handoff" not in payload:
+        planning_ref = payload.get("planning_handoff")
+        if "planning_handoff" not in payload and source_work == "buildable_plan" and isinstance(contract, dict):
+            gate_inputs = contract.get("source_gate")
+            if isinstance(gate_inputs, dict):
+                planning_ref = gate_inputs.get("handoff_input_ref")
+        if planning_ref is None:
             gap("EXPERT_PLAN_HANDOFF_REQUIRED", "expert_planning",
                 "Continue the routed source planning workflow; first inventory its explicitly supplied source_review.documents under the declared evidence root, then submit the hash-bound document-flow-handoff-v1 with paragraph dispositions and current graph")
         else:
-            checked = call("source_expert_planning", {"planning_handoff": payload["planning_handoff"], "identity": identity},
-                           lambda: check_expert_planning(payload["planning_handoff"], root, identity))
+            checked = call("source_expert_planning", {"planning_handoff": planning_ref, "identity": identity},
+                           lambda: check_expert_planning(planning_ref, root, identity))
             if checked["status"] == "FAILED":
                 expert_planning.update(status="CHECK_FAILED", checker_execution_status="FAILED", error=checked["error"],
-                                       input_reference=copy.deepcopy(payload["planning_handoff"]), input_identity=copy.deepcopy(identity))
+                                       input_reference=copy.deepcopy(planning_ref), input_identity=copy.deepcopy(identity))
                 gap("EXPERT_PLAN_HANDOFF_INVALID", "expert_planning", checked["error"])
             else:
                 expert_planning.update(checked["result"])
@@ -473,6 +604,8 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
         "status": "ACTION_REQUIRED" if needs else "MODULE_CHECKS_EXECUTED", "needs": needs,
         "queries": queries, "equipment": equipment, "pressure": pressure, "replay": replay_result, "solve_route": solve,
         "calls": calls, "domain_reads": reads, "fullflow_gate": fullflow,
+        "equipment_graph_enabled": graph_enabled,
+        "retained_finding_ids": finding_history, "delivery_review": final_review,
         "inventory_coverage": {"declared_count": len(requests), "declared_ids": sorted(declared),
             "export_declared_ids": sorted(export_ids), "exported_not_requested": sorted(export_ids - declared),
             "scope": "WHOLE_EXPORTED_PHYSICAL_INVENTORY" if whole_flow else "DECLARED_DEVICES_ONLY",
@@ -495,6 +628,30 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
             "逐服务命名选法、真实接口压力关系和撕裂边临时替代—先算—接回计划；"
             "提交/修正 planning_handoff 后重查，保留候选和缺口供逐项判断。"
             "原 fullflow_contract/source 独立复核门继续有效；本回执不证明规划完成或授权越过用户停止阶段。")
+        if source_work == "buildable_plan":
+            work = planning_revision_actions(needs, contract)
+            # Start with available local knowledge while the parent agent retrieves
+            # the relevant originals. A hit is a lead, not technical evidence for this case.
+            lookups = {}
+            for item in work:
+                query = item["queries_to_run"][0]
+                if query not in lookups:
+                    request = {"query": query, "corpus": "all", "limit": 3, "detail": True, "full_text": False,
+                               "equipment_graph": graph_enabled}
+                    lookup = call("planning_research_lookup", request, lambda: search_runner(**request))
+                    rows = lookup.get("result", {}).get("knowledge", {}).get("results", [])
+                    lookups[query] = {"request_sha256": lookup["request_sha256"], "status": lookup["status"],
+                        "returned_nodes": [row.get("node_id") for row in rows if isinstance(row, dict) and row.get("node_id")]}
+                item["local_lookup"] = lookups[query]
+            receipt["planning_research_followup"] = work
+            research = fullflow.get("gate_summary", {}).get("planning_research", {})
+            receipt["planning_refinement_limits"] = [item for item in research.get("modules", [])
+                                                    if item.get("status") == "provisional"]
+            receipt["next_action"] = (
+                "先按当前回执和已经收到的意见逐单元补齐输入和研究依据，具备送审条件后再派三名审核人。若缺研究依据，主助手在本轮按 planning_research_followup "
+                "执行检索，核对原文并改写同版工艺正文和数据依据。无命中就换检索词、追引文、查原始实验或可比物系并核迁移条件。"
+                "合并本轮修订后重新检查受影响的模块、接口和结论。仍有可行取证路径时继续处理；确有外部依赖时记录尝试、边界及恢复条件，推进其余单元。"
+                "向三个同模型同推理档的独立审查人发送完整规划审查任务书，最终意见绑定实际交稿版本。本阶段到规划审查为止。")
     solve_result = solve.get("result") if isinstance(solve.get("result"), dict) else {}
     pressure_summary = []
     for index, row in enumerate(pressure):
@@ -518,6 +675,10 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
     implementations = {name: ROOT / name for name in (
         "tools/design_stage.py", "tools/product_contract.py", "tools/fullflow_gate.py", "tools/aspen_tool_router.py",
         "tools/expert_cli.py", "tools/equipment_gateway.py", "backends/process/feedback.py", "backends/process/pressure.py")}
+    if source_work == "buildable_plan":
+        implementations["tools/planning_research.py"] = ROOT / "tools/planning_research.py"
+    if final_review is not None or finding_history:
+        implementations["tools/review_findings.py"] = ROOT / "tools/review_findings.py"
     implementations["tools/design_stage.py"] = Path(__file__)
     implementations["tools/product_contract.py"] = Path(product_contract.__file__)
     receipt["implementation"] = [{"path": name, "resolved_path": str(path.resolve()),
@@ -525,3 +686,46 @@ def check_stage(payload, evidence_root, *, search_runner, equipment_runner):
                                  for name, path in implementations.items()]
     receipt["receipt_sha256"] = canonical_sha(receipt)
     return receipt
+
+
+def run_buildable_first_scaffold(payload, evidence_root, *, run_native, documents=None):
+    """Recheck the current source dossier before invoking an authorized Python runner.
+
+    Pass a zero-argument callable which prepares and runs the first scaffold
+    through the existing Aspen operations workflow. This is an explicit
+    first-build entry, separate from ordinary case and delivery operations.
+    """
+    from time import time
+
+    from tools.expert_cli import execute
+
+    if not isinstance(payload, dict) or not callable(run_native):
+        raise TypeError("Supply a source payload and the authorized native runner callable")
+    root = Path(evidence_root)
+    needs = []
+    source_payload = {**payload, "stage": "source", "source_work": "buildable_plan"}
+    source_payload.setdefault("question", "核对同一版完整工艺规划及三份独立审查，准备首算")
+    # Re-enter the public planning workflow. Checking only its nested fullflow
+    # receipt used to start a case even when the enclosing stage required action.
+    if documents and "authority" in documents:
+        try:
+            bound = read_reference(root, source_payload.get("authority"))
+            if bound != documents["authority"]:
+                raise ValueError("The supplied authority differs from the bound project reference")
+        except (ValueError, TypeError, KeyError, OSError) as exc:
+            needs.append({"code": "CURRENT_REFERENCE_NOT_BOUND", "scope": "authority", "detail": str(exc)})
+    stage = execute({"operation": "design_stage", "payload": source_payload}, root)
+    preflight = stage["fullflow_gate"]
+    needs.extend(stage["needs"])
+    epochs = preflight.get("gate_summary", {}).get("buildable_review_epochs", {})
+    started = time()
+    if preflight["status"] == "EVIDENCE_STRUCTURE_CONSISTENT":
+        closed = epochs.get("source_closed_epoch")
+        if type(closed) not in (int, float) or not 0 <= closed < started:
+            needs.append({"code": "FIRST_SCAFFOLD_REVIEW_ORDER", "scope": "source",
+                          "detail": "Close the reviewed source plan before delegating the first native run"})
+    if needs or stage["status"] != "MODULE_CHECKS_EXECUTED" or preflight["status"] != "EVIDENCE_STRUCTURE_CONSISTENT":
+        return {"status": "ACTION_REQUIRED", "native_run_invoked": False, "planning_stage_status": stage["status"],
+                "source_preflight": preflight, "needs": needs}
+    return {"status": "NATIVE_RUN_DELEGATED", "native_run_invoked": True, "source_preflight": preflight,
+            "planning_stage_status": stage["status"], "dispatch_epoch": started, "native_result": run_native(), "needs": []}

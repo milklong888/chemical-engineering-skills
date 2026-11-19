@@ -30,6 +30,22 @@ if hasattr(sys.stdout, "reconfigure"):
 
 
 ROUTES_JSON = Path(__file__).with_name("retrieval_routes.json")
+EQUIPMENT_GRAPH_GROUPS = {
+    "equipment_knowledge",
+    "设备设计选型工作包",
+    "设备选型一览表_知识图谱重构_20260712",
+}
+
+
+def project_equipment_graph_enabled(evidence_root: Path) -> bool:
+    path = evidence_root / ".aspen-equipment-graph.json"
+    try:
+        setting = json.loads(path.read_text(encoding="utf-8-sig"))
+    except FileNotFoundError:
+        return False
+    if not isinstance(setting, dict) or type(setting.get("enabled")) is not bool:
+        raise ValueError("Invalid equipment graph setting in the project directory")
+    return setting["enabled"]
 
 
 def load_records(path: Path) -> list[dict]:
@@ -73,6 +89,13 @@ def lexical_bonus(query: str, record: dict) -> float:
     return min(bonus, 0.24)
 
 
+def required_read_for_query(query_norm: str, route: dict) -> dict | None:
+    required = route.get("required_read")
+    if required and any(re.search(pattern, query_norm) for pattern in required["query_patterns"]):
+        return required
+    return None
+
+
 def route_match_score(query: str, route: dict) -> float:
     query_norm = normalize_text(query)
     if not query_norm:
@@ -109,6 +132,8 @@ def route_match_score(query: str, route: dict) -> float:
     for token in set(tokenise(query_norm)):
         if token in route_tokens:
             score += 0.35 if len(token) <= 3 else 0.55
+    if required_read_for_query(query_norm, route):
+        score = max(score, 2.0)
     return score
 
 
@@ -254,14 +279,22 @@ def scope_allowed(
     *,
     explicit_source_group: str | None = None,
     active_scope_keys: list[str] | None = None,
+    equipment_graph_enabled: bool = False,
 ) -> bool:
     """Hard-filter scoped knowledge before scoring; vectors never grant authority."""
     if record_admission_reason(record):
         return False
+    source_group = record.get("source_group")
+    if (
+        source_group in EQUIPMENT_GRAPH_GROUPS
+        and not equipment_graph_enabled
+        and explicit_source_group != source_group
+    ):
+        return False
     authority_scope = str(record.get("authority_scope", "shared"))
     if authority_scope == "shared":
         return True
-    if explicit_source_group and record.get("source_group") == explicit_source_group:
+    if explicit_source_group and source_group == explicit_source_group:
         return True
     context = normalize_text(" ".join([query, *(active_scope_keys or [])]))
     keys = [normalize_text(str(item)) for item in record.get("scope_keys", [])]
@@ -360,6 +393,7 @@ def rank_records(
     routes: list[dict] | None = None,
     route_scores: list[float] | None = None,
     active_scope_keys: list[str] | None = None,
+    equipment_graph_enabled: bool = False,
 ) -> list[dict]:
     qvec = vectorize_text(query, dim=vectors.shape[1])
     scores = vectors @ qvec
@@ -368,6 +402,11 @@ def rank_records(
     active_routes = list(routes or ([] if route is None else [route]))
     active_route_scores = list(route_scores or ([] if route is None else [route_score]))
     route_names = [str(item.get("name", "")) for item in active_routes if item]
+    query_norm = normalize_text(query)
+    required_reads = [
+        required for route in active_routes
+        if (required := required_read_for_query(query_norm, route))
+    ]
     for idx, raw_score in enumerate(scores.tolist()):
         record = records[idx]
         if source_group and record.get("source_group") != source_group:
@@ -379,6 +418,7 @@ def rank_records(
             record,
             explicit_source_group=source_group,
             active_scope_keys=active_scope_keys,
+            equipment_graph_enabled=equipment_graph_enabled,
         ):
             continue
         base_bonus = lexical_bonus(query, record)
@@ -412,9 +452,14 @@ def rank_records(
         result["routes"] = route_names
         result["route_score"] = max(active_route_scores, default=0.0)
         result["route_scores"] = active_route_scores
+        if any(record.get("source_group") == required["source_group"]
+               and str(record.get("source_path", "")).replace("\\", "/") == required["source_path"]
+               and required["section_heading"] in record.get("text", "")
+               for required in required_reads):
+            result["route_required_read"] = True
         results.append(result)
 
-    results.sort(key=lambda item: item["score"], reverse=True)
+    results.sort(key=lambda item: (item.get("route_required_read", False), item["score"]), reverse=True)
     return group_error_memory_hits(results)[: max(limit, 1)]
 
 
@@ -424,8 +469,17 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=10, help="Maximum results.")
     parser.add_argument("--json", action="store_true", help="Print JSON results.")
     parser.add_argument("--ids", action="store_true", help="Print only vector IDs.")
-    parser.add_argument("--source-group", help="Restrict to one source_group, such as aspen-plus-operations.")
+    parser.add_argument(
+        "--source-group",
+        help="Restrict to one source group. An explicit equipment graph group enables it for this query.",
+    )
     parser.add_argument("--source-type", help="Restrict to one source_type, such as skill_chain_file.")
+    parser.add_argument(
+        "--evidence-root",
+        type=Path,
+        default=Path.cwd(),
+        help="Project directory containing the equipment graph preference (default: current directory).",
+    )
     parser.add_argument(
         "--scope-key",
         action="append",
@@ -444,6 +498,11 @@ def main() -> int:
         parser.print_help()
         return 2
 
+    try:
+        equipment_graph_enabled = project_equipment_graph_enabled(args.evidence_root)
+    except (ValueError, OSError) as exc:
+        parser.error(str(exc))
+
     query = " ".join(args.terms)
     route_config = load_route_config()
     selected_routes = infer_routes(query, route_config, args.route)
@@ -460,6 +519,7 @@ def main() -> int:
         routes=active_routes,
         route_scores=inferred_scores,
         active_scope_keys=args.scope_key,
+        equipment_graph_enabled=equipment_graph_enabled,
     )
 
     if args.json:
@@ -493,6 +553,8 @@ def main() -> int:
             print(f"  page: {item.get('page')}")
         if item.get("source_path"):
             print(f"  source: {item.get('source_path')}")
+        if item.get("route_required_read"):
+            print("  selected for reading by the active route")
         if item.get("extract_path"):
             print(f"  extract: {item.get('extract_path')}")
         grouping = item.get("guard_grouping", {})

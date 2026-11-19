@@ -167,10 +167,11 @@ the user asks to preserve APW/PFD/modules.
    nonzero when it supplies boilup; reduce it only when the current `.his`
    proves excess return/boilup, temperature cross, or tower hard errors. Do not
    transfer another case's split fraction, utility, or diameter.
-6. Gate promotion in layers: Required Input complete, same-run hard-history
-   clean and complete all-zero version-bound Summary; any actual warning also
-   blocks strict delivery. `PER_ERROR=0`, `BLKSTAT=0`, or a clean result
-   tree does not override severe/error messages in the same delivered `.his`.
+6. Require complete Required Input, verified run completion, and clean full
+   same-run Control Panel messages and history. Investigate actual diagnostics
+   and observed nonzero counts. `PER_ERROR=0`, `BLKSTAT=0`, and a readable result
+   tree cannot override actual errors or warnings. Require the full native
+   all-zero Summary only when explicitly requested.
 
 ## Reusable Pattern: RadFrac Decision-Variable Seed Repair
 
@@ -195,8 +196,8 @@ obvious physical service conflict.
    unchanged. Treat the changed value as an initial guess, not as a transferred
    design target.
 5. Promote only after the delivered APW is edited through COM, `SaveAs(.apw)`,
-   reopened with no mutation, run/exported, and its same-version history has no
-   actual warning/error diagnostics and passes the complete strict Summary gate.
+   reopened with no mutation, run/exported, and verified complete with clean
+   same-run Control Panel messages and raw history.
 
 Do not transfer another case's numeric seed. Transfer the diagnosis order:
 hard blocker -> confirm no missing input/temperature cross -> inspect live
@@ -208,12 +209,10 @@ case's feasible range -> reopen/run the final APW.
 Use this pattern after the hard gate already passes and the user asks to reduce
 or clear warnings while preserving APW/PFD/modules/heat network.
 
-1. Classify warnings by current evidence, not by raw word search. Parse the
-   final `.his` summary table for terminal errors, severe errors, errors, and
-   warnings, then inspect the message context that contributes to the final
-   count. Do not let transient `NOT CONVERGED` iteration text override a clean
-   final hard gate unless it ends as a counted severe/error/warning or names a
-   bad block.
+1. Classify warnings from the completed run's Control Panel and raw `.his`.
+   Consult the native Summary and block diagnostics for anomalies. Distinguish
+   transient iteration progress from actual warning/error messages and confirm
+   final block and recycle convergence.
 2. For zero-feed warnings in a recycle island, prefer a tear-stream initial
    estimate from the same case's accepted converged stream result. Preserve
    stream identity, component basis, temperature, pressure, and phase/basis
@@ -349,8 +348,9 @@ A local repair is verified only for its explicitly claimed scope when:
   severe/error messages, `ERROR WHILE EXECUTING`, `RADFRAC NOT CONVERGED`,
   `FAILED TO CONVERGE`, material/energy-balance failure, or utility
   temperature-cross errors. Such a branch is open-run evidence at most until a
-  no-mutation reopen/run/export from the exact delivered file has a clean hard
-  history and the complete source-verified Summary schema with all counts zero.
+  no-mutation reopen/run/export from the exact delivered file verifies
+  completion and clean full Control Panel and raw history. Require a complete
+  all-zero Summary only when explicitly requested.
 
 ## Repair Learning: APW State Branching
 

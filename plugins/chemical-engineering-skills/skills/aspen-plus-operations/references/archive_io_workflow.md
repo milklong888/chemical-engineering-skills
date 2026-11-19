@@ -2,7 +2,7 @@
 
 Read for APW/APWZ preservation, graphical-state loss, archive repair, history
 generation or deep Windows output paths. These are file/operation procedures;
-they never waive the central exact-file all-zero acceptance gate. Retain source
+they cannot replace the central exact-file clean-run evidence. Retain source
 identity and choose the procedure supported by the installed Aspen version.
 
 ## APW supplement and original-layout branch
@@ -96,11 +96,12 @@ preserve them in the diagnostic record instead of erasing failure history.
 `../scripts/aspen_clean_delivery_audit.py` stages a copy in an isolated ASCII
 directory, captures available run events, exports after-run evidence, forces
 history generation through the supported save route and applies the common
-strict parser. That staged-copy result does not replace the final path reopen.
+run evidence checker. That staged-copy result does not replace the final path reopen.
 Use a short ASCII audit label, such as `APW01`, under deep Windows paths.
 An overlong temporary history name can fail while import/run/export succeeded;
 repeat the same-source audit with a short label, retaining the failed receipt,
-and judge only complete current `.his`/Summary evidence.
+and judge only complete current Control Panel and `.his` evidence. Inspect the
+native Summary when diagnosing anomalies or proving expressly required counts.
 
 For Design Spec, step-size, feed-estimate or enum probes, separate no-run card
 probes from full run probes, and export the card values that actually reached

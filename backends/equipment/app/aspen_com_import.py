@@ -1174,25 +1174,8 @@ def read_first(
 
 def parse_aspen_history(text: str) -> dict[str, Any]:
     clean_statement = bool(re.search(r"NO ERRORS OR WARNINGS (?:GENERATED|WERE ISSUED)", text, flags=re.I))
-    chunks = list(re.finditer(r"(?:SUMMARY OF ERRORS|Summary of Simulation Errors)(.*?)(?:\f|\Z)", text, flags=re.S | re.I))
-    counts: dict[str, int] | None = None
-    if chunks:
-        chunk = chunks[-1].group(1)
-        counts = {}
-        labels = {
-            "terminal_errors": "TERMINAL ERRORS",
-            "severe_errors": "SEVERE ERRORS",
-            "errors": "ERRORS",
-            "warnings": "WARNINGS",
-        }
-        for key, label in labels.items():
-            match = re.search(rf"(?im)^\s*{label}\s+((?:\d+\s+)+\d+)\s*$", chunk)
-            if not match:
-                counts = None
-                break
-            counts[key] = sum(int(value) for value in re.findall(r"\d+", match.group(1)))
-    if counts is None and clean_statement:
-        counts = {"terminal_errors": 0, "severe_errors": 0, "errors": 0, "warnings": 0}
+    reported = derivation.parse_raw_history_counts(text)
+    counts = None if any(value is None for value in reported.values()) else reported
     problem_lines = [
         line.strip()
         for line in text.splitlines()
@@ -2001,13 +1984,14 @@ def run_mock(
         bundle["case"].pop("atmospheric_pressure_mpa", None)
     case_id = str(bundle["case"]["case_id"])
     history = out_dir / "mock_aspen_history.his"
-    history.write_text(str(fixture.get("history_text", "NO ERRORS OR WARNINGS GENERATED\n")), encoding="utf-8")
+    history.write_text(str(fixture.get("history_text", "")), encoding="utf-8")
     parsed = parse_aspen_history(history.read_text(encoding="utf-8"))
-    evidence_path, evidence = build_run_evidence(case_id, history, parsed, out_dir)
     bundle["case"]["source_case_path"] = str(fixture_path)
-    bundle["case"]["run_status"] = evidence["run_status"]
-    bundle["case"]["run_status_evidence_path"] = evidence_path.name
-    bundle["case"]["run_status_evidence_sha256"] = sha256(evidence_path)
+    bundle["case"]["run_status"] = verified_run_status(parsed)
+    if parsed["found"]:
+        evidence_path, _ = build_run_evidence(case_id, history, parsed, out_dir)
+        bundle["case"]["run_status_evidence_path"] = evidence_path.name
+        bundle["case"]["run_status_evidence_sha256"] = sha256(evidence_path)
     pipeline = write_and_derive(bundle, out_dir)
     return {
         "schema": "equipment-design-app-aspen-worker-v1",
@@ -2099,7 +2083,7 @@ def run_real(
                 "case_id": case_id,
                 "pressure_basis": pressure_basis,
                 "source_case_path": str(source),
-                "source_case_sha256": sha256(source),
+                "source_case_sha256": source_sha256,
                 "run_status": None,
                 "run_requested": run,
             }
@@ -2216,7 +2200,7 @@ def run_real(
 
             run_status = verified_run_status(parsed)
             case["run_status"] = run_status
-            if history_path is not None and parsed.get("found"):
+            if history_path is not None:
                 history_text = history_path.read_text(encoding="utf-8", errors="replace")
                 recovered_results = parse_history_block_results(history_text)
                 history_fallback_diagnostics = merge_history_block_results(
@@ -2230,9 +2214,10 @@ def run_real(
                     for item in history_fallback_diagnostics
                     if item.get("code") == "RAW_HISTORY_RESULT_FALLBACK"
                 )
-                evidence_path, _ = build_run_evidence(case_id, history_path, parsed, out_dir)
-                case["run_status_evidence_path"] = evidence_path.name
-                case["run_status_evidence_sha256"] = sha256(evidence_path)
+                if parsed.get("found"):
+                    evidence_path, _ = build_run_evidence(case_id, history_path, parsed, out_dir)
+                    case["run_status_evidence_path"] = evidence_path.name
+                    case["run_status_evidence_sha256"] = sha256(evidence_path)
 
             pipeline = write_and_derive(bundle, out_dir)
             worker_status = (

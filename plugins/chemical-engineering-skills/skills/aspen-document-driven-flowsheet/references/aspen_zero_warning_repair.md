@@ -57,18 +57,18 @@ Use Aspen's own diagnostics in this order:
 
 1. Current Control Panel messages, especially the first fatal or limiting
    message in the current phase.
-2. Final `.his` sequence monitor, final convergence loop tables, and final
-   Results Summary.
+2. Final `.his` sequence monitor, convergence loop tables, and the native
+   Results Summary when present.
 3. Named bad-block status, `BLKSTAT`, `BLKMSG`, and run-status tree.
 4. Exported `.inp` cards and convergence tree paths.
 5. Stream results and product gates.
 6. Raw substring counts only after phase-aware parsing.
 
 Control Panel and `.his` files are chronological. Earlier `NOT CONVERGED`,
-bound-hit, or middle-loop iteration messages can be normal history if later
-sections show the loop converged and the final summary is clean. Conversely, a
-file that opens and produces block results is not accepted if the final summary
-still reports errors/warnings or a final loop is not converged.
+bound-hit, or middle-loop iteration progress can precede a verified converged
+loop. Use completion, the full message stream and history, and the final block
+and loop results. Actual errors or warnings, reported nonzero counts, or a
+final unconverged loop fail the corresponding check.
 
 For delivery packages, use the exact copied APW/BKP as the evidence source, not
 only the pre-copy working file. Reopen the delivery file, run it, export the
@@ -113,10 +113,10 @@ rigorous block types.
 - Treat repeated iteration lines as trace evidence, not final status by
   themselves. A `.his` can contain many earlier `VARS NOT CONVERGED` or
   Design Spec bound messages and still be clean if the later sequence monitor,
-  run-status tree, key block statuses, and final summary say the run converged.
-- Conversely, do not accept a run merely because key blocks have results if the
-  final summary still reports a convergence block, severe error, or final
-  mass-balance warning.
+  run-status tree and key block statuses establish convergence and complete
+  logs contain no actual errors or warnings.
+- A convergence block failure, severe error or final mass-balance warning
+  still blocks acceptance when key blocks have results.
 
 ### 2. Run Short Probes To Discover, Not To Finish
 
@@ -425,12 +425,13 @@ explicitly reports a version translation/import failure.
 Promote a repaired candidate only when evidence is bound and current:
 
 1. No-run import/export passed for edited card syntax.
-2. Dynamic run waited until `Engine.IsRunning=False`, not just a fixed short
-   sleep.
+2. The run reached `Engine.IsRunning=False` and current-run completion evidence
+   arrived. Capture trailing diagnostics before finalizing the event record.
 3. `.his`, `.inp`, `.bkp` and, when relevant, `.apw` were saved with the same
    candidate stem.
-4. Final `.his` summary reports no simulation errors/warnings, or the residual
-   is explicitly accepted in the current ledger.
+4. Complete same-run Control Panel messages and raw `.his` contain no actual
+   simulation errors or warnings. Use the native Summary for anomalies and
+   require a complete all-zero table only for an explicit count-proof gate.
 5. Named recycle/convergence loops end with final convergence, not only early
    iteration progress.
 6. Key blocks have clean status and no active mass-balance/design-spec messages.

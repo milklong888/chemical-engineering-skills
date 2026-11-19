@@ -14,7 +14,8 @@
     "Where applicable: namespace-relative sibling imports with standalone script fallbacks; no runtime function/class algorithm or threshold changes",
     "Updated executable test/example paths and documentation links",
     "Where present: nested SKILL.md renamed METHOD_REFERENCE.md; omitted nested agents discovery metadata; parent owner handles routing",
-    "Rebound default parser and active catalog to canonical ../aspen_evidence.py with unchanged pinned source identity"
+    "Rebound default parser and active catalog to canonical ../aspen_evidence.py with unchanged pinned source identity",
+    "Active audit evidence and documentation updated after relocation; source identities above retain their original meaning."
   ],
   "files": [
     {
@@ -32,7 +33,7 @@
       "source_size": 3885,
       "destination_path": "DEPENDENCIES.md",
       "disposition": "relocated",
-      "destination_sha256": "d9357d991b958326f0bbc1dc4530fdd3bc5fa7045a83317a89b275e744c57311",
+      "destination_sha256": "e8941978173b704aaa260ff11ebcdd578b72da07b318bee5b5baa0fa70b13875",
       "transformed": true
     },
     {
@@ -59,7 +60,8 @@
       "source_size": 3448,
       "destination_path": "PUBLIC_MANIFEST.json",
       "disposition": "regenerated_after_relocation; source_identity_preserved_here",
-      "transformed": true
+      "transformed": true,
+      "destination_sha256": "25d3fc710157992af983e53307098487d60f8011f2af530bc26fc2596e301c9e"
     },
     {
       "source_path": "pool/scripts/aspen-dynamics-tools/PUBLIC_SCOPE.md",
@@ -166,7 +168,7 @@
       "source_size": 8502,
       "destination_path": "tests/test_offline_facade.py",
       "disposition": "relocated",
-      "destination_sha256": "941e5daa2d541f21df5785c1cb351ac20184f7ddf08134329c3d3f68d959f631",
+      "destination_sha256": "42132c8f3fe300b6f2c484231845407514016149849cb16f59f67401e91a84e7",
       "transformed": true
     },
     {
@@ -193,7 +195,7 @@
       "source_size": 14069,
       "destination_path": "toolpack.py",
       "disposition": "relocated",
-      "destination_sha256": "291d7decd928c10f5e3a77f8d643a658b8d9f830e9d59f39abd55cfc96d3282e",
+      "destination_sha256": "d3f11b0df681d943b14be81a4337895a5a370ba0e89bcff206007a765e0832db",
       "transformed": true
     },
     {
@@ -208,7 +210,7 @@
   ],
   "canonical_parser": {
     "relative_path": "../aspen_evidence.py",
-    "sha256_lf_normalized": "7465d04fc8d1114d65a9f64c94abda32fa885b7a6c8e493aec4b90034e9a3f31",
+    "sha256_lf_normalized": "d6eae9e915618c8307254ab767b088ee7d59f189a4b5ae057ba2b7c231f4bfd4",
     "same_pinned_source_verified_before_relocation": true,
     "second_parser_copied": false
   },
@@ -223,7 +225,7 @@
     },
     {
       "path": "toolpack.py",
-      "top_level_function_and_class_AST_unchanged": true
+      "top_level_function_and_class_AST_unchanged": false
     }
   ],
   "validation": {

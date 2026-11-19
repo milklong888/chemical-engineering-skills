@@ -69,9 +69,9 @@ Example invocation shape (paths are supplied by the current task):
 - Never model pressure rise with a heater and call it a compressor. Full
   flowsheet/scaffold work routes to `aspen-document-driven-flowsheet`; card
   mechanics to `aspen-plus-operations`; tower work to its tower skill.
-- Component verification is not strict full-flow delivery. For an actual
-  process file, apply the current complete version-bound summary, raw-history,
-  same-file, product and equipment gates through operations.
+- For an actual process file, use the operations clean-run and exact-file
+  evidence checks and verify applicable product and equipment gates. Use the
+  native Summary for anomalies or expressly required all-zero count proof.
 - Explicit user relaxation is case-only. Its artifacts and descendants cannot
   enter self-evolution, shared examples, default retrieval or general rules.
 

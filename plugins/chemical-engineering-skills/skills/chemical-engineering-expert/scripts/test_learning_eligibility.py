@@ -3,10 +3,13 @@ import hashlib
 import json
 from pathlib import Path
 import tempfile
+import types
 import unittest
 import sys
+from unittest.mock import Mock, patch
 
-from evaluate_learning_eligibility import evaluate, intrinsic_exclusion
+import evaluate_learning_eligibility as eligibility
+from evaluate_learning_eligibility import evaluate, inspect_receipt, intrinsic_exclusion
 
 SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS / 'tests'))
@@ -52,6 +55,77 @@ class LearningGateTests(unittest.TestCase):
 
     def result(self, case):
         return evaluate(case, base_dir=self.root)
+
+    def put(self, path, content):
+        path = self.root / path
+        path.write_text(content if isinstance(content, str) else json.dumps(content), encoding='utf-8')
+        return reference(path)
+
+    def simulation_case(self, receipt):
+        case = copy.deepcopy(self.good)
+        for index in (1, 2):
+            case['records'][index]['strict_verification'].update(
+                receipt=receipt, required_checks={'solver_evidence_replayed': True})
+        case['records'][2].update(kind='simulation_result', artifact=receipt)
+        return case
+
+    def test_verified_normal_aspen_receipt_can_support_current_learning_standard(self):
+        source = self.put('source.bkp', 'SYNTHETIC MODEL CONTENT')
+        payload = {'schema_version': 'aspen_clean_delivery_audit/3', 'mode': 'run', 'passed': True,
+                   'operation_completed': True, 'simulation_clean': True, 'source_unchanged': True,
+                   'strict_solver_passed': True, 'source': source['path'], 'source_sha256': source['sha256'],
+                   'gate_results': [{'passed': True}]}
+        receipt = self.put('native_audit.json', payload)
+        case = self.simulation_case(receipt)
+        recheck = Mock(return_value={'passed': True, 'simulation_clean': True, 'strict_solver_passed': False})
+        with patch.object(eligibility, '_load_aspen_evidence', return_value=types.SimpleNamespace(replay_audit_evidence=recheck)):
+            normal = self.result(case)
+            self.assertTrue(normal['eligible_for_candidate_review'], normal['rejection_reasons'])
+            self.assertEqual(normal['verified_evidence_kinds'], ['simulation_result'])
+            self.assertFalse(normal['canonical_write_authorized'])
+            self.assertFalse(normal['success_case_eligible'])
+            recheck.assert_called_with(payload, root=self.root)
+            strict = self.result({**case, 'aspen_run_status_mode': 'strict'})
+            self.assertFalse(strict['eligible_for_candidate_review'])
+            self.assertIn('RECEIPT_STRICT_SOLVER_COUNTS_NOT_VERIFIED', strict['rejection_reasons'])
+            declared_strict = self.simulation_case(self.put('strict_audit.json', {**payload, 'mode': 'strict'}))
+            strict_receipt = self.result(declared_strict)
+            self.assertFalse(strict_receipt['eligible_for_candidate_review'])
+            self.assertIn('RECEIPT_STRICT_SOLVER_COUNTS_NOT_VERIFIED', strict_receipt['rejection_reasons'])
+            recheck.return_value = {'passed': True, 'simulation_clean': True, 'strict_solver_passed': True}
+            self.assertTrue(self.result(declared_strict)['eligible_for_candidate_review'])
+            invalid_mode = self.simulation_case(self.put('invalid_mode.json', {**payload, 'mode': 'auto'}))
+            self.assertIn('RECEIPT_ASPEN_RUN_STATUS_MODE_INVALID', self.result(invalid_mode)['rejection_reasons'])
+            recheck.return_value = {'passed': False, 'simulation_clean': False, 'strict_solver_passed': False}
+            failed = self.result(case)
+            self.assertFalse(failed['eligible_for_candidate_review'])
+            self.assertIn('RECEIPT_RAW_EVIDENCE_REPLAY_FAILED', failed['rejection_reasons'])
+
+    def test_legacy_aspen_receipt_retains_real_raw_strict_replay(self):
+        source = self.put('source.bkp', 'SYNTHETIC MODEL CONTENT')
+        case_hash = source['sha256']
+        association = {'verified': True, 'run_id': 'LEGACY_RUN', 'case_sha256': case_hash}
+        control = self.put('native_control.txt', 'Summary of Simulation Errors\nPhysical\nProperty System Simulation\n'
+                           'Terminal Errors 0 0 0\nSevere Errors 0 0 0\nErrors 0 0 0\nWarnings 0 0 0\n')
+        history = self.put('native.his', 'NO ERRORS OR WARNINGS GENERATED\n')
+        payload = {'schema_version': 'aspen_clean_delivery_audit/2', 'passed': True, 'operation_completed': True,
+                   'simulation_clean': True, 'source_unchanged': True, 'source': source['path'], 'source_sha256': case_hash,
+                   'gate_results': [{'passed': True}], 'control_panel': {**control, 'association': association},
+                   'run': {'status': 'returned', 'run_id': 'LEGACY_RUN', 'case_sha256': case_hash,
+                           'started_epoch': 1, 'finished_epoch': 2}, 'block_statuses': [{'block': 'B1', 'blkstat': 0}],
+                   'histories': [{**history, 'association': association, 'size': Path(history['path']).stat().st_size}]}
+        for key, filename in (('after_run_inp', 'after.inp'), ('after_run_bkp', 'after.bkp')):
+            row = self.put(filename, 'SYNTHETIC OUTPUT')
+            payload[key] = {**row, 'exists': True, 'size': Path(row['path']).stat().st_size}
+        receipt = self.put('legacy_audit.json', payload)
+        result = inspect_receipt(receipt, self.root)
+        self.assertTrue(result['verified'], result['rejection_reasons'])
+        self.assertEqual(result['aspen_run_status_mode'], 'strict')
+        payload['control_panel'] = {**self.put('native_control.txt', 'NO ERRORS OR WARNINGS WERE ISSUED\n'),
+                                    'association': association}
+        result = inspect_receipt(self.put('legacy_audit.json', payload), self.root)
+        self.assertFalse(result['verified'])
+        self.assertIn('RECEIPT_RAW_EVIDENCE_REPLAY_FAILED', result['rejection_reasons'])
 
     def test_strict_only_admits_review_not_canonical_writes(self):
         result = self.result(self.good)
@@ -147,14 +221,19 @@ class LearningGateTests(unittest.TestCase):
         case = copy.deepcopy(self.good)
         case.pop('task_closure')
         self.assertFalse(self.result(case)['task_closure_verified'])
-        for quote in ['好', '收到', '先这样', '任务结束了吗？', '完成了吗？', '任务结束后再总结', '任务改完以后结束', '任务已经结束，但是请修改结果', '任务完成了，还要改X', '任务没有完成', '任务完成，还要补充一个数据', '局部完成']:
+        for quote in ['好', '收到', '先这样', '任务结束了吗？', '完成了吗？', '任务结束后再总结',
+                      '任务改完以后结束', '任务已经结束，但是请修改结果', '任务完成了，还要改X',
+                      '任务没有完成', '任务完成，还要补充一个数据', '局部完成',
+                      '若任务完成了，就发回执。', '本版完成，但下一版继续。', 'This version is complete if approved.']:
             event = copy.deepcopy(original)
             event['user_quote'] = quote
             self.closure_path.write_text(json.dumps(event), encoding='utf-8')
             case = copy.deepcopy(self.good)
             case['task_closure']['evidence'] = reference(self.closure_path)
             self.assertFalse(self.result(case)['task_closure_verified'], quote)
-        for quote in ['本次任务已经完成，不再调整。', '本次任务已结束，不用再修改。', '本任务已经完成，不需要继续。', '任务完成，不用再修改', '结束了', '已完成', '可以结束了']:
+        for quote in ['本次任务已经完成，不再调整。', '本次任务已结束，不用再修改。',
+                      '本任务已经完成，不需要继续。', '任务完成，不用再修改', '结束了', '已完成',
+                      '可以结束了', '本版已完成。', '确认完成。', 'This delivery is complete.']:
             event = {**original, 'user_quote': quote}
             self.closure_path.write_text(json.dumps(event), encoding='utf-8')
             case = copy.deepcopy(self.good)
