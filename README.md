@@ -6,7 +6,7 @@
 
 使用者说明设计目标并提供当前资料，助手负责选择所需模块。每一步留下所用依据、修改内容、计算结果和待解决问题，后续工作据此继续。
 
-当前维护版为 **0.4.17**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
+当前维护版为 **0.4.18**。自研代码、脚本、Skill 指令和说明文字按 [MIT](LICENSE) 开源；第三方组件、专著与标准资料按[各自许可和使用范围](THIRD_PARTY_NOTICES.md)处理，不把整个资料库笼统称为 MIT 开放数据。公开和允许修改副本，不授予他人原仓库写入权限。
 
 设备资料已登记在[主知识库](knowledge/equipment/public_reference/README.md)，可在通用 `knowledge_search` 中用 `corpus=equipment_reference` 查询。也可直接浏览[化工设备知识图谱公开资料索引](plugins/chemical-engineering-skills/skills/chemical-equipment-knowledge-graph/references/PUBLIC_CATALOG.md)，按标准号、表号、教材书名或设计主题查官方入口和参考资料。
 

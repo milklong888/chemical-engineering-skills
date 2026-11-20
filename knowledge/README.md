@@ -13,7 +13,7 @@ V10 中 6392 条细节正文可用；23 条较长、含公式/OCR/示例表达�
 
 ## 化工设备资料
 
-[设备公开资料](equipment/public_reference/README.md)随主知识库提供。它有 12 个标准版次、4 条教材书目、8 条公开设计方法参考。标准题录记录版次、收录位置及官方入口，教材和方法供设计过程参考。日常检索在 `source_references` 字段返回相关资料；用 `--corpus equipment_reference` 专查该库。这些来源记录有独立的检索结果，现有工程知识记录与向量库按其原范围使用。
+[设备公开资料](equipment/public_reference/README.md)随主知识库提供。它有 13 个标准版次、4 条教材书目、8 条公开设计方法参考。标准题录记录版次、收录位置及官方入口，教材和方法供设计过程参考。日常检索在 `source_references` 字段返回相关资料；用 `--corpus equipment_reference` 专查该库。这些来源记录有独立的检索结果，现有工程知识记录与向量库按其原范围使用。
 
 ```text
 python knowledge/scripts/verify_knowledge.py

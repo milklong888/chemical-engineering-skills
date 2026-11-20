@@ -7505,8 +7505,8 @@
     {
       "path": "equipment/public_reference/public_standards.json",
       "kind": "equipment_reference_catalog",
-      "bytes": 9194,
-      "sha256": "1cf7e99369942304e2f933e172d17a5cb35497c6fa73e103345f01339e611ada"
+      "bytes": 28893,
+      "sha256": "7076b8727105e7618de1f0e0993a9b8777dda6cb0612b658db7daef8a2e9df5d"
     },
     {
       "path": "equipment/public_reference/public_standards.json.license",
@@ -7529,8 +7529,8 @@
     {
       "path": "equipment/public_reference/README.md",
       "kind": "equipment_reference_catalog",
-      "bytes": 18230,
-      "sha256": "5fb82834671271fedbc394ff09f4ab51f4faa4e9480324d6b2365382fab9bb66"
+      "bytes": 34162,
+      "sha256": "21f7fb180717a06f188eb7a11498f260247cf7a71b2c1ffbad7f15990c6bd4b8"
     },
     {
       "path": "equipment/public_reference/README.md.license",
@@ -9080,7 +9080,7 @@
   "equipment_reference_catalog": {
     "root": "equipment/public_reference",
     "record_counts": {
-      "standards": 12,
+      "standards": 13,
       "books": 4,
       "methods": 8
     }

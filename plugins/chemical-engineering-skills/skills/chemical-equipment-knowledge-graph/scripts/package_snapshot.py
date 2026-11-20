@@ -198,7 +198,7 @@ def binding_info(files_or_rows, json_member):
     old_matches = old_receipt.get('increment_sha256') == inc_hash
     transcription = json_member(TRANSCRIPTION) if TRANSCRIPTION in files_or_rows else {}
     transcription_matches = transcription.get('increment_sha256') == inc_hash
-    if transcription_matches and transcription.get('mode') != 'source_transcription':
+    if transcription_matches and transcription.get('mode') not in ('source_transcription', 'mixed_source_records'):
         raise ValueError('当前增量收录回执的模式无效')
     if transcription_matches and transcription.get('policy_sha256'):
         if POLICY not in files_or_rows or files_or_rows[POLICY]['sha256'] != transcription['policy_sha256']:
